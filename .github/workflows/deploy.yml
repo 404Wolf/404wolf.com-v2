@@ -1,0 +1,46 @@
+name: Build and Deploy to R2
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Build website with Nix
+        run: |
+          echo "::group::Building website with Nix"
+          WEBSITE_OUTPUT=$(nix build --print-out-paths)
+          echo "WEBSITE_OUTPUT=$WEBSITE_OUTPUT" >> $GITHUB_ENV
+          echo "::endgroup::"
+
+      - name: Deploy to R2 using Nix shell
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          echo "::group::Deploying to R2"
+          nix develop --command bash -c '
+            aws s3 sync "${{ env.WEBSITE_OUTPUT }}/share/404wolf.com/" "s3://${{ env.R2_BUCKET }}/" \
+              --delete \
+              --endpoint-url "https://${{ env.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com"
+          '
+          echo "::endgroup::"
+          echo "✅ Deployment complete!"
