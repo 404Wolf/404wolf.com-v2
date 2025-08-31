@@ -1,0 +1,644 @@
+---
+id: "nixExperience"
+type: "blog"
+date: "2024"
+covers: "52042908-6c60-4f88-9880-22b486c7242c_0001"
+tags: ["404wolf/personal","404wolf/status-drafting"]
+cssclasses: ["404WolfMarkdown"]
+---
+# Description
+
+An introduction to Nix and its ecosystem. The basics of Nix as a language, its use as a package manager, build tool, and much more. Some brief discussion of core concepts like derivations and flakes, and a walkthrough of simple examples packaging programs. Learn how Nix can help create reproducible builds and consistent development environments, and do fun things like allow bash scripting with any binary, or making pure latex documents. Post is still in progress.
+
+***
+
+***
+
+Okay, before we get started:
+
+NO, NIX IS NOT JUST AN OPERATING SYSTEM. I'm going to talk about what it is and what you can use it for, but `nixos` is merely a project that uses the `nix` language/tooling. You do not need to even use `linux` to use `nix`. Okay, now that we have that out of the way let's get started.
+
+# Why Nix?
+
+Before even grappling with what it is, I think it's good to understand what it can do. Some awesome things that nix does:
+
+* Consistent developer environments that are decoratively specified. This means everyone working on a project can have the same LSP, binaries in their $PATH, etc.
+* Pure, reproducible project builds. Nix "wraps" onto tooling you already use for builds, and does the build in a sandbox. This means that there's no internet access, the time is set to `0` (UTC) (which means things like Latex "builds", which inject timestamps, will be reproducible too!), and more.
+* Let you configure your home directory using a project called "home manager." You can specify how to set up various programs and their configurations fully declarativly with `nix` code.
+* Create very minimal docker images, that don't have a `FROM` (that are `FROM SCRATCH`), and only have exactly the things you need to dockerize your project.
+* Get an android emulator going in 4 lines of code.
+  And a million other things.
+
+Where nix really shines is reproduability. If it works once, it will probably work again.
+
+# Some Terms
+
+What is **purity?**
+Purity just means when you put X, Y, and Z in, you'll get W out. If you put X, Y, and Z in two weeks later, on a Mac, in a different time zone, you'll get W out. If you install a different C compiler, you'll still get W out. Nix can guarantee that your builds are pure.
+
+What is **lazy**?
+Lazy just means that the language won't try to evaluate anything it does not absolutely need to evaluate. If you import every package in existence, `nixpkgs`, `nix` will not literally build everything. But if you reference `foobar` from `nixpkgs` then it will build it.
+
+# What is [Nix](https://nixos.org/)?
+
+The question with so many answers. Nix is at least 4 totally different things.
+
+![So many nix packages!](map_repo_size_fresh_0001.svg)
+
+1. It's a programming language. It's functional, lazy, and can be pure. You can do basic things like `{ a, b }: a + b`! You can also use it to do more advanced tasks like mapping over arrays or attrsets (dictionaries), and everything you'd want from a programming language.
+2. It's a [package manager](https://search.nixos.org/)! The nix repository has more packages than any other package manager (`apt`, `pacman`, etc), and more fresh (new) packages too! All the packages are not actual binary blobs, but `nix` code (remember, it's a language!) that defines build instructions for producing `derivations` (more on this later) containing over 100k different projects. This even includes pure build instructions for things like building `chrome` from source and packaged patched binaries like jetbrains IDEs (ikk). Your packages are all nicely managed in a `nix store`, again, more on this later.
+3. It's a utility library. `nixpkgs` is a library that contains a bunch of utilities that let you do super cool things, like defining pure builds for minimal `FROM SCRATCH` docker images. It fixes all the bloat of `docker`!
+4. It's an operating system. Because it gives you so much power in specifying an exact state of a build output (a "derivation"), people have used it to create [nixos](https://nixos.org/). NixOS is a completely decoratively specified Linux distribution where your entire computer configuration lies in `.nix` text files. I have configured my computer this way, and, though it was a long process, the declarativity/reproducitivity is really nice.
+
+# Derivations
+
+### The "nix store"
+
+There is this thing called the "nix store". It's just a directory that's read only, usually at `/nix/store`. You can write nix code, using the `derivation` keyword, to create them, but that's very low level. I'll let you read more about them [here](https://nixos.org/guides/nix-pills/06-our-first-derivation), but in this post we'll just use `pkgs.stdenv.mkDerivation`, along with trivial builders like `pkgs.writeShellScriptBin`. They are handy helper functions from the `nixpkgs` utilities (remember when I said nix was a utility library!). Everything in the `nixpkgs` registry outputs derivations. These "derivations" are resulting directories in this "nix store", that look like `«derivation /nix/store/z3hhlxbckx4g3n9sw91nnvlkjvyw754p-myname.drv»` -- they are just subdirectories of the store. The outputs are read only because they are in the store, and we know that everything that made its way to the store did so in a way that was pure.
+
+If you're interested in how derivations actually work, there's some intermediate steps, including producing a `drv` file with instructions to nix on how to create it. But I'm going to skip over that.
+
+## Flakes
+
+Flakes are really just entrypoints. The older way to do things with `nix` was to use channels. I don't want to go too far into those, since they are lame (sorry, it's true), but basically, they are global references to sources. They'd let you specify internet inputs to projects with `<>` syntax:
+
+```nix
+{ pkgs ? import <nixpkgs> { }, }:
+...
+```
+
+Where we by default get `nixpkgs` from the global "channel" (iickk)! That's im**pure**. What if nix decides to update their `unstable` branch (nixpkgs is just a git repo!) and your package references break?
+
+So from this point on I'm going to pretend channels don't exist, and completely stop using them (mostly). Flakes are nix's solution to the problem. They guarantee real purity.
+
+A flake has this basic structure:
+
+```nix
+# flake.nix
+{
+  inputs = {}; # Specify inputs with URIs
+  outputs = {self, ...}: {}; # A function!
+}
+```
+
+It lives in a `flake.nix`
+
+Where we usually make inputs at least have `nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";`, the nix package registry, with all the packages we may ever want. `self` is a reference to the project at its previous commit, and flakes require you to use version control to ensure purity of file inputs.
+
+You might be thinking, "hey, `github:nixos/nixpkgs/nixos-unstable` doesn't sound very pure!" True. `flakes` generate lockfiles with reversions and `sha256` hashes. When we run `nix flake lock` we get something like this.
+
+```json
+// flake.lock
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1719690277,
+        "narHash": "sha256-0xSej1g7eP2kaUF+JQp8jdyNmpmCJKRpO12mKl/36Kc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2741b4b489b55df32afac57bc4bfd220e8bf617e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+  "root": "root",
+  "version": 7
+}
+```
+
+Flakes let us define ways to get to derivation (the things that "build their way into" the nix store).
+
+### A C hello world
+
+A grain of salt: I don't do much C. But I'm going to kick off this section with a C hello world, specifically because C is pretty easy to compile, and has a *build time* requirement: a compiler like `gcc`.
+
+This is a bit boring, but the way we package this will be helpful for some more fun stuff later.
+
+First, we make a `hello.c` with a hello world...
+
+```c
+#include <stdio.h>
+
+int main() {
+  printf("Hello, World!\n");
+  return 0;
+}
+```
+
+Okay, we've created the hello world. Now time to define the build with `nix`.
+
+To start, a tiny bit more on flakes.
+
+With flakes, there's some special `outputs` that `nix` will look for.
+
+* `packages.${system}.default`
+  * If we're running linux (this works on mac too though), this might be `packages.x86_64-linux.default`. This is basically the "default" thing that gets build when we do `nix build`, but if we specify something else, like `packages.${system}.foobar`, then we can build the derivation with the `nix` cli using `nix build .#foobar` instead.
+
+This means that a flake often will look something like
+
+```nix
+{
+  inputs = { ... };
+  outputs = { self, ... }:
+    {
+      packages.x86_64-linux = {
+        default = pkgs.writeShellScriptBin "hello" "echo 'hello!'"
+      };
+    };
+}
+```
+
+Having to define an export for every system when our project isn't really system specific is annoying, so nixers often use something called `flake-utils`, which provides a helpful `eachDefaultSystem` utility to generate the different outputs for different systems for us. Nix is `lazy`, so it'll only build for the system we need to build for when we run `nix build`.
+
+```nix
+...
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        packages = {
+          default = # (The derivation / builder)
+        };
+...
+```
+
+`eachDefaultSystem` is a function that intakes a function that takes an argument `system`, that outputs the regular outputs based on it, and then provides outputs for all systems supported by nix (but only evaluates when you need to).
+
+Returning to our `C` hello world, we will use a helper function called `pkgs.stdenv.mkDerivation`. `nix` ships with a `derivation` keyword, but that takes a binary that expects to make the derivation, and is super raw. This helper will do a lot of the heavy lifting by breaking things up into stages -- the `unpack phase`, `build phase`, and `install phase` (and a ton others -- see [here](https://nixos.org/manual/nixpkgs/stable/#sec-stdenv-phases)).
+
+`buildInputs` specifies what should be available in the path of our builder's environment. We can use `nativeBuildInputs` since our `buildInputs` are only needed during building -- native implies that the program itself doesn't need them.
+
+#### The Sandbox
+
+All `nix` builds happen in a special sandbox. The `src` argument specifies what should exist in the sandbox. We need to move the source code over!
+
+The `sandbox` does a lot to ensure that we are declarative and the output is **pure**.
+
+> When sandbox builds are enabled, Nix will set up an isolated environment for each build process by constraining build inputs to improve reproducibility.
+
+> It is achieved by isolating build jobs from input sources whose contents are prone to change dynamically and without notice. For example, the main file system hierarchy is completely bypassed to prevent depending on files in global directories, such as `/usr/bin`, where a reference to an executable may point to different version as time goes by.
+
+Also, it does things like disallow networking and sets the timestamp to UNIX 0 (even time is dynamic and could lead to impurity!).
+
+Okay. So let's look at the `flake`...
+
+```nix
+{
+  description = "C Hello world";
+
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem ( system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        packages.default = pkgs.stdenv.mkDerivation {
+          pname = "hello";
+          version = "1.0";
+          src = self; # code at the last commit
+          nativeBuildInputs = [ pkgs.gcc ];
+          buildPhase = ''
+            gcc -o hello ./hello.c
+          '';
+          installPhase = ''
+            mkdir -p $out/bin 
+            cp hello $out/bin
+          '';
+        };
+      }
+    );
+}
+```
+
+We're not quite ready. Remember when I said that we need to use version control to help our flakes guarantee purity?
+
+```bash
+git init
+git add *.c *.nix
+git commit -m "Initial commit"
+```
+
+Okay, finally we can build and run it with nix.
+
+```
+nix run
+# OR
+nix build && ./result/bin/hello
+```
+
+And we get a "hello world"!
+
+`pkgs.stdenv.mkDerivation` resolves to a string (that's right, a piece of text). It's a path to a result in the nix store. `nix build` helps us out by making a symlinked folder `./result` that directs to that directory in the nix store (that is read only, because it's in the nix store).
+
+Okay, enough boring hello worlds in C nonsense. Here's something fun -- binary runtime dependencies, and Python!
+
+### A simple Python Script
+
+Let's consider a simple Python script that uses selenium to navigate to `https://example.com`. Usually this would be a little annoying since there's a dependency on `chrome` and `chromedriver`, but we can bundle those things with `nix` pretty easily.
+
+Here's our basic script that goes to `example.com` and yoinks the tab's title, printing it to `stdout`.
+
+```py
+#./main.py
+
+from selenium import webdriver 
+
+if __name__ == "__main__":
+  driver = webdriver.Chrome() 
+  driver.get('https://example.com')
+  print(driver.title) 
+  driver.quit()
+```
+
+Here we have one dependency, `selenium`, and two secret ones, `chromedriver`, and `chromium`. Usually, we'd do something like
+
+```cmd
+sudo apt-get install chromium-browser
+sudo apt-get install chromium-chromedriver
+```
+
+God forbid we're on Windows, and it's so much worse. We might have to add
+
+```py
+options = webdriver.ChromeOptions()
+options.binary_location = '/usr/bin/chromium-browser'
+```
+
+So let's package it with `nix`, which will work on ALL systems (including native macos, and windows with wsl)...
+
+I have a collection of [Project Templates](https://github.com/404Wolf/Project-templates) for various different languages that use popular nix tools to create derivations for projects. I'm using [Cookiecutter](https://cookiecutter.readthedocs.io/), which is a bit of an aside, but lets you template entire projects using [Jinja](https://jinja.palletsprojects.com/en/3.1.x/), so you can specify what a "directory" of a, say, Python project would look like. We're going to use my python script template here, which you can get at that repo if you want, but we'll build up to it slowly.
+
+#### pkgs.writeShellScriptBin
+
+`writeShellScriptBin` is a nice little helper function
+
+It is so simple, [here's the source code](https://github.com/NixOS/nixpkgs/blob/36e813a7630ff1bde9f6baa82757fabfbeb6e95c/pkgs/build-support/trivial-builders/default.nix#L169)...
+
+```nix
+writeShellScriptBin = name: text:
+  writeTextFile {
+    inherit name;
+    executable = true;
+    destination = "/bin/${name}";
+    text = ''
+      #!${runtimeShell}
+      ${text}
+    '';
+    checkPhase = ''
+      ${stdenv.shellDryRun} "$target"
+    '';
+    meta.mainProgram = name;
+  };
+```
+
+runtimeShell is just `/nix/store/blahblahShaHashblahblah/bin/bash`. It literally just makes an executable bash script.
+
+Okay, so let's use it to package our `python` program...
+
+We'll first write a `bash` script, that's roughly similar to what we want at the end of the day, but without binary dependencies
+
+```bash
+export PATH=$PATH:${pkgs.chromedriver}/bin:${pkgs.ungoogled-chromium}/bin;
+export PYTHONPATH= ???
+${python}/bin/python3 main.py
+```
+
+Something like that. `nix` can handle the `python` packages for us. I'm not going to go too far into that for now. Notice the `python3.withPackages`. Most popular packages are already packaged with `nix`, and it's not hard to package ones that aren't (usually, some require messy runtime deps).
+
+```nix
+{
+  description = "Some python script";
+
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        python = pkgs.python3.withPackages (python-pkgs: [ python-pkgs.selenium ]);
+      in
+      {
+        packages = {
+          default =
+            pkgs.writeShellScriptBin "main" /* bash */ # (treesitter directive)
+              ''
+                export PATH=$PATH:${pkgs.chromedriver}/bin:${pkgs.ungoogled-chromium}/bin;
+                ${python}/bin/python3 main.py
+              '';
+        };
+      }
+    );
+}
+```
+
+Remember to `git init`, `git add` and `git commit` (I didn't say this before, but commiting isn't actually necessary, if you don't `nix` will still build but complain that your codebase is dirty. Okay, now we're ready.
+
+```
+nix run
+```
+
+It works! Chromedriver should open up, the tab should load `example.com`, and then it should grab the tab name and close.
+
+![It works!](Post-20240713170649585.webp)
+
+This still is slightly impure (although, I should note that `nix` guarantees pure builds, not pure executions, so we may never be able to be 100% sure that the program will *run* the same way) though because we're appending to our $PATH, which means that we're expecting things to exist in our PATH that may not. I'd like to avoid "generating" bash scripts, so instead I'm going to use a utility called `wrapProgram` to set the PATH to whatever we have at build time as our path, which has the necessary deps and is pure (because of nix), and only run the python script with a bash script (to make it executable -- we could use a python shebang too).
+
+Here's what that would look like...
+
+```nix
+{
+  description = "Python with Selenium example";
+
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        python = pkgs.python3.withPackages (python-pkgs: [ python-pkgs.selenium ]);
+      in
+      {
+        packages = rec {
+          default = pkgs.stdenv.mkDerivation {
+            name = "main";
+            src = self;
+            dontUnpack = true;
+            buildInputs = [ pkgs.makeWrapper ];
+            installPhase = ''
+              mkdir -p $out/bin
+              cp ${script}/bin/* $out/bin
+            '';
+            postFixup = ''
+              wrapProgram $out/bin/main \
+                --set PATH $PATH:${
+                  pkgs.lib.makeBinPath [
+                    pkgs.chromedriver
+                    pkgs.ungoogled-chromium
+                  ]
+                }
+            '';
+          };
+          script = pkgs.writeShellScriptBin "main" "${python}/bin/python3 main.py";
+        };
+      }
+    );
+}
+```
+
+### Bash scripts with ANY binary!
+
+If we're okay with only kinda-pure stuff though, generating bash scripts is really fun with nix. We can write a script using literally any dependency we want.
+
+I'll provide a neat script I made to take screenshots of regions of my screen.
+
+Usually it'd look like this...
+
+```bash
+FILEPATH=/tmp/$(uuidgen)
+grim -g "$($slurp)" "$FILEPATH.png"
+wl-copy --type "text/uri-list" "file://$FILEPATH.png"
+notify-send "Successfully saved screen capture!" "The png has been saved to $FILEPATH"
+```
+
+But that means I'd need to add `grim` (a utility to select a region of your screen on Wayland), `wl-copy` (a Wayland clipboard cli utility), and `notify-send` (a notification daemon connector cli) to my global $PATH. That's gross, and not nixy at all. What if I want 50 more random binary dependencies? If you say that's a bad idea, it's probably because you don't want to have to have people install so many things to their global `/usr/bin` to install it.
+
+I really like this paradigm my friend Trevor showed me...
+
+```nix
+partial-screenshot = pkgs.writeShellScriptBin "partial-screenshot.sh" ''
+  slurp=${pkgs.slurp}/bin/slurp;
+  grim=${pkgs.grim}/bin/grim;
+  wl_copy=${pkgs.wl-clipboard}/bin/wl-copy;
+  notify=${pkgs.libnotify}/bin/notify-send;
+  ${builtins.readFile ./scripts/partial-screenshot.sh} 
+'';
+```
+
+The various binary dependencies will resolve to their `nix store` paths, and since nix is lazily evaluated we can use ANY binary, and it will poof into existence at the right store path at build time. `builtins.readFile` will then inject our regular bash script that uses the stuff...
+
+```bash
+FILEPATH=/tmp/$(uuidgen)
+$grim -g "$($slurp)" "$FILEPATH.png"
+$wl_copy --type "text/uri-list" "file://$FILEPATH.png"
+$notify "Successfully saved screen capture!" "The png has been saved to $FILEPATH"
+```
+
+And if we do a `nix build`, we'll get
+
+```bash
+#!/nix/store/agkxax48k35wdmkhmmija2i2sxg8i7ny-bash-5.2p26/bin/bash
+slurp=/nix/store/hfii9xxi8vwmlq86vh2j9dl73zzy7s1w-slurp-1.5.0/bin/slurp;
+grim=/nix/store/jkv33a361c8nlgp2kcx1azncipxdn4nh-grim-1.4.1/bin/grim;
+wl_copy=/nix/store/18rwzxp6m29m8c5bxgpxci1ad1q4kl94-wl-clipboard-2.2.1/bin/wl-copy;
+notify=/nix/store/w141cbf1p9mcyp7vqv6a4fw4hm093qb5-libnotify-0.8.3/bin/notify-send;
+FILEPATH=/tmp/$(uuidgen)
+$grim -g "$($slurp)" "$FILEPATH.png"
+$wl_copy --type "text/uri-list" "file://$FILEPATH.png"
+$notify "Successfully saved screen capture!" "The png has been saved to $FILEPATH"
+```
+
+A nice, executable script, with absolute references to packages that are NOT in our path. This is one of my favorite nix things to do.
+
+## Reproducible Developer Environments
+
+Another nice thing `nix` can do is let you create developer environments very easily. You use `pkgs.mkShell`, which creates a derivation (remember those still?), and then enters the environment of the derivation.
+
+You can specify `buildInputs` (although you should use `packages`) to add all the things you'd want for developing the project.
+
+```nix
+devShells = {
+    default = pkgs.mkShell {
+      packages = [
+        python
+        pkgs.pyright
+        pkgs.black
+      ];
+    };
+  };
+```
+
+And then you can plop it in your `flake.nix` (here's the one we worked on earlier)
+
+```nix
+{
+  description = "{{ cookiecutter.description }}";
+
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        python = pkgs.python3.withPackages (python-pkgs: [ python-pkgs.selenium ]);
+      in
+      {
+        packages = {}#snip ...
+        devShells = {
+          default = pkgs.mkShell {
+            shellHook = ''
+             # run when they enter
+              echo "Welcome to the dev environment!"
+            '';
+            packages = [
+              python
+              pkgs.pyright
+              pkgs.black
+            ];
+          };
+        };
+      }
+    );
+}
+```
+
+This will give you access to what our output had access to -- it updates our $PYTHONPATH so that our LSP can see the dependencies, so we can get nice red squiggles and all the good language server support. We can add any dependencies we want, and even add shell hooks to set up the developer environment further.
+
+To enter the `devshell`, you just do `nix develop`. You can also use `direnv`, by [installing it](https://direnv.net/), and then creating a `.envrc` with the contents
+
+```env
+use flake
+```
+
+And then typing `direnv allow`. It's a neat utility made so that when you cd into directories it automatically enters their respective devshell. This is great because you don't need your python and rust and android and javascript and typescript bun node encryption cli tools and so much other crap in the global path. It reduces conflicts, and all developers working on your project can have the same environment.
+
+When you're ready for a real, pure build, you can then just slap in a `packages.default`, and then you're set.
+
+## Some really cool builders
+
+There's a lot of nice nix abstractions out there. This includes 3rd party builders and builtin ones. Some cool ones are
+
+* [Poetry2nix](https://github.com/nix-community/poetry2nix) to build poetry python projects easily
+* [buildMavenPackage](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/maven.section.md) to build java projects
+* [buildNpmPackage](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/javascript.section.md) for building maven packages
+* [buildGoModule](https://nixos.wiki/wiki/Go) for building go modules
+* And builders for most other languages too!
+
+One of the issues with packaging with nix is that the `sandbox` that the building happens in must use `nix`'s primitive `fetchers` like `fetchURL` and `fetchTAR` before unpacking, and there's no internet during the build step. This poses a challenge since you can't do things like `pip install` during the build. These fancy builders basically let you do the downloads and specify hashes before the build, using the `hashes` to guarantee purity (a common `nix` technique)
+
+# Living the Nix Life (NixOS)
+
+Here is a pure, complete, declarative, plug and play NixOS configuration to describe an entire linux system.
+
+```nix
+{
+  description = "An entire system configuration";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  };
+
+  outputs = { self, nixpkgs, ... }@inputs: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [];
+    };
+  };
+}
+```
+
+Just a plain old super super minimal linux setup. But this isn't really useful. There's no shell, no packages, no users, nothing useful.
+
+So let's add some user and set up ssh...
+
+```nix
+# Credit (inspiration): https://nixos-and-flakes.thiscute.world/nixos-with-flakes/get-started-with-nixos
+{
+  description = "An entire system configuration";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  };
+
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: {
+    nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        {
+          users.users.wolf = {
+            description = "wolf";
+            openssh.authorizedKeys.keys = [
+              "ssh-ed25519 %3Csome-public-key%3E wolf@wolf-pc"
+            ];
+            packages = with pkgs; [firefox];
+          };
+          services.openssh = {
+            enable = true;
+            settings = {
+              PermitRootLogin = "no";
+              PasswordAuthentication = false;
+            };
+            openFirewall = true;
+          };
+        }
+      ];
+    };
+  };
+}
+```
+
+# Other Cool Things I've Come Accross
+
+There's a million neat nix things that I come across each week. Here's a list of some cool ones that might be worth checking out...
+
+## Nix Dev Containers on Windows w/Nix WSL
+
+Thanks to this [Nix on WSL](https://github.com/nix-community/NixOS-WSL) you can set up developer containers with nix devshells, defined with flakes, on Windows. You can also configure an entire NixOS configuration on Windows. This is much better than using docker dev containers!
+
+# Credits
+
+Thanks to Paolo Holinski for inspiration from a Recurse Center nix presentation and Trevor Nichols for getting me into nix in the first place.

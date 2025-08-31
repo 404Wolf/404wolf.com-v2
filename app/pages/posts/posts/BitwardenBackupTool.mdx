@@ -1,0 +1,46 @@
+---
+id: "bitwardenBackup"
+type: "project"
+date: "2021"
+covers: "bitwarden_backup"
+tags: ["404wolf/personal","404wolf/hidden"]
+cssclasses: ["404WolfMarkdown"]
+---
+# Description
+
+Bitwarden, a popular open source and free password manager, does a great job of securely storing passwords and other personal data in their cloud, well-encrypted and accessible. However, their option to export your vault (to maintain a local/physical backup) is to export it as a .json file, leaving data in a very human-unfriendly format. So, I made a program that converts the json to a more human readable html file, which one can print onto physical paper. In addition, I've integrated automatic favicon/icon fetching, QR code generation, databreach checks and more.
+
+***
+
+# Bitwarden Backup Human-izer
+
+## A program to convert a bitwarden json backup into sleek html
+
+### How to use:
+
+1. Get the [official bitwarden desktop app](https://bitwarden.com/download/), in order to export your vault as a json file
+2. Open the bitwarden desktop app, and click `file > export vault`, making sure to choose `json` as the format.
+3. Once you reenter your master password, choose to download the json export in the same file directory as this project's `main.py`, and rename the export to `export.json`. You should be left with an **unencrypted** json file. When you are finished, you will want to delete this file and empty your trash.
+4. Open console, and run `main.py` by entering `python main.py`, or `python3 main.py`, depending on your operating system. If you get a `ModuleNotFound` error, type `pip install <name of module that was not found>`. Depending on how many items are in your vault, this process can take a considerable amount of time (sometimes minutes).
+5. Open `output.html` in a web browser such as [chrome](https://www.google.com/chrome/), and print out the file, or save it as a pdf by clicking the `save as pdf` option under `printers`.
+6. Delete the `qrCodes` folder, `output.html` file, and `export.json` file when you are done, and **empty your trash**! If you use a utility such as google drive backup and sync, do not put these files in a folder that syncs. These files contain unencrypted sensitive data.
+
+### Use cases:
+
+* Printing out the backup
+* Storing as a backup on a hard drive, in case bitwarden ever goes away in the future
+* Having access to your vault without needing a device
+
+### Future plans:
+
+* TOTP 2FA QR code generation
+* Folder support (colour coding, or small tab on right side to indicate folder name)
+* Credit card image generation (for credit card type items, generate a picture of a credit card with the user's info on it)
+* Automatic html to pdf conversion
+* Mark/save where the user has printed up to, so they can only print new content
+* Decrypt encrypted bitwarden json backups
+* Fix inaccurate/broken progress bar
+
+### Trying it out:
+
+If you just want to try out the script, you can find an example `export.json` and `output.html` file [here](https://gitlab.com/bread/BitwardenBackup/-/tree/main/demoImages).

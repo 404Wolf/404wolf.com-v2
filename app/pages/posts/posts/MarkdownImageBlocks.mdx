@@ -1,0 +1,538 @@
+---
+id: "imageBlocks"
+type: "blog"
+date: "2023"
+covers: "carouselExample_0001"
+tags: ["404wolf/personal","404wolf/featured"]
+cssclasses: ["404WolfMarkdown"]
+---
+# Description
+
+I talk about how I got my markdown to include image groups with many images side-by-side, automatically. I’ve scoured my way through eclectic convoluted docs, pained past unsensical bugs, and have finally begun to wrap my head around the world of JS markdown parsing. With a general overview and some useful snippets, you’ll too learn how to customize markdown rendering for your own purposes.
+
+***
+
+# Background
+
+![Markdown flow](markdown-flowchart_0001.webp|width=60)
+
+Before I discuss exactly what the purpose of this endeavor was, here's some context. I use `markdown` to write my blogs, a simple rich-text language format that doesn't pack in too much support for that type of customization. Markdown is nice because it lets you define in plain-text things like images, headings, tables, and more, but at the end of the day it's just a syntax for writing rich text; it's the job of the renderer to actually display it in its final form.
+
+A simple markdown script may look something like this, with various headings and graphics. Here's [more information on the syntax](https://www.markdownguide.org/basic-syntax/) if you're interested.
+
+```md
+# Heading
+## Subheading
+### Subsubheading
+![imgName](imgSrc)
+[link](src)
+
+|column1 | column2|
+|--------| -------|
+```
+
+Part of what makes Markdown so popular is the fact that once you've finished writing `markdown`, there's many different frameworks in many different programming languages that allow for rendering the file. On the web, this usually means converting `markdown` text into `HTML`, so as to display the various elements visually. These frameworks abstract-ify the process, and make it as easy as inserting a few lines of code to get the `markdown` to render properly. Unfortunately for me, for my blogs I wasn't quite content with the default configuration of my renderer.
+
+## Markdown Images
+
+My ultimate problem with my renderer was related to how it displayed images. In regular `markdown`, to include an image you use `![alt](src)` syntax. Then, when rendered, markdown places an image in between the text above and below the image declaration. When I write blogs, however, I often want to include many different images of the same thing, or same content. A grid of graphics to showcase every perspective of an object or a sequence of photos to display a process. 'Vanilla' markdown on its own does not provide any other level of customization, but after some research I did determine that there are indeed some external solutions, outlined below, of which none quite met my needs.
+
+### Flavored Markdown
+
+Some flavors of markdown, such as [Github flavored markdown (GFL)](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), allow for some limited customization with particular inline html syntax. For example, with GFL you can write `<img align="left" src="img.jpg">` to define a left floating image, taking advantage of the special `align` prop. Other customizations are allowed inline, like setting the dimensions of images. To specify a specific pixel width of an image in markdown, you can use `![alt](src|width=123)` syntax.
+
+### MDX Markdown
+
+`MDX` markdown is a special type of markdown file that is denoted with the file extension `.mdx`. With MDX markdown, you can include `React` components inline, much like you can with `JSX`. `JSX` is a syntax extension to `javascript` that allows for inline `HTML`, and `MDX` is a syntax extension for `JSX` that allows for inline `markdown`. Without getting too far into the details, with `MDX` markdown you could theoretically implement some sort of custom image component, and use tags instead of `markdown` image syntax to place the customized images.
+
+## The Problem
+
+This issue with these methods is that in all these various methods of customizing markdown inline `HTML` in some form or another is involved. This takes away from the beauty of vanilla `markdown`, since to customize how images render I have to type out tags and deal with properties to some extent or another. Sure, it can be minimized with proper planning and implementation, but only to an extent. What I like is simplicity, and so I decided to implement my own solution to get images to render my way. Perhaps the task was unnecessarily overkill, but gaining a better grasp of the rendering process was really rewarding, and extremely interesting.
+
+## The goal
+
+For the final product, I decided to apply two different alterations to vanilla `markdown` rendering. Firstly, I wanted to be able to include "blocks" of images, so that I could cluster images together; secondly, I wanted regular images to be customizable with inline properties (more on this soon).
+
+### Image blocks
+
+My decision, before even beginning to research how to go about it, was to have it so that markdown like this...
+
+```md
+# This is a header
+
+![This is an image](src1.png)
+![This is an image](src2.png)
+![This is an image](src3.png)
+
+This is a paragraph within the markdown.
+![This is a regular image](src4.png)
+```
+
+![Image carousel](carouselExample_0001.png)
+Would render such that the three images that have a newline above and below them would appear as a carousel of images, and the regular paragraph images would automatically float so as to not disrupt reading of the text.
+
+### Image properties
+
+Additionally, I decided that it would be best to allow for all image customization to occur in the definition of the images themselves, and, to ensure consistency with `GFM`, I chose to take advantage of the absolute-value-equals-sign syntax. All images could by default float to the right, but I'd want to be able to change their floating direction to the left by writing out something along the lines of `![alt](src|float=left)`. For now I chose to include the ability to customize the `float` and `width` of images, but it was important to me to design the system to allow for future extension.
+
+# Implementation
+
+My website's frontend is currently created with `React`, a framework that allows for component-based web UI development. To implement a feature like markdown rendering into a react website, the common first step would be to do a quick Google to see if any `component`s exist that do what I need, since many extensions to `React` are component-libraries. As it turns out, there indeed existed a component for the job: [react-markdown](https://github.com/remarkjs/react-markdown).
+
+## React markdown
+
+React markdown is a library that is essentially a wrapper on the [unified](https://github.com/unifiedjs/unified) ecosystem, a `javascript` package that implements abstract syntax trees (ASTs). `unified` allows for many different extensions, including a very popular one called [remark](https://github.com/remarkjs/remark) to parse a markdown string into a `unified` AST, and another popular one called [rehype](https://github.com/rehypejs/rehype) for `HTML` parsing. To understand how react markdown works, it's important to understand how to render markdown to raw `HTML` with `unified` first. For this, let's take a look at a super simple `unified` script that I wrote during the tinkering phase of this project, which is along the lines of the boilerplate that `ReactMarkdown` conceals.
+
+```js
+...
+const buffer = fs.readFileSync("./example.md");
+
+retext()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeStringify)
+    .process(buffer, (err, file) => {
+        const rendered = prettify(file.value);
+        console.log(rendered);
+        fs.writeFileSync("./example.html", rendered)
+    });
+```
+
+Here we begin with plaintext and load it into retext, a part of the `unified` collective that is meant for raw text. Then we build up a chain of plugins to funnel our markdown through. First we use `remarkParse` to convert the markdown string into a `mdast`, a markdown AST. Then we use `remarkRehype` to mutate that tree into a `hast`, a `HTML` AST, and finally we use `rehypeStringify` to deconstruct the tree into an `HTML` string, which we finally dump into a file.
+
+Each of the things that we ".use()" is a `javascript` function that takes the `tree` and, optionally, `file` metadata as input, does stuff with it (like mutating the tree), and then spits back out the tree to be used by the next extension in the chain. The render is then stored in a `VFile` object, from which the output `HTML` string can be extracted.
+
+React markdown makes this process super-simple, since it handles this process for you, and then also parses the output `HTML` string into `React` components. It can be used by simply passing the markdown in as the child element, as so...
+
+```html
+<ReactMarkdown>
+# Hello, *world*!
+This is an example of how to use react-markdown.
+</ReactMarkdown>
+```
+
+It only uses the bare minimum ".use()"s to convert the markdown into `HTML`, but it does allow you to pass `remarkPlugins` and `rehypePlugins` to further customize the `mdast` and `hast` ASTs. They provide a nice diagram of this process.
+
+```txt
+                                                           react-markdown
+         +----------------------------------------------------------------------------------------------------------------+
+         |                                                                                                                |
+         |  +----------+        +----------------+        +---------------+       +----------------+       +------------+ |
+         |  |          |        |                |        |               |       |                |       |            | |
+markdown-+->+  remark  +-mdast->+ remark plugins +-mdast->+ remark-rehype +-hast->+ rehype plugins +-hast->+ components +-+->react elements
+         |  |          |        |                |        |               |       |                |       |            | |
+         |  +----------+        +----------------+        +---------------+       +----------------+       +------------+ |
+         |                                                                                                                |
+         +----------------------------------------------------------------------------------------------------------------+
+```
+
+By understanding that the library is simply a wrapper atop a much more complex process, it becomes critical to understand the actual render process itself. For example, at first the optional prop `remarkRehypeOptions` makes no sense, but as will soon become apparent, being able to set options for the `remarkRehype` stage in the render process (which will be discussed soon) is critical to implementing my custom image blocks.
+
+Another important part of react markdown that I noticed in my research was concerned was the ability to set component overrides. You see, once react markdown has reached the final stage of rendering and has an `HTML` string, it then proceeds to convert that `HTML` into `React` components. It does this by using sensical defaults, such as the `<img>` component for images, `<p>` for paragraphs, and the like. However, the library allows you to set overrides on components, by defining your own components and then setting it in the options of the `ReactMarkdown` component. Here's the example [their documentation](https://github.com/remarkjs/react-markdown#appendix-b-components) provides...
+
+```html
+<ReactMarkdown
+  components={{
+    // Map `h1` (`# heading`) to use `h2`s.
+    h1: 'h2',
+    // Rewrite `em`s (`*like so*`) to `i` with a red foreground color.
+    em: ({node, ...props}) => <i style={{color: 'red'}} {...props} />
+  }}
+/>
+```
+
+![The aha moment](inspiration_0001.png|width=60)
+
+It seemed that to incorporate clustered images, the simplest solution would be to have the groups of images in my markdown turn into some sort of fake `HTML` component with props including *all* the images data, so that I could then define an override for that component, to render it the way I wanted. In other words, if a cluster of images in `markdown` could transform into something of the form `<imgBlock alts="alt1;alt2;alt3" srcs="src1;src2;src3"/>` I could then define a `React` component of the form `ImgBlock (alts, srcs) { ... }` to handle the rendering. The hard part would be to locate and modify the rendering process to have the output string include those custom `<ImgBlock>`s
+
+## Render process
+
+Now, before adding any custom plugins or alterations, let's take a look at the example I was working with, and discuss how the rendering flow actually works.
+
+For the initial tests, the input looked like this...
+
+```md
+# An example document with a multiimage
+
+Test1
+
+![Image #1](https://src-to-img-1.com)
+![Image #2](https://src-to-img-2.com)
+![Image #3](https://src-to-img-2.com)
+![Image #4](https://src-to-img-2.com)
+
+Test2
+![Normal Image](https://src-to-normal-img.com|float=left|width=50)
+
+![Normal Image But Isolated](https://src-to-normal-img.com|width=35|float=right)
+```
+
+And the output like this...
+
+```html
+<h1>An example document with a multiimage</h1>
+<p>Test1</p>
+<p>
+    <img src="https://src-to-img-1.com" alt="Image #1" />
+    <img src="https://src-to-img-2.com" alt="Image #2" />
+    <img src="https://src-to-img-2.com" alt="Image #3" />
+    <img src="https://src-to-img-2.com" alt="Image #4" />
+</p>
+<p>
+    Test2 <img src="https://src-to-normal-img.com%7Cfloat=left%7Cwidth=50" alt="Normal Image" />
+</p>
+<p>
+    <img
+        src="https://src-to-normal-img.com%7Cwidth=35%7Cfloat=right"
+        alt="Normal Image But Isolated"
+    />
+</p>
+```
+
+## Creating a plugin
+
+Creating a plugin would involve simply adding a function to the chain. Part of what makes `unified` so great is that it provides [tons of utilities](https://unifiedjs.com/explore/project/syntax-tree/) that allow you to easily locate parents, traverse specific parts of the tree, search for nodes, and more. For my purpose, I'd just need [unified-visit](https://unifiedjs.com/explore/package/unist-util-visit/) to walk the tree, which handily provides the ability to walk all nodes that pass a specific filter only. Looking back at the example, it appeared to be the case that all clustered images were determined to be the children of a paragraph, so I'd only care about paragraph nodes. To start, I wrote the plugin to just print them out, to see what I was working with.
+
+```js
+{
+  type: 'paragraph',
+  children: [ { type: 'text', value: 'Test1', position: [Object] } ],
+  position: {
+    start: { line: 3, column: 1, offset: 43 },
+    end: { line: 3, column: 6, offset: 48 }
+  }
+}
+{
+  type: 'paragraph',
+  children: [
+    {
+      type: 'image',
+      title: null,
+      url: 'https://src-to-img-1.com',
+      alt: 'Image #1',
+      position: [Object]
+    },
+    { type: 'text', value: '\r\n', position: [Object] },
+    {
+      type: 'image',
+      title: null,
+      url: 'https://src-to-img-2.com',
+      alt: 'Image #2',
+      position: [Object]
+    },
+    { type: 'text', value: '\r\n', position: [Object] },
+    {
+      type: 'image',
+      title: null,
+      url: 'https://src-to-img-2.com',
+      alt: 'Image #3',
+      position: [Object]
+    },
+    { type: 'text', value: '\r\n', position: [Object] },
+    {
+      type: 'image',
+      title: null,
+      url: 'https://src-to-img-2.com',
+      alt: 'Image #4',
+      position: [Object]
+    }
+  ],
+  position: {
+    start: { line: 5, column: 1, offset: 52 },
+    end: { line: 8, column: 38, offset: 206 }
+  }
+}
+{
+  type: 'paragraph',
+  children: [
+    { type: 'text', value: 'Test2\r\n', position: [Object] },       
+    {
+      type: 'image',
+      title: null,
+      url: 'https://src-to-normal-img.com|float=left|width=50',     
+      alt: 'Normal Image',        
+      position: [Object]
+    }
+  ],
+  position: {
+    start: { line: 10, column: 1, offset: 210 },
+    end: { line: 11, column: 67, offset: 283 }
+  }
+}
+{
+  type: 'paragraph',
+  children: [
+    {
+      type: 'image',
+      title: null,
+      url: 'https://src-to-normal-img.com|width=35|float=right',    
+      alt: 'Normal Image But Isolated',
+      position: [Object]
+    }
+  ],
+  position: {
+    start: { line: 13, column: 1, offset: 287 },
+    end: { line: 13, column: 81, offset: 367 }
+  }
+}
+```
+
+Looking at the output, I identified the image block to be the `paragraph` node on line 10, which I immediately started scouring for patterns that I may be able to check against. As can be seen, images on subsequent lines are pretty easily identifiable: the children of the parent `paragraph` element simply contains alternating `image` and `text` tags with `text` having a value of `\r\n`. Here's the plugin I wrote to swap out the alternating images and texts with image block nodes...
+
+```js
+import { visit } from "unist-util-visit";
+
+export default function remarkImageBlock() {
+    return (tree, file) => {
+        visit(tree, "paragraph", (node, index, parent) => {
+            if (node.children) {
+                const children = node.children.filter(
+                    child => !(child.type === "text" && child.value === "\r\n")
+                )
+                if (children && children.every(child => child.type === "image") && children.length > 1) {
+                    parent.children[index] = {
+                        type: "imgBlock",
+                        alts: children.map(child => child.alt),
+                        srcs: children.map(
+                            child =>
+                                child.url.includes("|") ? child.url.split("|")[0] : child.url
+                        ),
+                        titles: children.map(child => child.title),
+                        properties: children.map(
+                            child => child.url.includes("|") ? child.url.split("|").slice(1) : ""
+                        ),
+                        position: {
+                            start: children[0].position.start,
+                            end: children.slice(-1)[0].position.end
+                        },
+                        children: []
+                    }
+                }
+            }
+        });
+        return tree;
+    };
+}
+```
+
+While iterating over all the paragraph nodes, we get rid of all the `text` child nodes that have a value of `\r\n`, and then check to see if there's more than one child `image` left. If there is, we've located an image block, and swap the paragraph out for a custom `imgBlock` node by mutating the parent of the `paragraph`'s children at `paragraph`'s index.
+
+Now, I adjusted the `unified` flow to include the new plugin.
+
+```js
+retext()
+    .use(remarkParse)
+    .use(remarkImageBlock)
+    .use(remarkRehype)
+    .use(rehypeStringify)
+    .process(buffer, (err, file) => {
+        fs.writeFileSync("./example.html", file.value)
+    });
+```
+
+Before changing the `mdast` (markdown AST) to a `hast` (HTML AST), I modify the `mdast` with my plugin to create `imgBlock` nodes where needed, swapping out old `paragraph` nodes. But upon printing the output, it didn't quite work.
+
+## Where did the imgBlocks go?
+
+Instead of having the fake `HTML` `<imgBlock>`s that I expected, I got an empty div.
+
+```html
+<h1>An example document with a multiimage</h1>
+<p>Test1</p>
+<div></div>
+<p>
+    Test2 <img src="https://src-to-normal-img.com%7Cfloat=left%7Cwidth=50" alt="Normal Image" />
+</p>
+<p>
+    <img
+        src="https://src-to-normal-img.com%7Cwidth=35%7Cfloat=right"
+        alt="Normal Image But Isolated"
+    />
+</p>
+```
+
+But, when printing out the tree at the stage before `remarkRehype`, it looked like this...
+
+```js
+{
+  type: 'root',
+  children: [
+    {
+      type: 'heading',
+      depth: 1,
+      children: [Array],
+      position: [Object]
+    },
+    { type: 'paragraph', children:
+ [Array], position: [Object] },   
+    {
+      type: 'imgBlock',
+      alts: [Array],
+      srcs: [Array],
+      titles: [Array],
+      properties: [Array],        
+      position: [Object],
+      children: []
+    },
+    { type: 'paragraph', children:
+ [Array], position: [Object] },   
+    { type: 'paragraph', children:
+ [Array], position: [Object] }    
+  ],
+  position: {
+    start: { line: 1, column: 1, offset: 0 },
+    end: { line: 13, column: 81, offset: 367 }
+  }
+}
+```
+
+## The culprit
+
+It turned out that the `imgBlock`s were getting lost during the `remarkRehype` stage, since `remarkRehype` didn't know how to handle the foreign `imgBlock` nodes. When `remarkRehype` converts the `mdast` to an `hdast` it uses special predefined handlers, which can all be found [here](https://github.com/syntax-tree/mdast-util-to-hast/tree/main/lib/handlers), and take the form of something along the lines of this...
+
+```js
+import {normalizeUri} from 'micromark-util-sanitize-uri'
+
+export function image(state, node) {
+  const properties = {src: normalizeUri(node.url)}
+
+  if (node.alt !== null && node.alt !== undefined) {
+    properties.alt = node.alt
+  }
+
+  if (node.title !== null && node.title !== undefined) {
+    properties.title = node.title
+  }
+
+  const result = {type: 'element', tagName: 'img', properties, children: []}
+  state.patch(node, result)
+  return state.applyData(node, result)
+}
+```
+
+Each has slight modifications based to port the markdown to HTML, but the general format is the same. In order to create an `<imgBlock>` HTML component, I'd need to define my own handler, and pass it into the `remarkRehype` plugin. Creating the handler was simple, since I could just reuse a similar schema to the above `<img>` handler definition.
+
+At this stage, since I already had access to the `alt`s, `src`s, and `title`s of the images, I thought I mine as well scrape out properties from the `src`. That is, an image that was spelled out in markdown like `![alt](src.png|width=50|float=left)` would have its `src` be `src.png|width=50|float=left`. This would be a good point to strip off those extra image configs and pass them down the chain as a separate properties prop.
+
+```js
+export function imgBlockHandler(state, node, parent) {
+    return {
+        type: "element",
+        tagName: "imgBlock",
+        properties: {
+            alts: node.alts.join(";"),
+            srcs: node.srcs.map(normalizeUri).join(";"),
+            titles: node.titles.join(";"),
+            properties: node.properties.join(";")
+        },
+        children: []
+    }
+}
+
+export function imgHandler(state, node, parent) {
+    const properties = {}
+    for (const property of node.url.matchAll(/((\w+)=(\w+))/g)) {
+        properties[property[2]] = property[3]
+    }
+    const url = /\w*|\w=*/.test(node.url) ? node.url.match(/([^\s^\|]*)\|/)[1] : node.url
+
+    return {
+        type: "element",
+        tagName: "img",
+        properties: {
+            alt: node.alt,
+            src: url,
+            title: node.title,
+            ...properties,  // like float: left, width: 50, etc.
+        },
+        children: []
+    }
+}
+```
+
+I decided to split the `alt`s, `src`s, and `title`s with semicolons, since I wanted to allow for an arbitrary number of images in a block. Since the markdown would become a html string before becoming a react components, any javascript privatives like `Array`s would get lost, so this seemed to be the best solution.
+
+I modified the`unified` script to be as follows, including these custom handlers in the `mdast` to `hdast` conversion process...
+
+```js
+retext()
+    .use(remarkParse)
+    .use(remarkImageBlock)
+    .use(remarkRehype, {
+        handlers: { imgBlock: imgBlockHandler, image: imgHandler },
+    })
+    .use(rehypeStringify)
+    .process(buffer, (err, file) => {
+        fs.writeFileSync("./example.html", file.value)
+    });
+```
+
+And now, with the custom handlers in place, I executed the `unified` script, and vola!
+
+```js
+<h1>An example document with a multiimage</h1>
+<p>Test1</p>
+<imgBlock
+    alts="Image #1;Image #2;Image #3;Image #4"
+    srcs="https://src-to-img-1.com;https://src-to-img-2.com;https://src-to-img-2.com;https://src-to-img-2.com"
+    titles=";;;"
+    properties=";;;"
+></imgBlock>
+<p>
+    Test2 <img alt="Normal Image" src="https://src-to-normal-img.com" float="left" width="50" />
+</p>
+<p>
+    <img
+        alt="Normal Image But Isolated"
+        src="https://src-to-normal-img.com"
+        width="35"
+        float="right"
+    />
+</p>
+```
+
+Success!
+
+## React component override
+
+Now all that there was left to do was to define a react component to override the fake `<imgBlock>`s with, since browsers on their own don't know how to deal with them. I wrote out some react components for the purpose, and then slotted them into the components override prop of `ReactMarkdown`. With everythinig properly in place, the markdown rendering component now looked like this...
+
+```js
+<ReactMarkdown
+            children={markdown}
+            className="markdown"
+            remarkPlugins={[remarkImageBlock]}
+            remarkRehypeOptions={{
+                handlers: { imgBlock: imgBlockHandler, image: imgHandler },
+            }}
+            components={{
+                img: ({ node, ...props }) => (
+                    <MdImage
+                        alt={props.alt}
+                        title={props.title}
+                        src={props.src}
+                        width={props.width}
+                        float={props.float}
+                        label={props.alt}
+                        resourceMap={resourceMap}
+                    />
+                ),
+                imgBlock: ({ node, ...props }) => (
+                    <ImageBlock
+                        alts={props.alts}
+                        titles={props.titles}
+                        srcs={props.srcs}
+                        resourceMap={resourceMap}
+                    />
+                ),
+            }}
+        />
+```
+
+And it worked! This is the current renderer that I use for my website, with custom overrides for images and image blocks. I've also since added a code block rendering override, and may add another override for videos and/or gifs in the future.
+
+# Implications
+
+As now can be seen, the process I used is extremely powerful. People have coded plugins to display inline LaTeX, display codeblocks (like the ones in my blog posts!), and so, so much more. What's unique and tricky about my process is how I take advantage of custom component overrides to add brand new components to markdown.
+
+I can see infinite different ways that this same process could be utilized: adding brand new elements to inline markdown without requiring any inline HTML, modifying how certain paterns of elements display on screen, adding video support to markdown, and much more.

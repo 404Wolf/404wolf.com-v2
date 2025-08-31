@@ -2,7 +2,6 @@
   stdenv,
   nodejs,
   pnpm,
-  runtimeShell,
 }:
 stdenv.mkDerivation rec {
   pname = "404wolf.com";
@@ -21,18 +20,5 @@ stdenv.mkDerivation rec {
 
   buildPhase = ''
     pnpm build
-  '';
-
-  installPhase = ''
-      mkdir -p $out/share/${pname}
-
-      cp -r dist/* $out/share/${pname}/
-
-      mkdir -p $out/bin
-      cat > $out/bin/${pname} << EOF
-      #!${runtimeShell}
-      exec ${nodejs}/bin/node ${placeholder "out"}/share/${pname}/server.js "\$@"
-    EOF
-      chmod +x $out/bin/${pname}
   '';
 }

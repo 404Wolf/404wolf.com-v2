@@ -1,0 +1,2606 @@
+---
+id: "linuxClassPortfolio"
+type: "blog"
+date: "2024"
+covers: "Screenshot_from_2024-04-14_23-29-12_0001, Screenshot_from_2024-04-14_23-29-31_0001, Pasted_image_20240414232043_0001, Linux-desktopentry_0001, Screenshot_from_2024-04-16_18-15-57_0001"
+tags: ["404wolf/academic"]
+cssclasses: ["404WolfMarkdown"]
+---
+# Description
+
+This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU, a class that teaches various Linux tools and concepts, like bash, awk, regex, and bottom-up design. It's an eclectic mix of scripts and Linux-y things I've done with the stuff I've learned throughout the semester in the course. There are a few projects towards the beginning, and then I have a bunch of random bash scripts and more Linux-y things towards the bottom portion.
+
+***
+
+# Linux Scripting/Tools Class Portfolio
+
+# What's this?
+
+This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU. It's an eclectic mix of scripts and linux-y things I've done with the stuff I've learned throughout the semester in the course.
+
+# Some Projects/Scripts
+
+## [Text Sender](http://sender.404wolf.com/)
+
+![Desktop version](Screenshot_from_2024-04-14_23-29-12_0001.png|float=none|width=70)
+
+### What is it?
+
+Text sender is a basic website that uses client side Javascript to poll a PHP server to obtain the current text contents of a Redis cache. The server is deployed to AWS and is publicly accessible through AWS. The live polling is a feature I added later on, and I also added bootstrap to make the website look nice.
+
+The current contents of the text box are accessed from redis by PHP using [PHPRedis](https://github.com/phpredis/phpredis). I decided to use [composer](https://getcomposer.org/) to manage this package, since it made installing it super easy. The project is also dockerized, so it can be easily deployed, and uses `Nginx` to serve the content.
+
+### Uses
+
+* Sending text data between devices (shipping from phone to phone or desktop to phone etc)
+* Sharing data in front of a live audience
+* Conversations and interactive use
+
+![Network Logs](Screenshot_from_2024-04-14_23-29-31_0001.png)
+![Mobile Version](Screenshot_from_2024-04-14_23-26-55_0001.png)
+
+Originally, I used the file system to cache the contents, but migrated for performance and to learn how to do Redis in PHP. I also added bootstrap to make it look nicer.
+
+Basically, you can visit [sender.404wolf.com](http://sender.404wolf.com) and you'll be met with a text input box. You can plop text into it, and it will show up to date contents. If you go to a different device or tab it will keep in sync the current content.
+
+All of the source code can be found [here](https://github.com/404Wolf/Code-Ship), since it's a bigger project than can reasonably fit here. But here's some of the important PHP code.
+
+It's made of two parts: backend API and frontend client. The first codeblock is the main page with the actual layout and input boxes. The second codeblock is a backend that the clients use to update the state of the redis cache.
+
+### Changelog
+
+* Version 1 - Create basic working version that stores state in file.
+* Version 2 - Add redis with PHP redis. Get working on localhost
+* Version 3 - Add compose.yml and dockerize. Then deploy to aws and use Nginx to serve
+
+```php
+// Index.php
+
+<!doctype html>
+<html lang="en">
+
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+require 'vendor/autoload.php';
+Predis\Autoloader::register();
+
+$client = new Predis\Client([
+    'scheme' => 'tcp',
+    'host'   => 'redis',  // Use the service name as the hostname                                                                                                                
+    'port'   => 6379,  // Default port for Redis                                                                                                                                 
+]);
+
+function injectVariable($name, $value)
+{
+	// Add important env variables to the global scope by putting them in a script
+	// tag like this.
+    echo '<script> const ' . $name . ' = "' . $value . '"; </script>';
+}
+?>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Page metadata -->
+    <title>Send it!</title>
+
+    <style>
+        .bg-light-gray {
+            background-color: #f8f9fa;
+        }
+    </style>
+
+    <?php
+    // Add some constants to the global scope
+    injectVariable('MAX_LENGTH', $_ENV['MAX_LENGTH']);
+    injectVariable('ADDRESS', $_ENV['ADDRESS']);
+    injectVariable('PORT', $_ENV['PORT']);
+    injectVariable('REFRESH_RATE', $_ENV['REFRESH_RATE'])
+    ?>
+
+    <!-- Setup webhook on load -->
+    <script>
+        let priorContents = false;
+
+        function setInputAreaText(text) {
+            document.getElementById("text-to-send").value = text;
+        }
+
+        function getInputAreaText() {
+            return document.getElementById("text-to-send").value;
+        }
+
+        function shipNewContents() {
+            const newContents = document.getElementById("text-to-send").value;
+            console.log("Shipping the contents of the text area. New contents: " + newContents);
+            fetch(`${ADDRESS}:${PORT}/state.php`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: newContents.slice(0, MAX_LENGTH),
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+
+        function justUpdated() {
+	        // new Date() returns a new date object with the current time
+            document.getElementById("last-update").innerText = "Updated at " + formatTime(new Date());
+        }
+
+        function beginPolling() {
+            setInterval(() => {
+
+                console.log("Attempting poll @" + (new Date()))
+                const textArea = document.getElementById("text-to-send");
+                if (textArea.value !== priorContents) {
+                    console.log("New contents detected. Shipping new contents.");
+                    shipNewContents();
+                    priorContents = textArea.value;
+                    justUpdated();
+                    return
+                }
+
+                fetch(`${ADDRESS}:${PORT}/state.php`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.text !== priorContents) {
+                            console.log("Received new text contents. Updating text area.");
+                            setInputAreaText(data.text);
+                        }
+                        justUpdated();
+                    })
+            }, REFRESH_RATE);
+        }
+
+        function formatTime() {
+            const date = new Date();
+
+            let hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'                        
+            const strHours = hours < 10 ? '0' + hours : hours;
+            const strMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const strSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+            return strHours + ':' + strMinutes + ':' + strSeconds + ' ' + ampm;
+        }
+
+        addEventListener("DOMContentLoaded", () => {
+            beginPolling();
+        })
+    </script>
+</head>
+
+</script>
+</head>
+
+<body>
+    <!-- Main container for body -->
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="my-4 p-3 pb-0 border col-10 bg-light-gray">
+                <h1 class="w-75 text-center mx-auto mb-2">Sender</h1>
+                <p>
+                    Share your code! Whatever you enter below becomes what everyone visiting this site sees,
+                    and the current contents on the page will be lost.
+                </p>
+
+                <!-- Area for user input -->
+                <code id="code-text-area">
+                    <textarea class="form-control font-monospace text-sm" style="min-height: 32rem; font-size: 12px" id="text-to-send" rows="3">
+<?php
+echo $client->get('text');
+?>
+</textarea>
+                </code>
+
+                <!-- Last update timestamp -->
+                <p class="text-right -mb-2" id="last-update">
+                    Updated at <?php echo date("h:i:s A"); ?>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background-color: #f2f2f2; padding: 10px; position: fixed; bottom: 0; width: 100%;" class="container-fluid text-right border">
+        Made by <span><a href="http://404wolf.com" target="_blank">Wolf</a></span>
+    </footer>
+</body>
+
+</html>
+```
+
+```php
+// state.php
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+require 'vendor/autoload.php';
+Predis\Autoloader::register();
+
+$client = new Predis\Client([
+    'scheme' => 'tcp',
+    'host'   => 'redis',  // Use the service name as the hostname                                                                                                                
+    'port'   => 6379,  // Default port for Redis                                                                                                                                 
+]);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the JSON data from the request body
+    $data = @json_decode(file_get_contents('php://input'), true);
+
+    // Make sure that the new text is not too long
+    if (strlen($data['text']) > 100000) {
+        http_response_code(400);
+        echo json_encode(["error" => "Input text too long"]);
+        exit();
+    }
+
+    // Dump the contents to the contents file
+    $client->set('text', $data['text']); 
+
+    http_response_code(200);
+    echo json_encode(["success" => true]);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $contents = $client->get('text');
+    $contents = json_encode(["text" => $contents]);
+    if ($contents === null) {
+        http_response_code(404);
+        echo json_encode(["error" => "No data found"]);
+        exit();
+    }
+    echo $contents;
+}
+```
+
+Also, here is the `Nginx` config that serves the website. I haven't used `Nginx` before, but it wasn't too bad to set up and it works well. ChatGPT helped me configure this and also added all the comments.
+
+```nginx
+server
+{
+	# Listen on all interfaces on port 80
+	listen 0.0.0.0:80;
+
+	# Set the root directory for requests
+	root /var/www/html;
+
+	# Default location block
+	location /
+	{
+		# Specify index files to be served
+		index index.php index.html;
+	}
+
+	# Location block for processing PHP files
+	location ~ \.php$
+	{
+		include fastcgi_params; # Include FastCGI parameters
+		fastcgi_pass php:9000; # Forward PHP requests to the FastCGI server on port 9000
+		fastcgi_index index.php; # Default file to serve
+		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name; # Set the script filename
+	}
+
+	# Location block for serving a specific file (contents.json)
+	location = /contents.json
+	{
+		alias /var/www/html/contents.json; # Directly serve contents.json file from path
+	}
+}
+```
+
+## Discord/Betterdiscord Installer
+
+### What it is
+
+![Discord update popup](discords-lucky-day-hits-arch-btw-once-again-with-no-update-v0-p4j4bweuu0ca1_0001.webp)
+
+[Discord](https://discord.com) (chatting app) requires you to completely redownload the app whenever there are updates on Desbian. It makes a popup that says that you need to download a whole new binary each time there is an update. Additionally, I use a client called [BetterDiscord](https://betterdiscord.app) that requires you to "patch" Discord every time you install it. This means that every now and then, I open discord, and have to manually install a new version and then also re-patch it with Betterdiscord. It's a pain in the neck every time updates are released.
+
+```bash
+#!/usr/bin/bash
+
+# get the "location" header from https://discord.com/api/download/stable?platform=linux&format=tar.gz and store it in a variable
+
+
+# code for finding location and cleaning it up is a friend's
+# ===== GET THE DOWNLOAD URL =====
+location=$(curl -sI "https://discord.com/api/download/stable?platform=linux&format=tar.gz" | grep -i location | awk '{print $2}')
+
+# fix formatting of location to prevent "bad substitution" error
+location=$(
+    echo $location | sed 's/\r//'
+)
+
+# ===== GET THE DOWNLOAD URL =====
+
+# download the discord.tar.gz (overwrite if it already exists)
+curl -L -o discord.tar.gz $location
+
+# Extract the tar file and overwrite ~/.local/share/Discord
+# Modified code from a friend. 
+# -x = extract files from archive 
+# -v verbose
+# -f use the following tarball file
+# The program currently doesn't run on my main laptop because discord's location doesn't seem to be ~/.local/share
+tar -xvf discord.tar.gz -C ~/.local/share --overwrite
+
+# The following is all my code. It uses Betterdiscordctl to patch discord if it isn't already patched
+
+# Remove the tar file from the current directory that we just downloaded it to
+rm discord.tar.gz
+
+# Define betterdiscordctl path
+betterdiscordctl=/usr/local/bin/betterdiscordctl
+
+# Check if BetterDiscord is already installed
+if ! $betterdiscordctl status | grep -q "no"; then
+  # If BetterDiscord is already installed, print a message and do nothing
+  echo "BetterDiscord is installed."
+  # Check if Discord is running and restart it after installing BetterDiscord
+  else
+    discordRunning=$(pgrep Discord)
+    killall Discord
+    $betterdiscordctl install
+    if [ $discordRunning ]; then
+      nohup discord &
+    fi
+fi
+```
+
+Output of running script:
+
+```terminal
+wolf@wolfs-laptop:~/Scripts/BetterDiscord$ source install.sh 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 96.8M  100 96.8M    0     0  24.3M      0  0:00:03  0:00:03 --:--:-- 24.3M
+Discord/
+Discord/libffmpeg.so
+... the various things that get unpacked unpack ...
+Discord/discord.desktop
+BetterDiscord is installed.
+```
+
+Originally this script only installed Betterdiscord, but I added the part to install Discord itself too after.
+
+I added the part that installs Discord after and changed it slightly for my needs, which a friend had written for themselves. I wrote the part that installs betterdiscord myself, which uses an open source tool called `betterdiscordctl`. Basically, it checks to see if betterdiscord is installed, and if it isn't then it re-patches discord.
+
+I then put it in my `crontab` to run automatically every day using
+
+```
+0 10 * * * /home/wolf/Scripts/BetterDiscord/install.sh
+```
+
+I won't know if this works until Discord releases an update, though.
+
+## Case Room Selection Utility
+
+![Website](Screenshot_from_2024-04-21_16-15-04_0001.png)
+![Loading... Part](Screenshot_from_2024-04-21_16-14-57_0001.png)
+
+I made a very complex python webserver with a selenium virtual chromedriver to get an auth token to Case's room reservation system. Then I use that token to find all rooms that are not taken from X to Y time, so I can find a study room. I created a basic html/css/js page that hits the website and displays vacant rooms, and has textual input. It uses the API I built previously.
+
+TLDR: I have an API to find empty rooms on campus. I made a frontend for it.
+
+DISCLAIMER:
+I wrote this HTML/JS for this course portfolio, but it doesn't work at the moment only because of a dependency that I wrote outside of this course. I'm still going to include it since I think it's pretty cool.
+
+The API was down when writing this to get screenshots, and I'm currently fixing a part of the authing flow. However, the general idea is that you can see it load and then fetch all empty rooms on campus.
+
+### Changelog
+
+* Make basic page to view the courses that lists all empty rooms
+* Add user inputs to specify hours and duration
+* Add loading animation, add clickable links to share
+
+```html
+<html>
+    <script type="text/javascript">
+        const url = "http://149.28.40.6:5000/find-rooms"
+
+        function getRoomURL(duration_hours, hours_from_now) {
+            const params = {
+                duration_hours: duration_hours,
+                hours_from_now: hours_from_now
+            };
+            const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+            return url + '?' + queryString
+        }
+
+        function findRooms(duration_hours, hours_from_now) {
+            const path = getRoomURL(duration_hours, hours_from_now)
+
+            return fetch(path, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(resp => resp.json())
+        }
+
+        function parseFoundRooms(rooms) {
+            rooms = rooms['rooms'];
+            rooms = rooms.sort((a, b) => a.building_code > b.building_code ? 1 : -1);
+            return rooms.map(room => room.building_code + " " + room.room_code).join("&#10;");
+        }
+
+        function displayResults(results) {
+            const resultsBox = document.getElementById('results-box');
+            resultsBox.innerHTML = results;
+        }
+        
+        function onGetResultsClick() {
+            // Get the form values
+            const duration_hours = document.getElementById('duration_hours').value;
+            const hours_from_now = document.getElementById('hours_from_now').value;
+
+            // Run the query
+            findRooms(duration_hours, hours_from_now)
+                .then(results => parseFoundRooms(results))
+                .then(displayResults);
+            document.getElementById('results-url').href = getRoomURL(duration_hours, hours_from_now);
+
+            // Update the results area header
+            document.getElementById('results-area-head').innerHTML = (
+                "Results for "
+                + duration_hours
+                + " hours from now, for "
+                + hours_from_now
+                + " hours"
+            );
+            document.getElementById('results-box').innerHTML = "Loading...";
+            
+            // Reset the form
+            document.getElementById('duration_hours').value = "";
+            document.getElementById('hours_from_now').value = "";
+        }
+    </script>
+
+    <head>
+        <title>Room Finder</title>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <h1 style="text-align: center;">Room Finder</h1>
+        <h2 style="text-align: center;">Find an unbooked CWRU room</h2>
+            
+        <!-- Form area -->
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <label for="duration_hours">Duration in hours</label>
+                <input type="number" id="duration_hours" placeholder="Duration in hours" value="0">
+            </div>
+
+            <div>
+                <label for="hours_from_now">Hours from now</label>
+                <input type="number" id="hours_from_now" placeholder="Hours from now" value="6">
+            </div>
+
+            <button onclick="onGetResultsClick()">Find a room</button>
+        </div>
+
+        <!-- Results area -->
+        <div>
+            <a id="results-url"><h3 id="results-area-head">Results Area</h3></a>
+            <textarea readonly style="width: 100%; min-height: 40vh;" id="results-box">
+Results will appear here
+            </textarea>
+        </div>
+    </body>
+</html>
+```
+
+## Archive Utility
+
+### What is it?
+
+A tool that lets you zip something and then move it into `/home/Archive` automatically.
+
+Basically, you run `bash archive.sh file_to_be_archived.extension`, and it automatically 7z compresses it, moves the file, and deletes the old uncompressed file.
+
+After I made it I added some basic error handling, and automatically will add a `_121` (counter) to the back of the file if there are duplicates already in the out directory (`_121` indicates 120 other files already exist with its name).
+
+### Changelog
+
+* Make basic working version that archives an input
+* Add filename checking
+* Prevent duplicate clobbering by incrementing filename
+
+```bash
+#!/bin/bash
+
+# Name the argument for the filename
+file=$1;
+
+# Grab the extension and file name seperately and assign them to variables
+filename=$(echo $file | grep -o '^[^\.]*');
+extension=$(echo $file | grep -o '\..*$');
+out_filename=$filename;
+
+# VERSION 2 -- ADD FILENAME CHECK
+# If the file is not passed exit
+if [ -z $file ]; then
+  echo "No filename provided";
+  exit 1;
+fi
+
+# If the file does exist then make a new one with a affixed ID
+# VERSION 3 -- ADD FILE NAME INCREMENT
+if [ -e "$out_filename.7z" ]; then
+  ticker=1;
+  while [ -e "$file_$ticker.7z" ]; do
+    ((ticker++)); # Increment the counter
+  done
+  out_filename="${filename}_${ticker}";
+fi;
+
+out_filename="${out_filename}.7z";
+echo "Archiving $file to $out_filename.7z";
+7z a "$out_filename" "$file";
+# Need to keep ~/Archive/ out of quotes since ~ must be expanded properly
+mv $out_filename ~/Archive/
+
+# Check status and if the archive was successful report it and delete the old file
+if [ $? -eq 0 ]; then                                                 
+  echo "Archive $filename.7z created successfully";
+  rm -i -r $file;
+else
+  echo "Failed to create archive $filename.7z" 
+fi
+```
+
+### Example use:
+
+```shell
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ tree
+.
+└── archive.sh
+
+0 directories, 1 file
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ echo "{ 'test' : 'test' }" > test.json
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ tree
+.
+├── archive.sh
+└── test.json
+
+0 directories, 2 files
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ alias archive="bash archive.sh"
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ archive test.json
+Archiving test.json to test.7z.7z
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,8 CPUs 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz (806C1),ASM,AES-NI)
+
+Scanning the drive:
+1 file, 20 bytes (1 KiB)
+
+Creating archive: test.7z
+
+Items to compress: 1
+
+    
+Files read from disk: 1
+Archive size: 146 bytes (1 KiB)
+Everything is Ok
+Archive test.7z created successfully
+rm: remove regular file 'test.json'? yes
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ ls
+archive.sh
+wolf@wolfs-laptop:~/Desktop/Projects/Archiver$ z ~/Archive
+wolf@wolfs-laptop:~/Archive$ ls
+test.7z
+```
+
+## Move types into folders
+
+I made a very basic script that moves files into folders named after their file type. It iterates through files in the current directory and moves each file to a folder named after its extension.
+
+### Changelog
+
+* Make a basic script to move different filetypes into different folders
+* Add protections, like ensuring the script file itself isn't moved, or that directories aren't touched or changed.
+
+ChatGPT helped me figure out how to iterate over files in a directory (it is shockingly easy!).
+
+```bash
+for file in ./*; do
+	# Skip if the file is the script itself.
+	if [ $file == "./folderFileType.sh" ]; then
+		echo "Skipping $file because it is the script itself.";
+		continue;
+	fi;
+
+	# Skip if the file is a folder.
+	if [ -d $file ]; then
+		echo "Skipping $file because it is a folder.";
+		continue;
+	fi;
+
+	echo "Processing $file";
+
+	# Get the suffix of the file.
+	# "##" means remove the longest match from the beginning.
+	# Note that "*." is not regex, it's a shell pattern.
+	FILE_SUFFIX=${file##*.};
+
+	# Create a folder with the same name as the suffix.
+	# "-p" means create the parent folder if it doesn't exist.
+	# "-v" means print the name of the folder.
+	mkdir -p -v $FILE_SUFFIX;
+	mv -v $file $FILE_SUFFIX;
+	echo "Processed $file by moving it to $FILE_SUFFIX";
+done;
+echo "All files processed.";
+```
+
+### Before, during, and after
+
+```bash
+wolf@wolfs-laptop:~/Scripts/Tests$ tree
+.
+├── anotherTest.c
+├── anotherTest.cc
+├── anothertest.js
+├── anotherTest.ts
+├── folderFileType.sh
+├── test.py
+├── test.test
+├── test.ts
+└── test.txt
+```
+
+```bash
+Processing ./anotherTest.c
+mkdir: created directory 'c'
+renamed './anotherTest.c' -> 'c/anotherTest.c'
+Processed ./anotherTest.c by moving it to c
+Processing ./anotherTest.cc
+mkdir: created directory 'cc'
+renamed './anotherTest.cc' -> 'cc/anotherTest.cc'
+Processed ./anotherTest.cc by moving it to cc
+Processing ./anothertest.js
+mkdir: created directory 'js'
+renamed './anothertest.js' -> 'js/anothertest.js'
+Processed ./anothertest.js by moving it to js
+Processing ./anotherTest.ts
+mkdir: created directory 'ts'
+renamed './anotherTest.ts' -> 'ts/anotherTest.ts'
+Processed ./anotherTest.ts by moving it to ts
+Skipping ./folderFileType.sh because it is the script itself.
+Processing ./test.py
+mkdir: created directory 'py'
+renamed './test.py' -> 'py/test.py'
+Processed ./test.py by moving it to py
+Processing ./test.test
+mkdir: created directory 'test'
+renamed './test.test' -> 'test/test.test'
+Processed ./test.test by moving it to test
+Processing ./test.ts
+renamed './test.ts' -> 'ts/test.ts'
+Processed ./test.ts by moving it to ts
+Processing ./test.txt
+mkdir: created directory 'txt'
+renamed './test.txt' -> 'txt/test.txt'
+Processed ./test.txt by moving it to txt
+All files processed.
+```
+
+```bash
+wolf@wolfs-laptop:~/Scripts/Tests$ tree
+.
+├── c
+│   └── anotherTest.c
+├── cc
+│   └── anotherTest.cc
+├── folderFileType.sh
+├── js
+│   └── anothertest.js
+├── py
+│   └── test.py
+├── test
+│   └── test.test
+├── ts
+│   ├── anotherTest.ts
+│   └── test.ts
+└── txt
+    └── test.txt
+
+7 directories, 9 files
+```
+
+## React Native Boot Script
+
+![Video of it running](Screencast_from_04-23-2024_062229_PM_0001.webm|float=none|width=100)
+
+![Example of it running](Pasted_image_20240414232043_0001.png)
+
+### TLDR
+
+```
+wolf@wolfs-laptop:~$ lt -p 8080
+your url is: https://petite-ends-stay.loca.lt
+```
+
+Localtunnel maps a public URL to your localhost at a port. This is a script that runs `lt -p 8080` in the background, extracts the URL, exports it as an env variable, and then launches a process that requires it. It also does some basic environment setup.
+
+### Why?
+
+When I boot a react native app (mobile app development framework that I'm using to make an Android app) project with the Metro bundler (a development tool for shipping the app to a virtual Android device) to get it to run usually my project needs me to manually do these things:
+
+1. Start the android emulator and press `super shift t` to set it to be always on top (so it sits on top of my IDE)
+2. Start a HTTPS tunnel so I can access `localhost:8080` (where my API lives) from the android device
+3. Run the bundler to boot the app on the emulator
+4. Enter the letter "a" to get the bundler to know that I want to run the app on android
+
+It's all really annoying, so I wrote a bash script to do it all for me. What was fun about this is that I got to learn how to use `xdotool` to actually simulate a keypress which I added later on (chatGPT definitely helped). In the future I want to figure out if there's a proper non-interactive way to boot Metro for Android.
+
+```shell
+~/Android/Sdk/emulator/emulator @mainAndroid & sleep 3 && xdotool key super+shift+t
+# Call `lt -p 8080`, and pipe the output into /tmp/lt_out. Then sleep to wait for it to start, and use the output that was buffered in the temp file to grab the URL
+export SERVER_ADDRESS=$(lt -p 8080 > /tmp/lt_out & sleep 2 && cat /tmp/lt_out | grep -o 'https://.*')
+echo "Server address: $SERVER_ADDRESS"
+
+# An annoying thing that needs to be in the environment that it can't grab from .env for some reason
+export ANDROID_HOME=$HOME/Android/Sdk
+echo "ANDROID_HOME: $ANDROID_HOME"
+
+# Run the `sleep 8 && xdotool type 'a'` command in the background.
+# Run `npx react-natvie start --port 9097` in the foreground.
+# Running react native metro is blocking so it never terminates
+# (what coes to the right of & runs in the background without waiting 
+# for the thing to the left of it to terminate)
+sleep 8 && xdotool type 'a' & npx react-native start --port 9097 
+```
+
+## Course Snipe Autoclicker
+
+![Successful click at 7:00:00!](image_0001.png|width=35)
+
+For course registration I made a super simple `Python` script to click the register button at exactly 7AM. It's a very simple script that simulates a left mouse click. I left the cursor over the register button, and ran it on a headed Linux system so the clock was super super accurate. I was able to get all the courses I wanted for next semester (all of which were very competitive) this way. It's Python, but it's definitely a script in the style of this course.
+
+```python
+import pyautogui
+import datetime
+import time
+
+def click_at_time(time_str):                                                 
+    target_time = datetime.datetime.strptime(time_str, "%H:%M").time()       
+    while True:                                                              
+        now = datetime.datetime.now().time()                                 
+        if (
+            now.hour == target_time.hour 
+            and now.minute == target_time.minute 
+            and now.second == 0 
+            and now.microsecond < 100000
+        ):
+            time.sleep(0.05)
+            pyautogui.click()                            
+            break                                                        
+        time.sleep(0.01)                                                      
+
+if __name__ == "__main__":                       
+    target = input("Enter the time in HH:MM format: ")  
+    click_at_time(target)
+```
+
+## Board game listing
+
+![Annoying to parse page](Screenshot_from_2024-05-05_01-53-46_0001.png)
+![Finding the API](Screenshot_from_2024-05-05_01-54-33_0001.png)
+
+### TLDR
+
+A simple bash script that uses `JQ` piping and an `API` I found to fetch a list of names of board games produced by a specific company.
+
+I recently was interested in finding a list of all board games that the board game producing company Funforge had produced. They make a lot of great board games and I was curious to learn of new ones and also investigate resale potential for some of their older ones. I checked board game geek, a forum and data source for board games, and they have lists of games for specific publishers, but it's paginated and annoying to parse.
+
+I decided to open network tab to see if there were any requests with `Json` data being sent from an API, and it turned out that there was. I tinkered a bit with getting the right parameters, and figured out that the API endpoint was paginating the board games that Funforge had produced. So, I wrote a simple bash script with a loop to list out all the games that they've produced, and automatically deal with the pagination.
+
+### Example of Content to Parse
+
+```json
+{
+  "items": [
+    {
+      "usersrated": "72478",
+      "average": "7.87762",
+      "avgweight": "3.6369",
+      "numowned": "85351",
+      "numprevowned": "9222",
+      "numtrading": "1393",
+      "numwanting": "1145",
+      "numwish": "12127",
+      "numcomments": "13733",
+      "yearpublished": "2007",
+      "rank": "52",
+      "name": "Agricola",
+      "postdate": "2007-08-09 15:05:03",
+      "linkid": "8215175",
+      "linktype": "boardgamepublisher",
+      "objecttype": "thing",
+      "objectid": "31260",
+      "itemstate": "approved",
+      "rep_imageid": "831744",
+      "subtype": "boardgame",
+      "links": [],
+      "href": "/boardgame/31260/agricola",
+      "images": {
+        "thumb": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__thumb/img/GHGdnCfeysoP_34gLnofJcNivW8=/fit-in/200x150/filters:strip_icc()/pic831744.jpg",
+        "micro": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__micro/img/SZgGqufNqaW8BCFT29wkYPaRXOE=/fit-in/64x64/filters:strip_icc()/pic831744.jpg",
+        "square": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__square/img/buzgMbAtE6uf5rX-1-PwqvBnzDY=/75x75/filters:strip_icc()/pic831744.jpg",
+        "squarefit": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__squarefit/img/nqUrgCUx_0WWtpCtOrQdSUxQkVU=/fit-in/75x75/filters:strip_icc()/pic831744.jpg",
+        "tallthumb": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__tallthumb/img/mlIqrJemOrOnqg8Ha2WiXfdFtWE=/fit-in/75x125/filters:strip_icc()/pic831744.jpg",
+        "previewthumb": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__previewthumb/img/MoFOfTG1NMtI-fKAyegRhCBlzmc=/fit-in/300x320/filters:strip_icc()/pic831744.jpg",
+        "square200": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__square200/img/bhWPgT6a0vKXqTw448T-mhJy_rQ=/200x200/filters:strip_icc()/pic831744.jpg",
+        "original": "https://cf.geekdo-images.com/dDDo2Hexl80ucK1IlqTk-g__original/img/toobKoejPiHpfpHk4SYd1UAJafw=/0x0/filters:format(jpeg)/pic831744.jpg"
+      }
+    },
+    {
+      "usersrated": "17602",
+      "average": "7.95942",
+      "avgweight": "3.4502",
+      "numowned": "24475",
+      "numprevowned": "2212",
+      "numtrading": "272",
+      "numwanting": "428",
+      "numwish": "3442",
+      "numcomments": "2254",
+      "yearpublished": "2016",
+      "rank": "76",
+      "name": "Agricola (Revised Edition)",
+      "postdate": "2016-05-23 15:43:12",
+      "linkid": "5670975",
+      "linktype": "boardgamepublisher",
+      "objecttype": "thing",
+      "objectid": "200680",
+      "itemstate": "approved",
+      "rep_imageid": "8093340",
+      "subtype": "boardgame",
+      "links": [],
+      "href": "/boardgame/200680/agricola-revised-edition",
+      "images": {
+        "thumb": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__thumb/img/h_Rp2XYqaNElM2hrYxUSzMxRRgM=/fit-in/200x150/filters:strip_icc()/pic8093340.jpg",
+        "micro": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__micro/img/GQNkMukGtKD2cVOgpUk4ZSmpUfA=/fit-in/64x64/filters:strip_icc()/pic8093340.jpg",
+        "square": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__square/img/KjlOw3u2349C_-_Bewth-UotKPY=/75x75/filters:strip_icc()/pic8093340.jpg",
+        "squarefit": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__squarefit/img/LjiHLhRV8Js7M-Yw2kIn9jUNqYs=/fit-in/75x75/filters:strip_icc()/pic8093340.jpg",
+        "tallthumb": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__tallthumb/img/E1CGspVGwdQl011_rBuC-FLS-Lg=/fit-in/75x125/filters:strip_icc()/pic8093340.jpg",
+        "previewthumb": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__previewthumb/img/8U7iPhmzZXjytK2qS_-M5SpJ028=/fit-in/300x320/filters:strip_icc()/pic8093340.jpg",
+        "square200": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__square200/img/Yyxaz3YRjIEo1EZBN4ipT3gpEzY=/200x200/filters:strip_icc()/pic8093340.jpg",
+        "original": "https://cf.geekdo-images.com/YCGWJMFwOI5efji2RJ2mSw__original/img/jC_He46LcIcKWU-kSwkYdr9Z45E=/0x0/filters:format(jpeg)/pic8093340.jpg"
+      }
+    }
+  ],
+  "itemdata": [
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "name",
+      "title": "Primary Name",
+      "primaryname": true,
+      "required": true,
+      "unclickable": true,
+      "fullcredits": true,
+      "subtype": "boardgame",
+      "keyname": "name"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "alternatename",
+      "title": "Alternate Names",
+      "alternate": true,
+      "unclickable": true,
+      "fullcredits": true,
+      "subtype": "boardgame",
+      "keyname": "alternatename"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "yearpublished",
+      "title": "Year Released",
+      "fullcredits": true,
+      "subtype": "boardgame",
+      "keyname": "yearpublished"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "minplayers",
+      "title": "Minimum Players",
+      "subtype": "boardgame",
+      "keyname": "minplayers"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "maxplayers",
+      "title": "Maximum Players",
+      "subtype": "boardgame",
+      "keyname": "maxplayers"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "minplaytime",
+      "title": "Minimum Playing Time",
+      "createposttext": " minutes",
+      "posttext": " minutes",
+      "subtype": "boardgame",
+      "keyname": "minplaytime"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "maxplaytime",
+      "title": "Maximum Playing Time",
+      "createposttext": " minutes",
+      "posttext": " minutes",
+      "subtype": "boardgame",
+      "keyname": "maxplaytime"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "minage",
+      "title": "Mfg Suggested Ages",
+      "createtitle": "Minimum Age",
+      "posttext": " and up",
+      "subtype": "boardgame",
+      "keyname": "minage"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "override_rankable",
+      "title": "Override Rankable",
+      "table": "geekitem_items",
+      "options": [
+        {
+          "value": 1,
+          "title": "yes"
+        },
+        {
+          "value": 0,
+          "title": "no"
+        }
+      ],
+      "adminonly": true,
+      "subtype": "boardgame",
+      "keyname": "override_rankable"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "targetco_url",
+      "unclickable": true,
+      "title": "Target Co Order Link",
+      "subtype": "boardgame",
+      "keyname": "targetco_url"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "walmart_id",
+      "unclickable": true,
+      "title": "Walmart Item Id",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "walmart_id"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "instructional_videoid",
+      "unclickable": true,
+      "title": "Promoted Instructional Video ID",
+      "validatemethod": "ValidateVideoid",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "instructional_videoid"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "summary_videoid",
+      "unclickable": true,
+      "title": "Promoted Summary Video ID",
+      "validatemethod": "ValidateVideoid",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "summary_videoid"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "playthrough_videoid",
+      "unclickable": true,
+      "title": "Promoted Playthrough Video ID",
+      "validatemethod": "ValidateVideoid",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "playthrough_videoid"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "focus_videoid",
+      "unclickable": true,
+      "title": "Promoted In Focus Video ID",
+      "validatemethod": "ValidateVideoid",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "focus_videoid"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "howtoplay_videoid",
+      "unclickable": true,
+      "title": "Promoted BGG How to Play Video ID",
+      "validatemethod": "ValidateVideoid",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "howtoplay_videoid"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "bggstore_product",
+      "unclickable": true,
+      "title": "Promoted BGG Store Product Name",
+      "nullable": true,
+      "subtype": "boardgame",
+      "keyname": "bggstore_product"
+    },
+    {
+      "datatype": "geekitem_fielddata",
+      "fieldname": "short_description",
+      "title": "Short Description",
+      "table": "geekitem_items",
+      "maxlength": 85,
+      "editfieldsize": 60,
+      "required": true,
+      "subtype": "boardgame",
+      "keyname": "short_description"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgamedesigner",
+      "linktype": "boardgamedesigner",
+      "self_prefix": "src",
+      "title": "Designer",
+      "titlepl": "Designers",
+      "fullcredits": true,
+      "schema": {
+        "itemprop": "creator",
+        "itemtype": "https://schema.org/Person"
+      },
+      "keyname": "boardgamedesigner"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgamesolodesigner",
+      "linktype": "boardgamesolodesigner",
+      "self_prefix": "src",
+      "title": "Solo Designer",
+      "titlepl": "Solo Designers",
+      "fullcredits": true,
+      "keyname": "boardgamesolodesigner"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgameartist",
+      "linktype": "boardgameartist",
+      "self_prefix": "src",
+      "title": "Artist",
+      "titlepl": "Artists",
+      "fullcredits": true,
+      "keyname": "boardgameartist"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "company",
+      "other_subtype": "boardgamepublisher",
+      "linktype": "boardgamepublisher",
+      "self_prefix": "src",
+      "title": "Publisher",
+      "titlepl": "Publishers",
+      "required": true,
+      "fullcredits": true,
+      "schema": {
+        "itemprop": "publisher",
+        "itemtype": "https://schema.org/Organization"
+      },
+      "keyname": "boardgamepublisher"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgamedeveloper",
+      "linktype": "boardgamedeveloper",
+      "self_prefix": "src",
+      "title": "Developer",
+      "titlepl": "Developers",
+      "fullcredits": true,
+      "keyname": "boardgamedeveloper"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgamegraphicdesigner",
+      "linktype": "boardgamegraphicdesigner",
+      "self_prefix": "src",
+      "title": "Graphic Designer",
+      "titlepl": "Graphic Designers",
+      "fullcredits": true,
+      "keyname": "boardgamegraphicdesigner"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgamesculptor",
+      "linktype": "boardgamesculptor",
+      "self_prefix": "src",
+      "title": "Sculptor",
+      "titlepl": "Sculptors",
+      "fullcredits": true,
+      "keyname": "boardgamesculptor"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgameeditor",
+      "linktype": "boardgameeditor",
+      "self_prefix": "src",
+      "title": "Editor",
+      "titlepl": "Editors",
+      "fullcredits": true,
+      "keyname": "boardgameeditor"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgamewriter",
+      "linktype": "boardgamewriter",
+      "self_prefix": "src",
+      "title": "Writer",
+      "titlepl": "Writers",
+      "fullcredits": true,
+      "keyname": "boardgamewriter"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "person",
+      "other_subtype": "boardgameinsertdesigner",
+      "linktype": "boardgameinsertdesigner",
+      "self_prefix": "src",
+      "title": "Insert Designer",
+      "titlepl": "Insert Designers",
+      "fullcredits": true,
+      "keyname": "boardgameinsertdesigner"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "family",
+      "other_subtype": "boardgamehonor",
+      "lookup_subtype": "boardgamehonor",
+      "linktype": "boardgamehonor",
+      "self_prefix": "src",
+      "title": "Honors",
+      "keyname": "boardgamehonor"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "property",
+      "other_subtype": "boardgamecategory",
+      "lookup_subtype": "boardgamecategory",
+      "linktype": "boardgamecategory",
+      "self_prefix": "src",
+      "title": "Category",
+      "titlepl": "Categories",
+      "showall_ctrl": true,
+      "fullcredits": true,
+      "overview_count": 5,
+      "keyname": "boardgamecategory"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "property",
+      "other_subtype": "boardgamemechanic",
+      "lookup_subtype": "boardgamemechanic",
+      "linktype": "boardgamemechanic",
+      "self_prefix": "src",
+      "title": "Mechanism",
+      "titlepl": "Mechanisms",
+      "showall_ctrl": true,
+      "fullcredits": true,
+      "overview_count": 5,
+      "keyname": "boardgamemechanic"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "lookup_subtype": "boardgame",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgameexpansion",
+      "linktype": "boardgameexpansion",
+      "self_prefix": "src",
+      "title": "Expansion",
+      "keyname": "boardgameexpansion"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "version",
+      "other_subtype": "boardgameversion",
+      "linktype": "boardgameversion",
+      "other_is_dependent": true,
+      "required": true,
+      "loadlinks": true,
+      "self_prefix": "src",
+      "title": "Version",
+      "createtitle": "Versions",
+      "hidecontrols": true,
+      "keyname": "boardgameversion"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgame",
+      "lookup_subtype": "boardgame",
+      "linktype": "boardgameexpansion",
+      "self_prefix": "dst",
+      "title": "Expands",
+      "overview_count": 100,
+      "keyname": "expandsboardgame"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgame",
+      "lookup_subtype": "boardgame",
+      "linktype": "boardgameintegration",
+      "correctioncomment": "Only for stand-alone games that integrate with other stand-alone games. \u003Cb\u003ENOT\u003C/b\u003E for expansions.",
+      "self_prefix": "src",
+      "title": "Integrates With",
+      "overview_count": 4,
+      "keyname": "boardgameintegration"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgame",
+      "lookup_subtype": "boardgame",
+      "linktype": "boardgamecompilation",
+      "self_prefix": "dst",
+      "correctioncomment": "Items contained in this item (if this is a compilation, for example)",
+      "title": "Contains",
+      "overview_count": 4,
+      "keyname": "contains"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "lookup_subtype": "boardgame",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgame",
+      "linktype": "boardgamecompilation",
+      "self_prefix": "src",
+      "title": "Contained in",
+      "keyname": "containedin"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "lookup_subtype": "boardgame",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgame",
+      "linktype": "boardgameimplementation",
+      "self_prefix": "src",
+      "correctioncomment": "Add the \"child\" item(s) that reimplement this game",
+      "title": "Reimplemented By",
+      "overview_count": 4,
+      "keyname": "reimplementation"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgame",
+      "lookup_subtype": "boardgame",
+      "linktype": "boardgameimplementation",
+      "self_prefix": "dst",
+      "correctioncomment": "Add the \"parent\" item(s) for this game, if it reimplements a previous game",
+      "title": "Reimplements",
+      "overview_count": 4,
+      "keyname": "reimplements"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "family",
+      "other_subtype": "boardgamefamily",
+      "lookup_subtype": "boardgamefamily",
+      "linktype": "boardgamefamily",
+      "self_prefix": "src",
+      "fullcredits": true,
+      "title": "Family",
+      "overview_count": 10,
+      "keyname": "boardgamefamily"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "thing",
+      "other_subtype": "videogamebg",
+      "lookup_subtype": "videogame",
+      "linktype": "videogamebg",
+      "self_prefix": "src",
+      "adminonly": true,
+      "title": "Video Game Adaptation",
+      "titlepl": "Video Game Adaptations",
+      "keyname": "videogamebg"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "family",
+      "other_subtype": "boardgamesubdomain",
+      "lookup_subtype": "boardgamesubdomain",
+      "linktype": "boardgamesubdomain",
+      "polltype": "boardgamesubdomain",
+      "display_inline": true,
+      "self_prefix": "src",
+      "title": "Type",
+      "showall_ctrl": true,
+      "hidecontrols": true,
+      "createposttext": "Enter the subdomain for this item.",
+      "keyname": "boardgamesubdomain"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "thing",
+      "other_subtype": "boardgameaccessory",
+      "lookup_subtype": "boardgameaccessory",
+      "linktype": "boardgameaccessory",
+      "self_prefix": "src",
+      "title": "Accessory",
+      "titlepl": "Accessories",
+      "addnew": true,
+      "keyname": "boardgameaccessory"
+    },
+    {
+      "datatype": "geekitem_linkdata",
+      "other_objecttype": "family",
+      "other_subtype": "cardset",
+      "linktype": "cardset",
+      "self_prefix": "src",
+      "title": "Card Set",
+      "hidecontrols": true,
+      "keyname": "cardset"
+    },
+    {
+      "datatype": "geekitem_polldata",
+      "title": "User Suggested # of Players",
+      "polltype": "numplayers",
+      "keyname": "userplayers"
+    },
+    {
+      "datatype": "geekitem_polldata",
+      "title": "User Suggested Ages",
+      "polltype": "playerage",
+      "keyname": "playerage"
+    },
+    {
+      "datatype": "geekitem_polldata",
+      "title": "Language Dependence",
+      "polltype": "languagedependence",
+      "keyname": "languagedependence"
+    },
+    {
+      "datatype": "geekitem_polldata",
+      "title": "Subdomain",
+      "polltype": "boardgamesubdomain",
+      "keyname": "subdomain"
+    },
+    {
+      "datatype": "geekitem_polldata",
+      "title": "Weight",
+      "polltype": "boardgameweight",
+      "keyname": "boardgameweight"
+    }
+  ],
+  "linkdata": [],
+  "config": {
+    "numitems": 100,
+    "sortdata": [
+      {
+        "title": "Name",
+        "hidden": true,
+        "key": "name"
+      },
+      {
+        "title": "Rank",
+        "onzero": "N/A",
+        "key": "rank"
+      },
+      {
+        "title": "Num Ratings",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?rated=1",
+        "key": "usersrated"
+      },
+      {
+        "title": "Average Rating",
+        "string_format": "%0.2f",
+        "key": "average"
+      },
+      {
+        "title": "Average Weight",
+        "string_format": "%0.2f",
+        "key": "avgweight"
+      },
+      {
+        "title": "Num Owned",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?own=1",
+        "key": "numowned"
+      },
+      {
+        "title": "Prev. Owned",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?prevown=1",
+        "key": "numprevowned"
+      },
+      {
+        "title": "For Trade",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?fortrade=1",
+        "key": "numtrading"
+      },
+      {
+        "title": "Want in Trade",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?want=1",
+        "key": "numwanting"
+      },
+      {
+        "title": "Wishlist",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?wishlist=1",
+        "key": "numwish"
+      },
+      {
+        "title": "Comments",
+        "href": "/collection/items/{$other_subtype}/{$item.objectid}?comment=1",
+        "key": "numcomments"
+      },
+      {
+        "title": "Year Released",
+        "key": "yearpublished"
+      }
+    ],
+    "filters": [
+      {
+        "key": "categoryfilter",
+        "options": [
+          {
+            "objectid": "1009",
+            "name": "Abstract Strategy"
+          },
+          {
+            "objectid": "1032",
+            "name": "Action / Dexterity"
+          },
+          {
+            "objectid": "1022",
+            "name": "Adventure"
+          },
+          {
+            "objectid": "2726",
+            "name": "Age of Reason"
+          },
+          {
+            "objectid": "1055",
+            "name": "American West"
+          },
+          {
+            "objectid": "1050",
+            "name": "Ancient"
+          },
+          {
+            "objectid": "1089",
+            "name": "Animals"
+          },
+          {
+            "objectid": "2650",
+            "name": "Aviation / Flight"
+          },
+          {
+            "objectid": "1023",
+            "name": "Bluffing"
+          },
+          {
+            "objectid": "1002",
+            "name": "Card Game"
+          },
+          {
+            "objectid": "1029",
+            "name": "City Building"
+          },
+          {
+            "objectid": "1015",
+            "name": "Civilization"
+          },
+          {
+            "objectid": "1044",
+            "name": "Collectible Components"
+          },
+          {
+            "objectid": "1116",
+            "name": "Comic Book / Strip"
+          },
+          {
+            "objectid": "1039",
+            "name": "Deduction"
+          },
+          {
+            "objectid": "1017",
+            "name": "Dice"
+          },
+          {
+            "objectid": "1021",
+            "name": "Economic"
+          },
+          {
+            "objectid": "1094",
+            "name": "Educational"
+          },
+          {
+            "objectid": "1084",
+            "name": "Environmental"
+          },
+          {
+            "objectid": "1042",
+            "name": "Expansion for Base-game"
+          },
+          {
+            "objectid": "1020",
+            "name": "Exploration"
+          },
+          {
+            "objectid": "1010",
+            "name": "Fantasy"
+          },
+          {
+            "objectid": "1013",
+            "name": "Farming"
+          },
+          {
+            "objectid": "1046",
+            "name": "Fighting"
+          },
+          {
+            "objectid": "1024",
+            "name": "Horror"
+          },
+          {
+            "objectid": "1079",
+            "name": "Humor"
+          },
+          {
+            "objectid": "1088",
+            "name": "Industry / Manufacturing"
+          },
+          {
+            "objectid": "1035",
+            "name": "Medieval"
+          },
+          {
+            "objectid": "1047",
+            "name": "Miniatures"
+          },
+          {
+            "objectid": "1064",
+            "name": "Movies / TV / Radio theme"
+          },
+          {
+            "objectid": "1082",
+            "name": "Mythology"
+          },
+          {
+            "objectid": "1008",
+            "name": "Nautical"
+          },
+          {
+            "objectid": "1026",
+            "name": "Negotiation"
+          },
+          {
+            "objectid": "1093",
+            "name": "Novel-based"
+          },
+          {
+            "objectid": "1098",
+            "name": "Number"
+          },
+          {
+            "objectid": "1030",
+            "name": "Party Game"
+          },
+          {
+            "objectid": "1090",
+            "name": "Pirates"
+          },
+          {
+            "objectid": "2710",
+            "name": "Post-Napoleonic"
+          },
+          {
+            "objectid": "1036",
+            "name": "Prehistoric"
+          },
+          {
+            "objectid": "1120",
+            "name": "Print & Play"
+          },
+          {
+            "objectid": "1028",
+            "name": "Puzzle"
+          },
+          {
+            "objectid": "1031",
+            "name": "Racing"
+          },
+          {
+            "objectid": "1037",
+            "name": "Real-time"
+          },
+          {
+            "objectid": "1115",
+            "name": "Religious"
+          },
+          {
+            "objectid": "1016",
+            "name": "Science Fiction"
+          },
+          {
+            "objectid": "1113",
+            "name": "Space Exploration"
+          },
+          {
+            "objectid": "1081",
+            "name": "Spies/Secret Agents"
+          },
+          {
+            "objectid": "1086",
+            "name": "Territory Building"
+          },
+          {
+            "objectid": "1034",
+            "name": "Trains"
+          },
+          {
+            "objectid": "1011",
+            "name": "Transportation"
+          },
+          {
+            "objectid": "1097",
+            "name": "Travel"
+          },
+          {
+            "objectid": "1101",
+            "name": "Video Game Theme"
+          },
+          {
+            "objectid": "1019",
+            "name": "Wargame"
+          },
+          {
+            "objectid": "2481",
+            "name": "Zombies"
+          }
+        ],
+        "title": "Category"
+      },
+      {
+        "key": "mechanicfilter",
+        "options": [
+          {
+            "objectid": "2073",
+            "name": "Acting"
+          },
+          {
+            "objectid": "2838",
+            "name": "Action Drafting"
+          },
+          {
+            "objectid": "2001",
+            "name": "Action Points"
+          },
+          {
+            "objectid": "2689",
+            "name": "Action Queue"
+          },
+          {
+            "objectid": "2847",
+            "name": "Advantage Token"
+          },
+          {
+            "objectid": "2916",
+            "name": "Alliances"
+          },
+          {
+            "objectid": "2080",
+            "name": "Area Majority / Influence"
+          },
+          {
+            "objectid": "2046",
+            "name": "Area Movement"
+          },
+          {
+            "objectid": "2920",
+            "name": "Auction: Sealed Bid"
+          },
+          {
+            "objectid": "2012",
+            "name": "Auction/Bidding"
+          },
+          {
+            "objectid": "2903",
+            "name": "Automatic Resource Growth"
+          },
+          {
+            "objectid": "2014",
+            "name": "Betting and Bluffing"
+          },
+          {
+            "objectid": "2999",
+            "name": "Bingo"
+          },
+          {
+            "objectid": "2913",
+            "name": "Bribery"
+          },
+          {
+            "objectid": "2018",
+            "name": "Campaign / Battle Card Driven"
+          },
+          {
+            "objectid": "2857",
+            "name": "Card Play Conflict Resolution"
+          },
+          {
+            "objectid": "2887",
+            "name": "Catch the Leader"
+          },
+          {
+            "objectid": "2956",
+            "name": "Chaining"
+          },
+          {
+            "objectid": "2984",
+            "name": "Closed Drafting"
+          },
+          {
+            "objectid": "2013",
+            "name": "Commodity Speculation"
+          },
+          {
+            "objectid": "2912",
+            "name": "Contracts"
+          },
+          {
+            "objectid": "2023",
+            "name": "Cooperative Game"
+          },
+          {
+            "objectid": "2664",
+            "name": "Deck, Bag, and Pool Building"
+          },
+          {
+            "objectid": "2072",
+            "name": "Dice Rolling"
+          },
+          {
+            "objectid": "2856",
+            "name": "Die Icon Resolution"
+          },
+          {
+            "objectid": "3096",
+            "name": "Drawing"
+          },
+          {
+            "objectid": "2882",
+            "name": "Elapsed Real Time Ending"
+          },
+          {
+            "objectid": "2043",
+            "name": "Enclosure"
+          },
+          {
+            "objectid": "2875",
+            "name": "End Game Bonuses"
+          },
+          {
+            "objectid": "2850",
+            "name": "Events"
+          },
+          {
+            "objectid": "2885",
+            "name": "Finale Ending"
+          },
+          {
+            "objectid": "2978",
+            "name": "Grid Coverage"
+          },
+          {
+            "objectid": "2676",
+            "name": "Grid Movement"
+          },
+          {
+            "objectid": "2040",
+            "name": "Hand Management"
+          },
+          {
+            "objectid": "2026",
+            "name": "Hexagon Grid"
+          },
+          {
+            "objectid": "2891",
+            "name": "Hidden Roles"
+          },
+          {
+            "objectid": "2987",
+            "name": "Hidden Victory Points"
+          },
+          {
+            "objectid": "2906",
+            "name": "I Cut, You Choose"
+          },
+          {
+            "objectid": "2902",
+            "name": "Income"
+          },
+          {
+            "objectid": "2914",
+            "name": "Increase Value of Unchosen Resources"
+          },
+          {
+            "objectid": "2837",
+            "name": "Interrupts"
+          },
+          {
+            "objectid": "3001",
+            "name": "Layering"
+          },
+          {
+            "objectid": "2975",
+            "name": "Line of Sight"
+          },
+          {
+            "objectid": "2904",
+            "name": "Loans"
+          },
+          {
+            "objectid": "2959",
+            "name": "Map Addition"
+          },
+          {
+            "objectid": "2900",
+            "name": "Market"
+          },
+          {
+            "objectid": "2047",
+            "name": "Memory"
+          },
+          {
+            "objectid": "2011",
+            "name": "Modular Board"
+          },
+          {
+            "objectid": "2962",
+            "name": "Move Through Deck"
+          },
+          {
+            "objectid": "3099",
+            "name": "Multi-Use Cards"
+          },
+          {
+            "objectid": "2851",
+            "name": "Narrative Choice / Paragraph"
+          },
+          {
+            "objectid": "2915",
+            "name": "Negotiation"
+          },
+          {
+            "objectid": "2081",
+            "name": "Network and Route Building"
+          },
+          {
+            "objectid": "2846",
+            "name": "Once-Per-Game Abilities"
+          },
+          {
+            "objectid": "2041",
+            "name": "Open Drafting"
+          },
+          {
+            "objectid": "2055",
+            "name": "Paper-and-Pencil"
+          },
+          {
+            "objectid": "2048",
+            "name": "Pattern Building"
+          },
+          {
+            "objectid": "2685",
+            "name": "Player Elimination"
+          },
+          {
+            "objectid": "2078",
+            "name": "Point to Point Movement"
+          },
+          {
+            "objectid": "2661",
+            "name": "Push Your Luck"
+          },
+          {
+            "objectid": "2876",
+            "name": "Race"
+          },
+          {
+            "objectid": "2870",
+            "name": "Re-rolling and Locking"
+          },
+          {
+            "objectid": "2831",
+            "name": "Real-Time"
+          },
+          {
+            "objectid": "3103",
+            "name": "Resource Queue"
+          },
+          {
+            "objectid": "2028",
+            "name": "Role Playing"
+          },
+          {
+            "objectid": "2035",
+            "name": "Roll / Spin and Move"
+          },
+          {
+            "objectid": "2813",
+            "name": "Rondel"
+          },
+          {
+            "objectid": "2822",
+            "name": "Scenario / Mission / Campaign Game"
+          },
+          {
+            "objectid": "2016",
+            "name": "Secret Unit Deployment"
+          },
+          {
+            "objectid": "2820",
+            "name": "Semi-Cooperative Game"
+          },
+          {
+            "objectid": "2004",
+            "name": "Set Collection"
+          },
+          {
+            "objectid": "2070",
+            "name": "Simulation"
+          },
+          {
+            "objectid": "2020",
+            "name": "Simultaneous Action Selection"
+          },
+          {
+            "objectid": "3005",
+            "name": "Slide/Push"
+          },
+          {
+            "objectid": "2819",
+            "name": "Solo / Solitaire Game"
+          },
+          {
+            "objectid": "2940",
+            "name": "Square Grid"
+          },
+          {
+            "objectid": "2853",
+            "name": "Stat Check Resolution"
+          },
+          {
+            "objectid": "2861",
+            "name": "Static Capture"
+          },
+          {
+            "objectid": "2027",
+            "name": "Storytelling"
+          },
+          {
+            "objectid": "3100",
+            "name": "Tags"
+          },
+          {
+            "objectid": "2686",
+            "name": "Take That"
+          },
+          {
+            "objectid": "2019",
+            "name": "Team-Based Game"
+          },
+          {
+            "objectid": "2849",
+            "name": "Tech Trees / Tech Tracks"
+          },
+          {
+            "objectid": "2002",
+            "name": "Tile Placement"
+          },
+          {
+            "objectid": "2939",
+            "name": "Track Movement"
+          },
+          {
+            "objectid": "2008",
+            "name": "Trading"
+          },
+          {
+            "objectid": "2814",
+            "name": "Traitor Game"
+          },
+          {
+            "objectid": "2888",
+            "name": "Tug of War"
+          },
+          {
+            "objectid": "2829",
+            "name": "Turn Order: Claim Action"
+          },
+          {
+            "objectid": "2828",
+            "name": "Turn Order: Progressive"
+          },
+          {
+            "objectid": "2826",
+            "name": "Turn Order: Stat-Based"
+          },
+          {
+            "objectid": "2663",
+            "name": "Turn Order: Time Track"
+          },
+          {
+            "objectid": "2015",
+            "name": "Variable Player Powers"
+          },
+          {
+            "objectid": "2897",
+            "name": "Variable Set-up"
+          },
+          {
+            "objectid": "2874",
+            "name": "Victory Points as a Resource"
+          },
+          {
+            "objectid": "2017",
+            "name": "Voting"
+          },
+          {
+            "objectid": "2082",
+            "name": "Worker Placement"
+          },
+          {
+            "objectid": "2933",
+            "name": "Worker Placement, Different Worker Types"
+          },
+          {
+            "objectid": "2974",
+            "name": "Zone of Control"
+          }
+        ],
+        "title": "Mechanic"
+      }
+    ]
+  }
+}
+```
+
+After, I added the `-s` flag for `CURL` to prevent getting status logs and just get the list of board games. I found that the for loop could iterate to an arbitrarily large value, like `50`, and that all the requests would be empty afterwards anyway.
+
+```bash
+for (( i=0; i<50; i++ )); do                                                                                                      
+    # Fetch data using curl and parse it with jq 
+    # The -s flag is used to suppress the progress meter and other non-error output
+    result=$(curl -s GET "https://api.geekdo.com/api/geekitem/linkeditems?ajax=1&linkdata_index=boardgame&nosession=1&objectid=8832&objecttype=company&pageid=$i&showcount=25&sort=name&subtype=boardgamepublisher") 
+    
+    # Use jq to parse JSON and extract the .items[].name field                                                                   
+    echo "$result" | jq '.items[].name'                                                                                          
+done
+```
+
+I improved the script to automatically terminate instead of using an arbitrary guess for the number of pages by implementing a while loop, and using the `-z` bash flag to check if null.
+
+```bash
+i=0;
+while true; do
+    ((i++));
+    # Fetch data using curl and parse it with jq 
+    # The -s flag is used to suppress the progress meter and other non-error output
+    result=$(curl -s GET "https://api.geekdo.com/api/geekitem/linkeditems?ajax=1&linkdata_index=boardgame&nosession=1&objectid=8832&objecttype=company&pageid=$i&showcount=25&sort=name&subtype=boardgamepublisher");
+    
+    # Use jq to parse JSON and extract the .items[].name field                                                                   
+    parsed=$(echo "$result" | jq '.items[].name');
+    if [ -z "$parsed" ]; then
+        break
+    fi
+    echo "$parsed";
+done
+```
+
+```shell
+"Agricola"
+"Agricola (Revised Edition)"
+"Agricola: All Creatures Big and Small – The Big Box"
+"Agricola: Artifex Deck"
+"Agricola: Corbarius Deck"
+"Agricola: Family Edition"
+"Airship City"
+"Bärenpark"
+"Bärenpark: The Bad News Bears"
+"The Big Idea"
+"The Big Idea: La Science-Fiction Médiévale"
+"The Binding of Isaac: Four Souls"
+"The Binding of Isaac: Four Souls – Tapeworm Promo Cards"
+"The Binding of Isaac: Four Souls – Ultimate Collector's Edition"
+"The Binding of Isaac: Four Souls +"
+"The Binding of Isaac: Four Souls Requiem"
+"Bloodborne: The Board Game"
+"Brass: Birmingham"
+"Brass: Lancashire"
+"Caverna: Cave vs Cave"
+"Caverna: The Cave Farmers"
+"DONUTS"
+"Evolution"
+"Evolution: Climate"
+"Evolution: Promo Pack IV"
+"Agricola"
+"Agricola (Revised Edition)"
+"Agricola: All Creatures Big and Small – The Big Box"
+"Agricola: Artifex Deck"
+"Agricola: Corbarius Deck"
+"Agricola: Family Edition"
+"Airship City"
+"Bärenpark"
+"Bärenpark: The Bad News Bears"
+"The Big Idea"
+"The Big Idea: La Science-Fiction Médiévale"
+"The Binding of Isaac: Four Souls"
+"The Binding of Isaac: Four Souls – Tapeworm Promo Cards"
+"The Binding of Isaac: Four Souls – Ultimate Collector's Edition"
+"The Binding of Isaac: Four Souls +"
+"The Binding of Isaac: Four Souls Requiem"
+"Bloodborne: The Board Game"
+"Brass: Birmingham"
+"Brass: Lancashire"
+"Caverna: Cave vs Cave"
+"Caverna: The Cave Farmers"
+"DONUTS"
+"Evolution"
+"Evolution: Climate"
+"Evolution: Promo Pack IV"
+"Expedition to Newdale"
+"Fairy Trails"
+"Far Cry: Beyond"
+"Fight for Olympus"
+"Foothills"
+"Gingerbread House"
+"Glasgow"
+"Grand Austria Hotel"
+"Great Plains"
+"Hallertau"
+"HOP!"
+"Illusio"
+"Isla Dorada"
+"Isle of Skye: Druids"
+"Isle of Skye: From Chieftain to King"
+"Isle of Skye: Journeyman"
+"Llamaland"
+"Mandala"
+"Monumental"
+"Monumental Duel: Espionage"
+"Monumental Duel: Exploration"
+"Monumental Duel: Trade"
+"Monumental: African Empires"
+"Monumental: Lost Kingdoms"
+"Namiji"
+"Namiji: Aquamarine"
+"Namiji: Deluxe Edition"
+"Nemesis"
+"Nemesis: Lockdown"
+"Nemesis: Lockdown – Stretch Goals"
+"Nemesis: Untold Stories #1"
+"Nemesis: Untold Stories #2"
+"Night of the Living Dead: A Zombicide Game"
+"Oceans"
+"Patchwork"
+"Patchwork Doodle"
+"Patchwork Express"
+"The Phantom Society"
+"Piepmatz"
+"Pocket Madness"
+"Pony Express"
+"Port Royal: Big Box"
+"Professor Evil and The Citadel of Time"
+"Professor Evil and the Citadel of Time: Professor Evil and the Architects of Magic"
+"Project: ELITE"
+"Quantum"
+"Quantum: Entanglement Add-on Pack"
+"Quantum: The Void"
+"Robin of Locksley"
+"Runemasters"
+"Sagani"
+"Samurai Spirit"
+"Samurai Spirit: The 8th Boss"
+"Sheriff of Nottingham: 2nd Edition"
+"Spy Connection"
+"Tapas"
+"Tindaya"
+"Titan Race"
+"Tokaido"
+"Tokaido Collector's Edition"
+"Tokaido Duo"
+"Tokaido: Crossroads"
+"Tokaido: Deluxe Edition"
+"Tokaido: Eriku"
+"Tokaido: Felicia Promo Card"
+"Tokaido: Matsuri"
+"Tokaido: The New Encounters"
+"Trambahn"
+"Viceroy"
+"Warehouse 51"
+"Warehouse 51: Promo Cards"
+"Who Would Win"
+"WolfWalkers: My Story"
+"ZNA"
+"Zona: The Secret of Chernobyl"
+```
+
+# Other Random Linux Scripts/Things
+
+Towards the latter half of the semester I switched from Windows to PopOs (an Ubuntu fork), and have been loving it. Here's a list of random Linux-y things I've figured out and done...
+
+## Desktop Entries
+
+![Desktop entry syntax](Linux-desktopentry_0001.webp)
+
+I learned a bit about how to set up desktop entries on popos with gnome desktop. These are items displayed on the desktop of the computer, that have customized functionality specified in a specially formatted desktop file. Archwiki explains,
+
+> Desktop entries for applications, or .desktop files, are generally a combination of meta information resources and a shortcut of an application. These files usually reside in `/usr/share/applications/` or `/usr/local/share/applications/` for applications installed system-wide, or `~/.local/share/applications/` for user-specific applications. User entries take precedence over system entries.
+
+```shell
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=Chrome - Primary
+Exec=/usr/bin/google-chrome-stable --profile-directory="Default"
+Icon=google-chrome
+```
+
+![My desktop entries](Screenshot_from_2024-04-18_19-09-41_0001.png)
+
+This then makes icons on your desktop that can do specific actions. I added some for chrome so that it launches chrome with a specific chrome profile (for example, a chrome profile on my desktop that launches me into my CWRU google account when it boots). It's super useful. Later on I added some for other accounts too.
+
+## Getting Fingerprint Sensor working
+
+Getting fingerprint detection to work on my laptop with Linux was a bit annoying. I was able to make it work with a lot of trial and error and some help from `ChatGPT`. After I got it working, I wanted to be able to use my fingerprint for `sudo` instead of typing in my password every single time. To get this working, I followed the following steps...
+
+ChatGPT instructions that seemed to work
+
+```markdown
+1) install fprintd: use the following command to install fprintd. sudo apt-get install fprintd 
+2) enroll your fingerprint: enroll your right index finger with the following command. `fprintd-enroll -f right-index-finger`   
+3) install libpam-fprintd: install this pam module to enable fingerprint authentication. `sudo apt-get install libpam-fprintd`          
+who uses 4 configure pam: open /etc/pam.d/common-auth in a text editor with root privileges.  You can use nano editor with the following command. sudo nano /etc/pam.d/common-auth
+5) add the following line at the top of the file. `auth [success=2 default=ignore] pam_fprintd.so`
+
+> The auth [success=2 default=ignore] pam_fprintd.so line in the PAM (Pluggable Authentication Modules)      
+> configuration file is used for fingerprint authentication. If the fingerprint authentication is successful,
+> it will skip the next two lines specified in the configuration. If fingerprint authentication fails, it    
+> will continue with the default behavior specified in the configuration.  
+
+6) save and close the file. if you are using nano, you can do this by pressing ctrl + x, then y, then enter.    
+7) test: try using sudo command. it should now ask for your fingerprint.
+```
+
+![The place where fingerprints get stored](Screenshot_from_2024-04-21_21-06-17_0001.png)
+
+After a bit of additional research:
+
+* `fprintd` is a library for storing fingerprints of a user in a local database. It stores them (by default) in `/var/lib/fprint/`. I was curious, so I searched and found the actual fingerpint file, which was a binary file,, under `/var/lib/fprint/wolf/goodixmoc/UIDFAE70212_XXXX_MOC_B0/7`. You can use commands like `fprintd-enroll` and `fprintd-verify` to manage fingerprints.
+* PAM seems to be some sort of tool that acts as an intermediary between the actual authentication methods and the program trying to do authentication. So like, you can use fingerprint auth, password auth, or something else, and just change the PAM config.
+
+## Getting Hibernation working
+
+I followed [this](https://abskmj.github.io/notes/) guide to set up a swap partition and get hibernation to work. It was a bit annoying to do but I got it working where when my computer hibernates it moves all the ram into a specific disc swap partition and then powers off, and can restore from it.
+
+## Automatic mount Google Drive
+
+I wrote a very simple cronjob to call a python script I wrote to automatically mount my Google Drives as hard drives using `rclone`, which is a CLI tool for mounting cloud storage drives with an interface similar to `rsync`.
+
+Then, later, after writing the script I added an automatic call to my crontab.
+
+`@reboot nohup /usr/bin/python3 /home/wolf/Scripts/rclone.py`
+
+```python
+import subprocess
+from time import sleep
+import logging
+from os import listdir, makedirs as mkdirs
+
+REMOTES = ("Primary", "School",)
+BINARY = "/usr/bin/rclone"
+LOGS = "/home/wolf/Scripts/logs"
+
+
+open(LOGS + "/rclone.log", "a", encoding="utf-8").close()
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+	level=logging.INFO,
+    filename=LOGS + "/rclone.log",
+    format='%(asctime)s %(levelname)s - %(message)s'
+)
+
+def mount(binary, remote, directory):
+    subprocess.Popen([binary, "mount", f"{remote}:", directory])
+    logging.info(f"Mounted {remote} to {directory}")
+
+def isMounted(directory):
+    try:
+        if listdir(directory):
+            logger.debug("Remote %s is already mounted", remote)
+            return True
+        else:
+            logger.debug("Remote %s is not mounted.", remote)
+            return False
+    except FileNotFoundError:
+        logger.warning("Creating directory for remote %s since it did not exist", remote)
+        mkdirs(directory)
+        return False
+
+while True:
+    for remote in REMOTES:
+        directory = f"~/GDrive/{remote}"
+
+        if not isMounted(directory):
+            mount(BINARY, remote, directory)
+
+    sleep(2)
+```
+
+## Random Vim Things
+
+![NVim telescope search](Screenshot_from_2024-04-16_18-17-38_0001.png)
+![NVim With File Tree](Screenshot_from_2024-04-16_18-15-57_0001.png)
+
+Since the start of this course I've begun to use vimkeys for everything. I touch type very fast (120+) so I thought it'd be worth the effort to learn keybinds. Here's some fun things I've figured out:
+
+* I configured `neovim` using `vim-plug` to have language engine support so that I can get error checking. I also have symbol tab support and set up github Copilot.
+* `zz` centers your cursor on the page. If the majority of the page is above the cursor this can help center things so you can see more on either side of the cursor.
+* `vi"` selects everything inside quotes. Then you can do `"+p` to paste from clipboard into them
+* Following two keybinds work for any letter (not just "A"):
+  * `mA` sets a global marker `A` which you can go to with \`A.
+  * `qa` begins recording a macro `a`. Then `q` again to stop recording. Then `@a` to play it back. Or `<num>@a`!
+  * `==` automatically aligns the current line
+  * `V` selects the current line. So you can also do `Vd` instead of `dd` to delete a line.
+  * `T` (not `t`) goes up to the first occurrence backwards. Then pressing `;` to progress forward through matches also goes backwards.
+
+```lua
+-- My NVIM config (scrapped together from various internet sources with some personalizations too)
+
+local vim = vim
+local Plug = vim.fn['plug#']
+
+vim.opt.relativenumber = true                                              
+vim.opt.tabstop = 2                                                        
+vim.opt.shiftwidth = 2
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+vim.api.nvim_set_keymap('i', '<C-j>', '<C-n>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('i', '<C-k>', '<C-p>', {noremap = true, silent = true})
+
+vim.api.nvim_set_keymap('i', '<S-Tab>', 'coc#_select_confirm()', {expr = true, silent = true})
+
+vim.call('plug#begin')
+
+-- Add basic plugins
+Plug('junegunn/vim-easy-align')
+Plug('neoclide/coc.nvim')
+Plug('nvim-tree/nvim-tree.lua')
+Plug('nvim-tree/nvim-web-devicons') 
+
+-- Setup bar for tabs
+Plug('lewis6991/gitsigns.nvim') 
+Plug('nvim-tree/nvim-web-devicons')
+Plug('romgrk/barbar.nvim')
+
+-- Add search plugin
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-telescope/telescope.nvim')
+
+vim.call('plug#end')
+
+-- Setup telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+-- Finish setting up nvim tree
+require("nvim-tree").setup({
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+```
+
+I also configured my vscode vimkeys settings. I made it so that `control + u`, which normally scrolls up half a page, automatically then aligns the page such that the cursor is centered. Also, I added cords for `leader, h` and `leader l` to switch between split screen tabs. Finally, one interesting and slightly solution to a problem I was facing: I remapped `o` to `["I", "Enter"]`, which puts the cursor in insert mode at the end of the current line, and presses enter. This does the same thing as `o`, but in order to trigger Github copilot you need to press enter, and this seems to get it to trigger (whereas just pressing `o` to open a line does not).
+
+```json
+[
+  {
+    "before": [
+      "<C-u>"
+    ],
+    "after": [
+      "<C-u>",
+      "z",
+      "z"
+    ]
+  },
+  {
+    "before": [
+      "<C-d>"
+    ],
+    "after": [
+      "<C-d>",
+      "z",
+      "z"
+    ]
+  },
+  {
+    "before": [
+      "<leader>",
+      "h"
+    ],
+    "commands": [
+      "workbench.action.focusLeftGroup"
+    ]
+  },
+  {
+    "before": [
+      "<leader>",
+      "l"
+    ],
+    "commands": [
+      "workbench.action.focusRightGroup"
+    ]
+  },
+  {
+    "before": [
+      "<leader>",
+      "s",
+      "p"
+    ],
+    "commands": [
+      "editor.action.quickFix"
+    ]
+  },
+  {
+    "before": [
+      "<leader>",
+      "s"
+    ],
+    "commands": [
+      "workbench.view.explorer"
+    ]
+  },
+  {
+    "before": [
+      "o"
+    ],
+    "after": [
+      "A",
+      "Enter"
+    ]
+  },
+  {
+    "before": [
+      "O"
+    ],
+    "after": [
+      "I",
+      "Enter",
+      "Up"
+    ]
+  },
+  {
+    "before": [
+      "<leader>",
+      "p"
+    ],
+    "commands": [
+      "editor.action.formatDocument"
+    ]
+  }
+]
+```
+
+## Stuff I added to my `.bashrc`
+
+This was all iterative and I added more things as the semester went along. The main things of note:
+
+* Aliases for:
+  * `suspend` and `hibernate`
+  * Editing my `bashrc` itself and then reloading it
+  * Launching `chrome` with a specific user logged in to Google
+* My `Zoxide` installation (an alternative for CD that remembers commonly used paths to help you find them)
+* `control k` or `control j`
+* Exporting some API keys that I always want access to
+
+```bash
+# Basic power aliases
+alias hibernate="systemctl hibernate"
+alias suspend="systemctl suspend"
+
+# Add alias for editing this file
+alias shelledit='vim ~/.bashrc'
+alias shellreload='source ~/.bashrc'
+
+# Add alias for passing clipboard
+alias clip='xclip -selection clipboard'
+
+# Install zoxide CD alternative
+eval "$(zoxide init bash)"
+
+# Improve shell history
+bind "\C-k":history-search-backward
+bind "\C-j":history-search-forward
+
+# Add pip alises
+alias gpt='/home/wolf/.local/bin/gpt --model gpt-4 --log_file ~/Logs/gpt4'
+alias cheapt='/home/wolf/.local/bin/gpt --model gpt-3.5-turbo-0125 --log_file ~/Logs/gpt3'
+alias black='/home/wolf/.local/bin/black'
+
+# Add open with explorer alias
+alias explorer='nautilus .'
+
+# Add chrome open alias
+alias chrome='/usr/bin/google-chrome-stable --profile-directory="Default"'
+alias chrome-school='/usr/bin/google-chrome-stable --profile-directory="Profile 3"'
+
+# Add alias for listing services
+alias services='systemctl list-unit-files --type service -all'
+
+export OPENAI_API_KEY=[REDACTED]
+
+# Add open with explorer alias
+alias explorer='nautilus .'
+
+# Add chrome open alias
+alias chrome='/usr/bin/google-chrome-stable --profile-directory="Default"'
+alias chrome-school='/usr/bin/google-chrome-stable --profile-directory="Profile 3"'
+
+# Add alias for listing services
+alias services='systemctl list-unit-files --type service -all'
+```
