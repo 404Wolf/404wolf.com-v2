@@ -6,16 +6,8 @@ interface TileProps extends VariantProps<typeof styles> {
   className?: string;
 }
 
-export default function Tile({
-  children,
-  kind,
-  className,
-}: TileProps) {
-  return (
-    <div className={styles({ kind, className })}>
-      {children}
-    </div>
-  );
+export default function Tile({ children, kind, className }: TileProps) {
+  return <div className={styles({ kind, className })}>{children}</div>;
 }
 
 export const styles = cva(["p-2"], {
@@ -24,6 +16,6 @@ export const styles = cva(["p-2"], {
       detail: "bg-gray-700 text-white rounded-full",
       heading: "bg-gray-500 text-white rounded-lg",
       content: "bg-gray-300 text-black rounded-lg",
-    }
-  }
+    },
+  },
 });

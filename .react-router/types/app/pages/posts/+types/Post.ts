@@ -2,22 +2,25 @@
 
 import type { GetInfo, GetAnnotations } from "react-router/internal";
 
-type Module = typeof import("../Post.js")
+type Module = typeof import("../Post.js");
 
 type Info = GetInfo<{
-  file: "pages/posts/Post.tsx",
-  module: Module
-}>
+  file: "pages/posts/Post.tsx";
+  module: Module;
+}>;
 
-type Matches = [{
-  id: "root";
-  module: typeof import("../../../root.js");
-}, {
-  id: "pages/posts/Post";
-  module: typeof import("../Post.js");
-}];
+type Matches = [
+  {
+    id: "root";
+    module: typeof import("../../../main.js");
+  },
+  {
+    id: "pages/posts/Post";
+    module: typeof import("../Post.js");
+  },
+];
 
-type Annotations = GetAnnotations<Info & { module: Module, matches: Matches }>;
+type Annotations = GetAnnotations<Info & { module: Module; matches: Matches }>;
 
 export namespace Route {
   // links
@@ -34,10 +37,12 @@ export namespace Route {
   export type HeadersFunction = Annotations["HeadersFunction"];
 
   // unstable_middleware
-  export type unstable_MiddlewareFunction = Annotations["unstable_MiddlewareFunction"];
+  export type unstable_MiddlewareFunction =
+    Annotations["unstable_MiddlewareFunction"];
 
   // unstable_clientMiddleware
-  export type unstable_ClientMiddlewareFunction = Annotations["unstable_ClientMiddlewareFunction"];
+  export type unstable_ClientMiddlewareFunction =
+    Annotations["unstable_ClientMiddlewareFunction"];
 
   // loader
   export type LoaderArgs = Annotations["LoaderArgs"];

@@ -505,7 +505,7 @@ export default function App() {
 
 ### Streaming
 
-The first step is to stream android at as low latency as possible out of the phone. As close to literal 0 as possible (so in reality, ideally <300ms). Doing this, however, is actually pretty nontrivial.
+The first step is to stream android at as low latency as possible out of the phone. As close to literal 0 as possible (so in reality, ideally \<300ms). Doing this, however, is actually pretty nontrivial.
 
 The first step is figuring out how we can stream the screen out of the android device. Obviously this is possible, because when you run android emulators (without the `-no-window` flag) you get a window that shows the screen of the android device and is interactive. Android studio also natively provides this feature.
 
@@ -642,7 +642,7 @@ Finally, there's an API to create plugins for Janus Gateway in `C`, `lua`, and e
 
 The `streaming` Janus Gateway plugin lets you read prerecorded media or access prerecorded media and broadcast it over WebRTC, but, more importantly, it also lets you pass in media over [RTC](https://en.wikipedia.org/wiki/Real-time_Transport_Protocol). Here's how they word it
 
-> the plugin is configured to listen on a few ports for RTP: this means that the plugin is implemented to receive RTP on those ports and relay them to all peers attached to that stream. Any tool that can generate audio/video RTP streams and specify a destination is good for the purpose: the examples section contains samples that make use of GStreamer (<http://gstreamer.freedesktop.org/>) but other tools like FFmpeg (<http://www.ffmpeg.org/>), LibAV (<http://libav.org/>) or others are fine as well. This makes it really easy to capture and encode whatever you want using your favourite tool, and then have it transparently broadcasted via WebRTC using Janus. Notice that we recently added the possibility to also add a datachannel track to an RTP streaming mountpoint: this allows you to send, via UDP, a text-based message to relay via datachannels (e.g., the title of the current song, if this is a radio streaming channel). When using this feature, though, beware that you'll have to stay within the boundaries of the MTU, as each message will have to stay within the size of an UDP packet.
+> the plugin is configured to listen on a few ports for RTP: this means that the plugin is implemented to receive RTP on those ports and relay them to all peers attached to that stream. Any tool that can generate audio/video RTP streams and specify a destination is good for the purpose: the examples section contains samples that make use of GStreamer (http://gstreamer.freedesktop.org/) but other tools like FFmpeg (http://www.ffmpeg.org/), LibAV (http://libav.org/) or others are fine as well. This makes it really easy to capture and encode whatever you want using your favourite tool, and then have it transparently broadcasted via WebRTC using Janus. Notice that we recently added the possibility to also add a datachannel track to an RTP streaming mountpoint: this allows you to send, via UDP, a text-based message to relay via datachannels (e.g., the title of the current song, if this is a radio streaming channel). When using this feature, though, beware that you'll have to stay within the boundaries of the MTU, as each message will have to stay within the size of an UDP packet.
 
 Literally just what I want! How convenient. But now, we have to configure it.
 

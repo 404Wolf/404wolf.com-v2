@@ -50,7 +50,7 @@ The idea hit out of the blue, quite literally, in a conversation with a friend a
 
 # How's it work?
 
-When you import <anything> from everything, dothething will use Python's AST library to scan your source code, and find all usages of <anything>. I've defined methods that will search for all usages of given functions, and can then grab parts of the code. Python's AST library is really nice because it provides line numbers with references to the exact location in the source code of different elements. It then will merge a few lines of context on both sides of every function call, along with the call itself. Then, it will use OpenAI's gpt-4o model to generate a Python function, which you can then use in your code.
+When you import \<anything\> from everything, dothething will use Python's AST library to scan your source code, and find all usages of \<anything\>. I've defined methods that will search for all usages of given functions, and can then grab parts of the code. Python's AST library is really nice because it provides line numbers with references to the exact location in the source code of different elements. It then will merge a few lines of context on both sides of every function call, along with the call itself. Then, it will use OpenAI's gpt-4o model to generate a Python function, which you can then use in your code.
 
 ![Everything CLI](everythingcli_0001.png)
 
