@@ -1,17 +1,17 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 
-import Home from "./pages/home/Home";
+import Home, { type HomeLoaderData } from "./pages/home/Home";
 import Post, { type PostLoaderData } from "./pages/posts/Post";
-import type { PostFrontmatter } from "./pages/posts/postValidation";
-import { getAllPosts } from "./pages/posts/getAllPosts";
+import type { PostFrontmatter, PostManifest } from "./pages/posts/postPlugin";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     element: <Home />,
     loader: async () => {
-      const posts = await getAllPosts();
-      return { posts };
+      const resp = await fetch("/posts-manifest.json");
+      const posts = (await resp.json()) as PostManifest;
+      return { posts } satisfies HomeLoaderData;
     },
   },
   {

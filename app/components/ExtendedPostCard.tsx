@@ -1,7 +1,7 @@
-import { Link } from "react-router";
 import { cva, type VariantProps } from "class-variance-authority";
-import Tag from "./Tag";
+import { Link } from "react-router";
 import { toTitleCase } from "../utils/misc";
+import Tag from "./Tag";
 
 export interface PostData {
   coverUrl: string | null;

@@ -1,5 +1,5 @@
-import type React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import type React from "react";
 
 interface TileProps extends VariantProps<typeof styles> {
   children: React.ReactNode;

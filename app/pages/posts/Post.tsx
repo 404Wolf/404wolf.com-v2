@@ -1,6 +1,6 @@
-import { useLoaderData } from "react-router";
 import { MDXProvider } from "@mdx-js/react";
-import type { PostFrontmatter } from "./postValidation";
+import { useLoaderData } from "react-router";
+import type { PostFrontmatter } from "./vite/postValidation";
 
 export interface PostLoaderData {
   frontmatter: PostFrontmatter;

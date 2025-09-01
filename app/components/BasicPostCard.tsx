@@ -1,24 +1,68 @@
-import { Link } from "react-router";
 import { cva, type VariantProps } from "class-variance-authority";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import type { PostFrontmatter } from "~/pages/posts/postPlugin";
+import { toTitleCase } from "../utils/misc";
 import Tag from "./Tag";
-import { toTitleCase, randomListItem } from "../utils/misc";
-
-export interface BasicPostData {
-  coverUrls: string[];
-  coverAlts: string[];
-  path: string;
-  type: string;
-  tags: string[];
-  date: string;
-  title: string;
-}
 
 interface BasicPostCardProps extends VariantProps<typeof cardVariants> {
-  post?: BasicPostData;
-  tags?: string[];
+  post: PostFrontmatter;
+  path: string;
   className?: string;
 }
+
+const BasicPostCard = ({ post, path, size, className }: BasicPostCardProps) => {
+  const [currentCoverUrl, setCurrentCoverUrl] = useState("");
+  const tagsToUse = post.tags || [];
+
+  useEffect(() => {
+    if (post?.covers) {
+      // biome-ignore lint/style/noNonNullAssertion: we know there's at least one
+      setCurrentCoverUrl(post.covers.at(0)!);
+    }
+  }, [post?.covers]);
+
+  const content = (
+    <div
+      className={imageVariants({ size, interactive: !!post })}
+      style={
+        currentCoverUrl
+          ? { backgroundImage: `url('${currentCoverUrl}')` }
+          : { backgroundColor: "rgb(90, 90, 90)" }
+      }
+    >
+      <div className="flex gap-1 absolute bottom-0 -left-2">
+        {post.type && <Tag>{toTitleCase(post.type)}</Tag>}
+        {tagsToUse.map((tag: string) => (
+          <Tag key={tag}>{toTitleCase(tag)}</Tag>
+        ))}
+      </div>
+
+      <Tag position="tr">{post.date}</Tag>
+
+      <h1
+        className="text-center text-sm sm:text-lg text-white font-bold"
+        style={{ textShadow: "0 0 14px rgba(0, 0, 0, 1)" }}
+      >
+        {post.title}
+      </h1>
+    </div>
+  );
+
+  return (
+    <div className={cardVariants({ size, className })}>
+      {post ? (
+        <Link to={path} className="block">
+          {content}
+        </Link>
+      ) : (
+        content
+      )}
+    </div>
+  );
+};
+
+export default BasicPostCard;
 
 const cardVariants = cva("relative p-2 group", {
   variants: {
@@ -53,69 +97,3 @@ const imageVariants = cva(
     },
   },
 );
-
-const BasicPostCard = ({ post, tags, size, className }: BasicPostCardProps) => {
-  const [currentCoverUrl, setCurrentCoverUrl] = useState("");
-  const tagsToUse = tags || post?.tags || [];
-
-  useEffect(() => {
-    if (post?.coverUrls?.length) {
-      const changeImage = () => {
-        setCurrentCoverUrl(randomListItem(post.coverUrls));
-      };
-
-      changeImage();
-      const interval = setInterval(changeImage, 8000);
-
-      return () => clearInterval(interval);
-    }
-  }, [post?.coverUrls]);
-
-  const content = (
-    <div
-      className={imageVariants({ size, interactive: !!post?.path })}
-      style={
-        currentCoverUrl
-          ? { backgroundImage: `url('${currentCoverUrl}')` }
-          : { backgroundColor: "rgb(90, 90, 90)" }
-      }
-    >
-      {post && (
-        <>
-          {/* Type and Tags */}
-          <div className="flex gap-1 absolute bottom-0 -left-2">
-            {post.type && <Tag>{toTitleCase(post.type)}</Tag>}
-            {tagsToUse.map((tag: string) => (
-              <Tag key={tag}>{toTitleCase(tag)}</Tag>
-            ))}
-          </div>
-
-          {/* Date */}
-          <Tag position="tr">{post.date}</Tag>
-
-          {/* Title */}
-          <h1
-            className="text-center text-sm sm:text-lg text-white font-bold"
-            style={{ textShadow: "0 0 14px rgba(0, 0, 0, 1)" }}
-          >
-            {post.title}
-          </h1>
-        </>
-      )}
-    </div>
-  );
-
-  return (
-    <div className={cardVariants({ size, className })}>
-      {post?.path ? (
-        <Link to={post.path} className="block">
-          {content}
-        </Link>
-      ) : (
-        content
-      )}
-    </div>
-  );
-};
-
-export default BasicPostCard;

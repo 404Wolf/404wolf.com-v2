@@ -1,11 +1,11 @@
-import { defineConfig } from "vite";
 import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react-swc";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import { defineConfig } from "vite";
 import viteConfigPaths from "vite-tsconfig-paths";
-import react from "@vitejs/plugin-react-swc";
-import { postValidator } from "./app/pages/posts/postValidation";
+import { postPlugin } from "./app/pages/posts/postPlugin";
 
 export default defineConfig({
   base: "",
@@ -19,11 +19,12 @@ export default defineConfig({
       rehypePlugins: [],
     }),
     react(),
-    postValidator({ directory: "./app/pages/posts/posts" }),
+    postPlugin(),
     viteConfigPaths(),
   ],
   build: {
     outDir: "dist",
+    copyPublicDir: true,
     emptyOutDir: true,
     sourcemap: true,
     rollupOptions: {
