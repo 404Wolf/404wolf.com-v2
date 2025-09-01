@@ -22,20 +22,18 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      - name: Build website with Nix
+      - name: Build website
         run: |
-          echo "::group::Building website with Nix"
           WEBSITE_OUTPUT=$(nix build --print-out-paths)
           echo "WEBSITE_OUTPUT=$WEBSITE_OUTPUT" >> $GITHUB_ENV
-          echo "::endgroup::"
 
-      - name: Deploy to R2 using Nix shell
+      - name: Deploy to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_BUCKET: ${{ secrets.R2_BUCKET_NAME }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
         run: |
           echo "::group::Deploying to R2"
           nix develop --command bash -c '
