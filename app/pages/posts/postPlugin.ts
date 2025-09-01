@@ -24,66 +24,76 @@ export const frontmatterSchema = z.object({
 });
 
 export type PostFrontmatter = z.infer<typeof frontmatterSchema>;
-
 export type PostManifest = (PostFrontmatter & { path: string })[];
 
-/**
- * Vite plugin to generate a manifest of all posts and do validation on post frontmatter.
+/**                                                                                                                   
+ * Vite plugin to generate a manifest of all posts and do validation on post frontmatter.                             
  */
 export async function postPlugin(): Promise<Plugin> {
-  const generateManifest = async (outputPath: string) => {
+  async function generateManifest() {
+    const postFiles = await glob("./app/pages/posts/posts/*.mdx");
     const posts: PostManifest = [];
 
-    const postFiles = await glob("./app/pages/posts/posts/*.mdx");
-    const errors: string[] = [];
-
     for (const filePath of postFiles) {
-      const content = await readFile(filePath, "utf-8");
-      const { data: frontmatter } = matter(content);
+      try {
+        const content = await readFile(filePath, "utf-8");
+        const { data: frontmatter } = matter(content);
+        const validatedFrontmatter = frontmatterSchema.parse(frontmatter);
+        const fileName = basename(filePath);
 
-      const validatedFrontmatter = frontmatterSchema.parse(frontmatter);
-      const fileName = basename(filePath);
-
-      validatedFrontmatter.covers = validatedFrontmatter.covers.map((c) =>
-        join("/media", c),
-      );
-
-      posts.push({
-        ...validatedFrontmatter,
-        path: join("posts", fileName.replace(".mdx", "")),
-      });
+        posts.push({
+          ...validatedFrontmatter,
+          covers: validatedFrontmatter.covers.map(
+            (c) => `https://v2.404wolf.com/media/${c}`
+          ),
+          path: join("posts", fileName.replace(".mdx", "")),
+        });
+      } catch (error) {
+        console.error(`Error processing ${filePath}:`, error);
+        throw new Error(`Validation failed for ${filePath}`);
+      }
     }
 
-    if (errors.length > 0) {
-      console.error("Post validation errors:");
-      errors.forEach((e) => {
-        console.error(e);
-      });
-      throw new Error(`Found ${errors.length} validation error(s)`);
-    }
-
-    const sortedPosts = posts.sort((a, b) => {
+    // Sort posts by date (newest first)                                                                              
+    return posts.sort((a, b) => {
       const getYear = (date: string) =>
         date.length === 4
           ? Number.parseInt(date, 10)
           : Number.parseInt(`20${date.split("-")[2]}`, 10);
 
-      const dateA = getYear(a.date);
-      const dateB = getYear(b.date);
-      return dateB - dateA;
+      return getYear(b.date) - getYear(a.date);
     });
-
-    await mkdir(outputPath, { recursive: true });
-    await writeFile(
-      join(outputPath, "posts-manifest.json"),
-      JSON.stringify(sortedPosts, null, 2),
-    );
-  };
+  }
 
   return {
     name: "posts-manifest",
-    writeBundle: async () => {
-      await generateManifest("./dist/public");
+
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (req.url === '/generated/posts-manifest.json') {
+          try {
+            const manifest = await generateManifest();
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(manifest, null, 2));
+          } catch (error) {
+            console.error('Error generating manifest:', error);
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: 'Failed to generate manifest' }));
+          }
+        } else {
+          next();
+        }
+      });
     },
+
+    async writeBundle() {
+      const manifest = await generateManifest();
+
+      await mkdir("./dist/generated", { recursive: true });
+      await writeFile(
+        "./dist/generated/posts-manifest.json",
+        JSON.stringify(manifest, null, 2)
+      );
+    }
   };
 }

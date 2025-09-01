@@ -9,7 +9,7 @@ export const router = createHashRouter([
     path: "/",
     element: <Home />,
     loader: async () => {
-      const resp = await fetch("/posts-manifest.json");
+      const resp = await fetch("/generated/posts-manifest.json");
       const posts = (await resp.json()) as PostManifest;
       return { posts } satisfies HomeLoaderData;
     },

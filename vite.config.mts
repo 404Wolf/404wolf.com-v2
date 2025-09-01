@@ -24,8 +24,8 @@ export default defineConfig({
   ],
   build: {
     outDir: "dist",
-    copyPublicDir: true,
     emptyOutDir: true,
+    copyPublicDir: true,
     sourcemap: true,
     rollupOptions: {
       input: {
