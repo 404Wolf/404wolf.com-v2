@@ -19,6 +19,7 @@ stdenv.mkDerivation rec {
   };
 
   buildPhase = ''
+    mkdir $out
     pnpm build
     cp -r dist $out
   '';
