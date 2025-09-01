@@ -6,14 +6,16 @@ import type { Plugin } from 'vite';
 import { z } from 'zod';
 
 export const frontmatterSchema = z.object({
-  id: z.string().min(1, "ID is required"),
-  type: z.string().min(1, "Type is required"),
-  date: z.string().min(1, "Date is required"),
-  covers: z.string().min(1, "Covers is required"),
-  tags: z.array(z.string()).min(1, "At least one tag is required"),
-  title: z.string().min(1, "Title is required").optional(),
+  id: z.string().min(1),
+  type: z.string().min(1),
+  date: z.string().regex(/^\d{4}$|^\d{2}-\d{2}-\d{2}$/),
+  covers: z.string().min(1),
+  tags: z.array(z.enum([
+    "academic", "personal", "work", "featured", "hidden", "ongoing"
+  ])).min(1),
+  title: z.string().min(1).optional(),
   description: z.string().optional(),
-}).loose();
+});
 
 export type PostFrontmatter = z.infer<typeof frontmatterSchema>;
 
