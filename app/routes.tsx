@@ -2,16 +2,15 @@ import { createHashRouter } from "react-router";
 
 import Home, { type HomeLoaderData } from "./pages/home/Home";
 import Post, { type PostLoaderData } from "./pages/posts/Post";
-import type { PostFrontmatter, PostManifest } from "./pages/posts/postPlugin";
+import type { PostFrontmatter } from "./pages/posts/postPlugin";
+import postsManifest from 'virtual:posts-manifest';
 
 export const router = createHashRouter([
   {
     path: "/",
     element: <Home />,
     loader: async () => {
-      const resp = await fetch("/generated/posts-manifest.json");
-      const posts = (await resp.json()) as PostManifest;
-      return { posts } satisfies HomeLoaderData;
+      return { posts: postsManifest } satisfies HomeLoaderData;
     },
   },
   {

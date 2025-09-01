@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { glob } from "glob";
 import matter from "gray-matter";
@@ -26,10 +26,13 @@ export const frontmatterSchema = z.object({
 export type PostFrontmatter = z.infer<typeof frontmatterSchema>;
 export type PostManifest = (PostFrontmatter & { path: string })[];
 
+const VIRTUAL_MODULE_ID = 'virtual:posts-manifest';
+const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID;
+
 /**                                                                                                                   
  * Vite plugin to generate a manifest of all posts and do validation on post frontmatter.                             
  */
-export async function postPlugin(): Promise<Plugin> {
+export function postPlugin(): Plugin {
   async function generateManifest() {
     const postFiles = await glob("./app/pages/posts/posts/*.mdx");
     const posts: PostManifest = [];
@@ -68,32 +71,17 @@ export async function postPlugin(): Promise<Plugin> {
   return {
     name: "posts-manifest",
 
-    configureServer(server) {
-      server.middlewares.use(async (req, res, next) => {
-        if (req.url === '/generated/posts-manifest.json') {
-          try {
-            const manifest = await generateManifest();
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(manifest, null, 2));
-          } catch (error) {
-            console.error('Error generating manifest:', error);
-            res.statusCode = 500;
-            res.end(JSON.stringify({ error: 'Failed to generate manifest' }));
-          }
-        } else {
-          next();
-        }
-      });
+    resolveId(id) {
+      if (id === VIRTUAL_MODULE_ID) {
+        return RESOLVED_VIRTUAL_MODULE_ID;
+      }
     },
 
-    async writeBundle() {
-      const manifest = await generateManifest();
-
-      await mkdir("./dist/generated", { recursive: true });
-      await writeFile(
-        "./dist/generated/posts-manifest.json",
-        JSON.stringify(manifest, null, 2)
-      );
+    async load(id) {
+      if (id === RESOLVED_VIRTUAL_MODULE_ID) {
+        const manifest = await generateManifest();
+        return `export default ${JSON.stringify(manifest)}`;
+      }
     }
   };
 }
