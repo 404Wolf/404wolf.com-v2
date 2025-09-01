@@ -2,11 +2,13 @@ import { useLoaderData } from "react-router";
 import { MDXProvider } from "@mdx-js/react";
 import type { PostFrontmatter } from "./postValidation";
 
+export interface PostLoaderData {
+  frontmatter: PostFrontmatter;
+  content: React.ComponentType;
+}
+
 export default function Post() {
-  const { frontmatter, content: Content } = useLoaderData<{
-    frontmatter: PostFrontmatter;
-    content: React.ComponentType;
-  }>();
+  const { frontmatter, content: Content } = useLoaderData<PostLoaderData>();
 
   return (
     <article>

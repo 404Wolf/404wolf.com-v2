@@ -1,13 +1,18 @@
-import { createHashRouter } from "react-router";
+import { createBrowserRouter } from "react-router";
 
 import Home from "./pages/home/Home";
-import Post from "./pages/posts/Post";
+import Post, { type PostLoaderData } from "./pages/posts/Post";
 import type { PostFrontmatter } from "./pages/posts/postValidation";
+import { getAllPosts } from "./pages/posts/getAllPosts";
 
-export const router = createHashRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    loader: async () => {
+      const posts = await getAllPosts();
+      return { posts };
+    },
   },
   {
     path: "/posts/:id",
@@ -19,12 +24,12 @@ export const router = createHashRouter([
       const { frontmatter, default: Content } = postModule as {
         frontmatter: PostFrontmatter;
         default: React.ComponentType;
-      }
+      };
 
       return {
         frontmatter,
         content: Content,
-      };
+      } satisfies PostLoaderData;
     },
   },
-]); 
+]);

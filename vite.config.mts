@@ -19,7 +19,7 @@ export default defineConfig({
       rehypePlugins: [],
     }),
     react(),
-    postValidator({ directory: './app/pages/posts/posts' }),
+    postValidator({ directory: "./app/pages/posts/posts" }),
     viteConfigPaths(),
   ],
   build: {
