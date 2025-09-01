@@ -15,10 +15,11 @@ stdenv.mkDerivation rec {
 
   pnpmDeps = pnpm.fetchDeps {
     inherit pname version src;
-    hash = "sha256-rT+hHRO1Ds+TMA8XboRYty0wI28emjsWO+BMEK0wQZg=";
+    hash = "sha256-nlaiCon8I3H3CL4urMzr+1WXIUv2tlcFUWc5mFPORuU=";
   };
 
   buildPhase = ''
     pnpm build
+    cp -r dist $out
   '';
 }
