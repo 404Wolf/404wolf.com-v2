@@ -40,7 +40,6 @@ jobs:
           nix develop --command bash -c '
             aws s3 sync "${{ env.WEBSITE_OUTPUT }}/share/404wolf.com/" "s3://${{ env.R2_BUCKET }}/" \
               --delete \
-              --endpoint-url "https://${{ env.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com"
+              --endpoint-url "${{ env.R2_ENDPOINT }}"
           '
           echo "::endgroup::"
-          echo "✅ Deployment complete!"
