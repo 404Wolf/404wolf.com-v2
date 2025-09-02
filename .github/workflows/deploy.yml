@@ -39,7 +39,7 @@ jobs:
           nix develop --command bash -c '
             aws s3 sync "${{ env.WEBSITE_OUTPUT }}/dist" "s3://${{ env.R2_BUCKET }}/" \
               --delete \
-              --exclude /404wolf.com/ \
+              --exclude /media \
               --endpoint-url "${{ env.R2_ENDPOINT }}"
           '
           echo "::endgroup::"
