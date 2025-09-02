@@ -26,11 +26,11 @@ export const frontmatterSchema = z.object({
 export type PostFrontmatter = z.infer<typeof frontmatterSchema>;
 export type PostManifest = (PostFrontmatter & { path: string })[];
 
-const VIRTUAL_MODULE_ID = 'virtual:posts-manifest';
-const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID;
+const VIRTUAL_MODULE_ID = "virtual:posts-manifest";
+const RESOLVED_VIRTUAL_MODULE_ID = "\0" + VIRTUAL_MODULE_ID;
 
-/**                                                                                                                   
- * Vite plugin to generate a manifest of all posts and do validation on post frontmatter.                             
+/**
+ * Vite plugin to generate a manifest of all posts and do validation on post frontmatter.
  */
 export function postPlugin(): Plugin {
   async function generateManifest() {
@@ -47,7 +47,7 @@ export function postPlugin(): Plugin {
         posts.push({
           ...validatedFrontmatter,
           covers: validatedFrontmatter.covers.map(
-            (c) => `https://v2.404wolf.com/media/${c}`
+            (c) => `https://v2.404wolf.com/media/${c}`,
           ),
           path: join("posts", fileName.replace(".mdx", "")),
         });
@@ -57,7 +57,7 @@ export function postPlugin(): Plugin {
       }
     }
 
-    // Sort posts by date (newest first)                                                                              
+    // Sort posts by date (newest first)
     return posts.sort((a, b) => {
       const getYear = (date: string) =>
         date.length === 4
@@ -82,6 +82,6 @@ export function postPlugin(): Plugin {
         const manifest = await generateManifest();
         return `export default ${JSON.stringify(manifest)}`;
       }
-    }
+    },
   };
 }
