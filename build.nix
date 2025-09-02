@@ -2,6 +2,8 @@
   stdenv,
   nodejs,
   pnpm,
+  system,
+  myResume,
 }:
 stdenv.mkDerivation rec {
   pname = "404wolf.com";
@@ -21,6 +23,9 @@ stdenv.mkDerivation rec {
   buildPhase = ''
     mkdir $out
     pnpm build
+
+    mkdir -p $out/dist/public
     cp -r dist $out
+    cp ${myResume.packages.${system}.default} $out/dist/public/resume.pdf
   '';
 }
