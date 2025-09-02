@@ -8,13 +8,7 @@
   "files": {
     "ignoreUnknown": false,
     "includes": [
-      "**/*.js",
-      "**/*.ts",
-      "**/*.jsx",
-      "**/*.tsx",
-      "**/*.json",
-      "**/*.yaml",
-      "**/*.yml",
+      "**/*.{jsx,tsx,json,yaml,yml,md,mdx}",
       ".github/**/*.yml",
       ".github/**/*.yaml"
     ]
