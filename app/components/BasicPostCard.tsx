@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import type { PostFrontmatter } from "~/pages/posts/postPlugin";
+import type { PostFrontmatter } from "~/pages/posts/postPlugins";
 import { toTitleCase } from "../utils/misc";
 import Tag from "./Tag";
 

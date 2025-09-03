@@ -2,7 +2,7 @@ import { createHashRouter } from "react-router";
 
 import Home, { type HomeLoaderData } from "./pages/home/Home";
 import Post, { type PostLoaderData } from "./pages/posts/Post";
-import type { PostFrontmatter } from "./pages/posts/postPlugin";
+import type { PostFrontmatter } from "./pages/posts/postPlugins";
 import postsManifest from "virtual:posts-manifest";
 
 export const router = createHashRouter([

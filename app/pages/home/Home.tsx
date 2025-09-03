@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router";
 import BasicPostCard from "~/components/BasicPostCard";
 import Tile from "~/components/Tile";
 import { BasicAbout } from "~/pages/posts/index";
-import type { PostManifest } from "~/pages/posts/postPlugin";
+import type { PostManifest } from "~/pages/posts/postPlugins";
 import { Greeter } from "./Greeter";
 
 export interface HomeLoaderData {

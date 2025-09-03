@@ -1,25 +1,27 @@
 import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { defineConfig } from "vite";
 import viteConfigPaths from "vite-tsconfig-paths";
-import { postPlugin } from "./app/pages/posts/postPlugin";
+import { vitePostsManifest } from "./app/pages/posts/postPlugins";
+import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import remarkFrontmatter from "remark-frontmatter";
+
+export const BASE_URL = "https://v2.404wolf.com/media";
+export const MEDIA_DIR = "/media";
 
 export default defineConfig({
-  base: "",
   plugins: [
     tailwindcss(),
+    vitePostsManifest({ mediaDir: MEDIA_DIR, sourceBaseUrl: BASE_URL }),
     mdx({
       remarkPlugins: [
         remarkFrontmatter,
-        [remarkMdxFrontmatter, { name: "frontmatter" }],
+        remarkMdxFrontmatter,
       ],
-      rehypePlugins: [],
+      baseUrl: "/media",
     }),
     react(),
-    postPlugin(),
     viteConfigPaths(),
   ],
   build: {
