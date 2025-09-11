@@ -1,0 +1,26 @@
+
+export default new Map([
+["src/posts/404Wolf.com.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2F404Wolf.com.mdx&astroContentModuleFlag=true")],
+["src/posts/AndroidInTheBrowser.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FAndroidInTheBrowser.mdx&astroContentModuleFlag=true")],
+["src/posts/BitwardenBackupTool.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FBitwardenBackupTool.mdx&astroContentModuleFlag=true")],
+["src/posts/CWRUFreeFoodFinder.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FCWRUFreeFoodFinder.mdx&astroContentModuleFlag=true")],
+["src/posts/CoinSortBot.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FCoinSortBot.mdx&astroContentModuleFlag=true")],
+["src/posts/DNANanotubeSoftware.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FDNANanotubeSoftware.mdx&astroContentModuleFlag=true")],
+["src/posts/EclecticEnglishVocabDeck.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FEclecticEnglishVocabDeck.mdx&astroContentModuleFlag=true")],
+["src/posts/ForcedBrowserZoomExtension.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FForcedBrowserZoomExtension.mdx&astroContentModuleFlag=true")],
+["src/posts/Hydroponics.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FHydroponics.mdx&astroContentModuleFlag=true")],
+["src/posts/LinuxClassPortfolio.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FLinuxClassPortfolio.mdx&astroContentModuleFlag=true")],
+["src/posts/LiterallyEverything.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FLiterallyEverything.mdx&astroContentModuleFlag=true")],
+["src/posts/MSNEmails.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FMSNEmails.mdx&astroContentModuleFlag=true")],
+["src/posts/MarkdownImageBlocks.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FMarkdownImageBlocks.mdx&astroContentModuleFlag=true")],
+["src/posts/MinecraftUsernameAutoclaiming.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FMinecraftUsernameAutoclaiming.mdx&astroContentModuleFlag=true")],
+["src/posts/PredeterminedTextWidths.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FPredeterminedTextWidths.mdx&astroContentModuleFlag=true")],
+["src/posts/ObsidianContactImporter.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FObsidianContactImporter.mdx&astroContentModuleFlag=true")],
+["src/posts/RecurseCheckins.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FRecurseCheckins.mdx&astroContentModuleFlag=true")],
+["src/posts/RemarkableBackupUtility.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FRemarkableBackupUtility.mdx&astroContentModuleFlag=true")],
+["src/posts/SVGShenanigans.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FSVGShenanigans.mdx&astroContentModuleFlag=true")],
+["src/posts/TodayIlearned.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FTodayIlearned.mdx&astroContentModuleFlag=true")],
+["src/posts/ValTownCLI.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FValTownCLI.mdx&astroContentModuleFlag=true")],
+["src/posts/VealeSnyderReflection.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FVealeSnyderReflection.mdx&astroContentModuleFlag=true")],
+["src/posts/WhirlwindTourOfNix.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fposts%2FWhirlwindTourOfNix.mdx&astroContentModuleFlag=true")]]);
+		

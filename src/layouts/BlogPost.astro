@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, date, covers, tags } = Astro.props;
+const cover =
+  covers && covers.length > 0
+    ? covers[Math.floor(Math.random() * covers.length)]
+    : null;
+---
+
+<html lang="en">
+	<head>
+		<Header />
+	</head>
+
+	<body>
+		<main class="w-full max-w-full m-0">
+			<article>
+				<div class="w-full">
+					{cover && <Image width={1020} height={510} src={cover} alt="" class="w-full block mx-auto rounded-xl shadow-lg" />}
+				</div>
+				<div class="w-full max-w-3xl mx-auto p-4 text-gray-800 dark:text-gray-200">
+					<div class="mb-8 pt-8 text-center">
+						<div class="mb-4 text-gray-600 dark:text-gray-400">
+							<FormattedDate date={new Date(date)} />
+						</div>
+						<h1 class="m-0 mb-4 text-4xl font-bold">{title}</h1>
+						{tags && (
+							<div class="flex flex-wrap justify-center gap-2 mb-4">
+								{tags.map((tag) => (
+									<span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">{tag}</span>
+								))}
+							</div>
+						)}
+						<hr class="border-gray-300 dark:border-gray-600" />
+					</div>
+					<div class="prose prose-lg dark:prose-invert max-w-none">
+						<slot />
+					</div>
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

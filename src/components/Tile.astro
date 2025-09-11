@@ -1,0 +1,17 @@
+---
+import { cva } from "class-variance-authority";
+
+const styles = cva(["p-2"], {
+  variants: {
+    kind: {
+      detail: "bg-gray-700 text-white rounded-full",
+      heading: "bg-gray-500 text-white rounded-lg",
+      content: "bg-gray-300 text-black rounded-lg",
+    },
+  },
+});
+---
+
+<div class={styles({ kind: Astro.props.kind, className: Astro.props.className })}>
+  {Astro.props.children}
+</div>

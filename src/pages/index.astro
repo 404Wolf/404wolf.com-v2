@@ -1,0 +1,120 @@
+---
+import { getCollection } from "astro:content";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+
+// Get featured posts (you can filter by tags or other criteria)
+const allPosts = await getCollection("blog");
+const featuredPosts = allPosts
+  .filter((post) => post.data.tags?.includes("featured"))
+  .slice(0, 6); // Get more featured posts for sidebar
+
+const aboutContent = `I'm a passionate developer with expertise in web development, coding, and creating innovative solutions. I love building things that make a difference and exploring new technologies.
+
+Information about my projects, experience, and more can be found on this website. Feel free to reach out if you have any questions!`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<Header />
+	</head>
+
+	<body>
+		<main class="min-h-screen p-4">
+			<div class="max-w-6xl mx-auto">
+				<!-- Header Section -->
+				<section class="text-center py-8">
+					<h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+						Welcome to {SITE_TITLE}
+					</h1>
+					<p class="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+						{SITE_DESCRIPTION}
+					</p>
+				</section>
+
+				<!-- Main Content Grid -->
+				<div class="flex flex-col gap-7">
+					<div class="flex flex-col min-[520px]:flex-row gap-7 sm:gap-6">
+						<!-- Featured Posts Sidebar -->
+						{featuredPosts.length > 0 && (
+							<div class="sm:basis-[30%] overflow-visible">
+								<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+									<h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+										Featured
+									</h2>
+									<div class="max-h-[600px] overflow-y-auto overflow-x-clip space-y-4">
+										{featuredPosts.map((post) => (
+											<article class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden transition-all duration-200 hover:shadow-md">
+												<a href={`/posts/${post.id}/`} class="block no-underline text-inherit">
+													{post.data.covers && post.data.covers.length > 0 && (
+														<div class="w-full h-32 overflow-hidden">
+															<img
+																src={post.data.covers[0]}
+																alt={post.data.title}
+																class="w-full h-full object-cover"
+															/>
+														</div>
+													)}
+													<div class="p-4">
+														<h3 class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
+															{post.data.title}
+														</h3>
+														{post.data.tags && (
+															<div class="flex flex-wrap gap-1">
+																{post.data.tags.filter(tag => tag === "ongoing").map((tag) => (
+																	<span class="bg-blue-500 text-white px-1.5 py-0.5 rounded text-xs">
+																		{tag}
+																	</span>
+																))}
+															</div>
+														)}
+													</div>
+												</a>
+											</article>
+										))}
+									</div>
+								</div>
+							</div>
+						)}
+
+						<!-- About Section -->
+						<div class="basis-[70%]">
+							<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+								<h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+									About
+								</h2>
+								<div class="max-h-[600px] overflow-y-auto overflow-x-clip">
+									<div class="prose dark:prose-invert max-w-none">
+										<div class="hidden xs:block xs:h-32 xs:w-32 md:h-30 md:w-30 relative float-right ml-1 sm:ml-2 mb-4">
+											<!-- Profile image placeholder - replace with your actual image -->
+											<div class="w-full h-full bg-gray-200 dark:bg-gray-600 rounded-full"></div>
+										</div>
+										<p class="mb-4 text-gray-700 dark:text-gray-300">
+											I'm a passionate developer with expertise in web development, coding, and creating innovative solutions. I love building things that make a difference and exploring new technologies.
+										</p>
+										<p class="text-gray-700 dark:text-gray-300">
+											Information about my projects, experience, and more can be found on this website. Feel free to reach out if you have any questions!
+										</p>
+									</div>
+								</div>
+							</div>
+							
+							<!-- View All Posts Button -->
+							<div class="mt-6 text-center">
+								<a 
+									href="/posts" 
+									class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+								>
+									View All Posts
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

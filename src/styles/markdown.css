@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Slabo+27px&family=Varta:wght@400;450;500;550;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
+
+.markdown * {
+  @apply leading-relaxed text-xl;
+}
+
+.markdown:not(.markdown-codeblock) {
+  font-family: "Varta", sans-serif;
+}
+
+.markdown img {
+  @apply rounded-xl;
+}
+
+.markdown span:not(.markdown-codeblock),
+.markdown div:not(.markdown-codeblock),
+.markdown li:not(.markdown-codeblock),
+.markdown ul:not(.markdown-codeblock),
+.markdown ol:not(.markdown-codeblock) {
+  @apply text-base;
+}
+
+.markdown h1 {
+  @apply text-center text-5xl leading-tight font-medium clear-both mb-2 mt-4;
+}
+
+.markdown h1 a {
+  @apply text-5xl;
+}
+
+.markdown h2 {
+  @apply text-4xl font-medium mt-4 mb-4 clear-both;
+}
+
+.markdown h3 {
+  @apply text-3xl clear-both;
+}
+
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  @apply text-3xl;
+}
+
+.markdown p {
+  @apply mb-4 mt-4;
+}
+
+.markdown p:not(li > p) {
+  text-indent: 0.3em;
+}
+
+.markdown li {
+  @apply pb-1 pl-0.5;
+}
+
+.markdown ul {
+  @apply list-disc pl-4;
+}
+
+.markdown ol {
+  @apply list-decimal pl-4 ml-4;
+}
+
+.markdown a {
+  @apply text-slate-700 underline transition-colors duration-150;
+  text-decoration-color: rgb(118, 141, 172);
+  text-decoration-thickness: 1px;
+}
+
+.markdown a:hover {
+  @apply text-slate-500;
+}
+
+.markdown b {
+  @apply font-semibold;
+}
+
+.markdown u strong {
+  @apply underline;
+}
+
+.markdown pre,
+.inline-markdown-codeblock {
+  font-family: "Roboto Mono", monospace !important;
+  @apply rounded-md clear-both;
+}
+
+.markdown pre {
+  line-height: 130%;
+}
+
+.markdown html {
+  @apply bg-gray-200 text-gray-800;
+  tab-size: 4;
+}
+
+.markdown .link {
+  @apply text-blue-600 no-underline transition-colors duration-200;
+}
+
+.markdown a:hover,
+.link:hover,
+summary:hover {
+  @apply underline text-blue-400;
+}
+
+.markdown blockquote {
+  @apply italic;
+}
+
+.markdown figure {
+  @apply text-center my-4;
+}
+
+.markdown figure.border:not(.full) {
+  @apply border border-gray-300 p-1 -m-1;
+}
+
+.markdown figure.full {
+  margin-left: var(--full-margin-left);
+  width: var(--full-width);
+}
+
+.markdown .inline-markdown-codeblock,
+.markdown pre,
+.markdown samp {
+  @apply bg-slate-200;
+}
+
+.markdown-codeblock {
+  @apply mt-4 mb-4 py-2 px-4 rounded-xl overflow-x-clip overflow-y-auto;
+  max-height: 800px;
+}
+
+.inline-markdown-codeblock,
+.markdown kbd,
+.markdown samp {
+  @apply px-0.5 py-0;
+}
+
+.markdown pre > .inline-markdown-codeblock {
+  @apply p-0 shadow-none border-0;
+}
+
+/* Scrollbar styles - these need to remain as custom CSS */
+.markdown pre::-webkit-scrollbar {
+  width: 10px;
+}
+
+.markdown pre::-webkit-scrollbar-track {
+  background: #eceff0;
+  border-radius: 12px;
+}
+
+.markdown pre::-webkit-scrollbar-thumb {
+  background: #c0c3c5;
+  border-radius: 12px;
+}
+
+.markdown table {
+  @apply border-collapse w-full;
+}
+
+.markdown table + table {
+  @apply mt-8;
+}
+
+.markdown table.full {
+  margin-left: calc(var(--full-margin-left) + 0.5rem);
+  width: calc(var(--full-width) - 1em);
+}
+
+.markdown caption {
+  @apply font-bold;
+}
+
+.markdown tr {
+  @apply border-b border-gray-300;
+}
+
+.markdown table > tr:last-child,
+.markdown tbody tr:last-child,
+.markdown tfoot tr:last-child {
+  @apply border-b-0;
+}
+
+.markdown tfoot tr:first-child {
+  @apply border-t border-gray-300;
+}
+
+.markdown td,
+.markdown th {
+  @apply py-1 px-2;
+  hyphens: none;
+}
+
+.markdown td.left,
+.markdown th.left {
+  @apply text-left;
+}
+
+.markdown td.right,
+.markdown th.right {
+  @apply text-right;
+}
+
+.markdown table td.right {
+  @apply font-sans;
+  font-feature-settings: "tnum" on;
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown sup,
+.markdown sub {
+  @apply h-0 leading-none relative;
+  vertical-align: baseline;
+}
+
+.markdown sup {
+  bottom: 1ex;
+}
+
+.markdown sub {
+  top: 0.5ex;
+}
+
+.markdown hr {
+  @apply border-0 text-center text-gray-800 opacity-90 my-3 border-t border-black;
+}
+
+@media (max-width: 639px) {
+  .markdown * {
+    @apply leading-relaxed text-base;
+  }
+  .markdown h2 {
+    @apply mb-1 mt-1;
+  }
+}

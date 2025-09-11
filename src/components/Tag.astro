@@ -1,0 +1,44 @@
+---
+import { cva } from "class-variance-authority";
+
+const tagVariants = cva(
+  "bg-primary text-white font-medium whitespace-nowrap relative",
+  {
+    variants: {
+      position: {
+        tl: "absolute top-1 left-1",
+        tr: "absolute top-1 right-1",
+        bl: "absolute bottom-1 left-1",
+        br: "absolute bottom-1 right-1",
+      },
+      variant: {
+        default: "bg-primary text-white",
+        secondary: "bg-secondary text-white",
+        outline: "border border-border bg-transparent text-foreground",
+        ghost: "bg-surface text-foreground",
+      },
+      size: {
+        default: "px-1.5 py-0.5 text-xs rounded-md",
+        sm: "px-1 py-0.5 text-xs rounded",
+        lg: "px-2 py-1 text-sm rounded-lg",
+      },
+    },
+    defaultVariants: {
+      position: "bl",
+      variant: "default",
+      size: "default",
+    },
+  },
+);
+---
+
+<span 
+    class={tagVariants({ 
+        position: Astro.props.position ?? "bl", 
+        variant: Astro.props.variant ?? "default", 
+        size: Astro.props.size ?? "default", 
+        className: Astro.props.className ?? "" 
+    })}
+>
+    {Astro.props.children}
+</span>

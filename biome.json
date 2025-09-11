@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -8,7 +8,7 @@
   "files": {
     "ignoreUnknown": false,
     "includes": [
-      "**/*.{jsx,tsx,json,yaml,yml,md,mdx}",
+      "**/*.{js,jsx,ts,tsx,json,yaml,yml,md,mdx,astro}",
       ".github/**/*.yml",
       ".github/**/*.yaml"
     ]
@@ -20,6 +20,7 @@
   },
   "linter": {
     "enabled": true,
+    "includes": ["**/*.{js,jsx,ts,tsx,json,yaml,yml,md,mdx}"],
     "rules": {
       "recommended": true
     }
@@ -36,5 +37,22 @@
         "organizeImports": "on"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
