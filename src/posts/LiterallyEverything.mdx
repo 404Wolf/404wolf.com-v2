@@ -70,7 +70,7 @@ function_name = re.findall(r"def (\w[\w\d]+)\(", generated_function.split("\n")[
 
 ### Dynamic Imports
 
-To actually handle being able to import anything, under the hood I've modified the *module's* `__getattr__`, so that it can create the function when it is imported. My `__init__.py` for the module looks something like this...
+To actually handle being able to import anything, under the hood I've modified the _module's_ `__getattr__`, so that it can create the function when it is imported. My `__init__.py` for the module looks something like this...
 
 ```py
 # __init__.py
@@ -116,7 +116,7 @@ sys.modules[__name__] = Everything()
 
 # Next Steps
 
-Now that it's working, I've had the idea to take it to the next level by adding a compilation step. Basically, I want to be able to import `everything` throughout my codebase, and even submodules like `everything.finance.irr`, and have my program *build* a library for you based on the way you use it.
+Now that it's working, I've had the idea to take it to the next level by adding a compilation step. Basically, I want to be able to import `everything` throughout my codebase, and even submodules like `everything.finance.irr`, and have my program _build_ a library for you based on the way you use it.
 
 The idea is that you can use a library that doesn't exist as you want, and then `everything` can "poof" it into existence by running something like `everything build`. It would generate a `everything` folder with all the content in it, so you could modify the code if necessary (but that's against the spirit of the library).
 

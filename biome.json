@@ -8,11 +8,26 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.astro"]
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
     }
   ],
-  "formatter": {
-    "indentStyle": "space",
-    "indentWidth": 2
+  "files": {
+    "experimentalScannerIgnores": ["dist", "node_modules", ".git"]
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true
   }
 }

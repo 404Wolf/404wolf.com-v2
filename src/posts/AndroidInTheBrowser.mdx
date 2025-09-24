@@ -26,7 +26,7 @@ It didn't take long to realize that it's very very hard to develop for IOS on an
 
 ![Android studio](Post-20240807195159827.webp)
 
-For Android development, Google is much nicer about it, and lets you run emulators and bridge a physical phone over on all platforms. They recommend using [Android Studio](https://developer.android.com/studio), which is *fine*, but a pain in the neck. The process to create an emulator in android studio is pretty straight forward, but requires a lot of clicking and is quite tedious and magical. You can choose a "skin" and android image, sometimes you configure the virtual device a bit further with their gui, and then run it from the app.
+For Android development, Google is much nicer about it, and lets you run emulators and bridge a physical phone over on all platforms. They recommend using [Android Studio](https://developer.android.com/studio), which is _fine_, but a pain in the neck. The process to create an emulator in android studio is pretty straight forward, but requires a lot of clicking and is quite tedious and magical. You can choose a "skin" and android image, sometimes you configure the virtual device a bit further with their gui, and then run it from the app.
 
 I used it for the project, and it worked well enough for my needs. Metro, a bundler that creates and ships APKs based on your `react native` project works well with Android studio's emulator, and it was fine at the time, and was only moderately annoying to work with.
 
@@ -412,10 +412,10 @@ adb devices
 
 And start issuing commands. You can do things like
 
-* `adb shell` to enter a shell on the android phone itself.
-* `adb push` to push a file onto the device, and `adb pull` to yoink files off it
-* `adb (un)(in)stall` to un/install apks (android apps) to the device
-* `adb input tap x y` to tap the screen at a specific spot
+- `adb shell` to enter a shell on the android phone itself.
+- `adb push` to push a file onto the device, and `adb pull` to yoink files off it
+- `adb (un)(in)stall` to un/install apks (android apps) to the device
+- `adb input tap x y` to tap the screen at a specific spot
 
 and a ton of other manipulation commands to do things like entering text input, capturing screenshots, recording audio, and more.
 
@@ -510,7 +510,7 @@ The first step is figuring out how we can stream the screen out of the android d
 To use it, it looks something like this...
 
 ```bash
-sudo apt-get install adb ffmpeg    
+sudo apt-get install adb ffmpeg
 adb exec-out screenrecord --output-format=h264 - |
    ffplay -framerate 60 -probesize 32 -sync video  -
 ```
@@ -581,7 +581,7 @@ I didn't end up needing to fiddle around much with the default command that they
 
 So, at this point I have a working script that can copy `scrcpy` over to an android phone, run it on the phone, and then stream out the screen.
 
-Now, what's actually coming out of the port? Raw h264 video. Great!  Viewing the screen using the `vlc` command they say to try **does** work, but it is very very laggy just like they say.
+Now, what's actually coming out of the port? Raw h264 video. Great! Viewing the screen using the `vlc` command they say to try **does** work, but it is very very laggy just like they say.
 
 ## WebRTC?
 
@@ -593,14 +593,14 @@ Okay, I now (kinda) have a working stream coming out of the android device. This
 
 I did some research here, and there's a ton of different streaming protocols that browsers support. A google search reveals many, like
 
-* HLS
-* WebRTC
-* Real-time Messaging Protocol (Rtmp)
-* Secure Reliable Transport (Srt)
-* Real-time Streaming Protocol (Rtsp)
-* Microsoft Smooth Streaming
-* RTMP
-* RTSP
+- HLS
+- WebRTC
+- Real-time Messaging Protocol (Rtmp)
+- Secure Reliable Transport (Srt)
+- Real-time Streaming Protocol (Rtsp)
+- Microsoft Smooth Streaming
+- RTMP
+- RTSP
 
 HLS is really nice, it's just relaying video live over http, and you can access the media directly through a `<video>` element. Also, `ffmpeg` supports streaming out `<video>` out of the box, which is nice. Unfortunately though, it adds a lot of latency. To achieve the latency I want in this case, I really don't have any option other than WebRTC.
 
@@ -625,10 +625,10 @@ The important thing to know about Janus Gateway is that it has a whole bunch of 
 
 There are [a whole bunch](https://janus.conf.meetecho.com/docs/pluginslist.html) documented on their website here. Some fun ones:
 
-* **VideoCall plugin**: "Peer to peer" calling each other, but the data flows through Janus gateway
-* **Sip Plugin**  is a plugin that abstracts authing into a SIP server and then lets you do SIP calls through the browser over WebRTC
-* **VideoRoom** is a plugin meant for many to many streaming, so like, conference calls
-* **TextRoom**, which is a plugin that deals only with WebRTC's data channel to stream raw data at very low latency over WebRTC.
+- **VideoCall plugin**: "Peer to peer" calling each other, but the data flows through Janus gateway
+- **Sip Plugin** is a plugin that abstracts authing into a SIP server and then lets you do SIP calls through the browser over WebRTC
+- **VideoRoom** is a plugin meant for many to many streaming, so like, conference calls
+- **TextRoom**, which is a plugin that deals only with WebRTC's data channel to stream raw data at very low latency over WebRTC.
 
 ![Jangouts](Post-20240807145842880.webp)
 
@@ -658,9 +658,9 @@ Janus provides a nice set of example configurations that have a ton of comments 
 
 There's a few different things we have to configure:
 
-* The signaling server that `Janus` hosts and general configuration
-* The streaming plugin itself
-* The admin server, which is a separate server for managing janus itself (getting information like what ports things are running on, statuses, etc)
+- The signaling server that `Janus` hosts and general configuration
+- The streaming plugin itself
+- The admin server, which is a separate server for managing janus itself (getting information like what ports things are running on, statuses, etc)
 
 There were a few manual things I had to set up for the configuration. First, I explicitly enabled the streaming plugin. I'm not entirely sure if this is necessary, but I believe it would at least give me an error if it couldn't find it, which is good.
 
@@ -855,11 +855,11 @@ rtp-sample: {
 
 Since it claims to do exactly what I want: stream media over RTP.
 
-Okay, so now I just place all the `janus`  configurations into the right spots, run `janus` using my hacky `bash` script, and pray it works.
+Okay, so now I just place all the `janus` configurations into the right spots, run `janus` using my hacky `bash` script, and pray it works.
 
 It didn't at first, or for the first day of trying to get it to, but eventually I got it to a functional state where janus would at least run.
 
-Now what? I'm not streaming media, but now I *can* stream through RTP on localhost.
+Now what? I'm not streaming media, but now I _can_ stream through RTP on localhost.
 
 The next step was to figure out how to **connect** to `janus`, which is totally a pain in the neck and nontrivial.
 
@@ -930,8 +930,8 @@ I learned a bit about `vite` here, since I hadn't used it before. It seems like 
 
 ```html
 <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 ```
 

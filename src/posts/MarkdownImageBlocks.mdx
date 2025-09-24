@@ -5,7 +5,7 @@ date: "2023"
 covers: ["carouselExample_0001"]
 description: |
   I talk about how I got my markdown to include image groups with many images side-by-side, automatically. I’ve scoured my way through eclectic convoluted docs, pained past unsensical bugs, and have finally begun to wrap my head around the world of JS markdown parsing. With a general overview and some useful snippets, you’ll too learn how to customize markdown rendering for your own purposes.
-tags: ["personal","featured"]
+tags: ["personal", "featured"]
 ---
 
 # Background
@@ -18,13 +18,16 @@ A simple markdown script may look something like this, with various headings and
 
 ```md
 # Heading
+
 ## Subheading
+
 ### Subsubheading
+
 ![imgName](imgSrc)
 [link](src)
 
-|column1 | column2|
-|--------| -------|
+| column1 | column2 |
+| ------- | ------- |
 ```
 
 Part of what makes Markdown so popular is the fact that once you've finished writing `markdown`, there's many different frameworks in many different programming languages that allow for rendering the file. On the web, this usually means converting `markdown` text into `HTML`, so as to display the various elements visually. These frameworks abstract-ify the process, and make it as easy as inserting a few lines of code to get the `markdown` to render properly. Unfortunately for me, for my blogs I wasn't quite content with the default configuration of my renderer.
@@ -102,8 +105,7 @@ React markdown makes this process super-simple, since it handles this process fo
 
 ```html
 <ReactMarkdown>
-# Hello, *world*!
-This is an example of how to use react-markdown.
+  # Hello, *world*! This is an example of how to use react-markdown.
 </ReactMarkdown>
 ```
 
@@ -139,7 +141,7 @@ Another important part of react markdown that I noticed in my research was conce
 
 ![The aha moment](inspiration_0001.png|width=60)
 
-It seemed that to incorporate clustered images, the simplest solution would be to have the groups of images in my markdown turn into some sort of fake `HTML` component with props including *all* the images data, so that I could then define an override for that component, to render it the way I wanted. In other words, if a cluster of images in `markdown` could transform into something of the form `<imgBlock alts="alt1;alt2;alt3" srcs="src1;src2;src3"/>` I could then define a `React` component of the form `ImgBlock (alts, srcs) { ... }` to handle the rendering. The hard part would be to locate and modify the rendering process to have the output string include those custom `<ImgBlock>`s
+It seemed that to incorporate clustered images, the simplest solution would be to have the groups of images in my markdown turn into some sort of fake `HTML` component with props including _all_ the images data, so that I could then define an override for that component, to render it the way I wanted. In other words, if a cluster of images in `markdown` could transform into something of the form `<imgBlock alts="alt1;alt2;alt3" srcs="src1;src2;src3"/>` I could then define a `React` component of the form `ImgBlock (alts, srcs) { ... }` to handle the rendering. The hard part would be to locate and modify the rendering process to have the output string include those custom `<ImgBlock>`s
 
 ## Render process
 
@@ -169,19 +171,23 @@ And the output like this...
 <h1>An example document with a multiimage</h1>
 <p>Test1</p>
 <p>
-    <img src="https://src-to-img-1.com" alt="Image #1" />
-    <img src="https://src-to-img-2.com" alt="Image #2" />
-    <img src="https://src-to-img-2.com" alt="Image #3" />
-    <img src="https://src-to-img-2.com" alt="Image #4" />
+  <img src="https://src-to-img-1.com" alt="Image #1" />
+  <img src="https://src-to-img-2.com" alt="Image #2" />
+  <img src="https://src-to-img-2.com" alt="Image #3" />
+  <img src="https://src-to-img-2.com" alt="Image #4" />
 </p>
 <p>
-    Test2 <img src="https://src-to-normal-img.com%7Cfloat=left%7Cwidth=50" alt="Normal Image" />
+  Test2
+  <img
+    src="https://src-to-normal-img.com%7Cfloat=left%7Cwidth=50"
+    alt="Normal Image"
+  />
 </p>
 <p>
-    <img
-        src="https://src-to-normal-img.com%7Cwidth=35%7Cfloat=right"
-        alt="Normal Image But Isolated"
-    />
+  <img
+    src="https://src-to-normal-img.com%7Cwidth=35%7Cfloat=right"
+    alt="Normal Image But Isolated"
+  />
 </p>
 ```
 
@@ -241,12 +247,12 @@ Creating a plugin would involve simply adding a function to the chain. Part of w
 {
   type: 'paragraph',
   children: [
-    { type: 'text', value: 'Test2\r\n', position: [Object] },       
+    { type: 'text', value: 'Test2\r\n', position: [Object] },
     {
       type: 'image',
       title: null,
-      url: 'https://src-to-normal-img.com|float=left|width=50',     
-      alt: 'Normal Image',        
+      url: 'https://src-to-normal-img.com|float=left|width=50',
+      alt: 'Normal Image',
       position: [Object]
     }
   ],
@@ -261,7 +267,7 @@ Creating a plugin would involve simply adding a function to the chain. Part of w
     {
       type: 'image',
       title: null,
-      url: 'https://src-to-normal-img.com|width=35|float=right',    
+      url: 'https://src-to-normal-img.com|width=35|float=right',
       alt: 'Normal Image But Isolated',
       position: [Object]
     }
@@ -279,35 +285,38 @@ Looking at the output, I identified the image block to be the `paragraph` node o
 import { visit } from "unist-util-visit";
 
 export default function remarkImageBlock() {
-    return (tree, file) => {
-        visit(tree, "paragraph", (node, index, parent) => {
-            if (node.children) {
-                const children = node.children.filter(
-                    child => !(child.type === "text" && child.value === "\r\n")
-                )
-                if (children && children.every(child => child.type === "image") && children.length > 1) {
-                    parent.children[index] = {
-                        type: "imgBlock",
-                        alts: children.map(child => child.alt),
-                        srcs: children.map(
-                            child =>
-                                child.url.includes("|") ? child.url.split("|")[0] : child.url
-                        ),
-                        titles: children.map(child => child.title),
-                        properties: children.map(
-                            child => child.url.includes("|") ? child.url.split("|").slice(1) : ""
-                        ),
-                        position: {
-                            start: children[0].position.start,
-                            end: children.slice(-1)[0].position.end
-                        },
-                        children: []
-                    }
-                }
-            }
-        });
-        return tree;
-    };
+  return (tree, file) => {
+    visit(tree, "paragraph", (node, index, parent) => {
+      if (node.children) {
+        const children = node.children.filter(
+          (child) => !(child.type === "text" && child.value === "\r\n"),
+        );
+        if (
+          children &&
+          children.every((child) => child.type === "image") &&
+          children.length > 1
+        ) {
+          parent.children[index] = {
+            type: "imgBlock",
+            alts: children.map((child) => child.alt),
+            srcs: children.map((child) =>
+              child.url.includes("|") ? child.url.split("|")[0] : child.url,
+            ),
+            titles: children.map((child) => child.title),
+            properties: children.map((child) =>
+              child.url.includes("|") ? child.url.split("|").slice(1) : "",
+            ),
+            position: {
+              start: children[0].position.start,
+              end: children.slice(-1)[0].position.end,
+            },
+            children: [],
+          };
+        }
+      }
+    });
+    return tree;
+  };
 }
 ```
 
@@ -317,13 +326,13 @@ Now, I adjusted the `unified` flow to include the new plugin.
 
 ```js
 retext()
-    .use(remarkParse)
-    .use(remarkImageBlock)
-    .use(remarkRehype)
-    .use(rehypeStringify)
-    .process(buffer, (err, file) => {
-        fs.writeFileSync("./example.html", file.value)
-    });
+  .use(remarkParse)
+  .use(remarkImageBlock)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process(buffer, (err, file) => {
+    fs.writeFileSync("./example.html", file.value);
+  });
 ```
 
 Before changing the `mdast` (markdown AST) to a `hast` (HTML AST), I modify the `mdast` with my plugin to create `imgBlock` nodes where needed, swapping out old `paragraph` nodes. But upon printing the output, it didn't quite work.
@@ -337,13 +346,17 @@ Instead of having the fake `HTML` `<imgBlock>`s that I expected, I got an empty 
 <p>Test1</p>
 <div></div>
 <p>
-    Test2 <img src="https://src-to-normal-img.com%7Cfloat=left%7Cwidth=50" alt="Normal Image" />
+  Test2
+  <img
+    src="https://src-to-normal-img.com%7Cfloat=left%7Cwidth=50"
+    alt="Normal Image"
+  />
 </p>
 <p>
-    <img
-        src="https://src-to-normal-img.com%7Cwidth=35%7Cfloat=right"
-        alt="Normal Image But Isolated"
-    />
+  <img
+    src="https://src-to-normal-img.com%7Cwidth=35%7Cfloat=right"
+    alt="Normal Image But Isolated"
+  />
 </p>
 ```
 
@@ -360,20 +373,20 @@ But, when printing out the tree at the stage before `remarkRehype`, it looked li
       position: [Object]
     },
     { type: 'paragraph', children:
- [Array], position: [Object] },   
+ [Array], position: [Object] },
     {
       type: 'imgBlock',
       alts: [Array],
       srcs: [Array],
       titles: [Array],
-      properties: [Array],        
+      properties: [Array],
       position: [Object],
       children: []
     },
     { type: 'paragraph', children:
- [Array], position: [Object] },   
+ [Array], position: [Object] },
     { type: 'paragraph', children:
- [Array], position: [Object] }    
+ [Array], position: [Object] }
   ],
   position: {
     start: { line: 1, column: 1, offset: 0 },
@@ -387,22 +400,22 @@ But, when printing out the tree at the stage before `remarkRehype`, it looked li
 It turned out that the `imgBlock`s were getting lost during the `remarkRehype` stage, since `remarkRehype` didn't know how to handle the foreign `imgBlock` nodes. When `remarkRehype` converts the `mdast` to an `hdast` it uses special predefined handlers, which can all be found [here](https://github.com/syntax-tree/mdast-util-to-hast/tree/main/lib/handlers), and take the form of something along the lines of this...
 
 ```js
-import {normalizeUri} from 'micromark-util-sanitize-uri'
+import { normalizeUri } from "micromark-util-sanitize-uri";
 
 export function image(state, node) {
-  const properties = {src: normalizeUri(node.url)}
+  const properties = { src: normalizeUri(node.url) };
 
   if (node.alt !== null && node.alt !== undefined) {
-    properties.alt = node.alt
+    properties.alt = node.alt;
   }
 
   if (node.title !== null && node.title !== undefined) {
-    properties.title = node.title
+    properties.title = node.title;
   }
 
-  const result = {type: 'element', tagName: 'img', properties, children: []}
-  state.patch(node, result)
-  return state.applyData(node, result)
+  const result = { type: "element", tagName: "img", properties, children: [] };
+  state.patch(node, result);
+  return state.applyData(node, result);
 }
 ```
 
@@ -412,37 +425,39 @@ At this stage, since I already had access to the `alt`s, `src`s, and `title`s of
 
 ```js
 export function imgBlockHandler(state, node, parent) {
-    return {
-        type: "element",
-        tagName: "imgBlock",
-        properties: {
-            alts: node.alts.join(";"),
-            srcs: node.srcs.map(normalizeUri).join(";"),
-            titles: node.titles.join(";"),
-            properties: node.properties.join(";")
-        },
-        children: []
-    }
+  return {
+    type: "element",
+    tagName: "imgBlock",
+    properties: {
+      alts: node.alts.join(";"),
+      srcs: node.srcs.map(normalizeUri).join(";"),
+      titles: node.titles.join(";"),
+      properties: node.properties.join(";"),
+    },
+    children: [],
+  };
 }
 
 export function imgHandler(state, node, parent) {
-    const properties = {}
-    for (const property of node.url.matchAll(/((\w+)=(\w+))/g)) {
-        properties[property[2]] = property[3]
-    }
-    const url = /\w*|\w=*/.test(node.url) ? node.url.match(/([^\s^\|]*)\|/)[1] : node.url
+  const properties = {};
+  for (const property of node.url.matchAll(/((\w+)=(\w+))/g)) {
+    properties[property[2]] = property[3];
+  }
+  const url = /\w*|\w=*/.test(node.url)
+    ? node.url.match(/([^\s^\|]*)\|/)[1]
+    : node.url;
 
-    return {
-        type: "element",
-        tagName: "img",
-        properties: {
-            alt: node.alt,
-            src: url,
-            title: node.title,
-            ...properties,  // like float: left, width: 50, etc.
-        },
-        children: []
-    }
+  return {
+    type: "element",
+    tagName: "img",
+    properties: {
+      alt: node.alt,
+      src: url,
+      title: node.title,
+      ...properties, // like float: left, width: 50, etc.
+    },
+    children: [],
+  };
 }
 ```
 
@@ -452,15 +467,15 @@ I modified the`unified` script to be as follows, including these custom handlers
 
 ```js
 retext()
-    .use(remarkParse)
-    .use(remarkImageBlock)
-    .use(remarkRehype, {
-        handlers: { imgBlock: imgBlockHandler, image: imgHandler },
-    })
-    .use(rehypeStringify)
-    .process(buffer, (err, file) => {
-        fs.writeFileSync("./example.html", file.value)
-    });
+  .use(remarkParse)
+  .use(remarkImageBlock)
+  .use(remarkRehype, {
+    handlers: { imgBlock: imgBlockHandler, image: imgHandler },
+  })
+  .use(rehypeStringify)
+  .process(buffer, (err, file) => {
+    fs.writeFileSync("./example.html", file.value);
+  });
 ```
 
 And now, with the custom handlers in place, I executed the `unified` script, and vola!
@@ -495,34 +510,34 @@ Now all that there was left to do was to define a react component to override th
 
 ```js
 <ReactMarkdown
-            children={markdown}
-            className="markdown"
-            remarkPlugins={[remarkImageBlock]}
-            remarkRehypeOptions={{
-                handlers: { imgBlock: imgBlockHandler, image: imgHandler },
-            }}
-            components={{
-                img: ({ node, ...props }) => (
-                    <MdImage
-                        alt={props.alt}
-                        title={props.title}
-                        src={props.src}
-                        width={props.width}
-                        float={props.float}
-                        label={props.alt}
-                        resourceMap={resourceMap}
-                    />
-                ),
-                imgBlock: ({ node, ...props }) => (
-                    <ImageBlock
-                        alts={props.alts}
-                        titles={props.titles}
-                        srcs={props.srcs}
-                        resourceMap={resourceMap}
-                    />
-                ),
-            }}
-        />
+  children={markdown}
+  className="markdown"
+  remarkPlugins={[remarkImageBlock]}
+  remarkRehypeOptions={{
+    handlers: { imgBlock: imgBlockHandler, image: imgHandler },
+  }}
+  components={{
+    img: ({ node, ...props }) => (
+      <MdImage
+        alt={props.alt}
+        title={props.title}
+        src={props.src}
+        width={props.width}
+        float={props.float}
+        label={props.alt}
+        resourceMap={resourceMap}
+      />
+    ),
+    imgBlock: ({ node, ...props }) => (
+      <ImageBlock
+        alts={props.alts}
+        titles={props.titles}
+        srcs={props.srcs}
+        resourceMap={resourceMap}
+      />
+    ),
+  }}
+/>
 ```
 
 And it worked! This is the current renderer that I use for my website, with custom overrides for images and image blocks. I've also since added a code block rendering override, and may add another override for videos and/or gifs in the future.

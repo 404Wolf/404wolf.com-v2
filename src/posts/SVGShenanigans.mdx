@@ -88,11 +88,11 @@ The thing with `SVG`s is that they are, when it comes down to it, a special type
 To do this, first I opened an `about:blank` page. I knew I'd want to resize the image to fill the entire viewport, but I'd also want to resize the viewport to be the exact size that I wished for my final export to be. For this, I used Chrome devtools' `Emulation.setVisibleSize` command. Then, I sent the following javascript to the browser to inject the image.
 
 ```js
-document.body.style.margin = '0';  // remove the default document margin
-const content = document.createElement('img');  // create the <img> element
-content.src = 'data:{mimetype};base64,{data}'; // inject the svg as a b64 image
-content.style.width = '100%';  // maximize the image
-content.style.height = '100%';
+document.body.style.margin = "0"; // remove the default document margin
+const content = document.createElement("img"); // create the <img> element
+content.src = "data:{mimetype};base64,{data}"; // inject the svg as a b64 image
+content.style.width = "100%"; // maximize the image
+content.style.height = "100%";
 document.body.appendChild(content); // inject the image
 ```
 

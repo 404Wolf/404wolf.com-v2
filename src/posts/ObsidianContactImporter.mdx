@@ -20,7 +20,7 @@ A lot of people have extended obsidian with its powerful plugin plugin system, t
 
 ## Plugin Ecosystem
 
-Obsidian is [Electron](https://www.electronjs.org/), so it can do anything a browser can. It's implemented very well and you don't really notice this unless you try, but if you want to *create* for Obsidian, the sky is the limit -- heck, [you can create plugins with React](https://docs.obsidian.md/Plugins/Getting+started/Use+React+in+your+plugin).
+Obsidian is [Electron](https://www.electronjs.org/), so it can do anything a browser can. It's implemented very well and you don't really notice this unless you try, but if you want to _create_ for Obsidian, the sky is the limit -- heck, [you can create plugins with React](https://docs.obsidian.md/Plugins/Getting+started/Use+React+in+your+plugin).
 
 ![Obsidian full calendar](Post-20240806165246984.webp)
 
@@ -28,7 +28,7 @@ One plugin I've started using is [Obsidian Full Calendar](https://github.com/obs
 
 This is a paradigm that I really like -- treating usually structured and rigid data as semi-structured markdown.
 
-I have started to use templates to create other types of "typically *structured* dataforms" in unstructured markdown. The nice thing about Obsidian is that this does **not** mean copying and pasting every single template. Templating in Obsidian is pretty mature at this point, it comes with a [built in templating plugin](https://help.obsidian.md/Plugins/Templates), and the community has created a much more powerful [Templator](https://github.com/SilentVoid13/Templater) plugin. You can plug in everything from the current note's file name, to the date, to arbitrary javascript function results.
+I have started to use templates to create other types of "typically _structured_ dataforms" in unstructured markdown. The nice thing about Obsidian is that this does **not** mean copying and pasting every single template. Templating in Obsidian is pretty mature at this point, it comes with a [built in templating plugin](https://help.obsidian.md/Plugins/Templates), and the community has created a much more powerful [Templator](https://github.com/SilentVoid13/Templater) plugin. You can plug in everything from the current note's file name, to the date, to arbitrary javascript function results.
 
 ![Omnisearch](Post-20240806170104437.webp)
 
@@ -36,7 +36,7 @@ I think one of the coolest Obsidian plugins, that really does totally change the
 
 ## The dilemma
 
-Part of this does mean that I'm restarting systems that I've had in place for a really long time. I really like Google Calendar, but I *prefer* being able to put whatever I want into *semi structured* markdown files for events. Part of switching to this new system means that my old calendar events are not going to be in my Obsidian vault.
+Part of this does mean that I'm restarting systems that I've had in place for a really long time. I really like Google Calendar, but I _prefer_ being able to put whatever I want into _semi structured_ markdown files for events. Part of switching to this new system means that my old calendar events are not going to be in my Obsidian vault.
 
 Importing old calendar events is good enough for now, because since the plugin supports linking iCal I still can view all my old events, I just don't have the ability to have corresponding markdown files. I probably could figure out how to import them that way with some scripting, but that's not really worth it for me since those events are in the past and I'm probably not still taking notes on them.
 
@@ -119,9 +119,9 @@ So I looked into it a bit.
 
 It turns out that there's not a ton of good options. I tried three different ones before arriving on [vcf](https://www.npmjs.com/package/vcf), and faced a few issues:
 
-* Wrong type of vCard. There's 4 different versions that aren't fully compatible.
-* Commonjs hell. I'm using [bun](https://bun.sh), which makes life so much easier, (you can import and require in the same file!), but I don't want to require. I want a pure esm solution.
-* Types. I want types. Typescript is a good thing.
+- Wrong type of vCard. There's 4 different versions that aren't fully compatible.
+- Commonjs hell. I'm using [bun](https://bun.sh), which makes life so much easier, (you can import and require in the same file!), but I don't want to require. I want a pure esm solution.
+- Types. I want types. Typescript is a good thing.
 
 ![VCF library](Post-20240806174857068.webp)
 
@@ -249,56 +249,60 @@ vCard {
 
 So we have what we need, and we can interface with it with `typescript` now. It seems everything that we need is there, but it's just a pain in the neck to extract anything.
 
-*some hours later*
+_some hours later_
 
 I decided to move on anyway, and write a wrapper that uses `vcf` to extract the necessary pieces of information from the `vCard` to craft a `Contact` object.
 
 ```json
 {
-  name: {
-    first: "Wolf",
-    last: "Mermelstein",
-    pronunciation: "Wolf",
+  "name": {
+    "first": "Wolf",
+    "last": "Mermelstein",
+    "pronunciation": "Wolf"
   },
-  organization: "",
-  title: "",
-  phones: [
+  "organization": "",
+  "title": "",
+  "phones": [
     {
-      number: "(917) XXX-7875",
-      type: "Backup",
-    }, {
-      number: "(929) XXX-7180",
-      type: "Misc",
+      "number": "(917) XXX-7875",
+      "type": "Backup"
+    },
+    {
+      "number": "(929) XXX-7180",
+      "type": "Misc"
     }
   ],
-  emails: [
+  "emails": [
     {
-      address: "wsm32@case.edu",
-      type: "Misc",
-    }, {
-      address: "wolf.mermelstein@case.edu",
-      type: "University Alt",
-    }, {
-      address: "wsm32@cwru.edu",
-      type: "University",
-    }, {
-      address: "uptothebird@gmail.com",
-      type: "Misc",
+      "address": "wsm32@case.edu",
+      "type": "Misc"
+    },
+    {
+      "address": "wolf.mermelstein@case.edu",
+      "type": "University Alt"
+    },
+    {
+      "address": "wsm32@cwru.edu",
+      "type": "University"
+    },
+    {
+      "address": "uptothebird@gmail.com",
+      "type": "Misc"
     }
   ],
-  addresses: [],
-  websites: [
+  "addresses": [],
+  "websites": [
     {
-      url: "https://404wolf.com",
-      label: "HomePage",
+      "url": "https://404wolf.com",
+      "label": "HomePage"
     }
   ],
-  birthday: "undefined 8, XXXX",
-  notes: "This is me.",
-  image: {
-    data: "/9j/4AAQSkrwZ/x..........XY19Bc8RrU/9k=",
-    type: "jpeg",
-  },
+  "birthday": "undefined 8, XXXX",
+  "notes": "This is me.",
+  "image": {
+    "data": "/9j/4AAQSkrwZ/x..........XY19Bc8RrU/9k=",
+    "type": "jpeg"
+  }
 }
 ```
 
@@ -403,64 +407,77 @@ The example template that I came up with, which is very table driven to store th
 obsidian-contact-importer-schema-version: "1.0"
 tags: ["person"]
 ---
+
 Imported with [Obsidian Markdown Importer](https://github.com/404Wolf/obsidian-contact-importer)
 
 ---
 
 {{#if organization}}
-  {{#if title}}
+{{#if title}}
 {{title}} @ {{organization}}
-  {{else}}
-{{organization}}
-  {{/if}}
 {{else}}
-  {{#if title}}
+{{organization}}
+{{/if}}
+{{else}}
+{{#if title}}
 {{title}}
-  {{/if}}
+{{/if}}
 {{/if}}
 {{#if image}}
 ![Image]({{image}})
 
 {{/if}}
+
 ## Phones
-| Type          | Number        |
-|:--------------|:--------------|
+
+| Type | Number |
+| :--- | :----- |
+
 {{#each phones}}
-| {{type}}      | `c!{{number}}`|
+| {{type}} | `c!{{number}}`|
 {{/each}}
 
 ## Emails
-| Type          | Address       |
-|:--------------|:--------------|
+
+| Type | Address |
+| :--- | :------ |
+
 {{#each emails}}
-| {{type}}      | `c!{{address}}` |
+| {{type}} | `c!{{address}}` |
 {{/each}}
 
 ## Socials
-| Type          | Handle        |
-|:--------------|:--------------|
+
+| Type | Handle |
+| :--- | :----- |
 
 ## Links
-| Type          | URL           |
-|:--------------|:--------------|
+
+| Type | URL |
+| :--- | :-- |
+
 {{#each websites}}
-| {{label}}     | `g!{{url}}` |
+| {{label}} | `g!{{url}}` |
 {{/each}}
 
 ## Addresses
-| Type          | Street        | City, State   | Zip, Country  |
-|:--------------|:--------------|:--------------|:--------------|
+
+| Type | Street | City, State | Zip, Country |
+| :--- | :----- | :---------- | :----------- |
+
 {{#each addresses}}
-| {{type}}      | {{street}}    | {{city}}, {{state}} | {{zip}} {{country}} |
+| {{type}} | {{street}} | {{city}}, {{state}} | {{zip}} {{country}} |
 {{/each}}
 
 ## Other
-| Type          | Value         |
-|:--------------|:--------------|
+
+| Type | Value |
+| :--- | :---- |
+
 {{#if birthday}}
-| Birthday      | `g!{{birthday}}`  |
+| Birthday | `g!{{birthday}}` |
 {{/if}}
-| Imported      | {{imported.month}} {{imported.day}}, {{imported.year}} |
+| Imported | {{imported.month}} {{imported.day}}, {{imported.year}} |
 
 ---
 
@@ -499,7 +516,7 @@ I'm not going to go too deep into Nix here, but the TLDR is that it's a programm
 
 The catch with `nix` is that it doesn't just try to be pure, it **forces** purity. Purity is, in this context, that whenever you run a build, the output artifact will be bit for bit identical given the same inputs. This makes it annoying to package things some times, since the `sandbox` that `nix` builds happen in is very restrictive -- it doesn't have internet!
 
-There's a bunch of utility builder functions that are able to prefetch all your dependencies. A common one is `buildNpmPackage`, which is *de facto* standard for `nixpkgs` packages (packages on the official registry) that are in `ts/js`. I'm using `bun` though, not `npm` or `node`.
+There's a bunch of utility builder functions that are able to prefetch all your dependencies. A common one is `buildNpmPackage`, which is _de facto_ standard for `nixpkgs` packages (packages on the official registry) that are in `ts/js`. I'm using `bun` though, not `npm` or `node`.
 
 Prefetching artifacts for builds is done by specifying the hash of the thing you're fetching, so that you can guarantee that the things you're fetching are what you think they are. This isn't that bad when you have a `package-lock.json` with `npm` or even with `yarn`. In that case all of the hashes already live there, and can be used to safely do the fetches.
 
@@ -592,9 +609,11 @@ Their plugin was written pretty well, though more comments and docs would've bee
 
 ```typescript
 if (settings.keepTriggerSymbol)
-    filePath = value.obj?.filePath.replace(/([^/]+)$/, `${settings.triggerSymbol}$1`);
-else
-    filePath = value.obj?.filePath;
+  filePath = value.obj?.filePath.replace(
+    /([^/]+)$/,
+    `${settings.triggerSymbol}$1`,
+  );
+else filePath = value.obj?.filePath;
 ```
 
 And the relevant setting. To polish things off, I also updated the "Create new note" suggestion to suggest the name with the @ symbol if the setting was enabled.
@@ -610,9 +629,9 @@ To make the templates look nicer, I decided to use a plugin I already was using 
 
 ## Big things
 
-* Bidirectionality! I want to be able to take my note files that contain VCard data and then bring the markdown back into VCard format.
+- Bidirectionality! I want to be able to take my note files that contain VCard data and then bring the markdown back into VCard format.
 
 ## Smaller things
 
-* VCards are a massive spec. I don't implement nearly close to all of the possible things that they could. I want to implement some more things though, like pronouns and nicknames.
-* That is tested with Apple contacts so far. I want to test to see if this works with Google/other flavors of contacts too.
+- VCards are a massive spec. I don't implement nearly close to all of the possible things that they could. I want to implement some more things though, like pronouns and nicknames.
+- That is tested with Apple contacts so far. I want to test to see if this works with Google/other flavors of contacts too.

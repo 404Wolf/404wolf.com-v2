@@ -2,7 +2,14 @@
 title: CWRU Linux Scripting Class Portfolio
 type: "blog"
 date: "2024"
-covers: ["Screenshot_from_2024-04-14_23-29-12_0001", "Screenshot_from_2024-04-14_23-29-31_0001", "Pasted_image_20240414232043_0001", "Linux-desktopentry_0001", "Screenshot_from_2024-04-16_18-15-57_0001"]
+covers:
+  [
+    "Screenshot_from_2024-04-14_23-29-12_0001",
+    "Screenshot_from_2024-04-14_23-29-31_0001",
+    "Pasted_image_20240414232043_0001",
+    "Linux-desktopentry_0001",
+    "Screenshot_from_2024-04-16_18-15-57_0001",
+  ]
 description: |
   This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU, a class that teaches various Linux tools and concepts, like bash, awk, regex, and bottom-up design. It's an eclectic mix of scripts and Linux-y things I've done with the stuff I've learned throughout the semester in the course. There are a few projects towards the beginning, and then I have a bunch of random bash scripts and more Linux-y things towards the bottom portion.
 tags: ["academic"]
@@ -28,9 +35,9 @@ The current contents of the text box are accessed from redis by PHP using [PHPRe
 
 ### Uses
 
-* Sending text data between devices (shipping from phone to phone or desktop to phone etc)
-* Sharing data in front of a live audience
-* Conversations and interactive use
+- Sending text data between devices (shipping from phone to phone or desktop to phone etc)
+- Sharing data in front of a live audience
+- Conversations and interactive use
 
 ![Network Logs](Screenshot_from_2024-04-14_23-29-31_0001.png)
 ![Mobile Version](Screenshot_from_2024-04-14_23-26-55_0001.png)
@@ -45,9 +52,9 @@ It's made of two parts: backend API and frontend client. The first codeblock is 
 
 ### Changelog
 
-* Version 1 - Create basic working version that stores state in file.
-* Version 2 - Add redis with PHP redis. Get working on localhost
-* Version 3 - Add compose.yml and dockerize. Then deploy to aws and use Nginx to serve
+- Version 1 - Create basic working version that stores state in file.
+- Version 2 - Add redis with PHP redis. Get working on localhost
+- Version 3 - Add compose.yml and dockerize. Then deploy to aws and use Nginx to serve
 
 ```php
 // Index.php
@@ -62,8 +69,8 @@ Predis\Autoloader::register();
 
 $client = new Predis\Client([
     'scheme' => 'tcp',
-    'host'   => 'redis',  // Use the service name as the hostname                                                                                                                
-    'port'   => 6379,  // Default port for Redis                                                                                                                                 
+    'host'   => 'redis',  // Use the service name as the hostname
+    'port'   => 6379,  // Default port for Redis
 ]);
 
 function injectVariable($name, $value)
@@ -174,7 +181,7 @@ function injectVariable($name, $value)
             const ampm = hours >= 12 ? 'PM' : 'AM';
 
             hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'                        
+            hours = hours ? hours : 12; // the hour '0' should be '12'
             const strHours = hours < 10 ? '0' + hours : hours;
             const strMinutes = minutes < 10 ? '0' + minutes : minutes;
             const strSeconds = seconds < 10 ? '0' + seconds : seconds;
@@ -236,8 +243,8 @@ Predis\Autoloader::register();
 
 $client = new Predis\Client([
     'scheme' => 'tcp',
-    'host'   => 'redis',  // Use the service name as the hostname                                                                                                                
-    'port'   => 6379,  // Default port for Redis                                                                                                                                 
+    'host'   => 'redis',  // Use the service name as the hostname
+    'port'   => 6379,  // Default port for Redis
 ]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -252,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Dump the contents to the contents file
-    $client->set('text', $data['text']); 
+    $client->set('text', $data['text']);
 
     http_response_code(200);
     echo json_encode(["success" => true]);
@@ -334,8 +341,8 @@ location=$(
 curl -L -o discord.tar.gz $location
 
 # Extract the tar file and overwrite ~/.local/share/Discord
-# Modified code from a friend. 
-# -x = extract files from archive 
+# Modified code from a friend.
+# -x = extract files from archive
 # -v verbose
 # -f use the following tarball file
 # The program currently doesn't run on my main laptop because discord's location doesn't seem to be ~/.local/share
@@ -367,7 +374,7 @@ fi
 Output of running script:
 
 ```terminal
-wolf@wolfs-laptop:~/Scripts/BetterDiscord$ source install.sh 
+wolf@wolfs-laptop:~/Scripts/BetterDiscord$ source install.sh
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100 96.8M  100 96.8M    0     0  24.3M      0  0:00:03  0:00:03 --:--:-- 24.3M
@@ -406,104 +413,127 @@ The API was down when writing this to get screenshots, and I'm currently fixing 
 
 ### Changelog
 
-* Make basic page to view the courses that lists all empty rooms
-* Add user inputs to specify hours and duration
-* Add loading animation, add clickable links to share
+- Make basic page to view the courses that lists all empty rooms
+- Add user inputs to specify hours and duration
+- Add loading animation, add clickable links to share
 
 ```html
 <html>
-    <script type="text/javascript">
-        const url = "http://149.28.40.6:5000/find-rooms"
+  <script type="text/javascript">
+    const url = "http://149.28.40.6:5000/find-rooms";
 
-        function getRoomURL(duration_hours, hours_from_now) {
-            const params = {
-                duration_hours: duration_hours,
-                hours_from_now: hours_from_now
-            };
-            const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
-            return url + '?' + queryString
-        }
+    function getRoomURL(duration_hours, hours_from_now) {
+      const params = {
+        duration_hours: duration_hours,
+        hours_from_now: hours_from_now,
+      };
+      const queryString = Object.keys(params)
+        .map((key) => key + "=" + params[key])
+        .join("&");
+      return url + "?" + queryString;
+    }
 
-        function findRooms(duration_hours, hours_from_now) {
-            const path = getRoomURL(duration_hours, hours_from_now)
+    function findRooms(duration_hours, hours_from_now) {
+      const path = getRoomURL(duration_hours, hours_from_now);
 
-            return fetch(path, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(resp => resp.json())
-        }
+      return fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((resp) => resp.json());
+    }
 
-        function parseFoundRooms(rooms) {
-            rooms = rooms['rooms'];
-            rooms = rooms.sort((a, b) => a.building_code > b.building_code ? 1 : -1);
-            return rooms.map(room => room.building_code + " " + room.room_code).join("&#10;");
-        }
+    function parseFoundRooms(rooms) {
+      rooms = rooms["rooms"];
+      rooms = rooms.sort((a, b) =>
+        a.building_code > b.building_code ? 1 : -1,
+      );
+      return rooms
+        .map((room) => room.building_code + " " + room.room_code)
+        .join("&#10;");
+    }
 
-        function displayResults(results) {
-            const resultsBox = document.getElementById('results-box');
-            resultsBox.innerHTML = results;
-        }
-        
-        function onGetResultsClick() {
-            // Get the form values
-            const duration_hours = document.getElementById('duration_hours').value;
-            const hours_from_now = document.getElementById('hours_from_now').value;
+    function displayResults(results) {
+      const resultsBox = document.getElementById("results-box");
+      resultsBox.innerHTML = results;
+    }
 
-            // Run the query
-            findRooms(duration_hours, hours_from_now)
-                .then(results => parseFoundRooms(results))
-                .then(displayResults);
-            document.getElementById('results-url').href = getRoomURL(duration_hours, hours_from_now);
+    function onGetResultsClick() {
+      // Get the form values
+      const duration_hours = document.getElementById("duration_hours").value;
+      const hours_from_now = document.getElementById("hours_from_now").value;
 
-            // Update the results area header
-            document.getElementById('results-area-head').innerHTML = (
-                "Results for "
-                + duration_hours
-                + " hours from now, for "
-                + hours_from_now
-                + " hours"
-            );
-            document.getElementById('results-box').innerHTML = "Loading...";
-            
-            // Reset the form
-            document.getElementById('duration_hours').value = "";
-            document.getElementById('hours_from_now').value = "";
-        }
-    </script>
+      // Run the query
+      findRooms(duration_hours, hours_from_now)
+        .then((results) => parseFoundRooms(results))
+        .then(displayResults);
+      document.getElementById("results-url").href = getRoomURL(
+        duration_hours,
+        hours_from_now,
+      );
 
-    <head>
-        <title>Room Finder</title>
-    </head>
+      // Update the results area header
+      document.getElementById("results-area-head").innerHTML =
+        "Results for " +
+        duration_hours +
+        " hours from now, for " +
+        hours_from_now +
+        " hours";
+      document.getElementById("results-box").innerHTML = "Loading...";
 
-    <body>
-        <!-- Header -->
-        <h1 style="text-align: center;">Room Finder</h1>
-        <h2 style="text-align: center;">Find an unbooked CWRU room</h2>
-            
-        <!-- Form area -->
-        <div style="display: flex; justify-content: space-between;">
-            <div>
-                <label for="duration_hours">Duration in hours</label>
-                <input type="number" id="duration_hours" placeholder="Duration in hours" value="0">
-            </div>
+      // Reset the form
+      document.getElementById("duration_hours").value = "";
+      document.getElementById("hours_from_now").value = "";
+    }
+  </script>
 
-            <div>
-                <label for="hours_from_now">Hours from now</label>
-                <input type="number" id="hours_from_now" placeholder="Hours from now" value="6">
-            </div>
+  <head>
+    <title>Room Finder</title>
+  </head>
 
-            <button onclick="onGetResultsClick()">Find a room</button>
-        </div>
+  <body>
+    <!-- Header -->
+    <h1 style="text-align: center;">Room Finder</h1>
+    <h2 style="text-align: center;">Find an unbooked CWRU room</h2>
 
-        <!-- Results area -->
-        <div>
-            <a id="results-url"><h3 id="results-area-head">Results Area</h3></a>
-            <textarea readonly style="width: 100%; min-height: 40vh;" id="results-box">
+    <!-- Form area -->
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        <label for="duration_hours">Duration in hours</label>
+        <input
+          type="number"
+          id="duration_hours"
+          placeholder="Duration in hours"
+          value="0"
+        />
+      </div>
+
+      <div>
+        <label for="hours_from_now">Hours from now</label>
+        <input
+          type="number"
+          id="hours_from_now"
+          placeholder="Hours from now"
+          value="6"
+        />
+      </div>
+
+      <button onclick="onGetResultsClick()">Find a room</button>
+    </div>
+
+    <!-- Results area -->
+    <div>
+      <a id="results-url"><h3 id="results-area-head">Results Area</h3></a>
+      <textarea
+        readonly
+        style="width: 100%; min-height: 40vh;"
+        id="results-box"
+      >
 Results will appear here
-            </textarea>
-        </div>
-    </body>
+            </textarea
+      >
+    </div>
+  </body>
 </html>
 ```
 
@@ -519,9 +549,9 @@ After I made it I added some basic error handling, and automatically will add a 
 
 ### Changelog
 
-* Make basic working version that archives an input
-* Add filename checking
-* Prevent duplicate clobbering by incrementing filename
+- Make basic working version that archives an input
+- Add filename checking
+- Prevent duplicate clobbering by incrementing filename
 
 ```bash
 #!/bin/bash
@@ -558,11 +588,11 @@ echo "Archiving $file to $out_filename.7z";
 mv $out_filename ~/Archive/
 
 # Check status and if the archive was successful report it and delete the old file
-if [ $? -eq 0 ]; then                                                 
+if [ $? -eq 0 ]; then
   echo "Archive $filename.7z created successfully";
   rm -i -r $file;
 else
-  echo "Failed to create archive $filename.7z" 
+  echo "Failed to create archive $filename.7z"
 fi
 ```
 
@@ -595,7 +625,7 @@ Creating archive: test.7z
 
 Items to compress: 1
 
-    
+
 Files read from disk: 1
 Archive size: 146 bytes (1 KiB)
 Everything is Ok
@@ -614,8 +644,8 @@ I made a very basic script that moves files into folders named after their file 
 
 ### Changelog
 
-* Make a basic script to move different filetypes into different folders
-* Add protections, like ensuring the script file itself isn't moved, or that directories aren't touched or changed.
+- Make a basic script to move different filetypes into different folders
+- Add protections, like ensuring the script file itself isn't moved, or that directories aren't touched or changed.
 
 ChatGPT helped me figure out how to iterate over files in a directory (it is shockingly easy!).
 
@@ -764,9 +794,9 @@ echo "ANDROID_HOME: $ANDROID_HOME"
 # Run the `sleep 8 && xdotool type 'a'` command in the background.
 # Run `npx react-natvie start --port 9097` in the foreground.
 # Running react native metro is blocking so it never terminates
-# (what coes to the right of & runs in the background without waiting 
+# (what coes to the right of & runs in the background without waiting
 # for the thing to the left of it to terminate)
-sleep 8 && xdotool type 'a' & npx react-native start --port 9097 
+sleep 8 && xdotool type 'a' & npx react-native start --port 9097
 ```
 
 ## Course Snipe Autoclicker
@@ -780,23 +810,23 @@ import pyautogui
 import datetime
 import time
 
-def click_at_time(time_str):                                                 
-    target_time = datetime.datetime.strptime(time_str, "%H:%M").time()       
-    while True:                                                              
-        now = datetime.datetime.now().time()                                 
+def click_at_time(time_str):
+    target_time = datetime.datetime.strptime(time_str, "%H:%M").time()
+    while True:
+        now = datetime.datetime.now().time()
         if (
-            now.hour == target_time.hour 
-            and now.minute == target_time.minute 
-            and now.second == 0 
+            now.hour == target_time.hour
+            and now.minute == target_time.minute
+            and now.second == 0
             and now.microsecond < 100000
         ):
             time.sleep(0.05)
-            pyautogui.click()                            
-            break                                                        
-        time.sleep(0.01)                                                      
+            pyautogui.click()
+            break
+        time.sleep(0.01)
 
-if __name__ == "__main__":                       
-    target = input("Enter the time in HH:MM format: ")  
+if __name__ == "__main__":
+    target = input("Enter the time in HH:MM format: ")
     click_at_time(target)
 ```
 
@@ -2103,13 +2133,13 @@ I decided to open network tab to see if there were any requests with `Json` data
 After, I added the `-s` flag for `CURL` to prevent getting status logs and just get the list of board games. I found that the for loop could iterate to an arbitrarily large value, like `50`, and that all the requests would be empty afterwards anyway.
 
 ```bash
-for (( i=0; i<50; i++ )); do                                                                                                      
-    # Fetch data using curl and parse it with jq 
+for (( i=0; i<50; i++ )); do
+    # Fetch data using curl and parse it with jq
     # The -s flag is used to suppress the progress meter and other non-error output
-    result=$(curl -s GET "https://api.geekdo.com/api/geekitem/linkeditems?ajax=1&linkdata_index=boardgame&nosession=1&objectid=8832&objecttype=company&pageid=$i&showcount=25&sort=name&subtype=boardgamepublisher") 
-    
-    # Use jq to parse JSON and extract the .items[].name field                                                                   
-    echo "$result" | jq '.items[].name'                                                                                          
+    result=$(curl -s GET "https://api.geekdo.com/api/geekitem/linkeditems?ajax=1&linkdata_index=boardgame&nosession=1&objectid=8832&objecttype=company&pageid=$i&showcount=25&sort=name&subtype=boardgamepublisher")
+
+    # Use jq to parse JSON and extract the .items[].name field
+    echo "$result" | jq '.items[].name'
 done
 ```
 
@@ -2119,11 +2149,11 @@ I improved the script to automatically terminate instead of using an arbitrary g
 i=0;
 while true; do
     ((i++));
-    # Fetch data using curl and parse it with jq 
+    # Fetch data using curl and parse it with jq
     # The -s flag is used to suppress the progress meter and other non-error output
     result=$(curl -s GET "https://api.geekdo.com/api/geekitem/linkeditems?ajax=1&linkdata_index=boardgame&nosession=1&objectid=8832&objecttype=company&pageid=$i&showcount=25&sort=name&subtype=boardgamepublisher");
-    
-    # Use jq to parse JSON and extract the .items[].name field                                                                   
+
+    # Use jq to parse JSON and extract the .items[].name field
     parsed=$(echo "$result" | jq '.items[].name');
     if [ -z "$parsed" ]; then
         break
@@ -2292,27 +2322,27 @@ Getting fingerprint detection to work on my laptop with Linux was a bit annoying
 ChatGPT instructions that seemed to work
 
 ```markdown
-1) install fprintd: use the following command to install fprintd. sudo apt-get install fprintd 
-2) enroll your fingerprint: enroll your right index finger with the following command. `fprintd-enroll -f right-index-finger`   
-3) install libpam-fprintd: install this pam module to enable fingerprint authentication. `sudo apt-get install libpam-fprintd`          
-who uses 4 configure pam: open /etc/pam.d/common-auth in a text editor with root privileges.  You can use nano editor with the following command. sudo nano /etc/pam.d/common-auth
-5) add the following line at the top of the file. `auth [success=2 default=ignore] pam_fprintd.so`
+1. install fprintd: use the following command to install fprintd. sudo apt-get install fprintd
+2. enroll your fingerprint: enroll your right index finger with the following command. `fprintd-enroll -f right-index-finger`
+3. install libpam-fprintd: install this pam module to enable fingerprint authentication. `sudo apt-get install libpam-fprintd`  
+   who uses 4 configure pam: open /etc/pam.d/common-auth in a text editor with root privileges. You can use nano editor with the following command. sudo nano /etc/pam.d/common-auth
+4. add the following line at the top of the file. `auth [success=2 default=ignore] pam_fprintd.so`
 
-> The auth [success=2 default=ignore] pam_fprintd.so line in the PAM (Pluggable Authentication Modules)      
+> The auth [success=2 default=ignore] pam_fprintd.so line in the PAM (Pluggable Authentication Modules)  
 > configuration file is used for fingerprint authentication. If the fingerprint authentication is successful,
-> it will skip the next two lines specified in the configuration. If fingerprint authentication fails, it    
-> will continue with the default behavior specified in the configuration.  
+> it will skip the next two lines specified in the configuration. If fingerprint authentication fails, it  
+> will continue with the default behavior specified in the configuration.
 
-6) save and close the file. if you are using nano, you can do this by pressing ctrl + x, then y, then enter.    
-7) test: try using sudo command. it should now ask for your fingerprint.
+6. save and close the file. if you are using nano, you can do this by pressing ctrl + x, then y, then enter.
+7. test: try using sudo command. it should now ask for your fingerprint.
 ```
 
 ![The place where fingerprints get stored](Screenshot_from_2024-04-21_21-06-17_0001.png)
 
 After a bit of additional research:
 
-* `fprintd` is a library for storing fingerprints of a user in a local database. It stores them (by default) in `/var/lib/fprint/`. I was curious, so I searched and found the actual fingerpint file, which was a binary file,, under `/var/lib/fprint/wolf/goodixmoc/UIDFAE70212_XXXX_MOC_B0/7`. You can use commands like `fprintd-enroll` and `fprintd-verify` to manage fingerprints.
-* PAM seems to be some sort of tool that acts as an intermediary between the actual authentication methods and the program trying to do authentication. So like, you can use fingerprint auth, password auth, or something else, and just change the PAM config.
+- `fprintd` is a library for storing fingerprints of a user in a local database. It stores them (by default) in `/var/lib/fprint/`. I was curious, so I searched and found the actual fingerpint file, which was a binary file,, under `/var/lib/fprint/wolf/goodixmoc/UIDFAE70212_XXXX_MOC_B0/7`. You can use commands like `fprintd-enroll` and `fprintd-verify` to manage fingerprints.
+- PAM seems to be some sort of tool that acts as an intermediary between the actual authentication methods and the program trying to do authentication. So like, you can use fingerprint auth, password auth, or something else, and just change the PAM config.
 
 ## Getting Hibernation working
 
@@ -2379,15 +2409,15 @@ while True:
 
 Since the start of this course I've begun to use vimkeys for everything. I touch type very fast (120+) so I thought it'd be worth the effort to learn keybinds. Here's some fun things I've figured out:
 
-* I configured `neovim` using `vim-plug` to have language engine support so that I can get error checking. I also have symbol tab support and set up github Copilot.
-* `zz` centers your cursor on the page. If the majority of the page is above the cursor this can help center things so you can see more on either side of the cursor.
-* `vi"` selects everything inside quotes. Then you can do `"+p` to paste from clipboard into them
-* Following two keybinds work for any letter (not just "A"):
-  * `mA` sets a global marker `A` which you can go to with \`A.
-  * `qa` begins recording a macro `a`. Then `q` again to stop recording. Then `@a` to play it back. Or `<num>@a`!
-  * `==` automatically aligns the current line
-  * `V` selects the current line. So you can also do `Vd` instead of `dd` to delete a line.
-  * `T` (not `t`) goes up to the first occurrence backwards. Then pressing `;` to progress forward through matches also goes backwards.
+- I configured `neovim` using `vim-plug` to have language engine support so that I can get error checking. I also have symbol tab support and set up github Copilot.
+- `zz` centers your cursor on the page. If the majority of the page is above the cursor this can help center things so you can see more on either side of the cursor.
+- `vi"` selects everything inside quotes. Then you can do `"+p` to paste from clipboard into them
+- Following two keybinds work for any letter (not just "A"):
+  - `mA` sets a global marker `A` which you can go to with \`A.
+  - `qa` begins recording a macro `a`. Then `q` again to stop recording. Then `@a` to play it back. Or `<num>@a`!
+  - `==` automatically aligns the current line
+  - `V` selects the current line. So you can also do `Vd` instead of `dd` to delete a line.
+  - `T` (not `t`) goes up to the first occurrence backwards. Then pressing `;` to progress forward through matches also goes backwards.
 
 ```lua
 -- My NVIM config (scrapped together from various internet sources with some personalizations too)
@@ -2395,8 +2425,8 @@ Since the start of this course I've begun to use vimkeys for everything. I touch
 local vim = vim
 local Plug = vim.fn['plug#']
 
-vim.opt.relativenumber = true                                              
-vim.opt.tabstop = 2                                                        
+vim.opt.relativenumber = true
+vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
 vim.g.loaded_netrw = 1
@@ -2413,10 +2443,10 @@ vim.call('plug#begin')
 Plug('junegunn/vim-easy-align')
 Plug('neoclide/coc.nvim')
 Plug('nvim-tree/nvim-tree.lua')
-Plug('nvim-tree/nvim-web-devicons') 
+Plug('nvim-tree/nvim-web-devicons')
 
 -- Setup bar for tabs
-Plug('lewis6991/gitsigns.nvim') 
+Plug('lewis6991/gitsigns.nvim')
 Plug('nvim-tree/nvim-web-devicons')
 Plug('romgrk/barbar.nvim')
 
@@ -2455,89 +2485,40 @@ I also configured my vscode vimkeys settings. I made it so that `control + u`, w
 ```json
 [
   {
-    "before": [
-      "<C-u>"
-    ],
-    "after": [
-      "<C-u>",
-      "z",
-      "z"
-    ]
+    "before": ["<C-u>"],
+    "after": ["<C-u>", "z", "z"]
   },
   {
-    "before": [
-      "<C-d>"
-    ],
-    "after": [
-      "<C-d>",
-      "z",
-      "z"
-    ]
+    "before": ["<C-d>"],
+    "after": ["<C-d>", "z", "z"]
   },
   {
-    "before": [
-      "<leader>",
-      "h"
-    ],
-    "commands": [
-      "workbench.action.focusLeftGroup"
-    ]
+    "before": ["<leader>", "h"],
+    "commands": ["workbench.action.focusLeftGroup"]
   },
   {
-    "before": [
-      "<leader>",
-      "l"
-    ],
-    "commands": [
-      "workbench.action.focusRightGroup"
-    ]
+    "before": ["<leader>", "l"],
+    "commands": ["workbench.action.focusRightGroup"]
   },
   {
-    "before": [
-      "<leader>",
-      "s",
-      "p"
-    ],
-    "commands": [
-      "editor.action.quickFix"
-    ]
+    "before": ["<leader>", "s", "p"],
+    "commands": ["editor.action.quickFix"]
   },
   {
-    "before": [
-      "<leader>",
-      "s"
-    ],
-    "commands": [
-      "workbench.view.explorer"
-    ]
+    "before": ["<leader>", "s"],
+    "commands": ["workbench.view.explorer"]
   },
   {
-    "before": [
-      "o"
-    ],
-    "after": [
-      "A",
-      "Enter"
-    ]
+    "before": ["o"],
+    "after": ["A", "Enter"]
   },
   {
-    "before": [
-      "O"
-    ],
-    "after": [
-      "I",
-      "Enter",
-      "Up"
-    ]
+    "before": ["O"],
+    "after": ["I", "Enter", "Up"]
   },
   {
-    "before": [
-      "<leader>",
-      "p"
-    ],
-    "commands": [
-      "editor.action.formatDocument"
-    ]
+    "before": ["<leader>", "p"],
+    "commands": ["editor.action.formatDocument"]
   }
 ]
 ```
@@ -2546,13 +2527,13 @@ I also configured my vscode vimkeys settings. I made it so that `control + u`, w
 
 This was all iterative and I added more things as the semester went along. The main things of note:
 
-* Aliases for:
-  * `suspend` and `hibernate`
-  * Editing my `bashrc` itself and then reloading it
-  * Launching `chrome` with a specific user logged in to Google
-* My `Zoxide` installation (an alternative for CD that remembers commonly used paths to help you find them)
-* `control k` or `control j`
-* Exporting some API keys that I always want access to
+- Aliases for:
+  - `suspend` and `hibernate`
+  - Editing my `bashrc` itself and then reloading it
+  - Launching `chrome` with a specific user logged in to Google
+- My `Zoxide` installation (an alternative for CD that remembers commonly used paths to help you find them)
+- `control k` or `control j`
+- Exporting some API keys that I always want access to
 
 ```bash
 # Basic power aliases

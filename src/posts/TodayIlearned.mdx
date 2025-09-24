@@ -3,13 +3,11 @@ title: Today I Learned
 type: "blog"
 date: "2024"
 covers: ["Post-20240713182452886.webp"]
-description:
-  A collection of random disconnected things that I learn on given days.
-tags: ["personal","featured"]
+description: A collection of random disconnected things that I learn on given days.
+tags: ["personal", "featured"]
 ---
 
-
-***
+---
 
 # Today I Learned
 
@@ -41,9 +39,9 @@ I set up [neotest](https://github.com/nvim-neotest/neotest) and [nvim-dap](https
 
 Some `vscode` shortcuts:
 
-* `control+1` focus the text editor group
-* `control+shift+e` toggle focus of the file tree and text editor group
-* "control+\`" focus the terminal, and then toggle it
+- `control+1` focus the text editor group
+- `control+shift+e` toggle focus of the file tree and text editor group
+- "control+\`" focus the terminal, and then toggle it
 
 # 2024-09-25
 
@@ -58,7 +56,7 @@ Learned sql, used \<https://sqlbolt.com\>. Very helpful tutorial.
 Neovim has built in spell checking! No plugins needed
 
 https://neovim.io/doc/user/spell.html
-`:setlocal spell spelllang=en_us`  enable built in neovim spell checking
+`:setlocal spell spelllang=en_us` enable built in neovim spell checking
 `z=` - see spelling suggestions
 
 # 2024-09-05
@@ -77,9 +75,9 @@ Make `dunst` go to the top right
 
 Bash variable parameter extraction + glob stuff
 
-* `${VARIABLE}%ff` removes the first occurrence of `ff` from the back of `VARIABLE`
-* `${VARIABLE}#ff` removes the first occurrence of `ff` from the front of `VARIABLE`
-* `${variable//pattern/replacement}` is a form of parameter expansion that replaces all occurrences of pattern with replacement in the value of variable
+- `${VARIABLE}%ff` removes the first occurrence of `ff` from the back of `VARIABLE`
+- `${VARIABLE}#ff` removes the first occurrence of `ff` from the front of `VARIABLE`
+- `${variable//pattern/replacement}` is a form of parameter expansion that replaces all occurrences of pattern with replacement in the value of variable
 
 # 2024-08-14
 
@@ -133,7 +131,7 @@ https://learn.microsoft.com/en-us/windows/security/application-security/applicat
 
 # 2024-07-13
 
-* [You can terminate a unified AST traversal early, or skip the iteration early, by returning special things](https://unifiedjs.com/explore/package/unist-util-visit-parents/#what-is-this). If you return `false` the iteration ends. If you return 'skip' then it skips the iteration right away (kinda like `continue` if it were a loop or walker iterator).
+- [You can terminate a unified AST traversal early, or skip the iteration early, by returning special things](https://unifiedjs.com/explore/package/unist-util-visit-parents/#what-is-this). If you return `false` the iteration ends. If you return 'skip' then it skips the iteration right away (kinda like `continue` if it were a loop or walker iterator).
 
 Used this to create this script to yoink a specific section from a markdown string (for example, I want to get the # Description section's paragraphs only)
 
@@ -141,16 +139,14 @@ Used this to create this script to yoink a specific section from a markdown stri
 export function getContentOfSection(
   markdown: string,
   header: string,
-  depth: number = 1
+  depth: number = 1,
 ) {
-  const ast = unified()
-    .use(remarkParse)
-    .parse(markdown);
+  const ast = unified().use(remarkParse).parse(markdown);
 
   const output: string[] = [];
   let inHeadersSection = false;
   let nextIsWantedText = false;
-  visit(ast, node => {
+  visit(ast, (node) => {
     if (
       node.type === "heading" &&
       node.depth === depth &&
@@ -176,7 +172,7 @@ export function getContentOfSection(
 Going to try to be more consistent with this again!
 
 ```ts
-console.trace("How did we get here?")
+console.trace("How did we get here?");
 ```
 
 Will do a `console.log` and also spit out a stack trace

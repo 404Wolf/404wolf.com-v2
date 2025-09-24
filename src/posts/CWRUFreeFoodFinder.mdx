@@ -2,10 +2,16 @@
 title: CWRU Free Food Finder
 type: "project"
 date: "2024"
-covers: ["googleCalandar.webp", "mobileUi.webp", "eventTiles.webp", "cloudRunLogs.webp"]
+covers:
+  [
+    "googleCalandar.webp",
+    "mobileUi.webp",
+    "eventTiles.webp",
+    "cloudRunLogs.webp",
+  ]
 description: |
   For Case Western's 2024 hackathon two friends and I built a webapp for locating free food on our campus. We used a fine tuned OpenAI model to read all events from our university's event management system and determined whether they had food, of what type, and to generate other metadata. We then displayed this data on a appealing MUI-React UI, and set up a deployment at free-cwru-food.404wolf.com! We added various additional features like a calendar integration, and have continued to improve the site.
-tags: ["featured","academic"]
+tags: ["featured", "academic"]
 cssclasses: ["404WolfMarkdown"]
 ---
 
@@ -63,29 +69,29 @@ However, the public URL fails to include some important information about the ev
 
 ```ts
 async function getAuthHeaders(caseId: string, casePassword: string) {
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: ["--no-sandbox"],
-        ignoreDefaultArgs: ["--disable-extensions"],
-    });
-    const page = await browser.newPage();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox"],
+    ignoreDefaultArgs: ["--disable-extensions"],
+  });
+  const page = await browser.newPage();
 
-    await page.goto("https://login.case.edu/cas/login");
-    await page.type("#username", caseId);
-    await page.type("#password", casePassword);
-    await page.click('input[name="submit"]');
+  await page.goto("https://login.case.edu/cas/login");
+  await page.type("#username", caseId);
+  await page.type("#password", casePassword);
+  await page.click('input[name="submit"]');
 
-    await page.goto("https://www.campusgroups.com/shibboleth/login?idp=cwru");
-    await page.waitForSelector('[id="button-menu-mobile"]', { timeout: 100000 });
-    await page.goto(URL);
+  await page.goto("https://www.campusgroups.com/shibboleth/login?idp=cwru");
+  await page.waitForSelector('[id="button-menu-mobile"]', { timeout: 100000 });
+  await page.goto(URL);
 
-    const cookies = await page.cookies();
-    const headers = {
-        Cookie: cookies.map((ck) => `${ck.name}=${ck.value}`).join("; "),
-    };
-    await browser.close();
+  const cookies = await page.cookies();
+  const headers = {
+    Cookie: cookies.map((ck) => `${ck.name}=${ck.value}`).join("; "),
+  };
+  await browser.close();
 
-    return headers;
+  return headers;
 }
 ```
 
@@ -124,18 +130,17 @@ Then you run a "training" session, which cost us only about $2, and you can use 
 
 ```ts
 const completion = await openai.chat.completions.create({
-            messages: [
-                {
-                    role: "system",
-                    content: `Your job is to read the description of a student-run event located at a local university, and determine whether the event provides food or not to people attending the event. You are also tasked with rating the food on a scale from 1 to 10, with 1 representing cheap canned food and 10 representing a fully prepared feast. If no part of the event mentions food, rate the food a 0. If there is food mentioned at all, give it at least a rating of 1, and at most a rating of 10. If there is food provided, to classify what cuisine the food is, which MUST be one of the following values: Pizza, Beverages, Cultural, Healthy, Sweets, Unknown, and None. Additionally, indicate whether this event is for volunteers or is offering food to the community. If it is, say true, otherwise if it is not or if taking food, say false. Additionally, indicate whether the location is on the university campus, or requires traveling off campus, also true or false (say true if it is unknown). Output each of these fields in a JSON object with the fields "rating", "cuisine", "volunteer", and "onCampus" 
+  messages: [
+    {
+      role: "system",
+      content: `Your job is to read the description of a student-run event located at a local university, and determine whether the event provides food or not to people attending the event. You are also tasked with rating the food on a scale from 1 to 10, with 1 representing cheap canned food and 10 representing a fully prepared feast. If no part of the event mentions food, rate the food a 0. If there is food mentioned at all, give it at least a rating of 1, and at most a rating of 10. If there is food provided, to classify what cuisine the food is, which MUST be one of the following values: Pizza, Beverages, Cultural, Healthy, Sweets, Unknown, and None. Additionally, indicate whether this event is for volunteers or is offering food to the community. If it is, say true, otherwise if it is not or if taking food, say false. Additionally, indicate whether the location is on the university campus, or requires traveling off campus, also true or false (say true if it is unknown). Output each of these fields in a JSON object with the fields "rating", "cuisine", "volunteer", and "onCampus" 
                     
                     Make sure that if there is food mentioned in the description that the rating is not a 0. Give a rating of 0 only if the event will not have any food.`,
-                },
-                { role: "user", content: description },
-            ],
-            model: FINE_TUNED_MODEL,
-        });
-
+    },
+    { role: "user", content: description },
+  ],
+  model: FINE_TUNED_MODEL,
+});
 ```
 
 Using the OpenAI API is basically like simulating a user interaction with ChatGPT, but a bit more customization. What's super cool is that the AI gives us a `json` formatted response consistently and always in the right shape. I doubted the safety of this, but OpenAi's own documentation notes that this is a good method for this sort of thing.

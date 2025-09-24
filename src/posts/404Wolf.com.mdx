@@ -33,13 +33,14 @@ I originally was planning on just using basic CSS, but after stumbling upon tail
 One fun thing I came across when designing the homepage UX is [Typewriter.js](https://safi.me.uk/typewriterjs/), a library for simulating typing. I thought it'd be a cool affect to apply to headers on my site, and then later experimented with other animations and animation frameworks a bit. It lets you do typewriter animations in a very nice modonic style.
 
 ```js
-typewriter.typeString('Hello World!')
-    .pauseFor(2500)
-    .deleteAll()
-    .typeString('Strings can be removed')
-    .pauseFor(2500)
-    .deleteChars(7)
-    .start();
+typewriter
+  .typeString("Hello World!")
+  .pauseFor(2500)
+  .deleteAll()
+  .typeString("Strings can be removed")
+  .pauseFor(2500)
+  .deleteChars(7)
+  .start();
 ```
 
 ## Post Management
@@ -48,13 +49,13 @@ One of the key features of my website is its integrated post management system. 
 
 ```ts
 interface PostData {
-    coverUrl: string | null;
-    coverAlt: string | null;
-    id: string;
-    title: string;
-    description: string;
-    date: string;
-    tags: string[];
+  coverUrl: string | null;
+  coverAlt: string | null;
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
 }
 ```
 

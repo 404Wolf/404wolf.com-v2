@@ -2,10 +2,11 @@
 title: Coin Date Sorting Robot
 type: "project"
 date: "2024"
-covers: ["sideViewWithRamp_0001.png", "frontView_0001.png", "wiresOnTable_0001.png"]
+covers:
+  ["sideViewWithRamp_0001.png", "frontView_0001.png", "wiresOnTable_0001.png"]
 description: |
   Coin-sort-bot is a physical robot that I co-designed and wrote software for to automatically align and sort coins based on their physical features like year, date, and mint location. It is designed mostly with fusion360 for CAD and Python driver software, and is an IOT device that connects to a separate Django webserver. It is still in development, and currently has a basic 3d printed prototype and driver software to control the hardware.
-tags: ["academic","featured"]
+tags: ["academic", "featured"]
 ---
 
 # Inspiration
@@ -24,9 +25,9 @@ I decided then, that, in addition to making a tool like that of the apps to conv
 
 At my university (Case Western) there is a campus makerspace called "Thinkbox." Each year they award various project ideas up to $2.5k to bring the ideas to fruition, through the [Thinkbox project fund](https://case.edu/thinkbox/funding/student-project-fund). Their grant page lists projects eligible as ones that are:
 
-* Individual and team-based extracurricular and personal projects.
-* Projects related to a competition.
-* Entrepreneurial projects that require prototypes.
+- Individual and team-based extracurricular and personal projects.
+- Projects related to a competition.
+- Entrepreneurial projects that require prototypes.
 
 Which my automatic coin sorter was a perfect match for. I applied for the grant, writing up the concept and creating a list of materials that I thought we'd need for the robot, like 3d printer filament, cameras, various sensors, and a raspberry pi. I invited a friend to help join me for the project, thinking that two people would increase the chance of approval. After a few weeks, we were approved for a $650 grant! I began ordering supplies, and started learning CAD and planning.
 
@@ -60,7 +61,7 @@ kit1 = MotorKit()
 kit2 = MotorKit(address=0x61)
 ```
 
-What *was* annoying, however, was getting RPIO (the interface that lets you use the raspberry pi hardware via Python) to work on my local machine for testing. What I figured out, however, is that I could remotely program to the Pi over SSH using either a VSCode remote development extension, or, Jetbrain's remote interpreter. With their remote interpreter add on, the code would automatically get shipped to the Pi's temp folder, and then would be executed on board, even though I'd be coding directly on my own computer. Now that I'm more into vim I probably could just do onboard development over ssh, though, which would be most ideal.
+What _was_ annoying, however, was getting RPIO (the interface that lets you use the raspberry pi hardware via Python) to work on my local machine for testing. What I figured out, however, is that I could remotely program to the Pi over SSH using either a VSCode remote development extension, or, Jetbrain's remote interpreter. With their remote interpreter add on, the code would automatically get shipped to the Pi's temp folder, and then would be executed on board, even though I'd be coding directly on my own computer. Now that I'm more into vim I probably could just do onboard development over ssh, though, which would be most ideal.
 
 ![Coinbot discord IP finder](coinbotDiscord_0001.png)
 ![Tailscale dashboard](tailscaleDashboard_0001.png)
@@ -97,7 +98,7 @@ We quickly realized, though, that it was entirely possible that multiple coins c
 
 ![The chute](Screenshot_from_2024-04-25_23-55-17_0001.png)
 
-We decided to take a break from the drum design, and move on to designing the actual chute that the channel would eventually connect to. The idea was that there would be many chutes stacked on top of each other, and we'd know which coin was falling ahead of time. We could have a single chute have its respective servo move into position so as to *redirect* the current falling coin into a funnel, which would have an output coin roll in it. The system was very vertical, and would hang off the edge of the table, using gravity to move the coins along.
+We decided to take a break from the drum design, and move on to designing the actual chute that the channel would eventually connect to. The idea was that there would be many chutes stacked on top of each other, and we'd know which coin was falling ahead of time. We could have a single chute have its respective servo move into position so as to _redirect_ the current falling coin into a funnel, which would have an output coin roll in it. The system was very vertical, and would hang off the edge of the table, using gravity to move the coins along.
 
 This system worked great! The servo was able to redirect the coin into the funnel, and the coin nicely fell into the bulbous shape of the funnel and aligned itself atop the other coins in the coin roll in the funnel. This system worked so well, in fact, that it inspired us to completely redesign our robot, and move away from the spinning drum method.
 

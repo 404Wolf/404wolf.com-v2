@@ -16,11 +16,11 @@ NO, NIX IS NOT JUST AN OPERATING SYSTEM. I'm going to talk about what it is and 
 
 Before even grappling with what it is, I think it's good to understand what it can do. Some awesome things that nix does:
 
-* Consistent developer environments that are decoratively specified. This means everyone working on a project can have the same LSP, binaries in their $PATH, etc.
-* Pure, reproducible project builds. Nix "wraps" onto tooling you already use for builds, and does the build in a sandbox. This means that there's no internet access, the time is set to `0` (UTC) (which means things like Latex "builds", which inject timestamps, will be reproducible too!), and more.
-* Let you configure your home directory using a project called "home manager." You can specify how to set up various programs and their configurations fully declarativly with `nix` code.
-* Create very minimal docker images, that don't have a `FROM` (that are `FROM SCRATCH`), and only have exactly the things you need to dockerize your project.
-* Get an android emulator going in 4 lines of code.
+- Consistent developer environments that are decoratively specified. This means everyone working on a project can have the same LSP, binaries in their $PATH, etc.
+- Pure, reproducible project builds. Nix "wraps" onto tooling you already use for builds, and does the build in a sandbox. This means that there's no internet access, the time is set to `0` (UTC) (which means things like Latex "builds", which inject timestamps, will be reproducible too!), and more.
+- Let you configure your home directory using a project called "home manager." You can specify how to set up various programs and their configurations fully declarativly with `nix` code.
+- Create very minimal docker images, that don't have a `FROM` (that are `FROM SCRATCH`), and only have exactly the things you need to dockerize your project.
+- Get an android emulator going in 4 lines of code.
   And a million other things.
 
 Where nix really shines is reproduability. If it works once, it will probably work again.
@@ -110,7 +110,7 @@ Flakes let us define ways to get to derivation (the things that "build their way
 
 ### A C hello world
 
-A grain of salt: I don't do much C. But I'm going to kick off this section with a C hello world, specifically because C is pretty easy to compile, and has a *build time* requirement: a compiler like `gcc`.
+A grain of salt: I don't do much C. But I'm going to kick off this section with a C hello world, specifically because C is pretty easy to compile, and has a _build time_ requirement: a compiler like `gcc`.
 
 This is a bit boring, but the way we package this will be helpful for some more fun stuff later.
 
@@ -131,8 +131,8 @@ To start, a tiny bit more on flakes.
 
 With flakes, there's some special `outputs` that `nix` will look for.
 
-* `packages.${system}.default`
-  * If we're running linux (this works on mac too though), this might be `packages.x86_64-linux.default`. This is basically the "default" thing that gets build when we do `nix build`, but if we specify something else, like `packages.${system}.foobar`, then we can build the derivation with the `nix` cli using `nix build .#foobar` instead.
+- `packages.${system}.default`
+  - If we're running linux (this works on mac too though), this might be `packages.x86_64-linux.default`. This is basically the "default" thing that gets build when we do `nix build`, but if we specify something else, like `packages.${system}.foobar`, then we can build the derivation with the `nix` cli using `nix build .#foobar` instead.
 
 This means that a flake often will look something like
 
@@ -219,7 +219,7 @@ Okay. So let's look at the `flake`...
             gcc -o hello ./hello.c
           '';
           installPhase = ''
-            mkdir -p $out/bin 
+            mkdir -p $out/bin
             cp hello $out/bin
           '';
         };
@@ -259,12 +259,12 @@ Here's our basic script that goes to `example.com` and yoinks the tab's title, p
 ```py
 #./main.py
 
-from selenium import webdriver 
+from selenium import webdriver
 
 if __name__ == "__main__":
-  driver = webdriver.Chrome() 
+  driver = webdriver.Chrome()
   driver.get('https://example.com')
-  print(driver.title) 
+  print(driver.title)
   driver.quit()
 ```
 
@@ -368,7 +368,7 @@ It works! Chromedriver should open up, the tab should load `example.com`, and th
 
 ![It works!](Post-20240713170649585.webp)
 
-This still is slightly impure (although, I should note that `nix` guarantees pure builds, not pure executions, so we may never be able to be 100% sure that the program will *run* the same way) though because we're appending to our $PATH, which means that we're expecting things to exist in our PATH that may not. I'd like to avoid "generating" bash scripts, so instead I'm going to use a utility called `wrapProgram` to set the PATH to whatever we have at build time as our path, which has the necessary deps and is pure (because of nix), and only run the python script with a bash script (to make it executable -- we could use a python shebang too).
+This still is slightly impure (although, I should note that `nix` guarantees pure builds, not pure executions, so we may never be able to be 100% sure that the program will _run_ the same way) though because we're appending to our $PATH, which means that we're expecting things to exist in our PATH that may not. I'd like to avoid "generating" bash scripts, so instead I'm going to use a utility called `wrapProgram` to set the PATH to whatever we have at build time as our path, which has the necessary deps and is pure (because of nix), and only run the python script with a bash script (to make it executable -- we could use a python shebang too).
 
 Here's what that would look like...
 
@@ -446,7 +446,7 @@ partial-screenshot = pkgs.writeShellScriptBin "partial-screenshot.sh" ''
   grim=${pkgs.grim}/bin/grim;
   wl_copy=${pkgs.wl-clipboard}/bin/wl-copy;
   notify=${pkgs.libnotify}/bin/notify-send;
-  ${builtins.readFile ./scripts/partial-screenshot.sh} 
+  ${builtins.readFile ./scripts/partial-screenshot.sh}
 '';
 ```
 
@@ -552,11 +552,11 @@ When you're ready for a real, pure build, you can then just slap in a `packages.
 
 There's a lot of nice nix abstractions out there. This includes 3rd party builders and builtin ones. Some cool ones are
 
-* [Poetry2nix](https://github.com/nix-community/poetry2nix) to build poetry python projects easily
-* [buildMavenPackage](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/maven.section.md) to build java projects
-* [buildNpmPackage](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/javascript.section.md) for building maven packages
-* [buildGoModule](https://nixos.wiki/wiki/Go) for building go modules
-* And builders for most other languages too!
+- [Poetry2nix](https://github.com/nix-community/poetry2nix) to build poetry python projects easily
+- [buildMavenPackage](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/maven.section.md) to build java projects
+- [buildNpmPackage](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/javascript.section.md) for building maven packages
+- [buildGoModule](https://nixos.wiki/wiki/Go) for building go modules
+- And builders for most other languages too!
 
 One of the issues with packaging with nix is that the `sandbox` that the building happens in must use `nix`'s primitive `fetchers` like `fetchURL` and `fetchTAR` before unpacking, and there's no internet during the build step. This poses a challenge since you can't do things like `pip install` during the build. These fancy builders basically let you do the downloads and specify hashes before the build, using the `hashes` to guarantee purity (a common `nix` technique)
 

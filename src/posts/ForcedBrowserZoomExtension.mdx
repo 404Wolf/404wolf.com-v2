@@ -2,7 +2,12 @@
 title: Forced Browser-Based Zoom Extension
 type: "project"
 date: "2024"
-covers: ["Post-20240716211735260.webp", "Post-20240716212111111.webp", "Post-20240716214604533.webp"]
+covers:
+  [
+    "Post-20240716211735260.webp",
+    "Post-20240716212111111.webp",
+    "Post-20240716214604533.webp",
+  ]
 description: |
   This idea spawned from my hatred and eternal frustration with Zoom. It's just always a pain to deal with; screen share often just doesn't work right, the UI glitches out, audio is a mess and very inconsistent, and it eats up system resources and is probably doing mysterious things behind the scenes intruding on privacy. There's a solution though: use Zoom in your browser, only, always, ever! Zoom provides an option to join in the browser, given that you reject their popups to open in desktop, and then click through a chain of links to open in the browser. My solution: a browser extension to redirect Zoom links directly to browser Zoom.
 tags: ["personal"]
@@ -123,11 +128,15 @@ This option looked great! Just monitor when a tab starts to visit a URL and then
 The code for deciding to redirect the user ended up being super minimal, and looked something like this...
 
 ```js
-chrome.webNavigation.onCommitted.addListener(details => {
-  zoomPattern = /^https:\/\/(\w+\.)?\w+\.\w+\/j\/\d{10}\?pwd\=[a-zA-Z0-9]{32}$/;
-  if (details.url.match(zoomPattern))
-    chrome.tabs.update(details.tabId, {url: `${details.url}#success`});
-}, {url: [{urlMatches: ".*"}]});;
+chrome.webNavigation.onCommitted.addListener(
+  (details) => {
+    zoomPattern =
+      /^https:\/\/(\w+\.)?\w+\.\w+\/j\/\d{10}\?pwd\=[a-zA-Z0-9]{32}$/;
+    if (details.url.match(zoomPattern))
+      chrome.tabs.update(details.tabId, { url: `${details.url}#success` });
+  },
+  { url: [{ urlMatches: ".*" }] },
+);
 ```
 
 It's probably a bit more complicated than it had to be, but basically I wanted to be super careful that people would only be redirected when they visited Zoom URLs, and Zoom URLs can be hosted on your own enterprise domain (e.g. `zoom.yourcompany.com`), so I wanted to make sure that I pattern matched against the Zoom URL schema as tightly as possible with regex.
@@ -141,8 +150,12 @@ This is just a clickable element, and interacting with it was as simple as using
 The full code for this looks like this
 
 ```js
-const elements = [...document.querySelectorAll('a[role="button"][tabindex="0"]')];
-const element = elements.find((el) => el.innerText === 'Join from Your Browser');
+const elements = [
+  ...document.querySelectorAll('a[role="button"][tabindex="0"]'),
+];
+const element = elements.find(
+  (el) => el.innerText === "Join from Your Browser",
+);
 if (element) {
   element.click();
 }
@@ -155,7 +168,7 @@ I also added some code to remove the other buttons on the page and Ads to get th
 ```js
 // findAndRemoveIfExists is a helper function I define elsewhere. It does what
 // the name says it does.
-findAndRemoveIfExists('div.ifP196ZE.x2RD4pnS');
+findAndRemoveIfExists("div.ifP196ZE.x2RD4pnS");
 findAndRemoveIfExists('hr[role="presentation"]');
 findAndRemoveIfExists('h3[class="rm-presentation"]');
 ```
@@ -163,9 +176,12 @@ findAndRemoveIfExists('h3[class="rm-presentation"]');
 And had a bit of fun messing with the DOM...
 
 ```js
-const zoomAppSpans = document.querySelectorAll('span');
-const targetSpan = [...zoomAppSpans].find(span => span.textContent.includes("with the Zoom"));
-if (targetSpan) targetSpan.childNodes[0].textContent = "Hate the Zoom Desktop App? "
+const zoomAppSpans = document.querySelectorAll("span");
+const targetSpan = [...zoomAppSpans].find((span) =>
+  span.textContent.includes("with the Zoom"),
+);
+if (targetSpan)
+  targetSpan.childNodes[0].textContent = "Hate the Zoom Desktop App? ";
 ```
 
 And then all I had to do was write a `manifest.json` with the right permissions. It turns out that ChatGPT is much better at writing the old `manifest V2` style manifests, but it was still helpful
@@ -183,15 +199,12 @@ It was pretty simple, and the hard part was just finding what I needed permissio
   },
   "content_scripts": [
     {
-      "matches": [ "https://*/*" ],
-      "js": [ "content.js" ],
+      "matches": ["https://*/*"],
+      "js": ["content.js"],
       "run_at": "document_idle"
     }
   ],
-  "permissions": [
-    "activeTab",
-    "webNavigation"
-  ],
+  "permissions": ["activeTab", "webNavigation"],
   "action": {
     "default_popup": "popup.html",
     "icons": {
