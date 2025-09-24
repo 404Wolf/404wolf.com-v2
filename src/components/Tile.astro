@@ -12,6 +12,8 @@ const styles = cva(["p-2"], {
 });
 ---
 
-<div class={styles({ kind: Astro.props.kind, className: Astro.props.className })}>
+<div
+  class={styles({ kind: Astro.props.kind, className: Astro.props.className })}
+>
   {Astro.props.children}
 </div>

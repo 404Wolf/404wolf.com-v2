@@ -1,28 +1,26 @@
 ---
 import Typewriter from "typewriter-effect";
-import { SITE_TITLE } from "../consts";
-import HeaderLink from "./HeaderLink.astro";
 ---
 
 <header>
-    <div class="relative px-1 text-center">
-      <div class="overflow-hidden">
-        <span class="text-transparent cursor-none">
-          {" "}
-          Hi! I'm Wolf Mermelstein{" "}
-        </span>
-        <span class="absolute left-0">
-          <Typewriter
-            onInit={(typewriter) => {
-              typewriter
-                .typeString("Hi! ")
-                .pauseFor(700)
-                .typeString("I'm Wolf Mermelstein")
-                .start();
-            }}
-            options={{ delay: 70, cursor: "", autoStart: true }}
-          />
-        </span>
-      </div>
+  <div class="relative px-1 text-center">
+    <div class="overflow-hidden">
+      <span class="text-transparent cursor-none">
+        {" "}
+        Hi! I'm Wolf Mermelstein{" "}
+      </span>
+      <span class="absolute left-0">
+        <Typewriter
+          onInit={(typewriter) => {
+            typewriter
+              .typeString("Hi! ")
+              .pauseFor(700)
+              .typeString("I'm Wolf Mermelstein")
+              .start();
+          }}
+          options={{ delay: 70, cursor: "", autoStart: true }}
+        />
+      </span>
     </div>
+  </div>
 </header>

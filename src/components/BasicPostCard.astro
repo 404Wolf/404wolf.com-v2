@@ -59,14 +59,17 @@ const backgroundStyle = currentCoverUrl
   ? `background-image: url('${currentCoverUrl}')`
   : `background-color: rgb(90, 90, 90)`;
 ---
+
 <div class={cardClass}>
   <a href={path} class="block">
     <div class={imageClass} style={backgroundStyle}>
       <div class="flex gap-1 absolute bottom-0 -left-2">
         {post.type && <Tag>{toTitleCase(post.type)}</Tag>}
-        {tagsToUse.map((tag: string) => (
-          <Tag key={tag}>{toTitleCase(tag)}</Tag>
-        ))}
+        {
+          tagsToUse.map((tag: string) => (
+            <Tag key={tag}>{toTitleCase(tag)}</Tag>
+          ))
+        }
       </div>
       <Tag position="tr">{post.date}</Tag>
       <h1

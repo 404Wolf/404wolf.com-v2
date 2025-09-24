@@ -32,13 +32,13 @@ const tagVariants = cva(
 );
 ---
 
-<span 
-    class={tagVariants({ 
-        position: Astro.props.position ?? "bl", 
-        variant: Astro.props.variant ?? "default", 
-        size: Astro.props.size ?? "default", 
-        className: Astro.props.className ?? "" 
-    })}
+<span
+  class={tagVariants({
+    position: Astro.props.position ?? "bl",
+    variant: Astro.props.variant ?? "default",
+    size: Astro.props.size ?? "default",
+    className: Astro.props.className ?? "",
+  })}
 >
-    {Astro.props.children}
+  {Astro.props.children}
 </span>

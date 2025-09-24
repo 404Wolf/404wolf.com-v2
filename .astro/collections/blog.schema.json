@@ -10,7 +10,10 @@
         },
         "type": {
           "type": "string",
-          "enum": ["blog", "project"]
+          "enum": [
+            "blog",
+            "project"
+          ]
         },
         "date": {
           "type": "string",
@@ -44,7 +47,13 @@
           "type": "string"
         }
       },
-      "required": ["title", "type", "date", "covers", "tags"],
+      "required": [
+        "title",
+        "type",
+        "date",
+        "covers",
+        "tags"
+      ],
       "additionalProperties": false
     }
   },

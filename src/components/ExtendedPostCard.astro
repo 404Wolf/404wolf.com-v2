@@ -100,26 +100,33 @@ const descriptionVariants = cva(
   },
 );
 ---
+
 <div class={cardVariants({ size, className })}>
   <a href={path} class="block relative w-full h-full">
-    {coverUrl ? (
-      <img
-        alt={coverAlt || `${title}'s cover image`}
-        src={coverUrl}
-        class={imageVariants({ variant: "image" })}
-      />
-    ) : (
-      <div class={imageVariants({ variant: "placeholder" })} />
-    )}
+    {
+      coverUrl ? (
+        <img
+          alt={coverAlt || `${title}'s cover image`}
+          src={coverUrl}
+          class={imageVariants({ variant: "image" })}
+        />
+      ) : (
+        <div class={imageVariants({ variant: "placeholder" })} />
+      )
+    }
     <h1 class={overlayVariants({ position: "topLeft" })}>{title}</h1>
     <div class={overlayVariants({ position: "bottomRight" })}>{date}</div>
-    {tags.length > 0 && (
-      <div class="flex gap-1 absolute -bottom-1 -left-2">
-        {tags.map((tag) => (
-          <Tag variant="secondary" size="sm">{toTitleCase(tag)}</Tag>
-        ))}
-      </div>
-    )}
+    {
+      tags.length > 0 && (
+        <div class="flex gap-1 absolute -bottom-1 -left-2">
+          {tags.map((tag) => (
+            <Tag variant="secondary" size="sm">
+              {toTitleCase(tag)}
+            </Tag>
+          ))}
+        </div>
+      )
+    }
     <p class={descriptionVariants()}>{description}</p>
   </a>
 </div>
