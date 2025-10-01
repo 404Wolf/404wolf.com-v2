@@ -1,7 +1,7 @@
 ---
 title: Forced Browser-Based Zoom Extension
 type: "project"
-date: "2024"
+date: "2024-01-01"
 covers:
   [
     "https://static.404wolf.com/Post-20240716211735260.webp",
@@ -33,7 +33,7 @@ I figured out if you visit a Zoom URL that already has this `#success` flag at t
 
 The next step in the user flow I thought would be simple, just scrape the page and find the URL that the "Join from your Browser" button links to, and then redirect there, but it turns out that that button is actually executing javascript.
 
-![The button](https://static.404wolf.com/https://static.404wolf.com/Post-20240716212111111.webp)
+![The button](https://static.404wolf.com/Post-20240716212111111.webp)
 
 Luckily extensions do have the ability to modify the webpage, so I could just click the button for the user. This is annoying, but it works fine.
 
@@ -89,7 +89,7 @@ And then in Chrome (and in Firefox it was a similar process) I went to `chrome:/
 
 Afterwards, I clicked to load the "unpacked" (you can "pack" your extension as a special zip like file with encryption, in case you want to deploy a closed source extension) plugin.
 
-![Loading it in](https://static.404wolf.com/https://static.404wolf.com/Post-20240716222359125.webp)
+![Loading it in](ttps://static.404wolf.com/Post-20240716222359125.webp)
 
 And it was added! It was a pretty easy process. I could get logs by clicking "Details", and could just reload it by clicking a little reload icon.
 

@@ -16,9 +16,10 @@ const { header = true, title = "404wolf.com" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
-  <body>
+  <body
+    class="py-[6%] px-[4.5%] md:px-[10%] lg:px-[16%] xl:px-[15%] max-w-[170rem] mx-auto"
+  >
     {header && <Header />}
-
     <slot />
   </body>
 </html>

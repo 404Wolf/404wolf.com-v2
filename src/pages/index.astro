@@ -19,7 +19,7 @@ const featuredPosts = allPosts
     <div class="flex flex-col sm:flex-row gap-7 sm:gap-6">
       {
         featuredPosts.length > 0 && (
-          <Tile>
+          <Tile title="Featured Posts" direction="left">
             <div class="flex flex-col gap-3">
               {featuredPosts.map((post) => (
                 <BasicPostCard
@@ -39,11 +39,8 @@ const featuredPosts = allPosts
         )
       }
 
-      <Tile>
-        <h2 class="text-xl font-bold mb-4">About</h2>
-        <div
-          class="max-h-[600px] overflow-y-auto overflow-x-clip prose max-w-none"
-        >
+      <Tile title="About" direction="right">
+        <div class="max-h-96 overflow-y-auto overflow-x-clip prose max-w-none">
           <BasicAbout />
         </div>
       </Tile>

@@ -2,59 +2,65 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import "../styles/markdown.css";
-import Header from "../pages/Header.astro";
+import "../styles/global.css";
+import BaseLayout from "./BaseLayout.astro";
+import Tile from "../components/Tile.astro";
+import Tag from "../components/Tag.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, covers, tags } = Astro.props;
+const { title, covers, tags, description } = Astro.props;
 const cover =
   covers && covers.length > 0
     ? covers[Math.floor(Math.random() * covers.length)]
     : null;
 ---
 
-<html lang="en">
-  <Header />
-
-  <body>
-    <main class="w-full max-w-full m-0">
-      <article>
-        <div class="w-full">
+<BaseLayout>
+  <div class="bg-slate-400 max-w-5xl mx-auto py-3 px-6 rounded-xl">
+    <div class="mt-3 overflow-visible">
+      <Tile title="Overview" direction="right" className="mb-6">
+        <div class="h-fit overflow-auto">
           {
             cover && (
-              <Image
-                width={1020}
-                height={510}
-                src={cover}
-                alt=""
-                class="w-full block mx-auto rounded-xl shadow-lg"
-              />
+              <div class="relative pointer-events-none rounded-xl w-2/5 sm:w-1/4 sm:mt-4 sm:ml-2 float-right">
+                <div class="max-h-60 overflow-clip border-4 border-slate-500 rounded-xl">
+                  <Image
+                    width={400}
+                    height={400}
+                    src={cover}
+                    class="rounded-xl scale-105"
+                    alt={`${title}'s cover image`}
+                  />
+                </div>
+              </div>
             )
           }
-        </div>
-        <div
-          class="w-full max-w-3xl mx-auto p-4 text-gray-800 dark:text-gray-200"
-        >
-          <div class="mb-8 pt-8 text-center">
-            <h1 class="m-0 mb-4 text-4xl font-bold">{title}</h1>
-            {
-              tags && (
-                <div class="flex flex-wrap justify-center gap-2 mb-4">
-                  {tags.map((tag) => (
-                    <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )
-            }
-            <hr class="border-gray-300 dark:border-gray-600" />
-          </div>
-          <div class="prose prose-lg dark:prose-invert max-w-none markdown">
-            <slot />
+          <div class="-mt-1 mb-2 sm:mb-1 text-lg sm:text-xl">
+            {description || title}
           </div>
         </div>
-      </article>
-    </main>
-  </body>
-</html>
+
+        {
+          tags && (
+            <div class="brightness-125 absolute -right-4 -bottom-2 z-50">
+              <div class="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <Tag contents={tag} />
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </Tile>
+
+      <div class="m-6"></div>
+
+      <Tile title={title} direction="right">
+        <div class="-mt-4 xl:px-[14%] markdown">
+          <slot />
+        </div>
+      </Tile>
+    </div>
+  </div>
+</BaseLayout>

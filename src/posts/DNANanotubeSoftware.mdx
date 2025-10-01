@@ -1,8 +1,12 @@
 ---
 title: DNA Nanotube Design Software
 type: "project"
-date: "2022"
-covers: ["https://static.404wolf.com/example_nanotube.webp", "https://static.404wolf.com/first_top_view.webp"]
+date: "2022-01-01"
+covers:
+  [
+    "https://static.404wolf.com/example_nanotube.webp",
+    "https://static.404wolf.com/first_top_view.webp",
+  ]
 description: |
   NATuG (Nucleic Acid Tube Grapher) was an academic research project I undertook in my senior year that's a Python3-based desktop application designed to streamline the DNA nanotube design process. It's one of my most extensive projects, involving a complex and dynamic UI that lets users visualize DNA nanotube shapes, weave together strands of DNA with cross-strand exchanges, set and export sequences, and more. Here I discuss what the program does, a bit about how it works, and how I got involved.
 tags: ["academic", "featured"]
@@ -12,7 +16,7 @@ cssclasses: ["404WolfMarkdown"]
 # Getting Started
 
 A video "TLDR" of what NATuG can do --
-![Program preview](programOverview_0001_0001_0001.webm|autoplay=true|float=none|width=100)
+![Program preview](https://static.404wolf.com/programOverview_0001_0001_0001.webm)
 
 A technical briefing made in preparation for a "technical deep dive" presentation on the project can be found **[here](https://github.com/404Wolf/stainless-technical-breifing-natug/releases/download/v1.0/natug_technical_brief.pdf)**.
 
@@ -34,7 +38,7 @@ I like to think of DNA nanotubes as a niche in the complex and ever-growing real
 
 There are many different forms of nanotubes that can be created, but they are all somehow alterations of a hollow, tubular structure. They involve conjoining many cylindrical DNA double helices with cross-strand exchanges to 'bond' them together. DNA nanotubes possess significant potential for use in targeted drug delivery, tissue wound repair, and much more. The specific form of nanotube that I've focused on consist of multiple double helices running parallel to each other, a specific type of nanotube. Even with the constraints of the structure I was designing software to create, design is very complex, and there are many different possible tubes. The design process involves identifying a tube shape consistent with the intrinsic geometry of a DNA double helix, aligning helices, placing connections between helices as to generate minimal strain, and determining base sequences.
 
-![Staple Strands](dnaOrigami_0001.png|float=left)
+![Staple Strands](https://static.404wolf.com/dnaOrigami_0001.png)
 
 Making matters more complex is the fact that to actually go about transferring the theoretical shapes to test tubes, these nanotubes generally utilize DNA origami, in which a long viral strand is folded into shape by short "staple strands." This is because synthetic DNA can only be up to 100 base pairs in length or so, while viral DNA can cheaply be produced with thousands of bases. By using strand "staples" you can fold up the virus into a shape of your choosing.
 
@@ -66,14 +70,14 @@ My first step with the program, before building a complex, multi-widget UI, was 
 
 ## The plots
 
-![Side view plot](topView_0002.svg|float=none|width=100)
+![Side view plot](https://static.404wolf.com/topView_0002.svg)
 
 NATuG consists of two plots: the **top view plot** and the **side view plot**. Both plots display the same nanostructures, but from two different perspectives.
 
 ### Top View Plot
 
-![Heart shaped tube](https://static.404wolf.com/https://static.404wolf.com/heart_tube.webp)
-![Symmetrical design](https://static.404wolf.com/https://static.404wolf.com/symmetric_design.webp)
+![Heart shaped tube](https://static.404wolf.com/heart_tube.webp)
+![Symmetrical design](https://static.404wolf.com/symmetric_design.webp)
 
 The top view plot displays a view of the nanotube from the top down, showcasing the overall shape of the tube. It allows the user to better visualize what they are actually constructing. As one tinkers with the inter-domain angles, the actual shape of the tube changes. Each circle represents a DNA double helix, and the fact that they all touch and eventually close up indicates that it is a closed tube. I've also made it so that if you click on a specific double helix in the top view plot, NATuG automatically pans to the side view plot location that has information on the nucleosides in that region.
 
@@ -115,7 +119,7 @@ On a more personal note, this project was one of my best coding experiences yet.
 
 ## Learn more
 
-![Poster preview](natugPosterLowRes_0001.png|float=none|width=100)
+![Poster preview](https://static.404wolf.com/natugPosterLowRes_0001.png)
 
 Though this post attempts to discuss the needed background to understand what NATuG does, I still strongly suggest reading my professor's [paper on the design of DNA nanotubes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1471877/). It's definitely quite complex, but it has useful diagrams and is a very interesting and mind bending read. Also, it may be helpful to check out [this poster I created showcasing the project](https://drive.google.com/file/d/1R7wqzkVm2bnDmgzsexkkqsYj_X0iEB5T/view?usp=sharing).
 

@@ -1,7 +1,7 @@
 ---
 title: Obsidian Contact Importer
 type: "project"
-date: "2024"
+date: "2024-01-01"
 covers: ["https://static.404wolf.com/Post-20240806180300351.webp"]
 description: |
   A project to bring phone contacts into Obsidian as markdown files, converting vCard (.vcf) files exported from phones or Google Contacts into nicely formatted notes. By storing contacts as markdown, users can take better notes about people they meet and maintain richer context around relationships, while keeping everything in their Obsidian vault. The tool uses customizable templates and handles contact details like names, phones, emails, addresses and even contact photos, making contact information easily searchable and editable within Obsidian's ecosystem.&#x20;
@@ -22,7 +22,7 @@ A lot of people have extended obsidian with its powerful plugin plugin system, t
 
 Obsidian is [Electron](https://www.electronjs.org/), so it can do anything a browser can. It's implemented very well and you don't really notice this unless you try, but if you want to _create_ for Obsidian, the sky is the limit -- heck, [you can create plugins with React](https://docs.obsidian.md/Plugins/Getting+started/Use+React+in+your+plugin).
 
-![Obsidian full calendar](https://static.404wolf.com/https://static.404wolf.com/Post-20240806165246984.webp)
+![Obsidian full calendar](https://static.404wolf.com/Post-20240806165246984.webp)
 
 One plugin I've started using is [Obsidian Full Calendar](https://github.com/obsidian-community/obsidian-full-calendar), which a cool calendar plugin for Obsidian that lets you unidirectionally sync iCal calendars, and then also manage events within Obsidian, where it can treat events as markdown files. That means that I can create an event within Obsidian, and it can create a corresponding event markdown file, that has the actual metadata for the event in it.
 
@@ -30,7 +30,7 @@ This is a paradigm that I really like -- treating usually structured and rigid d
 
 I have started to use templates to create other types of "typically _structured_ dataforms" in unstructured markdown. The nice thing about Obsidian is that this does **not** mean copying and pasting every single template. Templating in Obsidian is pretty mature at this point, it comes with a [built in templating plugin](https://help.obsidian.md/Plugins/Templates), and the community has created a much more powerful [Templator](https://github.com/SilentVoid13/Templater) plugin. You can plug in everything from the current note's file name, to the date, to arbitrary javascript function results.
 
-![Omnisearch](https://static.404wolf.com/https://static.404wolf.com/Post-20240806170104437.webp)
+![Omnisearch](https://static.404wolf.com/Post-20240806170104437.webp)
 
 I think one of the coolest Obsidian plugins, that really does totally change the experience, is [Omnisearch](https://github.com/scambier/obsidian-omnisearch), which is a super powerful search engine for your entire note vault. It does weighted fuzzy finding across all vault contents, and it even OCRs images and PDFs. What that means is that the search results are always as relevant as possible -- if you search for a file, files with some of that name (it's fuzzy!) show up first, followed by notes with titles, and contents. This means that if all of my life is stored as markdown in my Obsidian vault, then it's easy to find things later.
 
@@ -40,7 +40,7 @@ Part of this does mean that I'm restarting systems that I've had in place for a 
 
 Importing old calendar events is good enough for now, because since the plugin supports linking iCal I still can view all my old events, I just don't have the ability to have corresponding markdown files. I probably could figure out how to import them that way with some scripting, but that's not really worth it for me since those events are in the past and I'm probably not still taking notes on them.
 
-![My options](https://static.404wolf.com/https://static.404wolf.com/Post-20240806171003276.webp)
+![My options](https://static.404wolf.com/Post-20240806171003276.webp)
 
 One area of my note-taking life that I would like to include in my Obsidian vault, though, is my contacts. All my contacts before this project were, as was the case for most people, stored in [Google Contacts](contacts.google.com), and on my phone in the Contacts app.
 
@@ -56,15 +56,15 @@ By having all my contacts in raw markdown, I think it will both lower the barrie
 
 ## Research
 
-![Google Contact export](https://static.404wolf.com/https://static.404wolf.com/Post-20240806171751994.webp)
+![Google Contact export](https://static.404wolf.com/Post-20240806171751994.webp)
 
 If I assume that all my contacts are in Google contacts (a bold proposition), then I can export them as a CSV and then use them that way. But that also means that anyone who uses my tool will also need to be using Google contacts. I guess I could have asked people to upload their contacts to Google so that they could then download them as a CSV, but that's clunky, so I decided to look into how they exist on the phone itself.
 
 I can't really know how Apple is storing them on the file system because of how closed source it is, but one thing I did figure out is that Apple let's you export your contacts in a uniquely unintuitive way: press and hold on a contact "list", or "all contacts", and choose to Export (or email every single contact in your phone! I will not be doing that, though.).
 
-![Export all contacts](https://static.404wolf.com/https://static.404wolf.com/Post-20240806172024892.webp)
-![What?](https://static.404wolf.com/https://static.404wolf.com/Post-20240806172020774.webp)
-![Where to?](https://static.404wolf.com/https://static.404wolf.com/Post-20240806172014834.webp)
+![Export all contacts](https://static.404wolf.com/Post-20240806172024892.webp)
+![What?](https://static.404wolf.com/Post-20240806172020774.webp)
+![Where to?](https://static.404wolf.com/Post-20240806172014834.webp)
 
 ### VCards
 

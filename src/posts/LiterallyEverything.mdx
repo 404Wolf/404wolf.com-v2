@@ -1,8 +1,8 @@
 ---
 title: Literally Everything (in Python)
 type: "project"
-date: "2024"
-covers: ["everythingcli_0001"]
+date: "2024-01-01"
+covers: ["https://static.404wolf.com/everythingcli_0001.png"]
 description: |
   Using OpenAI's's API I've made it possible to literally import anything "from everything"! Any function you can imagine, dynamically generated at runtime, accessible with a simple import. When you import \<anything> from everything, my project uses Python's AST to scan your source, and find all usages of \<anything>. It then will merge a few lines of context on both sides of every function call, along with the call itself. Then, it will use OpenAI's gpt-4o model to generate a Python function, which you can then use in your code.
 tags: ["personal"]
@@ -130,7 +130,7 @@ So, I was thinking, wouldn't it be so awesome if you literally could `pip instal
 
 I looked into it, and it appears that `everything` was not taken on PyPi! However, it's reserved, probably to prevent name hoarding or abuse. I did a lot of research on this, and found out about [PEP 541](https://peps.python.org/pep-0541/), which is an approved Python PEP (project enhancement proposal) for reclaiming unused or unmaintained namespaces on PyPi. I made a request [here](https://github.com/pypi/support/issues/4320), as a github issue, which is the method they suggest, and am currently waiting to hear back.
 
-![The guy!](https://static.404wolf.com/https://static.404wolf.com/2024-07-04-20240705021721024_0001.webp)
-![Reaching out](https://static.404wolf.com/https://static.404wolf.com/2024-07-04-20240705021825560_0001.webp)
+![The guy!](https://static.404wolf.com/2024-07-04-20240705021721024_0001.webp)
+![Reaching out](https://static.404wolf.com/2024-07-04-20240705021825560_0001.webp)
 
 A bit more research scanning similar requests though, it doesn't seem like PyPi really handles 541 requests anymore. The requests pile up, but only the admins can actually resolve them. This led me on a search to try to find an admin that I might be able to contact directly to get the name `everything`. After a bit of searching, I found Ee, the head of infrastructure for the Python Foundation, and learned that he was a Recurse Center alum too. I reached out to him to see if he'd be able to help, and current am waiting for a response.

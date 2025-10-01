@@ -1,6 +1,13 @@
 ---
 import { cva } from "class-variance-authority";
 
+export interface Props {
+  position?: "tl" | "tr" | "bl" | "br" | "na";
+  variant?: "default" | "secondary" | "outline" | "ghost";
+  size?: "default" | "sm" | "lg";
+  contents: string;
+}
+
 const tagVariants = cva(
   "bg-primary text-white font-medium whitespace-nowrap relative",
   {
@@ -10,6 +17,7 @@ const tagVariants = cva(
         tr: "absolute top-1 right-1",
         bl: "absolute bottom-1 left-1",
         br: "absolute bottom-1 right-1",
+        na: "",
       },
       variant: {
         default: "bg-primary text-white",
@@ -34,11 +42,10 @@ const tagVariants = cva(
 
 <span
   class={tagVariants({
-    position: Astro.props.position ?? "bl",
+    position: Astro.props.position ?? "na",
     variant: Astro.props.variant ?? "default",
     size: Astro.props.size ?? "default",
-    className: Astro.props.className ?? "",
   })}
 >
-  {Astro.props.children}
+  {Astro.props.contents}
 </span>

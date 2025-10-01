@@ -1,8 +1,11 @@
 ---
 title: MSN Emails
 type: "blog"
-date: "2022"
-covers: ["caffeinate_creation", "covid_msn", "make_email"]
+date: "2022-01-01"
+covers:
+  - "https://static.404wolf.com/caffeinate_creation.webp"
+  - "https://static.404wolf.com/covid_msn.webp"
+  - "https://static.404wolf.com/make_email.webp"
 description: |
   A few years ago I discovered a Microsoft account creation captcha bypass exploit that allowed you to create @msn.com email accounts through an old piece of microsoft software called MSN explorer. I submitted a vulnerability report and got it approved, and a captcha added to the endpoint. I talk about how the process works, how I was able to figure it out, and, at the end, I provide an explanation of how it's still possible (in 2023+!) to create a Microsoft account with the domain via a straightforward step-by-step walk through.
 tags: ["personal"]
@@ -22,8 +25,8 @@ To start, I began by researching the history of the `@msn.com` domain a bit furt
 
 ### MSN Explorer
 
-![MSN Premium (2023)](https://static.404wolf.com/https://static.404wolf.com/msn_explorer.webp)
-![Install wizard](https://static.404wolf.com/https://static.404wolf.com/install_wizard.webp)
+![MSN Premium (2023)](ttps://static.404wolf.com/msn_explorer.webp)
+![Install wizard](https://static.404wolf.com/install_wizard.webp)
 
 As I carefully read through the product's description, things started looking promising: they offer "computer wide security software, advanced phishing filter technology, pop-up guard" but, most importantly, "**multiple e-mail accounts**." It wasn't explicitly stated, but it seemed like those "multiple emails" were likely to be somehow program-specific, and perhaps `@msn.com`-suffixed. Upon finding the subscription page I eagerly purchased a month subscription, fully intending to cancel right after exploration. I installed the program, which had, of course, a pleasant built-in installer soundtrack, and was greeted by a friendly, informative, archaic welcome screen and only slightly creepy "Hello, Wolf" cortana voice. It took a bit of time, but eventually I found what I was looking for. In the accounts tab of settings, under the "add user" form, in the "create user" subform, I found an ancient Microsoft webpage meant for creating `@msn.com` emails.
 

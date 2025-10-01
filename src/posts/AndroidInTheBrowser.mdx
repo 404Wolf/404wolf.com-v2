@@ -1,7 +1,7 @@
 ---
 title: Android in the Browser
 type: "project"
-date: "2024"
+date: "2024-01-01"
 description: |
   An ongoing effort to get a fully functional android phone embedded into an iFrame in a browser, with as little latency as possible. Note: post in progress!
 covers: ["https://static.404wolf.com/Post-20240807144914137.webp"]
@@ -589,7 +589,7 @@ Okay, I now (kinda) have a working stream coming out of the android device. This
 
 ### Streaming to a browser
 
-![Enter WebRTC](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145608512.webp)
+![Enter WebRTC](https://static.404wolf.com/Post-20240807145608512.webp)
 
 I did some research here, and there's a ton of different streaming protocols that browsers support. A google search reveals many, like
 
@@ -608,16 +608,16 @@ WebRTC is a peer to peer browser streaming protocol. It's pretty simple to use s
 
 That's great, but in my case I am doing a very centralized broadcast. I have media streaming off of a server, and want to ship that media to browsers directly. This is something that WebRTC isn't really designed for.
 
-![Janus Gateway](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145641902.webp)
-![Janus (the god)](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145717463.webp)
+![Janus Gateway](https://static.404wolf.com/Post-20240807145641902.webp)
+![Janus (the god)](https://static.404wolf.com/Post-20240807145717463.webp)
 
 There's a few implementations of the WebRTC protocol, like Google's official c++ one, or a community rewrite in rust (of course). To use them, there are projects like [node webrtc](https://github.com/node-webrtc/node-webrtc), which expose a javascript API to set up webrtc connections. The issue here is that I would have to implement a lot of the handshake process myself, even if I didn't need to actual manage the packets and connection stuff myself, which is a lot of work that I rather not get caught up in.
 
-![Ugh](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145750847.webp)
+![Ugh](https://static.404wolf.com/Post-20240807145750847.webp)
 
 It turns out that I'm not the first person who has wanted extremely low latency server based WebRTC, and there's tools that do roughly exactly what I was trying to do. There's a super cool project called [Janus Gateway](https://github.com/meetecho/janus-gateway) that is designed to be a centralized WebRTC server.
 
-![Nix to the rescue!](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145822398.webp)
+![Nix to the rescue!](https://static.404wolf.com/Post-20240807145822398.webp)
 
 It can do a ton of different things, and is a very large C project. The build process is a huge pain in the neck, but thankfully it was already packaged with `nix`, so I didn't need to deal with it.
 
@@ -630,7 +630,7 @@ There are [a whole bunch](https://janus.conf.meetecho.com/docs/pluginslist.html)
 - **VideoRoom** is a plugin meant for many to many streaming, so like, conference calls
 - **TextRoom**, which is a plugin that deals only with WebRTC's data channel to stream raw data at very low latency over WebRTC.
 
-![Jangouts](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145842880.webp)
+![Jangouts](https://static.404wolf.com/Post-20240807145842880.webp)
 
 There's a really neat project called [Jangouts](https://github.com/jangouts/jangouts) that lets you do google hangouts style conference calling through an open source server running Janus Gateway, which is a neat showcase of the capabilities of the plugins.
 
@@ -715,7 +715,7 @@ media: {
 }
 ```
 
-![Streaming plugin](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145901202.webp)
+![Streaming plugin](https://static.404wolf.com/Post-20240807145901202.webp)
 
 Getting the streaming plugin working at first seemed really annoying since the plugins are all `C` files that have to be built and then placed in a specific folder on your system, which is not that portable. However, analyzing the `janus` cli (the thing you use to launch `janus gateway`), I figured out that you can set flags to specify where to look things up. Also, the `nix` build of `janus` comes with all the plugins!
 
@@ -1064,10 +1064,10 @@ Okay, so I implemented all of this, and, to put it briefly, it did connect, but 
 
 The next major obstacle
 
-![Your tab crashed!](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145930075.webp)
+![Your tab crashed!](https://static.404wolf.com/Post-20240807145930075.webp)
 
-![NALUs](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145949240.webp)
+![NALUs](https://static.404wolf.com/Post-20240807145949240.webp)
 
 # Other Cool Things
 
-![RobotNix](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144559741.webp)
+![RobotNix](https://static.404wolf.com/Post-20240807144559741.webp)

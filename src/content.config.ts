@@ -13,8 +13,8 @@ export const VALID_TAG_TYPES = [
 export const blogFrontmatterSchema = z.object({
   title: z.string().min(1),
   type: z.enum(["blog", "project"]),
-  date: z.string().regex(/^\d{4}$|^\d{2}-\d{2}-\d{2}$/),
-  covers: z.array(z.string().min(1).url()),
+  date: z.string().date(),
+  covers: z.array(z.string().url()),
   tags: z.array(z.enum(VALID_TAG_TYPES)),
   description: z.string().optional(),
 });
