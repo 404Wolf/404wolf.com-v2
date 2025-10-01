@@ -139,7 +139,7 @@ Another important part of react markdown that I noticed in my research was conce
 />
 ```
 
-![The aha moment](inspiration_0001.png|width=60)
+![The aha moment](https://static.404wolf.com/inspiration_0001.png)
 
 It seemed that to incorporate clustered images, the simplest solution would be to have the groups of images in my markdown turn into some sort of fake `HTML` component with props including _all_ the images data, so that I could then define an override for that component, to render it the way I wanted. In other words, if a cluster of images in `markdown` could transform into something of the form `<imgBlock alts="alt1;alt2;alt3" srcs="src1;src2;src3"/>` I could then define a `React` component of the form `ImgBlock (alts, srcs) { ... }` to handle the rendering. The hard part would be to locate and modify the rendering process to have the output string include those custom `<ImgBlock>`s
 

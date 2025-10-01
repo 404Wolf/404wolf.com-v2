@@ -10,6 +10,7 @@ const allPosts = await getCollection("blog");
 const featuredPosts = allPosts
   .filter((post) => post.data.tags?.includes("featured"))
   .slice(0, 6);
+  console.log(featuredPosts)
 ---
 
 <BaseLayout title="Home">

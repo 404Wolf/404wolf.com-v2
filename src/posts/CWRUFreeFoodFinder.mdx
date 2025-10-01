@@ -12,7 +12,7 @@ cssclasses: ["404WolfMarkdown"]
 
 # [The Website](https://free-cwru-food.404wolf.com)
 
-![Main website](Screenshot_from_2024-03-25_13-20-22_0001.png|float=none|width=80)
+![Main website](https://static.404wolf.com/Screenshot_from_2024-03-25_13-20-22_0001.png)
 
 For Case Western's 2024 hackathon two friends (Mars and Mark) and I got together and built a webapp for locating free food on campus. We used a fine tuned OpenAI model to read all events on our universities event management service page and determine whether they had food, of what type, and to generate other metadata. We then displayed this data on a appealing MUI-React UI, which can be found at **[free-cwru-food.404wolf.com](https://free-cwru-food.404wolf.com)**. The github is located [here](https://github.com/404Wolf/Food-Finder).
 
@@ -96,29 +96,30 @@ To screen all the events and populate the database with the events that had food
 
 ```json
 {
-        description:
-            "Join the African Student Association at our annual Karaoke event, Battle of the Mics, where you can watch and/or sing your favorite African songs, from Afrobeats to Amapiano! Enjoy lighthearted competition, great music, delicious food, and an incredible time to start off the spring semester.",
-        rating: "7",
-        cuisine: "Cultural",
-        volunteer: "false",
-        onCampus: "true",
+  "examples": [
+    {
+      "description": "Join the African Student Association at our annual Karaoke event, Battle of the Mics, where you can watch and/or sing your favorite African songs, from Afrobeats to Amapiano! Enjoy lighthearted competition, great music, delicious food, and an incredible time to start off the spring semester.",
+      "rating": "7",
+      "cuisine": "Cultural",
+      "volunteer": "false",
+      "onCampus": "true"
     },
     {
-        description:
-            "Join us for Grind training on the FAB floor at think[box]. Proper PPE is Required [short sleeves, long pants, close-toed shoes, hair tied back, no jewelry An ability badge is required to complete this training. If you do not yet have an ability badge, you will need to complete a 15-minute safety tour prior to your training time",
-        rating: "0",
-        cuisine: "None",
-        volunteer: "false",
-        onCampus: "true",
+      "description": "Join us for Grind training on the FAB floor at think[box]. Proper PPE is Required [short sleeves, long pants, close-toed shoes, hair tied back, no jewelry An ability badge is required to complete this training. If you do not yet have an ability badge, you will need to complete a 15-minute safety tour prior to your training time",
+      "rating": "0",
+      "cuisine": "None",
+      "volunteer": "false",
+      "onCampus": "true"
     },
     {
-        description:
-            "Brew CWRU is hosting a field trip to Cleveland's very own Phoenix Coffee Co's HQ in downtown Cleveland! During this field trip, Phoenix Coffee's director will take us through various processes of QA/QC in specialty coffee including cupping, roasting, and dialing in a coffee recipe. Spots are limited due to transportation, so make sure you can commit to the registration and do not miss out on this amazing opportunity!",
-        rating: "4",
-        cuisine: "Beverages",
-        volunteer: "false",
-        onCampus: "false",
-    },
+      "description": "Brew CWRU is hosting a field trip to Cleveland's very own Phoenix Coffee Co's HQ in downtown Cleveland! During this field trip, Phoenix Coffee's director will take us through various processes of QA/QC in specialty coffee including cupping, roasting, and dialing in a coffee recipe. Spots are limited due to transportation, so make sure you can commit to the registration and do not miss out on this amazing opportunity!",
+      "rating": "4",
+      "cuisine": "Beverages",
+      "volunteer": "false",
+      "onCampus": "false"
+    }
+  ]
+}
 ```
 
 Then you run a "training" session, which cost us only about $2, and you can use the fine tuned model by referencing its id as a model for OpenAI requests, in conjunction with a prompt, like this:
@@ -144,7 +145,7 @@ We packaged this scanning system into a library that I then dockerized, and depl
 
 ## Finishing Touches
 
-![Mobile website](Screenshot_from_2024-03-25_13-21-22_0001.png|width=30)
+![Mobile website](https://static.404wolf.com/Screenshot_from_2024-03-25_13-21-22_0001.png)
 ![Google calendar integration](https://static.404wolf.com/Screenshot_from_2024-03-25_13-22-03_0001.png)
 
 To finalize the website, I added a few neat additional features. I added a [ical integration](https://www.npmjs.com/package/ical-generator) that lets you add all food events to your iCal supported calendar (like google calendar), and an add to Google Calendar link (if you click on the dates on any of the tiles it should take you to a pre-filled Google Calendar link). Getting Google Calendar template links to work was super cool, it's just a `url` template:

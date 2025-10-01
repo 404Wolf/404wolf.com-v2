@@ -12,7 +12,7 @@ export interface Props extends VariantProps<typeof styles.cards> {
 
 const { post, path } = Astro.props;
 
-const tags: string[] = [...(post.tags || null), post.type, post.date];
+const tags: string[] = [...(post.tags || []), post.type, post.date];
 
 const styles = {
   cards: cva("relative p-2 group", {

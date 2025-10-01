@@ -38,7 +38,7 @@ Lazy just means that the language won't try to evaluate anything it does not abs
 
 The question with so many answers. Nix is at least 4 totally different things.
 
-![So many nix packages!](map_repo_size_fresh_0001.svg)
+![So many nix packages!](https://static.404wolf.com/map_repo_size_fresh_0001.svg)
 
 1. It's a programming language. It's functional, lazy, and can be pure. You can do basic things like `{ a, b }: a + b`! You can also use it to do more advanced tasks like mapping over arrays or attrsets (dictionaries), and everything you'd want from a programming language.
 2. It's a [package manager](https://search.nixos.org/)! The nix repository has more packages than any other package manager (`apt`, `pacman`, etc), and more fresh (new) packages too! All the packages are not actual binary blobs, but `nix` code (remember, it's a language!) that defines build instructions for producing `derivations` (more on this later) containing over 100k different projects. This even includes pure build instructions for things like building `chrome` from source and packaged patched binaries like jetbrains IDEs (ikk). Your packages are all nicely managed in a `nix store`, again, more on this later.

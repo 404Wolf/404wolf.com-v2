@@ -33,7 +33,7 @@ It all began with an interest in learning how to use Arduinos. After a few years
 
 As I began my research, I realized that I was actually more enticed by the concept of the project (mass-garden-automation) than the actual implementation of the Arduino. Learning a custom and slightly esoteric programming language wasn't something that particularly interested me, but having infinite access to edible plants was very enticing. Though I'd start out the project with a simple Arduino-based system, later on, as will be explained, I moved away from the microcontroller and chose a larger-scale redundant system for the plant automation system. For the research process, I started out by exploring fast growing, easily maintainable plants. I really wanted to grow avocados, but they take a very long time to grow and generally are full sized trees. There is, however, a specific variety of avocado called [wartz avocados](https://minnetonkaorchards.com/wurtz-avocado-tree/) that are smaller, but one issue that quickly came to my attention is that once they reach maturity, which could take a very long time, the avocados themselves take a while to regenerate between harvests. Greens like spinach seemed to be popular choices for the type of system I was planning on making, but I wanted a crop that I could easily preserve over the long term, and unfortunately greens lose their texture when frozen. Berries seemed to be an appealing choice, given their quick germination and grow time, and so I eventually settled on strawberries.
 
-![How a relay works](howRelaysWork_0001.gif)
+![How a relay works](https://static.404wolf.com/howRelaysWork_0001.gif)
 
 Ultimately I settled on strawberries specifically, since I found that there are fairly common [stackable grow towers](https://www.amazon.com/Amazing-Creation-Strawberries-Vegetables-Succulents/dp/B07BSX6R31) readily available. The nice thing about the towers is that I could scale them to perfectly fit my closet, and could easily add more towers as needed. I ordered some generic strawberry seeds, and got to work cleaning out my closet. I lined the floor with a plastic garbage bag to prevent moisture from damaging the wood floor, and bought a [Govee brand water leak detector](https://us.govee.com/products/wireless-water-leak-detector) in case of any emergency spills. I sectioned off the right half of the closet for the tower and then set up a large bucket with fertilizer-water and affixed the arduino to the inside wall of the closet with velcro. Parsing together some code snippets I found online I figured out enough Arduino to set up a system for automatically dispersing water when the soil dried up using a soil moisture sensor, and covered the closet walls in tin foil with the hope of maximizing the amount of light hitting the plants. I purchased a small relay, a device that lets a low power device like an Arduino toggle an external power connection to higher power devices, and ran the positive wire of an extension cord across it, so I could control the lights automatically with the same system. Cutting the extension cord felt a bit scary, but it seemed to work so I didn't overthink it.
 
@@ -41,8 +41,8 @@ Ultimately I settled on strawberries specifically, since I found that there are 
 
 With everything complete and operational, the seeds did indeed germinate as anticipated, but the watering system didn't go according to plan. As time progressed, it didn't water often enough, and when I tinkered with the watering threshold it tended to over-water and cause spillage. To compensate, I ended up needing to manually water from time to time, which defeated the whole point of the project. So, I ended up pivoting to timer-based-watering, which worked, though it was slightly less precise.
 
-![Cheap grow lights](cheapGrowLights_0001.jpg)
-![Better grow lights](betterGrowLight_0001.jpg)
+![Cheap grow lights](https://static.404wolf.com/cheapGrowLights_0001.jpg)
+![Better grow lights](https://static.404wolf.com/betterGrowLight_0001.jpg)
 
 For the grow lights, I started out with a cheap Amazon grow light, but that didn't last long. After only a few days in the PSU melted itself, but since I had planned for the worst, it simply tripped my GFCI outlet (I ran an extension cord from a specially-protected laundry machine outlet, which has auto-shutoff for this sort of thing) and shut itself off. The replacement lights I bought were definitely better, but still weren't bright enough for the flourishing strawberries, so I ended up again purchasing higher quality more powerful bar lights. This third choice worked well, but it heated up my closet to an ambient 85 and drew 90 watts of power. The expense was notable (probably around $10-15 a month of extra power usage), but less than the quantity of strawberries I was expecting the plants to yield.
 
@@ -51,7 +51,7 @@ For the grow lights, I started out with a cheap Amazon grow light, but that didn
 ![Strawberry runners](https://static.404wolf.com/strawberryRunnerDiagram_0001.png)
 ![Diagram of runner connection](https://static.404wolf.com/strawberryRunnerDiagram_0001.png)
 
-![The first fertilizer](miracleGroFertalizer_0001.jpg)
+![The first fertilizer](https://static.404wolf.com/miracleGroFertalizer_0001.jpg)
 
 ![Strawberry Fruit](https://static.404wolf.com/strawberries.webp)
 
@@ -59,7 +59,7 @@ Within a few weeks the plants were off to a great start: they began branching ou
 
 ### Mold
 
-![Moldy leaves](moldyLeaves_0001.jpg)
+![Moldy leaves](https://static.404wolf.com/moldyLeaves_0001.jpg)
 
 The success unfortunately didn't last much more than a few weeks, which is when the mold started. A slight white powder type mold began appearing on the undersides of leaves, and it quickly spread to the entire plant. It seemed that it was "powdery mildew" that I was dealing with. I added a small dehumidifier from Amazon, and drilled a hole in the water tank to redirect the collected water back into the plant watering reservoir, which actually helped reduce the need to water the plant as often as an added bonus. I bought Neem oil as a natural fungicide to protect the edibility of the fruit, but it was futile at stopping the mold and only did so much as deter flies. In such a moist, enclosed setting, with plants growing in dirt, fungus was inevitable, but it got quite bad. Unfortunately I had to cave to a powerful toxic synthetic fungicide, which almost overnight completely ridded the plants of fungus, but had effectively made them ornamental for months to come. In the meantime I began planning for the next season, contriving a solution to prevent the fungus before it were to start. To me, the culprit was clear: it was the soil. I'd have to go dirt-less.
 
