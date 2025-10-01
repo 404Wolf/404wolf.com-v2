@@ -4,10 +4,7 @@ type: "project"
 date: "2024"
 covers:
   [
-    "googleCalandar.webp",
-    "mobileUi.webp",
-    "eventTiles.webp",
-    "cloudRunLogs.webp",
+    "https://static.404wolf.com/Screenshot_from_2024-03-28_23-28-45_0001.png",
   ]
 description: |
   For Case Western's 2024 hackathon two friends and I built a webapp for locating free food on our campus. We used a fine tuned OpenAI model to read all events from our university's event management system and determined whether they had food, of what type, and to generate other metadata. We then displayed this data on a appealing MUI-React UI, and set up a deployment at free-cwru-food.404wolf.com! We added various additional features like a calendar integration, and have continued to improve the site.
@@ -27,7 +24,7 @@ Update (2/2025): CampusGroups seems to have made a change that broke our web scr
 
 Though we were not supposed to begin working on our hackathon project before the official start time, we did decide to meet to brainstorm for the project a bit ahead of time. The two friends I teamed up with had previously worked on a separate hackathon at WashU to create an app for automatically registering for classes as spots opened up. Taking inspiration, we also wanted to work on a project that interfaced with some campus service to make it better and easier to use, but weren't sure which. We knew it'd need to be something that had an obvious and applicable use case, and something vague enough that we could make it more prompt-specific when the hackathon were to actually start.
 
-![CampusGroups events](Screenshot_from_2024-03-28_23-28-45_0001.png)
+![CampusGroups events](https://static.404wolf.com/Screenshot_from_2024-03-28_23-28-45_0001.png)
 
 As we brainstormed, we came up with a list of a few campus services that we could extend. Canvas is our school's portal for classes -- course announcements, grading, etc. We thought of adding a "Submit to Canvas" button Google Docs extension, or a "scheduled submit" option for Cavnas. I proposed the idea of making a syllabus scanner to find easy important details on each classes' syllabus. Eventually, we decided on creating some sort of analysis tool for our school's event management system CampusGroups. CampusGroups is a great platform for garnering all events happening on campus, but it can be a bit intimidating and confusing to filter through all the events.
 
@@ -51,7 +48,7 @@ The project's basic structure is as follows: we have a user facing frontend, whi
 
 ## Frameworks
 
-![Cloud run logs fetching events](Screenshot_from_2024-03-29_01-44-19_0001.png)
+![Cloud run logs fetching events](https://static.404wolf.com/Screenshot_from_2024-03-29_01-44-19_0001.png)
 
 We also decided early on on the tools that we wanted to use -- mostly typescript ones :).
 
@@ -150,7 +147,7 @@ We packaged this scanning system into a library that I then dockerized, and depl
 ## Finishing Touches
 
 ![Mobile website](Screenshot_from_2024-03-25_13-21-22_0001.png|width=30)
-![Google calendar integration](Screenshot_from_2024-03-25_13-22-03_0001.png)
+![Google calendar integration](https://static.404wolf.com/Screenshot_from_2024-03-25_13-22-03_0001.png)
 
 To finalize the website, I added a few neat additional features. I added a [ical integration](https://www.npmjs.com/package/ical-generator) that lets you add all food events to your iCal supported calendar (like google calendar), and an add to Google Calendar link (if you click on the dates on any of the tiles it should take you to a pre-filled Google Calendar link). Getting Google Calendar template links to work was super cool, it's just a `url` template:
 

@@ -2,7 +2,7 @@
 title: DNA Nanotube Design Software
 type: "project"
 date: "2022"
-covers: ["example_nanotube.webp", "first_top_view.webp"]
+covers: ["https://static.404wolf.com/example_nanotube.webp", "https://static.404wolf.com/first_top_view.webp"]
 description: |
   NATuG (Nucleic Acid Tube Grapher) was an academic research project I undertook in my senior year that's a Python3-based desktop application designed to streamline the DNA nanotube design process. It's one of my most extensive projects, involving a complex and dynamic UI that lets users visualize DNA nanotube shapes, weave together strands of DNA with cross-strand exchanges, set and export sequences, and more. Here I discuss what the program does, a bit about how it works, and how I got involved.
 tags: ["academic", "featured"]
@@ -30,7 +30,7 @@ I like to think of DNA nanotubes as a niche in the complex and ever-growing real
 
 ### DNA Nanotubes
 
-![Example DNA nanotube](example_nanotube.webp|float=right)
+![Example DNA nanotube](https://static.404wolf.com/example_nanotube.webp)
 
 There are many different forms of nanotubes that can be created, but they are all somehow alterations of a hollow, tubular structure. They involve conjoining many cylindrical DNA double helices with cross-strand exchanges to 'bond' them together. DNA nanotubes possess significant potential for use in targeted drug delivery, tissue wound repair, and much more. The specific form of nanotube that I've focused on consist of multiple double helices running parallel to each other, a specific type of nanotube. Even with the constraints of the structure I was designing software to create, design is very complex, and there are many different possible tubes. The design process involves identifying a tube shape consistent with the intrinsic geometry of a DNA double helix, aligning helices, placing connections between helices as to generate minimal strain, and determining base sequences.
 
@@ -42,25 +42,25 @@ While the process needed for nanotube design has been known for a while, up unti
 
 # The program
 
-![Side view plot](side_view_plot.webp|float=none|width=100)
+![Side view plot](https://static.404wolf.com/side_view_plot.webp)
 
 NATuG is, most simply put, a Python-based desktop application that is designed to streamline the DNA nanotube design process. It provides a nice UI that allows users to easily set the angles between double helices as to change the overall shape of the tube, while computing a top and side view plot in real time. NATuG automatically lines up the double helices as to allow for cross-strand exchanges to hold together the structure. With a single click on overlapping nucleoside midpoints (spots between two nucleosides), NATuG automatically swerves the strands across double helices, creating a cross-strand exchange. Additionally, users can easily interact with specific nucleosides of the structure, create nicks and linkages, and more. By strategically placing junctions throughout the structure, the isolated double helices become a unified, rigid nanotube. The program provides an intuitive interface, allowing one to customize and visualize the nanotube shape, weave together helices in a matter of clicks, and apply/export sequences. So, while designing DNA nanotubes is a multistage endeavor, NATuG aims to make the process as dynamic as possible—letting users easily traverse the nanotube design process with ease.
 
 It's a very complex tool that I've continued to build on extensively, and includes rendering features, a custom file format to bundle and save program states, and much more. I've
 
-![NATuG 2.0](NATuG2.webp|float=right)
+![NATuG 2.0](https://static.404wolf.com/NATuG2.webp)
 
 This is the third iteration of NATuG software, and is a complete overhaul both UI wise and design wise. The older versions were abandoned years ago, and at the time they had extensive limitations, such as only allowing for a single type of cross-strand exchange, insufficient for the design of structurally integral DNA nanotubes. This version of NATuG takes much inspiration from the interface of the previous versions, but is also original in many ways, and has many more features than its predecessors.
 
 ## Getting started
 
-![NATuG interface](interface.webp|float=right)
+![NATuG interface](https://static.404wolf.com/interface.webp)
 
 When starting work on NATuG, I needed to start off choosing my UI and plotting framework, which would inevitably be a vital part of the program. Interactivity would be key, along with, ideally, a large amount of plug-and-play widgets to choose from. Ultimately, I settled on [QT's](https://www.qt.io/) UI framework, and Python as the primary language, given my experience with the paradigms of the language, and comprehensibility of the toolkit. Though the project was my first time with UI design, it was a great learning experience. For the plotting framework, though many to most Python projects implement [matplotlib](https://matplotlib.org/) as their, I elected to use [pyqtgraph](https://www.pyqtgraph.org/) because of how well it integrates with PyQt, and support for much needed interactivity. It's able to track clicks on individual points, and update in real time.
 
 ## Adding features
 
-![NATuG's first plot](first_top_view.webp|float=right)
+![NATuG's first plot](https://static.404wolf.com/first_top_view.webp)
 
 My first step with the program, before building a complex, multi-widget UI, was to actually implement side and top view visualization plots. And for this, I began in Excel, tinkering with parameters while working on grasping the already known plotting algorithm I'd be using. Of course, Excel's plotting capabilities are much more limited than that of programic plotting in Python with pyqtgraph, and I'd have a lot I'd need to learn.
 
@@ -72,14 +72,14 @@ NATuG consists of two plots: the **top view plot** and the **side view plot**. B
 
 ### Top View Plot
 
-![Heart shaped tube](heart_tube.webp)
-![Symmetrical design](symmetric_design.webp)
+![Heart shaped tube](https://static.404wolf.com/https://static.404wolf.com/heart_tube.webp)
+![Symmetrical design](https://static.404wolf.com/https://static.404wolf.com/symmetric_design.webp)
 
 The top view plot displays a view of the nanotube from the top down, showcasing the overall shape of the tube. It allows the user to better visualize what they are actually constructing. As one tinkers with the inter-domain angles, the actual shape of the tube changes. Each circle represents a DNA double helix, and the fact that they all touch and eventually close up indicates that it is a closed tube. I've also made it so that if you click on a specific double helix in the top view plot, NATuG automatically pans to the side view plot location that has information on the nucleosides in that region.
 
 ### Side View Plot
 
-![Creating cross-strand exchanges](creating_junctions.webp|float=right)
+![Creating cross-strand exchanges](https://static.404wolf.com/creating_junctions.webp)
 
 The side view provides a view as if the nanotube had been unrolled flat, and is strategically distorted as to show all the nucleosides of the nanostructure without overlaps. This plot is much more complex and feature-rich than the top view plot, since it allows for user interaction with the actual nucleosides. It allows users to create nicks in strands, conjunct strands, link together the ends of strands to allow for DNA origami designs, and more. Lots of work has gone into converting the underlying datastructure for strands into a visualized pyqtgraph plot widget that has signals properly hooked up as to allow the user to manipulate the state.
 
@@ -89,13 +89,13 @@ In the future, there's many other types of plot improvements, and even entirely 
 
 ### The interface
 
-![Multi-panel UI beginnings](beginnings_of_ui.webp|float=right)
+![Multi-panel UI beginnings](https://static.404wolf.com/beginnings_of_ui.webp)
 
 The primary goal of NATuG has been to make the nanotube design experience as pain-free and intuitive as possible. So, not only have I had to learn how to actually go about creating UIs, but I've also had to figure out the best way to position and size elements to make clear how to utilize the program. For the UX design, I choose to go with a three panel UI, with an undockable multi-use, tabbed configuration panel and a resizable top/side view plot area. This allows the user to view the different plots simultaneously or one at a time, while always having access to the configuration.
 
 ### Junctions!
 
-![Possible junction types](junction_types.webp|float=none|width=100)
+![Possible junction types](https://static.404wolf.com/junction_types.webp)
 
 One of the most important features of NATuG is the ability to create cross-strand exchanges. These exchanges implement "Holliday" junctions to allow strands to swerve across their helical domains, weaving together the nanostructure. This was definitely the most difficult to implement part of the project, since previous works showed that junctions were possible, but relied on intuition to determine how to go about making them. This makes sense, since if you look at a side view helix plot, it is fairly obvious to a human how to conjunct the strands. This was definitely one of my favorite parts of the project, since it was both challenging and rewarding to catalog the various cases. Unrelated: this was a classic case of [Moravec's Paradox](https://en.wikipedia.org/wiki/Moravec%27s_paradox), which is definitely an interesting read.
 

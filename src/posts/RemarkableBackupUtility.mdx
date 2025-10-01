@@ -11,9 +11,9 @@ tags: ["personal"]
 # The Remarkable
 
 ![My remarkable](remarkableExample_0001.JPG)
-![Homescreen](interface1_0001.png)
-![Notebook creation](interface2_0001.png)
-![Notebook pages](interface3_0001.png)
+![Homescreen](https://static.404wolf.com/interface1_0001.png)
+![Notebook creation](https://static.404wolf.com/interface2_0001.png)
+![Notebook pages](https://static.404wolf.com/interface3_0001.png)
 
 Recently I got very into using a [remarkable](https://remarkable.com) tablet, which is an e-ink screen (no backlighting and monochromatic, like a kindle) tablet with a simple stylus. It's not the only tablet of its type, but it's unique in its simplicity: it runs Linux with a basic daemon that presents a QT program that is the entire user interface. Remarkables offer only the ability to take notes and annotate documents, and a basic folder organization feature. They have a cloud service that lets you sync your notes with your phone and computer, and back them up. I've been using it extensively over the course of my first semester at Case as an alternative for paper, and it's been great.
 
@@ -29,7 +29,7 @@ So, since the cloud is not a good backup instrument, the issue is that they do n
 
 # Notebooks
 
-![Notebook structure](aNotebookStructure_0001.png)
+![Notebook structure](https://static.404wolf.com/aNotebookStructure_0001.png)
 
 Before I begin to discuss my tool, it's important to understand how notebooks work on the Remarkable. On the tablet, the file structure is actually just a blob. All the files are loosely stored in one directory and indexed. "Folders" are really just UUIDs in metadata json files. So, each notebook is in reality just a collection of a few specific files that loosely exist within the tablet's storage. However, Remarkable has a cloud service, and if you inspect the API of their cloud service they do containerize each notebook: they place them into tar files with the suffix ".rmn" ("dot remarkable notebook"). You can extract the contents of a .rmn directly into the tablet, and it should register the notebook. These .rmn packages include a folder of files with .rm files, which are custom binary files containing actual page data, along with a bunch of metadata files like the last-page or notebook name and orientation.
 
@@ -39,8 +39,8 @@ But of course, exporting PDFs is important to me too, since one of the goals of 
 
 ## Exporting
 
-![Web UI](webUiAPI_0001.png)
-![Desktop App](desktopApp_0001.png)
+![Web UI](https://static.404wolf.com/webUiAPI_0001.png)
+![Desktop App](https://static.404wolf.com/desktopApp_0001.png)
 
 ![Mobile App](mobileApp_0001.PNG|float=left|width=20)
 
@@ -52,7 +52,7 @@ It's unideal to have to render the notebooks on the tablet itself, since it (und
 
 ### Access the Files
 
-![SSH Access](sshAccess_0001.png)
+![SSH Access](https://static.404wolf.com/sshAccess_0001.png)
 
 It's a bit strange, but Remarkable (the company) does not want you to know that .rmn notebook files even exist. They don't have any documentation on them, don't discuss them anywhere on their website or apps, and try to abstract them away from you by forcing you into their proprietary cloud where the notebooks just appears as icons. In the web UI, these notebooks have a download button, but the download button just exports the notebook as a PDF. The rmn files are invisible.
 

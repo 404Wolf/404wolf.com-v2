@@ -4,7 +4,7 @@ type: "project"
 date: "2024"
 description: |
   An ongoing effort to get a fully functional android phone embedded into an iFrame in a browser, with as little latency as possible. Note: post in progress!
-covers: ["Post-20240807144914137.webp"]
+covers: ["https://static.404wolf.com/Post-20240807144914137.webp"]
 tags: ["personal"]
 ---
 
@@ -24,7 +24,7 @@ So, earlier this year I was working on my first React Native application, which 
 
 It didn't take long to realize that it's very very hard to develop for IOS on anything other than a mac, because tooling to "talk" to iPhones for development relies on xCode. That means that I couldn't use a physical iPhone, or even run an emulator (a "fake" phone running on my computer).
 
-![Android studio](Post-20240807195159827.webp)
+![Android studio](https://static.404wolf.com/https://static.404wolf.com/Post-20240807195159827.webp)
 
 For Android development, Google is much nicer about it, and lets you run emulators and bridge a physical phone over on all platforms. They recommend using [Android Studio](https://developer.android.com/studio), which is _fine_, but a pain in the neck. The process to create an emulator in android studio is pretty straight forward, but requires a lot of clicking and is quite tedious and magical. You can choose a "skin" and android image, sometimes you configure the virtual device a bit further with their gui, and then run it from the app.
 
@@ -61,7 +61,7 @@ The general breakdown is that there's an android SDK toolkit that provides you w
 
 There's a lot of CLI tools for dealing with android, but it turns out that there's a few critical ones for getting an emulator up and running, and having a better conceptual understanding of the magic behind android studio.
 
-![Our tools](Post-20240807233545196.webp)
+![Our tools](https://static.404wolf.com/https://static.404wolf.com/Post-20240807233545196.webp)
 
 First things first. You need to set `ANDROID_SDK_ROOT` to the directory with the various binary cli tools we were just talking about (so like, if they're in your PATH, you can figure out where to set `ANDROID_SDK_ROOT`to by doing `which emulator`, where emulator is an example of one of the many android tools). Since I'm using `nix` , can easily keep things simple and automated with a devshell. Okay, now we want to
 
@@ -374,7 +374,7 @@ One of the massive pain points for Android development is actually building Andr
 
 In the process of tinkering, I [came across a project that packaged all google android images with `nix`](https://github.com/tadfisher/android-nixpkgs). It seemed pretty neat and promising here, since it would solve the issue of having images change over time in ways that break my setup because of differing dependencies.
 
-![Nixified android builds](Post-20240807144625586.webp)
+![Nixified android builds](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144625586.webp)
 
 I spent a long time trying to get an emulator working using the images it provided, and in the process I learned a ton about android cli tooling.
 
@@ -427,10 +427,10 @@ What I've learned while researching these tools is that they are really horribly
 
 [Appetize.io](https://appetize.io) is a company that offers roughly just that. I found out about them later on when reviewing the `react native` documentation -- all the little phone widgets that say "Expo" on them are powered by `appetize.io` devices. They let you spin up android or IOS devices, and then embed them in webpages with decently low latency. They also expose an API, so that you can do CI/CD testing with proper phones.
 
-![React native docs](Post-20240807144243428.webp)
-![It's expensive](Post-20240807144458831.webp)
-![Appetize.io](Post-20240807144317000.webp)
-![It "just works"](Post-20240807144431237.webp)
+![React native docs](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144243428.webp)
+![It's expensive](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144458831.webp)
+![Appetize.io](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144317000.webp)
+![It "just works"](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144431237.webp)
 
 But appetize comes at a cost. It's very expensive, and very restrictive. It isn't open source, and definitely isn't nixified.
 
@@ -519,8 +519,8 @@ It does work, but unfortunately the latency is pretty high. My tests got about 6
 
 #### Scrcpy
 
-![Scrcpy](Post-20240807144813092.webp)
-![Scrpy in action](Post-20240807144914137.webp)
+![Scrcpy](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144813092.webp)
+![Scrpy in action](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144914137.webp)
 
 Scrcpy ("screen copy") is a 3rd party utility that lets you stream an android device to a window at extremely low latency (30ms or less!). It "just works," and is available on `nixpkgs` (nix package manager). Using it is literally as simple as plugging in an android device, or running an emulator (headless or headed, it doesn't care), and then running
 
@@ -538,7 +538,7 @@ To figure out how scrcpy works behind the scenes, they lay out a general schemat
 
 The general idea of how `scrcpy` works is that you run it, and it ships a `apk` (android app) to the phone in its `/tmp` directory (which android phones have, they are also `unix`!). This `apk` exposes a server on the android phone on a `scrcpy` port on the phone, which then the `scrcpy` client can access and send data through.
 
-![Scrcpy server with audio](Post-20240808142749751.webp)
+![Scrcpy server with audio](https://static.404wolf.com/https://static.404wolf.com/Post-20240808142749751.webp)
 
 This `scrcpy` server that runs on the phone is implemented in `java` (which most android apps are), and acts as just a server running in the background.
 
@@ -548,7 +548,7 @@ Their client itself is very complex, and is implemented in raw C and uses some v
 
 #### Hijacking Scrcpy
 
-![Standalone scrcpy sever](Post-20240808142957377.webp)
+![Standalone scrcpy sever](https://static.404wolf.com/https://static.404wolf.com/Post-20240808142957377.webp)
 
 Knowing that scrcpy is just using a server running on the phone was enticing though.
 
@@ -556,7 +556,7 @@ At this point, I really just wanted to pipe the video into `ffmpeg` so that I co
 
 I did a bit of googling, and it looks like it is possible to do. I found a github issue, with a link to a VLC (the video viewing program) PR that fixes a latency issue having to do with how VLC throttles video stream outputs.
 
-![Piping Scrcpy to FFMPEG](Post-20240807145206166.webp|float=none)
+![Piping Scrcpy to FFMPEG](https://static.404wolf.com/Post-20240807145206166.webp)
 
 I was able to follow their steps, and the main pain point was getting `adb` to forward a tcp port.
 
@@ -589,7 +589,7 @@ Okay, I now (kinda) have a working stream coming out of the android device. This
 
 ### Streaming to a browser
 
-![Enter WebRTC](Post-20240807145608512.webp)
+![Enter WebRTC](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145608512.webp)
 
 I did some research here, and there's a ton of different streaming protocols that browsers support. A google search reveals many, like
 
@@ -608,16 +608,16 @@ WebRTC is a peer to peer browser streaming protocol. It's pretty simple to use s
 
 That's great, but in my case I am doing a very centralized broadcast. I have media streaming off of a server, and want to ship that media to browsers directly. This is something that WebRTC isn't really designed for.
 
-![Janus Gateway](Post-20240807145641902.webp)
-![Janus (the god)](Post-20240807145717463.webp)
+![Janus Gateway](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145641902.webp)
+![Janus (the god)](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145717463.webp)
 
 There's a few implementations of the WebRTC protocol, like Google's official c++ one, or a community rewrite in rust (of course). To use them, there are projects like [node webrtc](https://github.com/node-webrtc/node-webrtc), which expose a javascript API to set up webrtc connections. The issue here is that I would have to implement a lot of the handshake process myself, even if I didn't need to actual manage the packets and connection stuff myself, which is a lot of work that I rather not get caught up in.
 
-![Ugh](Post-20240807145750847.webp)
+![Ugh](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145750847.webp)
 
 It turns out that I'm not the first person who has wanted extremely low latency server based WebRTC, and there's tools that do roughly exactly what I was trying to do. There's a super cool project called [Janus Gateway](https://github.com/meetecho/janus-gateway) that is designed to be a centralized WebRTC server.
 
-![Nix to the rescue!](Post-20240807145822398.webp)
+![Nix to the rescue!](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145822398.webp)
 
 It can do a ton of different things, and is a very large C project. The build process is a huge pain in the neck, but thankfully it was already packaged with `nix`, so I didn't need to deal with it.
 
@@ -630,7 +630,7 @@ There are [a whole bunch](https://janus.conf.meetecho.com/docs/pluginslist.html)
 - **VideoRoom** is a plugin meant for many to many streaming, so like, conference calls
 - **TextRoom**, which is a plugin that deals only with WebRTC's data channel to stream raw data at very low latency over WebRTC.
 
-![Jangouts](Post-20240807145842880.webp)
+![Jangouts](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145842880.webp)
 
 There's a really neat project called [Jangouts](https://github.com/jangouts/jangouts) that lets you do google hangouts style conference calling through an open source server running Janus Gateway, which is a neat showcase of the capabilities of the plugins.
 
@@ -715,7 +715,7 @@ media: {
 }
 ```
 
-![Streaming plugin](Post-20240807145901202.webp)
+![Streaming plugin](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145901202.webp)
 
 Getting the streaming plugin working at first seemed really annoying since the plugins are all `C` files that have to be built and then placed in a specific folder on your system, which is not that portable. However, analyzing the `janus` cli (the thing you use to launch `janus gateway`), I figured out that you can set flags to specify where to look things up. Also, the `nix` build of `janus` comes with all the plugins!
 
@@ -1064,10 +1064,10 @@ Okay, so I implemented all of this, and, to put it briefly, it did connect, but 
 
 The next major obstacle
 
-![Your tab crashed!](Post-20240807145930075.webp)
+![Your tab crashed!](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145930075.webp)
 
-![NALUs](Post-20240807145949240.webp)
+![NALUs](https://static.404wolf.com/https://static.404wolf.com/Post-20240807145949240.webp)
 
 # Other Cool Things
 
-![RobotNix](Post-20240807144559741.webp)
+![RobotNix](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144559741.webp)

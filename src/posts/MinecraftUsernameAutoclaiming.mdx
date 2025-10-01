@@ -32,11 +32,11 @@ But, I wasn't ready to settle for a popular open source sniper, and was sure I c
 
 ## The partnership
 
-![Friend's skin art shop](friend_name_mc_art.webp|width=30|float=left)
+![Friend's skin art shop](https://static.404wolf.com/friend_name_mc_art.webp)
 
 One of my first friends in the community, someone who went by "wro" (and I later came to know as Michael, and only years later got to meet in person!) had carved out a particularly interesting niche for himself selling NameMC skin art. NameMC skin art, potentially the subject of a future post, takes advantage of NameMC's skin history display to showcase art on your NameMC profile page. NameMC displays a grid of your 27 most recent Minecraft account's avatar's faces, so by designing pixel art and then converting it to many skin files, one can build up a grid to take the form of an pixel artpiece. My friend was offering to create the art and skin files as a service, which I found really cool.
 
-![Example skin art (by me)](my_skin_art.webp|width=36|float=right)
+![Example skin art (by me)](https://static.404wolf.com/my_skin_art.webp)
 
 He told me that he'd had some experience sniping usernames, and we began discussing some of his past experiences and successes. He said that in the past he'd sniped some lower tier accounts and made enough money to scale to around 9 accounts, and that it was around then that he struck success sniping the username "vac," which was sold for a significant amount of money. He knew a lot about the pre-drop delay (an important username autoclaiming configuration option), and other configuration related matters. He was interested in getting back in the game, but wasn't quite ready to make such a large investment, and didn't know how to code well enough to code a sniper of his own.
 
@@ -50,7 +50,7 @@ To get us started, I had the single account that I had bought from my own testin
 
 # The beginning
 
-![First few sales](first_few_sales.webp|float=right)
+![First few sales](https://static.404wolf.com/first_few_sales.webp)
 
 I still reminisce of the first few days of set up: we created a Google spreadsheet to log transactions before we even had any, set up a discord server to garner customers, and spent a while deliberating on what to name our organization (we eventually decided to name ourselves "Ember"). We began by sniping lower 'tier' usernames, such as random 3 character long ones, using McSniperPy on a few [Vultr servers](https://www.vultr.com/). Through the process we were able to get a better grasp of the configurations of our sniper. For the first few weeks we spent all our money reinvesting in discounted accounts, building up our request capacity and slowly buying more and more servers.
 
@@ -66,16 +66,16 @@ After a few weeks of obsessive coding and growing our operations, we were at the
 
 # The system
 
-![Queueing many names](queue_bulk_add.webp|width=36|float=right)
+![Queueing many names](https://static.404wolf.com/queue_bulk_add.webp)
 
 After coming up with the plan, I got to work. I read up on [Vultr's REST API](https://www.vultr.com/api/), and created a script to automatically deploy servers. With [async ssh](https://asyncssh.readthedocs.io/en/latest/) I made it so that, as planned, one parent server would automatically spawn a 'sniping' child sever for every 2 accounts, and added a queueing system. We elected to make our interface Discord-based because of the ease of implementation, and because that was where we were holding our auctions. To put a name in the queue all we had to do was type `/queue <name` into Discord; it was super convenient. And, as can be seen to the right, I made it so that a simple slash command one could add many names to the queue at once, which would then get setup prior to drop. We'd spend times together scrolling through NameMC's monthly drop-list, pre-queuing all the names we thought we'd be able to turn a profit on.
 
 ## Operations
 
-![Deploying VPSes](setting_up1.webp)
-![VPS set up confirmations](setting_up2.webp)
-![Set up confirmations](setting_up3.webp)
-![Log of name-change requests](requests.webp)
+![Deploying VPSes](https://static.404wolf.com/https://static.404wolf.com/setting_up1.webp)
+![VPS set up confirmations](https://static.404wolf.com/https://static.404wolf.com/setting_up2.webp)
+![Set up confirmations](https://static.404wolf.com/https://static.404wolf.com/setting_up3.webp)
+![Log of name-change requests](https://static.404wolf.com/https://static.404wolf.com/requests.webp)
 
 As time went on, I continued adding innovative and unique features to our sniper to increase our success odds and streamline operations. One of the next improvements I made was to send many requests evenly distributed within a specific interval small time interval, so that we'd not miss the often unpredictable droptime-window. More competitive names tended to generally take longer to release due to the sheer amount of requests other people sent, due to server lag. By spreading out requests, we'd be more likely to send the request right at the moment the name were to become free..
 
@@ -85,6 +85,6 @@ The system was quite finiky at first, but improved with time. As I worked on it 
 
 # Ending operations
 
-![Sniping explicitly not allowed](inedNoSniping_0001.png)
+![Sniping explicitly not allowed](https://static.404wolf.com/inedNoSniping_0001.png)
 
 Eventually, though, sniping became more challenging. Some snipers began taking things too seriously, and were actually DDOSing Mojang's servers. Mojang was forced to modify their systems so as to deter username sniping, and eventually Ined, one of the admins at Mojang, actually Tweeted to officially note that sniping is not allowed. They started out by cutting the rate limit for accounts, but that didn't stop the problem. They reworked the API a bit, and eventually our sniper broke, and offsets were completely different. Since the API for their systems is not technically supposed to be a public open API, it was completely reasonable for them to do what they wanted with their API, and using it to snipe names was inherently always at risk of an overhaul. Since we hadn't won snipes for a while and because with my senior year of high school approaching I had limited freetime, we decided that it'd be a good time to end the project. Given how large the community is, it wasn't that hard to find someone to buy all our unused Minecraft accounts that we were using to snipe with in bulk, and with that sale the project was over. For a while before the API changes we received various offers for large amounts of money to actually buy the software that I developed, which we never were able to end up selling once its lost its value. We were still lucky, though, since shortly after selling all our accounts Mojang finally began blocking all requests from datacenter IPs with Cloudflare, which made sniping completely impractical. Some people continued by using residential proxies, but to continue that way would be a major, major expense. Ultimately, the experience was definitely really fun, and decently profitable experience, but the project was more than anything extremely educational. It's how I initially learned Python to the extent that I know it now, and gave me experience with various web frameworks for the first time.

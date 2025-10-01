@@ -1,13 +1,12 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
-import Header from "../components/Header.astro";
 import "../styles/markdown.css";
+import Header from "../pages/Header.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, date, covers, tags } = Astro.props;
+const { title, covers, tags } = Astro.props;
 const cover =
   covers && covers.length > 0
     ? covers[Math.floor(Math.random() * covers.length)]
@@ -37,9 +36,6 @@ const cover =
           class="w-full max-w-3xl mx-auto p-4 text-gray-800 dark:text-gray-200"
         >
           <div class="mb-8 pt-8 text-center">
-            <div class="mb-4 text-gray-600 dark:text-gray-400">
-              <FormattedDate date={new Date(date)} />
-            </div>
             <h1 class="m-0 mb-4 text-4xl font-bold">{title}</h1>
             {
               tags && (

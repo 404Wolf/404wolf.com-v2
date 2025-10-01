@@ -2,7 +2,7 @@
 title: Markdown Image Blocks
 type: "blog"
 date: "2023"
-covers: ["carouselExample_0001"]
+covers: ["https://static.404wolf.com/carouselExample_0001.webp"]
 description: |
   I talk about how I got my markdown to include image groups with many images side-by-side, automatically. I’ve scoured my way through eclectic convoluted docs, pained past unsensical bugs, and have finally begun to wrap my head around the world of JS markdown parsing. With a general overview and some useful snippets, you’ll too learn how to customize markdown rendering for your own purposes.
 tags: ["personal", "featured"]
@@ -10,7 +10,7 @@ tags: ["personal", "featured"]
 
 # Background
 
-![Markdown flow](markdown-flowchart_0001.webp|width=60)
+![Markdown flow](https://static.404wolf.com/markdown-flowchart_0001.webp)
 
 Before I discuss exactly what the purpose of this endeavor was, here's some context. I use `markdown` to write my blogs, a simple rich-text language format that doesn't pack in too much support for that type of customization. Markdown is nice because it lets you define in plain-text things like images, headings, tables, and more, but at the end of the day it's just a syntax for writing rich text; it's the job of the renderer to actually display it in its final form.
 
@@ -59,15 +59,15 @@ My decision, before even beginning to research how to go about it, was to have i
 ```md
 # This is a header
 
-![This is an image](src1.png)
-![This is an image](src2.png)
-![This is an image](src3.png)
+![This is an image](https://static.404wolf.com/src1.png)
+![This is an image](https://static.404wolf.com/src2.png)
+![This is an image](https://static.404wolf.com/src3.png)
 
 This is a paragraph within the markdown.
-![This is a regular image](src4.png)
+![This is a regular image](https://static.404wolf.com/src4.png)
 ```
 
-![Image carousel](carouselExample_0001.png)
+![Image carousel](https://static.404wolf.com/carouselExample_0001.png)
 Would render such that the three images that have a newline above and below them would appear as a carousel of images, and the regular paragraph images would automatically float so as to not disrupt reading of the text.
 
 ### Image properties

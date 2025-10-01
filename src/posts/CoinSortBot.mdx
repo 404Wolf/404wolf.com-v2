@@ -3,7 +3,7 @@ title: Coin Date Sorting Robot
 type: "project"
 date: "2024"
 covers:
-  ["sideViewWithRamp_0001.png", "frontView_0001.png", "wiresOnTable_0001.png"]
+  ["https://static.404wolf.com/sideViewWithRamp_0001.png", "https://static.404wolf.com/frontView_0001.png", "https://static.404wolf.com/wiresOnTable_0001.png"]
 description: |
   Coin-sort-bot is a physical robot that I co-designed and wrote software for to automatically align and sort coins based on their physical features like year, date, and mint location. It is designed mostly with fusion360 for CAD and Python driver software, and is an IOT device that connects to a separate Django webserver. It is still in development, and currently has a basic 3d printed prototype and driver software to control the hardware.
 tags: ["academic", "featured"]
@@ -11,7 +11,7 @@ tags: ["academic", "featured"]
 
 # Inspiration
 
-![Coin scanner app images](Screenshot_2024-02-05_151340_0001.png)
+![Coin scanner app images](https://static.404wolf.com/Screenshot_2024-02-05_151340_0001.png)
 
 A while back I was sifting through some older coins that my grandma had saved from many years ago, looking up their values one by one, and knew there had to be a better way. Some coins have collector value based how many were made that year, the denomination and composition, and various other factors. For example, some copper pennies from WW2 are worth a significant amount because most pennies then were made from zink.
 
@@ -63,8 +63,8 @@ kit2 = MotorKit(address=0x61)
 
 What _was_ annoying, however, was getting RPIO (the interface that lets you use the raspberry pi hardware via Python) to work on my local machine for testing. What I figured out, however, is that I could remotely program to the Pi over SSH using either a VSCode remote development extension, or, Jetbrain's remote interpreter. With their remote interpreter add on, the code would automatically get shipped to the Pi's temp folder, and then would be executed on board, even though I'd be coding directly on my own computer. Now that I'm more into vim I probably could just do onboard development over ssh, though, which would be most ideal.
 
-![Coinbot discord IP finder](coinbotDiscord_0001.png)
-![Tailscale dashboard](tailscaleDashboard_0001.png)
+![Coinbot discord IP finder](https://static.404wolf.com/coinbotDiscord_0001.png)
+![Tailscale dashboard](https://static.404wolf.com/tailscaleDashboard_0001.png)
 
 To network to the Pi, originally I set up a simple cron job to automatically discord message me (using a discord webhook) the local IP of the device. However, configuring the IP address every time to be different was very annoying. Thankfully, I had recently learned about [tailscale](https://tailscale.com/), which has been absolutely amazing and seamlessly let me hook up the Pi (along with all of my other devices) to a secure personal virtual network. To install tailscale on the Pi, it was as simple as a single `curl` command.
 
@@ -73,7 +73,7 @@ To network to the Pi, originally I set up a simple cron job to automatically dis
 For the main board, we decided to go with a $50 Raspberry Pi 4 (which we were able to obtain from Adafruit quite easily), and for the electronics, we got 2 digital microscopes. The main issue with the cameras we got is that they need to be about 9 inches away from the coin to focus properly, but 3D printing a tube to hold them out at the proper distance should solve the problem. We purchased two LED lights to illuminate the sides of the coins, though we realized after receiving the cameras that they themselves also have lights built in. And, finally, we got 16 servos for controlling where to place the coins, along with a servo and motor controller.
 
 ![Motor controller](motorHat_0001.jpg)
-![Servo controller](servoControlled_0001.png)
+![Servo controller](https://static.404wolf.com/servoControlled_0001.png)
 
 The controllers were annoying to set up since they are designed to be "HATs" for the raspberry pi - that is, they are meant to literally sit on top of the board. To use multiple of them they had to be addressed (soldering binary IDs onto pads on the tops of them), and then right angle extenders needed to be soldered onto the bottom servo hat to allow the wires to stick out for the servos.
 
@@ -88,7 +88,7 @@ For the during school year portion of the project, I decided to work specificall
 
 We took inspiration from the a classic metal coin sorter with a rotated wheel, which the coins friction slide along as the wheel rotates and eventually dispenses them aligned onto a track by stripping them off the wheel. After a lot of experimentation, we designed something similar for use with a stepper motor, which we 3D printed. What's cool about stepper motors is how precise control we'd have over them; it may not have been necessary for this project, but it wouldn't hurt to have the extra torque and speed. During one day while working on the project, I came across some rubber sheeting that was being discarded, and decided to also lasercut that and apply it to the wheel to add friction for the coins.
 
-![The original "drum to chute" design](Screenshot_from_2024-04-25_23-56-45_0001.png)
+![The original "drum to chute" design](https://static.404wolf.com/Screenshot_from_2024-04-25_23-56-45_0001.png)
 
 The next step for the spinning drum design was to "slice" the coins off the spinning wheel so that they could fall into a chute. We added a nib affixed to the side of the wheel to redirect the coins, and then added a pathway to allow the coins to eventually fall into a chute where we could then use servos to move them into view of a camera, and then, afterwards, separate them.
 
@@ -96,7 +96,7 @@ The next step for the spinning drum design was to "slice" the coins off the spin
 
 We quickly realized, though, that it was entirely possible that multiple coins could end up on top of one another in the chute, and that multiple coins could jam the system. The issue was that, while only one coin could "cling" to the rubber at a time, the coins could fall one after another if the wheel were continuously spinning, allowing coins to drop faster than we could process them. We thought one good solution to this problem would be to use a beam break sensor, and so we ordered [this one](https://www.adafruit.com/product/2168) from Adafruit. But before we even tested it, we realized that adding a new chamber to limit the flow of coins would be a whole new challenge in it of itself.
 
-![The chute](Screenshot_from_2024-04-25_23-55-17_0001.png)
+![The chute](https://static.404wolf.com/Screenshot_from_2024-04-25_23-55-17_0001.png)
 
 We decided to take a break from the drum design, and move on to designing the actual chute that the channel would eventually connect to. The idea was that there would be many chutes stacked on top of each other, and we'd know which coin was falling ahead of time. We could have a single chute have its respective servo move into position so as to _redirect_ the current falling coin into a funnel, which would have an output coin roll in it. The system was very vertical, and would hang off the edge of the table, using gravity to move the coins along.
 
@@ -114,7 +114,7 @@ The new design clamps on to the corner of a table, and the actual sorting chute 
 
 For our final project submission we provided the following rendering, since the actually physical assembly is still not quite complete and more parts need to be printed.
 
-![Final Rendering](Post-20240727215816081.webp|float=none|width=90)
+![Final Rendering](https://static.404wolf.com/Post-20240727215816081.webp)
 
 ## Driver software
 

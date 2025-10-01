@@ -2,7 +2,7 @@
 title: Obsidian Contact Importer
 type: "project"
 date: "2024"
-covers: ["Post-20240806180300351.webp"]
+covers: ["https://static.404wolf.com/Post-20240806180300351.webp"]
 description: |
   A project to bring phone contacts into Obsidian as markdown files, converting vCard (.vcf) files exported from phones or Google Contacts into nicely formatted notes. By storing contacts as markdown, users can take better notes about people they meet and maintain richer context around relationships, while keeping everything in their Obsidian vault. The tool uses customizable templates and handles contact details like names, phones, emails, addresses and even contact photos, making contact information easily searchable and editable within Obsidian's ecosystem.&#x20;
 tags: ["personal"]
@@ -12,7 +12,7 @@ tags: ["personal"]
 
 [Obsidian](https://obsidian.md) is a very cool markdown driven notetaking app. It's a very general purpose note taking app, and can do everything that every other note taking app can. It is also super extendable, which is really nice -- it is an electron desktop app, so plugins can be literally anything. There are plugins that add full on react UI components, and plugins that mess with webasm. Plugins are implemented by hooking onto type declarations that Obsidian provides, and it all is very well integrated into the app.
 
-![Markdown all the way down](Post-20240802183939700.webp)
+![Markdown all the way down](https://static.404wolf.com/https://static.404wolf.com/Post-20240802183939700.webp)
 
 The coolest part of Obsidian though, in my opinion, is the fact that all of your notes live as a hierarchy of [obsidian flavored markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) files (which is just a superset of markdown that adds things like highlighting, comments, and callouts). Obsidian itself is closed source, but I'm okay with using it anyway since my files are not obfuscated in any way.
 
@@ -22,7 +22,7 @@ A lot of people have extended obsidian with its powerful plugin plugin system, t
 
 Obsidian is [Electron](https://www.electronjs.org/), so it can do anything a browser can. It's implemented very well and you don't really notice this unless you try, but if you want to _create_ for Obsidian, the sky is the limit -- heck, [you can create plugins with React](https://docs.obsidian.md/Plugins/Getting+started/Use+React+in+your+plugin).
 
-![Obsidian full calendar](Post-20240806165246984.webp)
+![Obsidian full calendar](https://static.404wolf.com/https://static.404wolf.com/Post-20240806165246984.webp)
 
 One plugin I've started using is [Obsidian Full Calendar](https://github.com/obsidian-community/obsidian-full-calendar), which a cool calendar plugin for Obsidian that lets you unidirectionally sync iCal calendars, and then also manage events within Obsidian, where it can treat events as markdown files. That means that I can create an event within Obsidian, and it can create a corresponding event markdown file, that has the actual metadata for the event in it.
 
@@ -30,7 +30,7 @@ This is a paradigm that I really like -- treating usually structured and rigid d
 
 I have started to use templates to create other types of "typically _structured_ dataforms" in unstructured markdown. The nice thing about Obsidian is that this does **not** mean copying and pasting every single template. Templating in Obsidian is pretty mature at this point, it comes with a [built in templating plugin](https://help.obsidian.md/Plugins/Templates), and the community has created a much more powerful [Templator](https://github.com/SilentVoid13/Templater) plugin. You can plug in everything from the current note's file name, to the date, to arbitrary javascript function results.
 
-![Omnisearch](Post-20240806170104437.webp)
+![Omnisearch](https://static.404wolf.com/https://static.404wolf.com/Post-20240806170104437.webp)
 
 I think one of the coolest Obsidian plugins, that really does totally change the experience, is [Omnisearch](https://github.com/scambier/obsidian-omnisearch), which is a super powerful search engine for your entire note vault. It does weighted fuzzy finding across all vault contents, and it even OCRs images and PDFs. What that means is that the search results are always as relevant as possible -- if you search for a file, files with some of that name (it's fuzzy!) show up first, followed by notes with titles, and contents. This means that if all of my life is stored as markdown in my Obsidian vault, then it's easy to find things later.
 
@@ -40,7 +40,7 @@ Part of this does mean that I'm restarting systems that I've had in place for a 
 
 Importing old calendar events is good enough for now, because since the plugin supports linking iCal I still can view all my old events, I just don't have the ability to have corresponding markdown files. I probably could figure out how to import them that way with some scripting, but that's not really worth it for me since those events are in the past and I'm probably not still taking notes on them.
 
-![My options](Post-20240806171003276.webp)
+![My options](https://static.404wolf.com/https://static.404wolf.com/Post-20240806171003276.webp)
 
 One area of my note-taking life that I would like to include in my Obsidian vault, though, is my contacts. All my contacts before this project were, as was the case for most people, stored in [Google Contacts](contacts.google.com), and on my phone in the Contacts app.
 
@@ -56,15 +56,15 @@ By having all my contacts in raw markdown, I think it will both lower the barrie
 
 ## Research
 
-![Google Contact export](Post-20240806171751994.webp)
+![Google Contact export](https://static.404wolf.com/https://static.404wolf.com/Post-20240806171751994.webp)
 
 If I assume that all my contacts are in Google contacts (a bold proposition), then I can export them as a CSV and then use them that way. But that also means that anyone who uses my tool will also need to be using Google contacts. I guess I could have asked people to upload their contacts to Google so that they could then download them as a CSV, but that's clunky, so I decided to look into how they exist on the phone itself.
 
 I can't really know how Apple is storing them on the file system because of how closed source it is, but one thing I did figure out is that Apple let's you export your contacts in a uniquely unintuitive way: press and hold on a contact "list", or "all contacts", and choose to Export (or email every single contact in your phone! I will not be doing that, though.).
 
-![Export all contacts](Post-20240806172024892.webp)
-![What?](Post-20240806172020774.webp)
-![Where to?](Post-20240806172014834.webp)
+![Export all contacts](https://static.404wolf.com/https://static.404wolf.com/Post-20240806172024892.webp)
+![What?](https://static.404wolf.com/https://static.404wolf.com/Post-20240806172020774.webp)
+![Where to?](https://static.404wolf.com/https://static.404wolf.com/Post-20240806172014834.webp)
 
 ### VCards
 
@@ -113,7 +113,7 @@ I got it by clicking "share contact," and then I shared it via email with myself
 
 It's pretty gnarly. I mean, it has all I need, but how do I actually yoink out the relevant pieces of information. Also notice that the image is just a regular base64 image -- that's pretty nice.
 
-![My options](Post-20240806173810683.webp)
+![My options](https://static.404wolf.com/https://static.404wolf.com/Post-20240806173810683.webp)
 
 So I looked into it a bit.
 
@@ -123,7 +123,7 @@ It turns out that there's not a ton of good options. I tried three different one
 - Commonjs hell. I'm using [bun](https://bun.sh), which makes life so much easier, (you can import and require in the same file!), but I don't want to require. I want a pure esm solution.
 - Types. I want types. Typescript is a good thing.
 
-![VCF library](Post-20240806174857068.webp)
+![VCF library](https://static.404wolf.com/https://static.404wolf.com/Post-20240806174857068.webp)
 
 So, `vcf` isn't typed, but it does have type declarations, and works reasonably well. And, it turns out it's wicked fast with `bun`, which is really nice. I don't even have to bundle, just running it as a script is fast with `bun` (but we'll bundle later since I do need to package it with nix, since of course we do).
 
@@ -335,7 +335,7 @@ For this, I have a few options, but it was a tricky decision.
 
 ## Creating Markdown
 
-![The template](Post-20240806180300351.webp)
+![The template](https://static.404wolf.com/https://static.404wolf.com/Post-20240806180300351.webp)
 
 One cool idea I had pretty early on for this project was the ability for the process to be bidirectional. That is, I thought it'd be pretty neat if you could take vCard contacts and turn them into markdown, and then eventually go the other direction: take the markdown you generated, and maybe some hand written contacts that follow the schema, and create vCards that you can load back into your phone.
 
@@ -354,7 +354,7 @@ tags: foo, bar, buzz
 ---
 ```
 
-![Blog post metadata in frontmatter](Post-20240806180922110.webp)
+![Blog post metadata in frontmatter](https://static.404wolf.com/https://static.404wolf.com/Post-20240806180922110.webp)
 
 This is something I do for the Obsidian plugin for my website; I embed metadata about the blog posts at the top of the blog post files.
 
@@ -380,7 +380,7 @@ Unfortunately, however, it's one directional.
 
 I found an Obsidian plugin called ["Obsidian meta bind"](https://github.com/mProjectsCode/obsidian-meta-bind-plugin) that does something like this in a bidirectional way.
 
-![Obsidain meta bind](Post-20240806181431211.webp)
+![Obsidain meta bind](https://static.404wolf.com/https://static.404wolf.com/Post-20240806181431211.webp)
 
 You can create "inputs" in the markdown template, and then when you edit them they automatically update the frontmatter, and then when the user edits the inputs OR the frontmatter it automatically updates the note/frontmatter.
 
@@ -592,7 +592,7 @@ Enter [@ symbol linking.](<@ Symbol Linking](https://github.com/Ebonsignori/obsi
 
 An important part of Obsidian is the ability to easily link together your notes. Obsidian lets you reference any note in your vault by using `[[Note Title]]`, and it creates a clickable link. You can add a ! to cause the reference to actually show its contents in the current note.
 
-![Notes prefixed with @](Post-20240806234120398.webp)
+![Notes prefixed with @](https://static.404wolf.com/https://static.404wolf.com/Post-20240806234120398.webp)
 
 @ Symbol linking wasn't actually the first plugin I found for this purpose, though. I started off using [Obsidian at people](https://github.com/saibotsivad/obsidian-at-people), which claims to do literally exactly what I want. Unfortunately, even though there's a setting for it, all of the people notes you create with it end up in the top level directory of your Obsidian vault, when I want them to end up in a `/People` folder.
 
@@ -600,10 +600,10 @@ An important part of Obsidian is the ability to easily link together your notes.
 
 One thing that I did like that `Obsidian at people` did was prefixing all of my people notes with "@", though, which makes it really clear which notes are "People" notes. This was a feature lacking in @ Symbol linking so I[decided to implement it myself and PR the change](https://github.com/Ebonsignori/obsidian-at-symbol-linking/pull/34).
 
-![Example from github 1](Post-20240806233519583.webp)
-![What it becomes](Post-20240806233455698.webp)
+![Example from github 1](https://static.404wolf.com/https://static.404wolf.com/Post-20240806233519583.webp)
+![What it becomes](https://static.404wolf.com/https://static.404wolf.com/Post-20240806233455698.webp)
 
-![Setting I added](Post-20240806233809359.webp)
+![Setting I added](https://static.404wolf.com/https://static.404wolf.com/Post-20240806233809359.webp)
 
 Their plugin was written pretty well, though more comments and docs would've been nice. It mostly boiled down to adding
 
@@ -620,8 +620,8 @@ And the relevant setting. To polish things off, I also updated the "Create new n
 
 # Making it Look Pretty
 
-![Inline admonitions](Post-20240802211800749.webp)
-![Adding one](Post-20240802211839755.webp)
+![Inline admonitions](https://static.404wolf.com/https://static.404wolf.com/Post-20240802211800749.webp)
+![Adding one](https://static.404wolf.com/https://static.404wolf.com/Post-20240802211839755.webp)
 
 To make the templates look nicer, I decided to use a plugin I already was using in my vault for my contacts too. [Obsidian inline admonitions](https://github.com/scottTomaszewski/obsidian-inline-admonitions) lets you change the way that your inline code (\` \<this type of thing> \`) renders so that it can have a nice color and even be slightly translucent. I decided to change the template slightly to incorporate these.
 

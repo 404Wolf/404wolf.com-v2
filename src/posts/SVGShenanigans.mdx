@@ -82,8 +82,8 @@ As aforementioned, something important for the rendering process is for it to be
 
 The thing with `SVG`s is that they are, when it comes down to it, a special type of image file. You can put them into html with the special `<svg>` tag, or, just like any other image, with `<img src="data:image/xml+svg;base64{base64-encoded-svg}>`. Then, you can set properties just like any other old `<img>` element: `{width: 100%; height: 100%; ...}`. Super simple! So, instead of dumping the `SVG` to disc and using Chrome's file preview ability (in Chrome you can visit `file:///<path>` to preview a file), I decided to inject the `SVG` I wanted to render.
 
-![Chrome's about:blank](aboutBlank.png)
-![Injected image](injectedImage.png)
+![Chrome's about:blank](https://static.404wolf.com/aboutBlank.png)
+![Injected image](https://static.404wolf.com/injectedImage.png)
 
 To do this, first I opened an `about:blank` page. I knew I'd want to resize the image to fill the entire viewport, but I'd also want to resize the viewport to be the exact size that I wished for my final export to be. For this, I used Chrome devtools' `Emulation.setVisibleSize` command. Then, I sent the following javascript to the browser to inject the image.
 

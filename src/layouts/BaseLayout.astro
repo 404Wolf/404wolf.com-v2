@@ -1,0 +1,24 @@
+---
+import Header from "../pages/Header.astro";
+
+export interface Props {
+  header?: boolean;
+  title?: string;
+}
+
+const { header = true, title = "404wolf.com" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    {header && <Header />}
+
+    <slot />
+  </body>
+</html>

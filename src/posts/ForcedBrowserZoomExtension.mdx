@@ -4,9 +4,9 @@ type: "project"
 date: "2024"
 covers:
   [
-    "Post-20240716211735260.webp",
-    "Post-20240716212111111.webp",
-    "Post-20240716214604533.webp",
+    "https://static.404wolf.com/Post-20240716211735260.webp",
+    "https://static.404wolf.com/Post-20240716212111111.webp",
+    "https://static.404wolf.com/Post-20240716214604533.webp",
   ]
 description: |
   This idea spawned from my hatred and eternal frustration with Zoom. It's just always a pain to deal with; screen share often just doesn't work right, the UI glitches out, audio is a mess and very inconsistent, and it eats up system resources and is probably doing mysterious things behind the scenes intruding on privacy. There's a solution though: use Zoom in your browser, only, always, ever! Zoom provides an option to join in the browser, given that you reject their popups to open in desktop, and then click through a chain of links to open in the browser. My solution: a browser extension to redirect Zoom links directly to browser Zoom.
@@ -29,11 +29,11 @@ What I quickly figured out is that when you visit a Zoom URL, `onWindowLoad` it 
 
 I figured out if you visit a Zoom URL that already has this `#success` flag at the end of it, that Zoom will not give you the popup. This turned out to be a great step, since apparently it's just straight up not possible to interact with browser dialogs with an extension. Not discovering this may have killed off the project.
 
-![Joining a Zoom](Post-20240716211735260.webp|float=none)
+![Joining a Zoom](https://static.404wolf.com/Post-20240716211735260.webp)
 
 The next step in the user flow I thought would be simple, just scrape the page and find the URL that the "Join from your Browser" button links to, and then redirect there, but it turns out that that button is actually executing javascript.
 
-![The button](Post-20240716212111111.webp)
+![The button](https://static.404wolf.com/https://static.404wolf.com/Post-20240716212111111.webp)
 
 Luckily extensions do have the ability to modify the webpage, so I could just click the button for the user. This is annoying, but it works fine.
 
@@ -85,11 +85,11 @@ Getting a developer environment set up for the project was pretty straight forwa
 
 And then in Chrome (and in Firefox it was a similar process) I went to `chrome://extensions`, and enabled developer mode.
 
-![Developer mode](Post-20240716222255624.webp|float=none|width=60)
+![Developer mode](https://static.404wolf.com/Post-20240716222255624.webp)
 
 Afterwards, I clicked to load the "unpacked" (you can "pack" your extension as a special zip like file with encryption, in case you want to deploy a closed source extension) plugin.
 
-![Loading it in](Post-20240716222359125.webp)
+![Loading it in](https://static.404wolf.com/https://static.404wolf.com/Post-20240716222359125.webp)
 
 And it was added! It was a pretty easy process. I could get logs by clicking "Details", and could just reload it by clicking a little reload icon.
 
@@ -208,9 +208,9 @@ It was pretty simple, and the hard part was just finding what I needed permissio
   "action": {
     "default_popup": "popup.html",
     "icons": {
-      "16": "icon-16.png",
-      "48": "icon-48.png",
-      "128": "icon-128.png"
+      "16": "https://static.404wolf.com/icon-16.png",
+      "48": "https://static.404wolf.com/icon-48.png",
+      "128": "https://static.404wolf.com/icon-128.png"
     }
   }
 }
@@ -222,7 +222,7 @@ The plugin is available on my Github [here](https://github.com/404wolf/Browser-Z
 
 ## Chrome
 
-![Google Extension Rejection](Post-20240716215027831.webp)
+![Google Extension Rejection](https://static.404wolf.com/https://static.404wolf.com/Post-20240716215027831.webp)
 
 It was a bit tricky to publish the plugin on extension stores, mostly because it requires access to "modify" ANY website. Basically, in my extension's manifest (where metadata about it and its permissions live, which is mostly directives to the browser), it has
 
@@ -240,7 +240,7 @@ It was a bit tricky to publish the plugin on extension stores, mostly because it
 
 This means that the extension has permission to modify the DOM of any website. Initially I was worried Google would reject the plugin because of this extensive requirement, but my main justification is that Zoom can run on any domain (like zoom.yourcompany.us), and thus I can't match domains without complicated regex (but the match pattern here is not regex, it's special google syntax).
 
-![Chrome developer dashboard](Post-20240716215251691.webp)
+![Chrome developer dashboard](https://static.404wolf.com/https://static.404wolf.com/Post-20240716215251691.webp)
 
 It turned out that the annoying parts of the Google extension publishing experience were elsewhere, though. To start, to even make a developer account for the Chrome webstore dashboard, you need to make a $5 deposit to "fight spam and abuse." Then, after publishing it a few times, while they haven't gotten upset about the permission I thought they would be upset about, they've rather been nit picky on things that don't matter -- like, in my most recent rejection, they told me I don't have a privacy policy link, even though I don't collect user data and supplied a link to a plaintext file that says "I do not collect any data." I'll keep trying to get it published on the Chrome extension store, though!
 
@@ -252,5 +252,5 @@ Mozilla on the other hand was really pleasant to deal with. Their store's develo
 
 [It's here, on the Mozilla firefox extension store, if you use firefox!](https://addons.mozilla.org/en-US/firefox/addon/browser-zoom/reviews/)
 
-![Extension Listing](Post-20240716214604533.webp)
-![Extension ratings](Post-20240716214554914.webp)
+![Extension Listing](https://static.404wolf.com/https://static.404wolf.com/Post-20240716214604533.webp)
+![Extension ratings](https://static.404wolf.com/https://static.404wolf.com/Post-20240716214554914.webp)

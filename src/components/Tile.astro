@@ -1,7 +1,12 @@
 ---
 import { cva } from "class-variance-authority";
 
-const styles = cva(["p-2"], {
+export interface TileProps {
+  title?: string;
+  kind?: "detail" | "heading" | "content";
+}
+
+const styles = cva(["p-6 bg-slate-100 rounded-lg"], {
   variants: {
     kind: {
       detail: "bg-gray-700 text-white rounded-full",
@@ -9,11 +14,17 @@ const styles = cva(["p-2"], {
       content: "bg-gray-300 text-black rounded-lg",
     },
   },
+  defaultVariants: {
+    kind: "content",
+  },
 });
+
+const { title } = Astro.props;
 ---
 
 <div
   class={styles({ kind: Astro.props.kind, className: Astro.props.className })}
 >
-  {Astro.props.children}
+  {title && <div class="font-semibold">{title}</div>}
+  <slot />
 </div>

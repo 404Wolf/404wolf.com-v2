@@ -1,62 +1,52 @@
 ---
 import "../styles/global.css";
 import { getCollection } from "astro:content";
-import Header from "../components/Header.astro";
-import BasicPostCard from "../components/BasicPostCard.astro";
+import BasicPostCard from "../pages/posts/cards/BasicPostCard.astro";
 import BasicAbout from "./BasicAbout.mdx";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Tile from "../components/Tile.astro";
 
 const allPosts = await getCollection("blog");
 const featuredPosts = allPosts
-	.filter((post) => post.data.tags?.includes("featured"))
-	.slice(0, 6);
+  .filter((post) => post.data.tags?.includes("featured"))
+  .slice(0, 6);
 ---
 
-<!doctype html>
-<html lang="en">
-  <Header />
-
-  <body>
-    <main class="min-h-screen p-4">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col gap-7">
-          <div class="flex flex-col min-[520px]:flex-row gap-7 sm:gap-6">
-            {
-              featuredPosts.length > 0 && (
-                  <div class="rounded-xl p-6 shadow-sm bg-slate-200">
-                    <h2 class="text-xl font-bold text-slate-800 mb-4">
-                      Featured
-                    </h2>
-                    <div class="max-h-[600px] overflow-y-auto overflow-x-clip space-y-4">
-                      {featuredPosts.map((post) => (
-                        <BasicPostCard 
-                          path={`/posts/${post.id}/`}
-                          post={{
-                            covers: post.data.covers,
-                            title: post.data.title,
-                            description: post.data.description,
-                            date: post.data.date,
-                          tags: post.data.tags,
-                          type: post.data.type,
-                        }} />
-                      ))}
-                    </div>
-                </div>
-              )
-            }
-
-            <div class="basis-[70%]">
-              <div class="rounded-xl p-6 shadow-sm" >
-                <h2 class="text-xl font-bold mb-4" > About </h2>
-                <div class="max-h-[600px] overflow-y-auto overflow-x-clip">
-                  <div class="prose max-w-none">
-                    <BasicAbout />
-                  </div>
-                </div>
-              </div>
+<BaseLayout title="Home">
+  <div
+    class="max-w-6xl mx-auto flex flex-col gap-7 bg-slate-400 p-6 rounded-3xl"
+  >
+    <div class="flex flex-col sm:flex-row gap-7 sm:gap-6">
+      {
+        featuredPosts.length > 0 && (
+          <Tile>
+            <div class="flex flex-col gap-3">
+              {featuredPosts.map((post) => (
+                <BasicPostCard
+                  path={`/posts/${post.id}/`}
+                  post={{
+                    covers: post.data.covers,
+                    title: post.data.title,
+                    description: post.data.description,
+                    date: post.data.date,
+                    tags: post.data.tags,
+                    type: post.data.type,
+                  }}
+                />
+              ))}
             </div>
-          </div>
+          </Tile>
+        )
+      }
+
+      <Tile>
+        <h2 class="text-xl font-bold mb-4">About</h2>
+        <div
+          class="max-h-[600px] overflow-y-auto overflow-x-clip prose max-w-none"
+        >
+          <BasicAbout />
         </div>
-      </div>
-    </main>
-  </body>
-</html>
+      </Tile>
+    </div>
+  </div>
+</BaseLayout>

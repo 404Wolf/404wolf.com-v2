@@ -48,17 +48,17 @@ deno install -grAf jsr:@valtown/vt
 
 To authenticate with `val.town`, just run `vt`, and you should get the dialog
 
-![](b2f61bc1-8402-4192-9a28-6e6458755b80.webp|float=none|width=90)
+![](https://static.404wolf.com/b2f61bc1-8402-4192-9a28-6e6458755b80.webp)
 
 Respond yes to the prompt, and ensure you select to create an API key with user read & project read+write permissions.
 
 Then try cloning one of your projects with `vt clone`!
 
-![](992c7283-3b28-4790-ab3a-50c4d496d181.webp|width=50|float=none)
+![](https://static.404wolf.com/992c7283-3b28-4790-ab3a-50c4d496d181.webp)
 
 Which will open up a menu with all of your projects that you can clone. You can actually clone anyone's project, but you won't be able to push if it isn't yours (you can always `vt remix` though!).
 
-![](c323e98d-3e83-4d73-b344-121a308267df.webp|float=false|width=100)
+![](https://static.404wolf.com/c323e98d-3e83-4d73-b344-121a308267df.webp)
 
 Once cloned, you can run `vt watch` to enable automatic syncing with Val Town. When you edit the project locally, it will automatically upload the changes to Val Town. You may find it useful to use a terminal window in your editor of choice so you can easily see the changes being pushed and see errors.
 
@@ -72,13 +72,13 @@ For the curious, here's a technical overview of the making (and origin) of `vt`.
 
 There's a lot of different ways we could engineer a local Val Town experience.
 
-![Pomdtr's Val Town VScode extension](pomdtrextension.webp)
+![Pomdtr's Val Town VScode extension](https://static.404wolf.com/https://static.404wolf.com/pomdtrextension.webp)
 
 One of the very first sight of Val Town "localdev" came with Pomdtr's [Val Town vscode extension](https://marketplace.visualstudio.com/items?itemName=pomdtr.valtown). The extension was pretty straightforward, it hooked into the Val Town API to let you edit your vals locally and then push them to Val Town. It was made pre-project era, so it only supports traditional Vals. VSCode runs on electron, and gives extension developers a lot of power, the extension also offered web previews, and the ability to use Val Town SQL and blobstore.
 
 A bit later, I came along and implemented a fuse file system for Val Town vals, also pre-project era. Fuse is a Linux protocol that lets you implement arbitrary file systems in userspace. By implementing a fuse val town file system, all edits locally are instantly reflected on the Val Town website, and vice versa (if you update remotely, then if you try to save locally your editor will say something along the lines of "more recent edits found, are you sure you want to write"). Fuse is very powerful -- writes, reads, and all other file system syscalls can be handled with whatever response you want.
 
-![Diagram from https://www.cs.cmu.edu/~./fp/courses/15213-s07/lectures/15-filesys/index.html](bcbdf72d-0875-4288-ab8c-3b06b1cace32.webp)
+![Diagram from https://www.cs.cmu.edu/~./fp/courses/15213-s07/lectures/15-filesys/index.html](https://static.404wolf.com/https://static.404wolf.com/bcbdf72d-0875-4288-ab8c-3b06b1cace32.webp)
 
 This project was `vtfs`. Originally it was a side project of mine, because "can I write the code in neovim" was the first question I asked myself when I first started using Val Town. I love the elegance of a file being a website, and thought it would be fun to be able to do a "touch website.ts" to create them, via the magic of fuse, and Val Town! There's a lot to love about the perfect 1:1 mapping of Val to File.
 
@@ -88,7 +88,7 @@ This project was `vtfs`. Originally it was a side project of mine, because "can 
 
 Fuse is a two-part system that involves userspace/kernel-space communication via a special ["wire protocol"](https://john-millikin.com/the-fuse-protocol). The official userspace ["reference library"](https://github.com/libfuse/libfuse) for implementing fuse filesystems is written in `C`, but what's cool about `go-fuse` is that it's entirely rewritten in pure go (not just a wrapper with `cgo`).
 
-![](37c9a2a8-3f0a-4b52-a9c7-cf7c0cc0799b.webp|width=50)
+![](https://static.404wolf.com/37c9a2a8-3f0a-4b52-a9c7-cf7c0cc0799b.webp)
 
 We decided to rewrite it mostly for compatibility reasons. Linux offers native fuse support, but MacOS and Windows definitely do not. For Mac, there's a project called [MacFuse](https://macfuse.github.io/) that acts as a kernel extension to provide fuse support to Mac. However, it's not totally stable, and [Apple is deprecating kernel extensions](https://developer.apple.com/support/kernel-extensions/) and it may not be the best long term solution. There's a really cool project called [fuse-t](https://www.fuse-t.org/) that takes a different approach, where it implements the fuse protocol by forwarding fuse to NFS (network file system), a protocol that Macs do naively support.
 
@@ -121,7 +121,7 @@ This means that the contract for push is "push the local state to make sure the 
 
 One totally different idea that I had to solve this problem of "the meaning of push and pull" was to totally scrap both, and change the contract to "sync to a consistent state." As it turns out, syncing really just redirects all the complexity, and is still quite complicated to implement.
 
-![](23f9ca70-b232-4f70-a746-1a64c9590704.webp)
+![](https://static.404wolf.com/https://static.404wolf.com/23f9ca70-b232-4f70-a746-1a64c9590704.webp)
 
 I spent a while designing an algorithm for syncing, where the primary "building block" of the algorithm was to "walk" through revisions and make changes to the local state incrementally. Because of how Val Town does versioning, the changes could be applied one version at a time.
 
@@ -145,7 +145,7 @@ One of the most important use cases of `vt` is "watch" functionality. There's a 
 
 From the beginning, my plan for this was to implement "git" behavior first (pushing and pulling), and then just doing file system watching to add live syncing using [Deno.watchFs](https://docs.deno.com/api/deno/~/Deno.watchFs) to handle file system events.
 
-![](7f2ed32c-8fc4-4f5c-86ed-733402383d14.webp)
+![](https://static.404wolf.com/https://static.404wolf.com/7f2ed32c-8fc4-4f5c-86ed-733402383d14.webp)
 
 One particularly annoying challenge with `vt watch` was handling debouncing. Deno's standard library has an [async module](https://jsr.io/@std/async) that was super useful for implementing `vt watch`. `vt watch` works by doing a `push` initially, and then whenever local changes are made running another `vt push`. It sounds super simple, and it mostly is!
 
@@ -183,7 +183,7 @@ tty.cursorSave.cursorHide // Monad-ic tty manipulation is so cool!
   .eraseScreen();
 ```
 
-![](ad696f11-a00e-40fc-aa01-1e1e4d08dd6b.webp)
+![](https://static.404wolf.com/https://static.404wolf.com/ad696f11-a00e-40fc-aa01-1e1e4d08dd6b.webp)
 
 I'm also using `highlight.js`, right now just for configuration commands, but in the future may also use it if we add `vt diff`.
 
@@ -191,7 +191,7 @@ I'm also using `highlight.js`, right now just for configuration commands, but in
 
 One of the initial concerns was how one could edit val metadata locally, if we are limited to the context of files.
 
-![](Screenshot%202025-04-16%20at%206.32.46%20PM.webp)
+![](https://static.404wolf.com/https://static.404wolf.com/Screenshot%202025-04-16%20at%206.32.46%20PM.webp)
 
 `vtfs`'s approach to this was to pack all of the metadata for a val into the file corresponding to it. For Val Town projects, it's a bit more complex, because there's metadata specific to vals in the project, and metadata for the entire project itself too. We decided that, in general, changing val metadata and other uniquely val town attributes is something that we would leave to the website.
 
@@ -225,7 +225,7 @@ I spent a long time working on setting up a pipe where I would handle consecutiv
 
 For `vtfs` I was using [Openapi Generator](https://github.com/OpenAPITools/openapi-generator), and it turned out that Val Town's OpenAPI specification didn't accept file sizes on the order of my tests -- where the response would include the file size, it was an integer, not a `format: int64` (long).
 
-![Working piped blob uploads](hashesMatch.webp)
+![Working piped blob uploads](https://static.404wolf.com/https://static.404wolf.com/hashesMatch.webp)
 
 Maintaining this, and getting writes to work non consecutively continued to prove a huge challenge. `valfs` blob read/write support was a fun challenge to work on, but was never totally reliable.
 
