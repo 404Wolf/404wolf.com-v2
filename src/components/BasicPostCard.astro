@@ -1,9 +1,9 @@
 ---
 import { cva, type VariantProps } from "class-variance-authority";
 import { titleCase as toTitleCase } from "title-case";
-import type { BlogFrontmatterType } from "../../../content.config";
-import Tag from "../../../components/Tag.astro";
+import type { BlogFrontmatterType } from "../content.config";
 import { RandomCover } from "./RandomCover";
+import Tag from "./Tag.astro";
 
 export interface Props extends VariantProps<typeof styles.cards> {
   post: BlogFrontmatterType;

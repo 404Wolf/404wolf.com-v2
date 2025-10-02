@@ -6,21 +6,20 @@ import { defineConfig } from "astro/config";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 
-export const MEDIA_DIR = "/media";
-
 export default defineConfig({
-	site: "https://404wolf.com",
-	integrations: [
-		mdx({
-			remarkPlugins: [
-				remarkFrontmatter,
-				[remarkMdxFrontmatter, { name: "frontmatterData" }],
-			],
-		}),
-		sitemap(),
-		react(),
-	],
-	vite: {
-		plugins: [tailwindcss()],
-	},
+  site: "https://404wolf.com",
+  integrations: [
+    mdx({
+      remarkPlugins: [
+        remarkFrontmatter,
+        [remarkMdxFrontmatter, { name: "frontmatterData" }],
+      ],
+    }),
+    sitemap(),
+    react(),
+  ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  output: "static",
 });

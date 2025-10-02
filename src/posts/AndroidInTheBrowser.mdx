@@ -664,7 +664,7 @@ There's a few different things we have to configure:
 
 There were a few manual things I had to set up for the configuration. First, I explicitly enabled the streaming plugin. I'm not entirely sure if this is necessary, but I believe it would at least give me an error if it couldn't find it, which is good.
 
-```janus
+```plaintext
 plugins: {
   enable = "janus.plugin.streaming"
 }
@@ -672,7 +672,7 @@ plugins: {
 
 Second, I set up an admin secret, but `janus` does have support for token auth and eventually I'll figure out how to use that. For auth, it's not well documented, but to pass the token when accessing you literally just add a `apisecret: "secret"` header to the request.
 
-```janus
+```plaintext
 admin_secret = "secret"	# String that all Janus requests must contain
 ```
 
@@ -680,7 +680,7 @@ There's also a configuration section called `media`, which seems to be where you
 
 I'll be honest in saying I don't totally understand every setting here, but I did a lot of trial and error to figure things out. It seems pretty important to do `nack_optimizations` for this project, which significantly helped with stuttering.
 
-```janus
+```plaintext
 media: {
 	#ipv6 = true
 	#ipv6_linklocal = true

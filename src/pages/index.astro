@@ -1,16 +1,16 @@
 ---
 import "../styles/global.css";
 import { getCollection } from "astro:content";
-import BasicPostCard from "../pages/posts/cards/BasicPostCard.astro";
 import BasicAbout from "./BasicAbout.mdx";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Tile from "../components/Tile.astro";
+import BasicPostCard from "../components/BasicPostCard.astro";
 
 const allPosts = await getCollection("blog");
 const featuredPosts = allPosts
   .filter((post) => post.data.tags?.includes("featured"))
-  .slice(0, 6);
-  console.log(featuredPosts)
+  .slice(0, 0);
+
 ---
 
 <BaseLayout title="Home">
