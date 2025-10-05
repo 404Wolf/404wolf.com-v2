@@ -5,9 +5,10 @@ import { defineConfig } from "astro/config";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import tailwindcss from "@tailwindcss/vite";
+import { SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
-  site: "https://404wolf.com",
+  site: SITE_URL,
   integrations: [
     mdx({
       remarkPlugins: [
