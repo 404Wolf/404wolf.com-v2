@@ -39,7 +39,7 @@ const { title = "404wolf.com" } = Astro.props;
       <div
         class="max-w-6xl flex flex-col gap-2 bg-slate-400 p-6 rounded-3xl relative"
       >
-        <Header >
+        <Header {...Astro.props.headerProps}>
           <slot name="header-body" />
         </Header>
         <slot />

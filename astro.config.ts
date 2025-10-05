@@ -10,17 +10,22 @@ export default defineConfig({
   site: "https://404wolf.com",
   integrations: [
     mdx({
-     remarkPlugins: [
+      remarkPlugins: [
         remarkFrontmatter,
         [remarkMdxFrontmatter, { name: "frontmatterData" }],
       ],
-     gfm: true,
+      gfm: true,
     }),
     sitemap(),
     react(),
   ],
   output: "static",
+  publicDir: "public",
   vite: {
     plugins: [tailwindcss()],
+  },
+  redirects: {
+    "/bio": "/about",
+    "/resume": "/resume.pdf",
   },
 });

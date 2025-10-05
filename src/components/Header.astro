@@ -6,6 +6,7 @@ import { Tile } from "./Tile";
 import { cva } from "class-variance-authority";
 
 export interface Props {
+  includeBody?: boolean;
   includeNavbar?: boolean;
 }
 
@@ -28,16 +29,22 @@ const styles = {
   ]),
 };
 
-const { includeNavbar = true } = Astro.props;
+const { includeNavbar = true, includeBody = true } = Astro.props;
 ---
 
 <div class="flex flex-col gap-2">
   <div>
-    <Tile>
-      <HeaderName className={styles.header()} client:load />
+    {
+      includeBody ? (
+        <Tile>
+          <HeaderName className={styles.header()} client:load />
 
-      <slot />
-    </Tile>
+          <slot />
+        </Tile>
+      ) : (
+        <HeaderName className={styles.header()} client:load />
+      )
+    }
   </div>
 
   {includeNavbar && <Navbar />}
