@@ -12,7 +12,7 @@ export interface Props extends VariantProps<typeof styles.cards> {
 
 const { post, path } = Astro.props;
 
-const tags: string[] = [...(post.tags || []), post.type, post.date];
+const tags: string[] = (post.tags || []).sort();
 
 const styles = {
   cards: cva("relative p-2 group", {
@@ -30,27 +30,42 @@ const styles = {
 };
 ---
 
-<div
-  class={cva([
-    "relative",
-    "bg-cover",
-    "bg-center",
-    "rounded transition-all h-24 lg:h-20 hover:brightness-[95%]",
-    `hover:scale-105 duration-50 ease-in`,
-    post.covers.length > 0 ? "" : "bg-gray-600",
-  ])()}
->
-  <RandomCover covers={post.covers} changeFrequency={4_000}>
-    <a href={path} class="relative">
+<a href={path} class="relative">
+  <div
+    class={cva([
+      "relative",
+      "bg-cover",
+      "bg-center",
+      "rounded transition-all h-24 lg:h-20 hover:brightness-[95%]",
+      "duration-50 ease-in",
+      post.covers.length > 0 ? "" : "bg-gray-600",
+    ])()}
+  >
+    <RandomCover covers={post.covers} changeFrequency={4_000}>
       <h1
-        class="text-center text-sm sm:text-lg text-white font-bold text-shadow-lg"
+        class="text-center text-sm sm:text-lg text-white font-bold flex items-center justify-center h-full"
+        style="text-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.5);"
       >
         {post.title}
       </h1>
-    </a>
 
-    <div class="flex gap-1 absolute bottom-1 right-40">
-      {tags.map((tag: string) => <Tag contents={toTitleCase(tag)} />)}
-    </div>
-  </RandomCover>
-</div>
+      <div>
+        <div class="flex gap-1 absolute -bottom-2 -right-2">
+          {
+            tags.map((tag: string) => (
+              <Tag size="sm" contents={toTitleCase(tag)} />
+            ))
+          }
+        </div>
+
+        <div class="flex gap-1 absolute -bottom-2 -left-2">
+          <Tag
+            size="sm"
+            contents={new Date(post.date).getFullYear().toString()}
+          />
+          <Tag size="sm" contents={post.type} />
+        </div>
+      </div>
+    </RandomCover>
+  </div>
+</a>

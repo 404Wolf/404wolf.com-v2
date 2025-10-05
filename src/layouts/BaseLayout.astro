@@ -1,12 +1,28 @@
 ---
-import Header from "../pages/Header.astro";
+import { cva } from "class-variance-authority";
+import Header from "../components/Header.astro";
+import "../styles/global.css";
 
-export interface Props {
-  header?: boolean;
+export type Props = {
   title?: string;
-}
+};
 
-const { header = true, title = "404wolf.com" } = Astro.props;
+const styles = {
+  body: cva([
+    "max-w-6xl",
+    "mx-auto",
+    "my-10",
+    "flex",
+    "flex-col",
+    "gap-2",
+    "p-6",
+    "rounded-3xl",
+    "relative",
+    "bg-[#2960B4]",
+  ]),
+};
+
+const { title = "404wolf.com" } = Astro.props;
 ---
 
 <!doctype html>
@@ -16,10 +32,17 @@ const { header = true, title = "404wolf.com" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
-  <body
-    class="py-[6%] px-[4.5%] md:px-[10%] lg:px-[16%] xl:px-[15%] max-w-[170rem] mx-auto"
-  >
-    {header && <Header />}
-    <slot />
+
+  <body class={styles.body()}>
+    <div class="sm:mx-[5%] xl:mx-0">
+      <div
+        class="max-w-6xl flex flex-col gap-2 bg-slate-400 p-6 rounded-3xl relative"
+      >
+        <Header>
+          <slot name="header-body" />
+        </Header>
+        <slot />
+      </div>
+    </div>
   </body>
 </html>

@@ -1,0 +1,22 @@
+---
+import { cva } from "class-variance-authority";
+import Navbutton from "./Navbutton.astro";
+
+const styles = {
+  container: cva(["pt-3 -mt-2 mb-2 relative"]),
+  navbutton: cva(["mx-2 my-1"]),
+};
+---
+
+<div class={styles.container()}>
+  <div class="flex items-center">
+    <Navbutton text="About" href="/about" className={styles.navbutton()} />
+    <Navbutton text="Contacts" href="/placeholder" className={styles.navbutton()} />
+    <Navbutton text="Resume" href="/resume" className={styles.navbutton()} />
+  </div>
+
+  <div class="flex items-center">
+    <Navbutton text="Projects" href="/posts/list/projects" className={styles.navbutton()} />
+    <Navbutton text="Blogs" href="/posts/list/blogs" className={styles.navbutton()} />
+  </div>
+</div>

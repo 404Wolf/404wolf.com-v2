@@ -2,29 +2,17 @@
 import { cva } from "class-variance-authority";
 
 export interface Props {
-  position?: "tl" | "tr" | "bl" | "br" | "na";
-  variant?: "default" | "secondary" | "outline" | "ghost";
   size?: "default" | "sm" | "lg";
   contents: string;
+  className?: string;
 }
 
+const { size = "default", contents, className = "" } = Astro.props;
+
 const tagVariants = cva(
-  "bg-primary text-white font-medium whitespace-nowrap relative",
+  "bg-primary text-white font-medium whitespace-nowrap bg-slate-600",
   {
     variants: {
-      position: {
-        tl: "absolute top-1 left-1",
-        tr: "absolute top-1 right-1",
-        bl: "absolute bottom-1 left-1",
-        br: "absolute bottom-1 right-1",
-        na: "",
-      },
-      variant: {
-        default: "bg-primary text-white",
-        secondary: "bg-secondary text-white",
-        outline: "border border-border bg-transparent text-foreground",
-        ghost: "bg-surface text-foreground",
-      },
       size: {
         default: "px-1.5 py-0.5 text-xs rounded-md",
         sm: "px-1 py-0.5 text-xs rounded",
@@ -32,8 +20,6 @@ const tagVariants = cva(
       },
     },
     defaultVariants: {
-      position: "bl",
-      variant: "default",
       size: "default",
     },
   },
@@ -42,10 +28,9 @@ const tagVariants = cva(
 
 <span
   class={tagVariants({
-    position: Astro.props.position ?? "na",
-    variant: Astro.props.variant ?? "default",
-    size: Astro.props.size ?? "default",
+    size,
+    class: className,
   })}
 >
-  {Astro.props.contents}
+  {contents}
 </span>

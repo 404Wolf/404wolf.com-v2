@@ -1,0 +1,44 @@
+---
+import Typewriter from "typewriter-effect";
+import Navbar from "./Navbar.astro";
+import { HeaderName } from "./HeaderName";
+import { Tile } from "./Tile";
+import { cva } from "class-variance-authority";
+
+export interface Props {
+  includeNavbar?: boolean;
+}
+
+const styles = {
+  header: cva([
+    "absolute",
+    "-top-10",
+    "-left-10",
+    "bg-slate-600",
+    "text-white",
+    "rounded-xl",
+    "text-2xl",
+    "px-3",
+    "py-2",
+    "transition-all",
+    "duration-50",
+    "ease-out",
+    "hover:bg-slate-700",
+    "hover:scale-105",
+  ]),
+};
+
+const { includeNavbar = true } = Astro.props;
+---
+
+<div class="flex flex-col gap-2">
+  <div>
+    <Tile>
+      <HeaderName className={styles.header()} client:load />
+
+      <slot />
+    </Tile>
+  </div>
+
+  {includeNavbar && <Navbar />}
+</div>

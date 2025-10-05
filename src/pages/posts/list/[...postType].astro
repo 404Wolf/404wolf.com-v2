@@ -1,0 +1,66 @@
+---
+import { titleCase as toTitleCase } from "title-case";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ExtendedPostCard from "../../../components/ExtendedPostCard.astro";
+import ToggleButton from "../../../components/ToggleButton.astro";
+import { Tile } from "../../../components/Tile";
+import { VALID_TYPE_TYPES } from "../../../content.config";
+
+const allPosts = (await getCollection("blog")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+
+export async function getStaticPaths() {
+  return VALID_TYPE_TYPES.map((t) => ({ params: { postType: `${t}s` } }));
+}
+
+const { postType } = Astro.params;
+const singularPostType = postType.endsWith("s")
+  ? postType.slice(0, -1)
+  : postType;
+
+const posts = allPosts.filter((p) => p.data.type === singularPostType);
+
+// The header for a given "type" of post, like for "Projects" posts, must
+// have a corresponding MDX file in the content directory
+const HeaderBody = (
+  await import(
+    `../../../content/${toTitleCase(singularPostType)}PostHeader.mdx`
+  )
+).default;
+---
+
+<BaseLayout title={`Posts: ${postType}`}>
+  <slot slot="header-body">
+    <HeaderBody />
+  </slot>
+
+  <Tile
+    innerClassName="grid gap-7 sm:grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 p-12"
+  >
+    <div class="mb-6 absolute -top-2 -right-2 z-10">
+      <ToggleButton
+        options={VALID_TYPE_TYPES.map((t) => ({
+          text: toTitleCase(`${t}s`),
+          url: `/posts/list/${t}s`,
+        }))}
+        active={toTitleCase(postType)}
+      />
+    </div>
+
+    {
+      posts.map((post) => (
+        <ExtendedPostCard
+          path={`/posts/${post.id}/`}
+          coverUrl={post.data.covers?.[0]}
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          size="lg"
+        />
+      ))
+    }
+  </Tile>
+</BaseLayout>

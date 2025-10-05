@@ -1,0 +1,41 @@
+---
+import { cva } from "class-variance-authority";
+
+interface Props {
+  internalTo?: string;
+  externalTo?: string;
+  className?: string;
+}
+
+const styles = cva([
+  "rounded-xl",
+  "px-1",
+  "py-[.9px]",
+  "whitespace-nowrap",
+  "text-link-blue",
+  "hover:text-sky-600",
+  "bg-slate-200"
+]);
+
+const { internalTo, externalTo } = Astro.props;
+---
+
+<span class={styles({})}>
+  {
+    externalTo && (
+      <a href={externalTo} target="_blank" rel="noreferrer noopener">
+        <slot />
+      </a>
+    )
+  }
+
+  {
+    internalTo && (
+      <a href={internalTo}>
+        <slot />
+      </a>
+    )
+  }
+
+  {!externalTo && !internalTo && <slot />}
+</span>
