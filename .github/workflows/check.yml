@@ -1,4 +1,4 @@
-name: Quality Checks
+name: Checks
 on:
   push:
     branches: [main]
@@ -20,6 +20,7 @@ jobs:
       - name: Run checks and linting
         run: |
           nix develop --command bash -c '
+            nix flake check
             pnpm run check
             pnpm run lint
           '
