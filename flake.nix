@@ -43,6 +43,9 @@
           ];
         };
         formatter = tree-fmt-cfg.config.build.wrapper;
+        checks = {
+          formatting = tree-fmt-cfg.config.build.check self;
+        };
       }
     );
 }
