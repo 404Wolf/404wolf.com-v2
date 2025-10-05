@@ -10,9 +10,9 @@ type Props = CollectionEntry<"posts">["data"];
 
 const { title, covers, tags, description } = Astro.props;
 const cover =
-  covers && covers.length > 0
-    ? covers[Math.floor(Math.random() * covers.length)]
-    : null;
+	covers && covers.length > 0
+		? covers[Math.floor(Math.random() * covers.length)]
+		: null;
 ---
 
 <BaseLayout headerProps={{ includeNavbar: false, includeBody: false }}>

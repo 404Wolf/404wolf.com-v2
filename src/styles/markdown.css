@@ -2,112 +2,112 @@
 @reference "tailwindcss";
 
 .markdown {
-  font-family: "Varta", sans-serif;
-  @apply text-xl leading-relaxed;
+	font-family: "Varta", sans-serif;
+	@apply text-xl leading-relaxed;
 }
 
 .markdown h1 {
-  @apply text-center text-5xl font-medium mt-4 mb-2 clear-both;
+	@apply text-center text-5xl font-medium mt-4 mb-2 clear-both;
 }
 
 .markdown h2 {
-  @apply text-4xl font-medium mt-4 mb-4 clear-both;
+	@apply text-4xl font-medium mt-4 mb-4 clear-both;
 }
 
 .markdown h3,
 .markdown h4,
 .markdown h5,
 .markdown h6 {
-  @apply text-3xl clear-both;
+	@apply text-3xl clear-both;
 }
 
 .markdown p {
-  @apply my-4;
+	@apply my-4;
 }
 
 .markdown ul {
-  @apply list-disc pl-4;
+	@apply list-disc pl-4;
 }
 
 .markdown ol {
-  @apply list-decimal pl-8;
+	@apply list-decimal pl-8;
 }
 
 .markdown a {
-  @apply text-slate-700 underline hover:text-slate-500 transition-colors duration-150;
-  text-decoration-color: rgb(118, 141, 172);
+	@apply text-slate-700 underline hover:text-slate-500 transition-colors duration-150;
+	text-decoration-color: rgb(118, 141, 172);
 }
 
 .markdown b {
-  @apply font-semibold;
+	@apply font-semibold;
 }
 
 .markdown pre,
 .inline-markdown-codeblock {
-  font-family: "Roboto Mono", monospace !important;
-  @apply bg-slate-200 rounded-md;
+	font-family: "Roboto Mono", monospace !important;
+	@apply bg-slate-200 rounded-md;
 }
 
 .markdown pre {
-  @apply p-4 px-8 overflow-auto;
-  max-height: 800px;
-  line-height: 130%;
+	@apply p-4 px-8 overflow-auto;
+	max-height: 800px;
+	line-height: 130%;
 }
 
 .inline-markdown-codeblock,
 .markdown kbd,
 .markdown samp {
-  @apply px-0.5 py-0;
+	@apply px-0.5 py-0;
 }
 
 .markdown blockquote {
-  @apply italic;
+	@apply italic;
 }
 
 .markdown img {
-  @apply rounded-xl;
+	@apply rounded-xl;
 }
 
 .markdown figure {
-  @apply text-center my-4;
+	@apply text-center my-4;
 }
 
 .markdown figure.border:not(.full) {
-  @apply border border-gray-300 p-1 -m-1;
+	@apply border border-gray-300 p-1 -m-1;
 }
 
 .markdown figure.full,
 .markdown table.full {
-  margin-left: var(--full-margin-left);
-  width: var(--full-width);
+	margin-left: var(--full-margin-left);
+	width: var(--full-width);
 }
 
 .markdown table {
-  @apply border-collapse w-full;
+	@apply border-collapse w-full;
 }
 
 .markdown tr {
-  @apply border-b border-gray-300;
+	@apply border-b border-gray-300;
 }
 
 .markdown tr:last-child {
-  @apply border-b-0;
+	@apply border-b-0;
 }
 
 .markdown td,
 .markdown th {
-  @apply py-1 px-2;
+	@apply py-1 px-2;
 }
 
 .markdown hr {
-  @apply border-t border-black my-3 opacity-90;
+	@apply border-t border-black my-3 opacity-90;
 }
 
 @media (max-width: 639px) {
-  .markdown {
-    @apply text-base;
-  }
-  .markdown h2 {
-    @apply my-1;
-  }
+	.markdown {
+		@apply text-base;
+	}
+	.markdown h2 {
+		@apply my-1;
+	}
 }

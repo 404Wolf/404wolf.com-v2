@@ -4,33 +4,33 @@ import { titleCase as toTitleCase } from "title-case";
 import Tag from "./Tag.astro";
 
 export interface Props {
-  coverUrl?: string;
-  coverAlt?: string;
-  path: string;
-  title: string;
-  description?: string;
-  date: string;
-  tags?: string[];
-  size?: "sm" | "md" | "lg";
-  className?: string;
+	coverUrl?: string;
+	coverAlt?: string;
+	path: string;
+	title: string;
+	description?: string;
+	date: string;
+	tags?: string[];
+	size?: "sm" | "md" | "lg";
+	className?: string;
 }
 
 const {
-  coverUrl,
-  coverAlt,
-  path,
-  title,
-  description,
-  date,
-  tags = [],
-  size = "md",
-  className,
+	coverUrl,
+	coverAlt,
+	path,
+	title,
+	description,
+	date,
+	tags = [],
+	size = "md",
+	className,
 } = Astro.props;
 
 const sizeClasses = {
-  sm: "h-32",
-  md: "h-40",
-  lg: "h-48"
+	sm: "h-32",
+	md: "h-40",
+	lg: "h-48",
 };
 ---
 

@@ -10,22 +10,22 @@ import { GITHUB_URL } from "../consts";
 
 const lastCommit = await simpleGit().log({ maxCount: 1 });
 const lastCommitDate = lastCommit.latest?.date
-  ? new Date(lastCommit.latest.date)
-  : null;
+	? new Date(lastCommit.latest.date)
+	: null;
 const lastCommitHash = lastCommit.latest?.hash;
 
 const allPosts = await getCollection("posts");
 const featuredPosts = allPosts
-  .filter((post) => post.data.tags?.includes("featured"))
-  .sort(
-    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
-  )
-  .slice(0, 6)
-  .map((post) => {
-    // Remove the "featured" tag since we are only showing featured posts anyway
-    post.data.tags = post.data.tags.filter((tag) => tag !== "featured");
-    return post;
-  });
+	.filter((post) => post.data.tags?.includes("featured"))
+	.sort(
+		(a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+	)
+	.slice(0, 6)
+	.map((post) => {
+		// Remove the "featured" tag since we are only showing featured posts anyway
+		post.data.tags = post.data.tags.filter((tag) => tag !== "featured");
+		return post;
+	});
 ---
 
 <BaseLayout title="Home">

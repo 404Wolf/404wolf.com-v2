@@ -6,8 +6,8 @@ import { RandomCover } from "./RandomCover";
 import Tag from "./Tag.astro";
 
 export interface Props extends VariantProps<typeof styles.cards> {
-  post: BlogFrontmatterType;
-  path: string;
+	post: BlogFrontmatterType;
+	path: string;
 }
 
 const { post, path } = Astro.props;
@@ -15,18 +15,18 @@ const { post, path } = Astro.props;
 const tags: string[] = (post.tags || []).sort();
 
 const styles = {
-  cards: cva("relative p-2 group", {
-    variants: {
-      size: {
-        sm: "h-20",
-        md: "h-32",
-        lg: "h-40",
-      },
-    },
-    defaultVariants: {
-      size: "md",
-    },
-  }),
+	cards: cva("relative p-2 group", {
+		variants: {
+			size: {
+				sm: "h-20",
+				md: "h-32",
+				lg: "h-40",
+			},
+		},
+		defaultVariants: {
+			size: "md",
+		},
+	}),
 };
 ---
 

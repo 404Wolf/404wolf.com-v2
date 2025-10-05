@@ -8,26 +8,26 @@ import { Tile } from "../../../components/Tile";
 import { VALID_TYPE_TYPES } from "../../../content.config";
 
 const allPosts = (await getCollection("posts")).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+	(a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 
 export async function getStaticPaths() {
-  return VALID_TYPE_TYPES.map((t) => ({ params: { postType: `${t}s` } }));
+	return VALID_TYPE_TYPES.map((t) => ({ params: { postType: `${t}s` } }));
 }
 
 const { postType } = Astro.params;
 const singularPostType = postType.endsWith("s")
-  ? postType.slice(0, -1)
-  : postType;
+	? postType.slice(0, -1)
+	: postType;
 
 const posts = allPosts.filter((p) => p.data.type === singularPostType);
 
 // The header for a given "type" of post, like for "Projects" posts, must
 // have a corresponding MDX file in the content directory
 const HeaderBody = (
-  await import(
-    `../../../content/${toTitleCase(singularPostType)}PostHeader.mdx`
-  )
+	await import(
+		`../../../content/${toTitleCase(singularPostType)}PostHeader.mdx`
+	)
 ).default;
 ---
 

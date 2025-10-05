@@ -8,25 +8,25 @@ import tailwindcss from "@tailwindcss/vite";
 import { SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
-  site: SITE_URL,
-  integrations: [
-    mdx({
-      remarkPlugins: [
-        remarkFrontmatter,
-        [remarkMdxFrontmatter, { name: "frontmatterData" }],
-      ],
-      gfm: true,
-    }),
-    sitemap(),
-    react(),
-  ],
-  output: "static",
-  publicDir: "public",
-  vite: {
-    plugins: [tailwindcss()],
-  },
-  redirects: {
-    "/bio": "/about",
-    "/resume": "/resume.pdf",
-  },
+	site: SITE_URL,
+	integrations: [
+		mdx({
+			remarkPlugins: [
+				remarkFrontmatter,
+				[remarkMdxFrontmatter, { name: "frontmatterData" }],
+			],
+			gfm: true,
+		}),
+		sitemap(),
+		react(),
+	],
+	output: "static",
+	publicDir: "public",
+	vite: {
+		plugins: [tailwindcss()],
+	},
+	redirects: {
+		"/bio": "/about",
+		"/resume": "/resume.pdf",
+	},
 });

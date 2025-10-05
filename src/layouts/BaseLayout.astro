@@ -5,23 +5,23 @@ import "../styles/global.css";
 import RotatedLinks from "../components/RotatedLinks.astro";
 
 export type Props = {
-  title?: string;
-  headerProps?: import("../components/Header.astro").Props;
+	title?: string;
+	headerProps?: import("../components/Header.astro").Props;
 };
 
 const styles = {
-  body: cva([
-    "max-w-6xl",
-    "mx-auto",
-    "my-10",
-    "flex",
-    "flex-col",
-    "gap-2",
-    "p-6",
-    "rounded-3xl",
-    "relative",
-    "bg-[#2960B4]",
-  ]),
+	body: cva([
+		"max-w-6xl",
+		"mx-auto",
+		"my-10",
+		"flex",
+		"flex-col",
+		"gap-2",
+		"p-6",
+		"rounded-3xl",
+		"relative",
+		"bg-[#2960B4]",
+	]),
 };
 
 const { title = "404wolf.com" } = Astro.props;

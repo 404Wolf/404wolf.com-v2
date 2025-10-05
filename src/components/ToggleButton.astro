@@ -2,40 +2,40 @@
 import { cva } from "class-variance-authority";
 
 interface Option {
-  text: string;
-  url: string;
+	text: string;
+	url: string;
 }
 
 interface Props {
-  options: Option[];
-  active?: string;
-  className?: string;
+	options: Option[];
+	active?: string;
+	className?: string;
 }
 
 const styles = {
-  container: cva([
-    "inline-flex",
-    "rounded-xl",
-    "bg-slate-600",
-    "text-white",
-    "overflow-hidden",
-  ]),
-  button: cva([
-    "px-3",
-    "py-2",
-    "text-link-blue",
-    "hover:bg-slate-700",
-    "transition-colors",
-    "whitespace-nowrap",
-  ]),
-  activeButton: cva([
-    "px-3",
-    "py-2",
-    "text-link-blue",
-    "bg-slate-800",
-    "transition-colors",
-    "whitespace-nowrap",
-  ]),
+	container: cva([
+		"inline-flex",
+		"rounded-xl",
+		"bg-slate-600",
+		"text-white",
+		"overflow-hidden",
+	]),
+	button: cva([
+		"px-3",
+		"py-2",
+		"text-link-blue",
+		"hover:bg-slate-700",
+		"transition-colors",
+		"whitespace-nowrap",
+	]),
+	activeButton: cva([
+		"px-3",
+		"py-2",
+		"text-link-blue",
+		"bg-slate-800",
+		"transition-colors",
+		"whitespace-nowrap",
+	]),
 };
 
 const { options, active, className } = Astro.props;
