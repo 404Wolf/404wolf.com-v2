@@ -1,33 +1,33 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.3/schema.json",
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
-		}
-	},
-	"overrides": [
-		{
-			"includes": ["**/*.astro"],
-			"linter": {
-				"rules": {
-					"style": {
-						"useConst": "off",
-						"useImportType": "off"
-					},
-					"correctness": {
-						"noUnusedVariables": "off",
-						"noUnusedImports": "off"
-					}
-				}
-			}
-		}
-	],
-	"files": {
-		"experimentalScannerIgnores": ["dist", "node_modules", ".git"]
-	},
-	"vcs": {
-		"clientKind": "git",
-		"enabled": true
-	}
+  "$schema": "https://biomejs.dev/schemas/2.2.3/schema.json",
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ],
+  "files": {
+    "experimentalScannerIgnores": ["dist", "node_modules", ".git"]
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true
+  }
 }

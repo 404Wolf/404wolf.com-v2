@@ -4,28 +4,28 @@ import { glob } from "astro/loaders";
 export const VALID_TYPE_TYPES = ["blog", "project"] as const;
 
 export const VALID_TAG_TYPES = [
-	"academic",
-	"personal",
-	"work",
-	"featured",
-	"hidden",
-	"ongoing",
+  "academic",
+  "personal",
+  "work",
+  "featured",
+  "hidden",
+  "ongoing",
 ] as const;
 
 export const postsFrontmatterSchema = z.object({
-	title: z.string().min(1),
-	type: z.enum(VALID_TYPE_TYPES),
-	date: z.string().date(),
-	covers: z.array(z.string().url()),
-	tags: z.array(z.enum(VALID_TAG_TYPES)),
-	description: z.string().optional(),
+  title: z.string().min(1),
+  type: z.enum(VALID_TYPE_TYPES),
+  date: z.string().date(),
+  covers: z.array(z.string().url()),
+  tags: z.array(z.enum(VALID_TAG_TYPES)),
+  description: z.string().optional(),
 });
 
 export type BlogFrontmatterType = z.infer<typeof postsFrontmatterSchema>;
 
 const posts = defineCollection({
-	loader: glob({ base: "./src/content/posts", pattern: "**/*.{mdx,md}" }),
-	schema: () => postsFrontmatterSchema,
+  loader: glob({ base: "./src/content/posts", pattern: "**/*.{mdx,md}" }),
+  schema: () => postsFrontmatterSchema,
 });
 
 export const collections = { posts };
