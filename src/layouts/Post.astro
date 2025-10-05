@@ -6,7 +6,7 @@ import BaseLayout from "./BaseLayout.astro";
 import Tag from "../components/Tag.astro";
 import { Tile } from "../components/Tile";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"posts">["data"];
 
 const { title, covers, tags, description } = Astro.props;
 const cover =

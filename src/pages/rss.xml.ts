@@ -4,7 +4,7 @@ import type { APIContext } from "astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts.ts";
 
 export async function GET(context: APIContext) {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("posts");
 
   return rss({
     title: SITE_TITLE,

@@ -12,7 +12,7 @@ const lastCommitDate = lastCommit.latest?.date
   ? new Date(lastCommit.latest.date)
   : null;
 
-const allPosts = await getCollection("blog");
+const allPosts = await getCollection("posts");
 const featuredPosts = allPosts
   .filter((post) => post.data.tags?.includes("featured"))
   .slice(0, 6)

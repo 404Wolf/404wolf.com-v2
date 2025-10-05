@@ -7,7 +7,7 @@ import ToggleButton from "../../../components/ToggleButton.astro";
 import { Tile } from "../../../components/Tile";
 import { VALID_TYPE_TYPES } from "../../../content.config";
 
-const allPosts = (await getCollection("blog")).sort(
+const allPosts = (await getCollection("posts")).sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 
@@ -31,7 +31,7 @@ const HeaderBody = (
 ).default;
 ---
 
-<BaseLayout title={`Posts: ${postType}`}>
+<BaseLayout title={`Posts: ${postType}`} headerProps={{ includeNavbar: false }}>
   <slot slot="header-body">
     <HeaderBody />
   </slot>

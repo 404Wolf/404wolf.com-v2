@@ -5,6 +5,7 @@ import "../styles/global.css";
 
 export type Props = {
   title?: string;
+  headerProps?: import("../components/Header.astro").Props;
 };
 
 const styles = {
@@ -38,7 +39,7 @@ const { title = "404wolf.com" } = Astro.props;
       <div
         class="max-w-6xl flex flex-col gap-2 bg-slate-400 p-6 rounded-3xl relative"
       >
-        <Header>
+        <Header >
           <slot name="header-body" />
         </Header>
         <slot />

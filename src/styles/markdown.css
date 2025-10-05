@@ -23,15 +23,6 @@
 
 .markdown p {
   @apply my-4;
-  text-indent: 0.3em;
-}
-
-.markdown li p {
-  text-indent: 0;
-}
-
-.markdown li {
-  @apply pb-1 pl-2 text-base;
 }
 
 .markdown ul {
