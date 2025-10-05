@@ -11,12 +11,25 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; };
-      in {
-        packages.default =
-          pkgs.callPackage ./build.nix { inherit (self.inputs) myResume; };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      ...
+    }@inputs:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        tree-fmt-cfg = inputs.treefmt-nix.lib.evalModule pkgs {
+          projectRootFile = "flake.nix";
+          programs.nixfmt.enable = true;
+          programs.biome.enable = true;
+        };
+      in
+      {
+        packages.default = pkgs.callPackage ./build.nix { inherit (self.inputs) myResume; };
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             nodejs_22
@@ -28,13 +41,7 @@
             nixfmt
           ];
         };
-        formatter = let
-          treefmtconfig = inputs.treefmt-nix.lib.evalModule pkgs {
-            projectRootFile = "flake.nix";
-            programs.prettier.enable = true;
-            programs.biome.enable = true;
-          };
-        in treefmtconfig.config.build.wrapper;
-
-      });
+        formatter = tree-fmt-cfg.config.build.wrapper;
+      }
+    );
 }

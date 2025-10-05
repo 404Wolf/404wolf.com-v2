@@ -1,38 +1,38 @@
 [
-  {
-    "name": "Email",
-    "username": "wolf@404Wolf.com",
-    "link": "mailto:wolf@404Wolf.com",
-    "at": false
-  },
-  {
-    "name": "Phone",
-    "username": "+1(212)767-WOLF",
-    "link": "tel:+2127679653",
-    "at": true
-  },
-  {
-    "name": "Github",
-    "username": "404Wolf",
-    "link": "https://github.com/404Wolf",
-    "at": true
-  },
-  {
-    "name": "LinkedIn",
-    "username": "WolfMermelstein",
-    "link": "https://www.linkedin.com/in/WolfMermelstein",
-    "at": true
-  },
-  {
-    "name": "Signal",
-    "username": "wolf.201",
-    "link": "https://signal.me/#eu/f50JFBVR-xbK96jkmpcHeAQ0sBvtG1EJLgloG-_IOcgm3IYMZHxNhpr5XFQiwLdk",
-    "at": true
-  },
-  {
-    "name": "Discord",
-    "username": "404Wolf",
-    "link": "https://dsc.bio/twilak",
-    "at": true
-  }
+	{
+		"name": "Email",
+		"username": "wolf@404Wolf.com",
+		"link": "mailto:wolf@404Wolf.com",
+		"at": false
+	},
+	{
+		"name": "Phone",
+		"username": "+1(212)767-WOLF",
+		"link": "tel:+2127679653",
+		"at": true
+	},
+	{
+		"name": "Github",
+		"username": "404Wolf",
+		"link": "https://github.com/404Wolf",
+		"at": true
+	},
+	{
+		"name": "LinkedIn",
+		"username": "WolfMermelstein",
+		"link": "https://www.linkedin.com/in/WolfMermelstein",
+		"at": true
+	},
+	{
+		"name": "Signal",
+		"username": "wolf.201",
+		"link": "https://signal.me/#eu/f50JFBVR-xbK96jkmpcHeAQ0sBvtG1EJLgloG-_IOcgm3IYMZHxNhpr5XFQiwLdk",
+		"at": true
+	},
+	{
+		"name": "Discord",
+		"username": "404Wolf",
+		"link": "https://dsc.bio/twilak",
+		"at": true
+	}
 ]
