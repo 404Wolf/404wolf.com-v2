@@ -1,9 +1,10 @@
 ---
 import { cva } from "class-variance-authority";
 import Navbutton from "./Navbutton.astro";
+import ContactsPopup from "./ContactsPopup.astro";
 
 const styles = {
-  container: cva(["pt-3 -mt-2 mb-2 relative"]),
+  container: cva(["pt-3 -mt-2 relative"]),
   navbutton: cva(["mx-2 my-1"]),
 };
 ---
@@ -11,7 +12,11 @@ const styles = {
 <div class={styles.container()}>
   <div class="flex items-center">
     <Navbutton text="About" href="/about" className={styles.navbutton()} />
-    <Navbutton text="Contacts" href="/placeholder" className={styles.navbutton()} />
+    <Navbutton 
+      text="Contacts" 
+      onClick="document.getElementById('contacts-modal').showModal()" 
+      className={styles.navbutton()} 
+    />
     <Navbutton text="Resume" href="/resume.pdf" className={styles.navbutton()} />
   </div>
 
@@ -20,3 +25,5 @@ const styles = {
     <Navbutton text="Blogs" href="/posts/list/blogs" className={styles.navbutton()} />
   </div>
 </div>
+
+<ContactsPopup open={false} />

@@ -1,12 +1,12 @@
 ---
-import { cva } from 'class-variance-authority';
+import { cva } from "class-variance-authority";
 
 export interface Props {
   text: string;
-  href: string;
+  href?: string;
+  onClick?: string;
   className?: string;
 }
-
 
 const styles = {
   navbutton: cva([
@@ -19,19 +19,32 @@ const styles = {
     "rounded-xl",
     "transition-colors",
     "w-full",
-    "text-lg"
+    "text-lg",
+    "cursor-pointer",
+    "border-none",
   ]),
 };
 
-const { text, href, className } = Astro.props;
+const { text, href, onClick, className } = Astro.props;
 ---
 
-<a
-  href={href}
-  class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
->
-  {text}
-</a>
+{
+  onClick ? (
+    <button
+      onclick={onClick}
+      class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
+    >
+      {text}
+    </button>
+  ) : (
+    <a
+      href={href}
+      class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
+    >
+      {text}
+    </a>
+  )
+}
 
 <style>
   @keyframes pulseScale {

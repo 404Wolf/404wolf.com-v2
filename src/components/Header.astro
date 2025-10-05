@@ -12,9 +12,6 @@ export interface Props {
 
 const styles = {
   header: cva([
-    "absolute",
-    "-top-10",
-    "-left-10",
     "bg-slate-600",
     "text-white",
     "rounded-xl",
@@ -30,19 +27,28 @@ const styles = {
 };
 
 const { includeNavbar = true, includeBody = true } = Astro.props;
+const onlyOne =
+  (!includeNavbar && !includeBody) || (includeNavbar && includeBody);
 ---
 
-<div class="flex flex-col gap-2">
+<div class={onlyOne ? "flex flex-col gap-3" : "flex flex-col gap-2"}>
   <div>
     {
       includeBody ? (
         <Tile>
-          <HeaderName className={styles.header()} client:load />
-
+          <HeaderName
+            className={styles.header({ class: "absolute -top-10 -left-10" })}
+            client:load
+          />
           <slot />
         </Tile>
       ) : (
-        <HeaderName className={styles.header()} client:load />
+        <div>
+          <HeaderName
+            className={styles.header({ class: "absolute -top-5 -left-5" })}
+            client:load
+          />
+        </div>
       )
     }
   </div>
