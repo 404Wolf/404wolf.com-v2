@@ -1,36 +1,29 @@
 name: Build and Deploy to R2
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 jobs:
   check:
     uses: ./.github/workflows/check.yml
-
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: check
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Install Nix
         uses: cachix/install-nix-action@v22
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
-
       - name: Build website
         run: |
           WEBSITE_OUTPUT=$(nix build --print-out-paths)
           echo "WEBSITE_OUTPUT=$WEBSITE_OUTPUT" >> $GITHUB_ENV
-
       - name: Deploy to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
