@@ -13,9 +13,25 @@ const cover =
 	covers && covers.length > 0
 		? covers[Math.floor(Math.random() * covers.length)]
 		: null;
+
+const post = Astro.props;
 ---
 
 <BaseLayout headerProps={{ includeNavbar: false, includeBody: false }}>
+  <Fragment slot="head">
+    <meta name="description" content={post.description || post.title} />
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={post.title} />
+    <meta property="og:description" content={post.description || post.title} />
+    {post.covers?.[0] && <meta property="og:image" content={post.covers[0]} />}
+    
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={post.title} />
+    <meta property="twitter:description" content={post.description || post.title} />
+    {post.covers?.[0] && <meta property="twitter:image" content={post.covers[0]} />}
+  </Fragment>
+  
   <Tile client:load title="Overview" side="right" containerClassName="-mb-18">
     <div class="h-fit overflow-auto">
       {
