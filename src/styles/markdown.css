@@ -45,11 +45,11 @@
 .markdown pre,
 .inline-markdown-codeblock {
 	font-family: "Roboto Mono", monospace !important;
-	@apply bg-slate-200 rounded-md;
+	@apply bg-slate-200 rounded-md text-xs;
 }
 
 .markdown pre {
-	@apply p-4 px-8 overflow-auto;
+	@apply p-4 px-8 my-4 overflow-scroll;
 	max-height: 800px;
 	line-height: 130%;
 }

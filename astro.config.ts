@@ -17,6 +17,9 @@ export default defineConfig({
 				[remarkMdxFrontmatter, { name: "frontmatterData" }],
 			],
 			gfm: true,
+			shikiConfig: {
+				theme: "github-light-default",
+			}
 		}),
 		sitemap(),
 		react(),
