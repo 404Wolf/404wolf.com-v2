@@ -19,8 +19,8 @@ jobs:
             experimental-features = nix-command flakes
       - name: Build website
         run: |
-          WEBSITE_OUTPUT=$(nix build --print-out-paths)
-          echo "WEBSITE_OUTPUT=$WEBSITE_OUTPUT" >> $GITHUB_ENV
+          nix develop --command bash -c 'pnpm run build'
+          echo "WEBSITE_OUTPUT=$(pwd)/dist" >> $GITHUB_ENV
       - name: Deploy to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}

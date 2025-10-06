@@ -23,5 +23,5 @@ jobs:
             nix flake check
             pnpm run check
             pnpm run lint
-            nix build
+            pnpm run build
           '
