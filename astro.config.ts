@@ -6,8 +6,8 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { SITE_URL } from "./src/consts.ts";
 import remarkToc from "remark-toc";
+import { SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
   site: SITE_URL,
@@ -16,12 +16,12 @@ export default defineConfig({
       remarkPlugins: [
         remarkFrontmatter,
         [remarkMdxFrontmatter, { name: "frontmatterData" }],
-        [remarkToc, { heading: "Contents" }]
+        [remarkToc, { heading: "Contents" }],
       ],
       gfm: true,
       shikiConfig: {
         theme: "github-light-default",
-      }
+      },
     }),
     sitemap(),
     react(),
@@ -34,6 +34,9 @@ export default defineConfig({
   redirects: {
     "/bio": "/about",
     "/resume": "/resume.pdf",
+    "/posts": "/",
+    "/posts/project/[...postId]": "/posts/[...postId]",
+    "/posts/blog/[...postId]": "/posts/[...postId]",
   },
   adapter: cloudflare({
     platformProxy: {

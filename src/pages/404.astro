@@ -1,0 +1,17 @@
+---
+import { Tile } from "../components/Tile";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+---
+
+<BaseLayout headerProps={{includeBody: false, includeNavbar: false}}>
+  <Tile>
+    Sorry, the page you are looking for does not exist. Click <b class="underline text-xl"><a href="/">here</a></b>
+    to return to the homepage.
+
+    If you are visiting this site from a Google search, I've recently rewrote
+    the site with Astro and some of the IDs of posts have changed. Please head
+    over to the projects/blogs page and find the post you were looking for that
+    way.
+  </Tile>
+</BaseLayout>
