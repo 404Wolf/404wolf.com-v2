@@ -27,6 +27,7 @@
 		"react-dom": "^19.2.0",
 		"remark-frontmatter": "^5.0.0",
 		"remark-mdx-frontmatter": "^5.2.0",
+		"remark-toc": "^9.0.0",
 		"sharp": "^0.34.4",
 		"simple-git": "^3.28.0",
 		"tailwindcss": "^4.1.14",
