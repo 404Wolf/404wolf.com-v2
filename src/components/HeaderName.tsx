@@ -10,7 +10,9 @@ export function HeaderName({
 	const Header = (
 		<div className={className}>
 			<div className="relative">
-				<div className="text-transparent mx-px">Hi! I'm Wolf Mermelstein</div>
+				<div className="text-transparent mx-px whitespace-nowrap">
+					Hi! I'm Wolf Mermelstein
+				</div>
 
 				<div className="absolute left-0 top-0">
 					<Typewriter

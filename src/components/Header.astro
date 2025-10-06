@@ -37,7 +37,7 @@ const onlyOne =
       includeBody ? (
         <Tile>
           <HeaderName
-            className={styles.header({ class: "absolute -top-10 -left-10" })}
+            className={styles.header({ class: "absolute -top-14 -left-10 sm:-top-10 sm:-left-10" })}
             client:load
           />
           <slot />
@@ -45,7 +45,7 @@ const onlyOne =
       ) : (
         <div>
           <HeaderName
-            className={styles.header({ class: "absolute -top-5 -left-5" })}
+            className={styles.header({ class: "absolute -top-6 -left-3 sm:-top-5 sm:-left-5" })}
             client:load
           />
         </div>
