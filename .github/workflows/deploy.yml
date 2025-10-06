@@ -19,7 +19,7 @@ jobs:
             experimental-features = nix-command flakes
       - name: Build website
         run: |
-          nix develop --command bash -c 'pnpm run build'
+          nix develop --command bash -c 'pnpm install --frozen-lockfile && pnpm run build'
           echo "WEBSITE_OUTPUT=$(pwd)/dist" >> $GITHUB_ENV
       - name: Deploy to R2
         env:

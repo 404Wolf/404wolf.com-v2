@@ -23,5 +23,5 @@ jobs:
             nix flake check
             pnpm run check
             pnpm run lint
-            pnpm run build
+            pnpm install --frozen-lockfile && pnpm run build
           '
