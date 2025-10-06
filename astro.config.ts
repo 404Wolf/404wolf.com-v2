@@ -10,37 +10,37 @@ import remarkToc from "remark-toc";
 import { SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
-  site: SITE_URL,
-  integrations: [
-    mdx({
-      remarkPlugins: [
-        remarkFrontmatter,
-        [remarkMdxFrontmatter, { name: "frontmatterData" }],
-        [remarkToc, { heading: "Contents" }],
-      ],
-      gfm: true,
-      shikiConfig: {
-        theme: "github-light-default",
-      },
-    }),
-    sitemap(),
-    react(),
-  ],
-  output: "static",
-  publicDir: "public",
-  vite: {
-    plugins: [tailwindcss()],
-  },
-  redirects: {
-    "/bio": "/about",
-    "/resume": "/resume.pdf",
-    "/posts": "/",
-    "/posts/project/[...postId]": "/posts/[...postId]",
-    "/posts/blog/[...postId]": "/posts/[...postId]",
-  },
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
-  }),
+	site: SITE_URL,
+	integrations: [
+		mdx({
+			remarkPlugins: [
+				remarkFrontmatter,
+				[remarkMdxFrontmatter, { name: "frontmatterData" }],
+				[remarkToc, { heading: "Contents" }],
+			],
+			gfm: true,
+			shikiConfig: {
+				theme: "github-light-default",
+			},
+		}),
+		sitemap(),
+		react(),
+	],
+	output: "static",
+	publicDir: "public",
+	vite: {
+		plugins: [tailwindcss()],
+	},
+	redirects: {
+		"/bio": "/about",
+		"/resume": "/resume.pdf",
+		"/posts": "/",
+		"/posts/project/[...postId]": "/posts/[...postId]",
+		"/posts/blog/[...postId]": "/posts/[...postId]",
+	},
+	adapter: cloudflare({
+		platformProxy: {
+			enabled: true,
+		},
+	}),
 });
