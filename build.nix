@@ -2,6 +2,7 @@
   stdenv,
   nodejs,
   pnpm,
+  git,
   system,
   myResume,
 }:
@@ -10,7 +11,8 @@ stdenv.mkDerivation rec {
   version = "0.1.0";
   src = ./.;
 
-  nativeBuildInputs = [
+  buildInputs = [
+    git
     nodejs
     pnpm.configHook
   ];
