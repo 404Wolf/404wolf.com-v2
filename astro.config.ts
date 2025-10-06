@@ -1,3 +1,4 @@
+import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -29,4 +30,9 @@ export default defineConfig({
 		"/bio": "/about",
 		"/resume": "/resume.pdf",
 	},
+	adapter: cloudflare({
+		platformProxy: {
+			enabled: true,
+		},
+	}),
 });

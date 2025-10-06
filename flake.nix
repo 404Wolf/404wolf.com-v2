@@ -32,6 +32,7 @@
       {
         packages.default = pkgs.callPackage ./build.nix { inherit (self.inputs) myResume; };
         devShells.default = pkgs.mkShell {
+          CLOUDFLARE_ACCOUNT_ID = "02e54289e54c9bca7d99203f8df8c230";
           packages = with pkgs; [
             nodejs_22
             pnpm

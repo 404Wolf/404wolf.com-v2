@@ -1,16 +1,14 @@
 {
-  "name": "<TBD>",
-  "main": "./dist/_worker.js/index.js",
-  "compatibility_date": "<TBD>",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "./dist"
-  },
-  "observability": {
-    "enabled": true
-  },
+	"name": "404wolf-com",
+	"account_id": "02e54289e54c9bca7d99203f8df8c230",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "10-05-2025",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true
+	}
 }
