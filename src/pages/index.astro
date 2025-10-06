@@ -80,14 +80,30 @@ const featuredPosts = allPosts
         rel="noopener noreferrer"
       >
         <p class="text-sm">
-          Updated @{" "}
-          {lastCommitDate.toLocaleDateString("en-US", {
-            month: "numeric",
-            day: "numeric",
-            year: "numeric",
-          })}
+          Updated @ <span id="commit-date" data-date={lastCommitDate.toISOString()}>
+            {lastCommitDate.toLocaleDateString("en-US", {
+              month: "numeric",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
         </p>
       </a>
     )
   }
 </BaseLayout>
+
+<script>
+  const commitDateElement = document.getElementById('commit-date');
+  if (commitDateElement) {
+    const isoDate = commitDateElement.getAttribute('data-date');
+    if (isoDate) {
+      const date = new Date(isoDate);
+      commitDateElement.textContent = date.toLocaleDateString('en-US', {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    }
+  }
+</script>
