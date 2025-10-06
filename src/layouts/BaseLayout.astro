@@ -32,6 +32,8 @@ const { title = "404wolf.com" } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <slot name="head" />
+    <meta name="robots" content="index, follow" />
     <title>{title}</title>
   </head>
 
