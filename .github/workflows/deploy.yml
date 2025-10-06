@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "::group::Deploying to R2"
           nix develop --command bash -c '
-            aws s3 sync "${{ env.WEBSITE_OUTPUT }}/dist" "s3://${{ env.R2_BUCKET }}/" \
+            aws s3 sync "${{ env.WEBSITE_OUTPUT }}" "s3://${{ env.R2_BUCKET }}/" \
               --delete \
               --exclude /media \
               --endpoint-url "${{ env.R2_ENDPOINT }}"
