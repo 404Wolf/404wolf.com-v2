@@ -1,10 +1,11 @@
 ---
 title: Today I Learned
-type: "blog"
-date: "2024-01-01"
-covers: ["https://static.404wolf.com/Post-20240713182452886.webp"]
-description: A collection of random disconnected things that I learn on given days.
-tags: ["personal", "featured"]
+type: 'blog'
+date: '2024-01-01'
+covers: ['https://static.404wolf.com/Post-20240713182452886.webp']
+description:
+  A collection of random disconnected things that I learn on given days.
+tags: ['personal', 'featured']
 ---
 
 # 2024-11-20
@@ -23,13 +24,17 @@ B   C
   D
 ```
 
-The issue is that if we do `A.D()`, we could be referring to `A::B.D()` or `A::C.D()`.
+The issue is that if we do `A.D()`, we could be referring to `A::B.D()` or
+`A::C.D()`.
 
-So you can do `class A : public virtual B, public C{…)` to only inherit the actual methods from `C` to solve this problem.
+So you can do `class A : public virtual B, public C{…)` to only inherit the
+actual methods from `C` to solve this problem.
 
 # 2024-09-26
 
-I set up [neotest](https://github.com/nvim-neotest/neotest) and [nvim-dap](https://github.com/mfussenegger/nvim-dap) and then removed them from my config. Turns out I prefer `vscode` once I'm debugging/testing.
+I set up [neotest](https://github.com/nvim-neotest/neotest) and
+[nvim-dap](https://github.com/mfussenegger/nvim-dap) and then removed them from
+my config. Turns out I prefer `vscode` once I'm debugging/testing.
 
 Some `vscode` shortcuts:
 
@@ -39,7 +44,17 @@ Some `vscode` shortcuts:
 
 # 2024-09-25
 
-> In [information theory](https://en.wikipedia.org/wiki/Information_theory "Information theory"), [linguistics](https://en.wikipedia.org/wiki/Linguistics "Linguistics"), and [computer science](https://en.wikipedia.org/wiki/Computer_science "Computer science"), the **Levenshtein distance** is a [string metric](https://en.wikipedia.org/wiki/String_metric "String metric") for measuring the difference between two sequences. The Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other. It is named after Soviet mathematician [Vladimir Levenshtein](https://en.wikipedia.org/wiki/Vladimir_Levenshtein "Vladimir Levenshtein"), who defined the metric in 1965.[\[1\]](https://en.wikipedia.org/wiki/Levenshtein_distance#cite_note-1)
+> In [information theory](https://en.wikipedia.org/wiki/Information_theory 'Information theory'), [linguistics](https://en.wikipedia.org/wiki/Linguistics 'Linguistics'),
+> and [computer science](https://en.wikipedia.org/wiki/Computer_science 'Computer science'),
+> the **Levenshtein distance** is
+> a [string metric](https://en.wikipedia.org/wiki/String_metric 'String metric') for
+> measuring the difference between two sequences. The Levenshtein distance
+> between two words is the minimum number of single-character edits (insertions,
+> deletions or substitutions) required to change one word into the other. It is
+> named after Soviet
+> mathematician [Vladimir Levenshtein](https://en.wikipedia.org/wiki/Vladimir_Levenshtein 'Vladimir Levenshtein'),
+> who defined the metric
+> in 1965.[\[1\]](https://en.wikipedia.org/wiki/Levenshtein_distance#cite_note-1)
 
 # 2024-09-18
 
@@ -49,29 +64,30 @@ Learned sql, used \<https://sqlbolt.com\>. Very helpful tutorial.
 
 Neovim has built in spell checking! No plugins needed
 
-https://neovim.io/doc/user/spell.html
-`:setlocal spell spelllang=en_us` enable built in neovim spell checking
-`z=` - see spelling suggestions
+https://neovim.io/doc/user/spell.html `:setlocal spell spelllang=en_us` enable
+built in neovim spell checking `z=` - see spelling suggestions
 
 # 2024-09-05
 
-You can use `git mv <from> <to>` and `git rm [-r] <thing>` to move and delete things with `git` without consequences if you have things like submodules.
+You can use `git mv <from> <to>` and `git rm [-r] <thing>` to move and delete
+things with `git` without consequences if you have things like submodules.
 
 # 2024-08-15
 
 https://github.com/mikavilpas/yazi.nvim
 
-Make `dunst` go to the top right
-`origin = "top-right";`
-`offset = "10x10";`
+Make `dunst` go to the top right `origin = "top-right";` `offset = "10x10";`
 
 # 2024-08-15
 
 Bash variable parameter extraction + glob stuff
 
-- `${VARIABLE}%ff` removes the first occurrence of `ff` from the back of `VARIABLE`
-- `${VARIABLE}#ff` removes the first occurrence of `ff` from the front of `VARIABLE`
-- `${variable//pattern/replacement}` is a form of parameter expansion that replaces all occurrences of pattern with replacement in the value of variable
+- `${VARIABLE}%ff` removes the first occurrence of `ff` from the back of
+  `VARIABLE`
+- `${VARIABLE}#ff` removes the first occurrence of `ff` from the front of
+  `VARIABLE`
+- `${variable//pattern/replacement}` is a form of parameter expansion that
+  replaces all occurrences of pattern with replacement in the value of variable
 
 # 2024-08-14
 
@@ -79,7 +95,8 @@ Open source alternative to zoom https://p2p.mirotalk.com/
 
 # 2024-08-09
 
-In `bash` you can use `**` to get a list of files in the current directory. You can even pattern match with like `**.nix`
+In `bash` you can use `**` to get a list of files in the current directory. You
+can even pattern match with like `**.nix`
 
 So, like
 
@@ -93,11 +110,14 @@ And `file` is the relative path of the file from where you run the command.
 
 # 2024-08-02
 
-`css` has a `not` function to target things that are not the thing. So like, `p:not(.foobar #barbar)` will target everything that is not of class `foobar` and with id `barbar`.
+`css` has a `not` function to target things that are not the thing. So like,
+`p:not(.foobar #barbar)` will target everything that is not of class `foobar`
+and with id `barbar`.
 
 # 2024-08-01
 
-Capital `W` and capital `B` take you forward and backward a word in vim without regard for periods
+Capital `W` and capital `B` take you forward and backward a word in vim without
+regard for periods
 
 ![WindowsError](https://static.404wolf.com/Post-20240801230814573.webp)
 
@@ -105,7 +125,8 @@ Apparently `python` has a Windows specific error message
 
 # 2024-07-22
 
-You can easily get example videos in various formats at \<https://sample-videos.com/\>
+You can easily get example videos in various formats at
+\<https://sample-videos.com/\>
 
 # 2024-07-20
 
@@ -113,11 +134,15 @@ You can easily get example videos in various formats at \<https://sample-videos.
 
 # 2024-07-16
 
-[Powershell](https://github.com/PowerShell/PowerShell) is open source. You can use Powershell as your default Linux shell. Who knew.
+[Powershell](https://github.com/PowerShell/PowerShell) is open source. You can
+use Powershell as your default Linux shell. Who knew.
 
 ![Powershell as Linux Shell](https://static.404wolf.com/Post-20240716222818686.webp)
 
-Also, Windows has a cool app called "Sandbox," which you can create `xml` config files to template, that are basically Windows virtual machines without bloat (not even the microsoft store). They work really well, I think they should be a distribution of Windows itself.
+Also, Windows has a cool app called "Sandbox," which you can create `xml` config
+files to template, that are basically Windows virtual machines without bloat
+(not even the microsoft store). They work really well, I think they should be a
+distribution of Windows itself.
 
 ![Windows sandbox](https://static.404wolf.com/Post-20240716223116191.webp)
 
@@ -125,9 +150,13 @@ https://learn.microsoft.com/en-us/windows/security/application-security/applicat
 
 # 2024-07-13
 
-- [You can terminate a unified AST traversal early, or skip the iteration early, by returning special things](https://unifiedjs.com/explore/package/unist-util-visit-parents/#what-is-this). If you return `false` the iteration ends. If you return 'skip' then it skips the iteration right away (kinda like `continue` if it were a loop or walker iterator).
+- [You can terminate a unified AST traversal early, or skip the iteration early, by returning special things](https://unifiedjs.com/explore/package/unist-util-visit-parents/#what-is-this).
+  If you return `false` the iteration ends. If you return 'skip' then it skips
+  the iteration right away (kinda like `continue` if it were a loop or walker
+  iterator).
 
-Used this to create this script to yoink a specific section from a markdown string (for example, I want to get the # Description section's paragraphs only)
+Used this to create this script to yoink a specific section from a markdown
+string (for example, I want to get the # Description section's paragraphs only)
 
 ```ts
 export function getContentOfSection(
@@ -135,29 +164,29 @@ export function getContentOfSection(
   header: string,
   depth: number = 1,
 ) {
-  const ast = unified().use(remarkParse).parse(markdown);
+  const ast = unified().use(remarkParse).parse(markdown)
 
-  const output: string[] = [];
-  let inHeadersSection = false;
-  let nextIsWantedText = false;
+  const output: string[] = []
+  let inHeadersSection = false
+  let nextIsWantedText = false
   visit(ast, (node) => {
     if (
-      node.type === "heading" &&
+      node.type === 'heading' &&
       node.depth === depth &&
       node.children.length > 0 &&
-      node.children[0].type === "text" &&
+      node.children[0].type === 'text' &&
       node.children[0].value === header
     )
-      inHeadersSection = true;
+      inHeadersSection = true
     if (inHeadersSection) {
       if (nextIsWantedText) {
-        if (node.type === "text") output.push(node.value);
-        else if (node.type !== "paragraph") return false;
+        if (node.type === 'text') output.push(node.value)
+        else if (node.type !== 'paragraph') return false
       }
-      if (node.type === "paragraph") nextIsWantedText = true;
+      if (node.type === 'paragraph') nextIsWantedText = true
     }
-  });
-  return output.join("\n");
+  })
+  return output.join('\n')
 }
 ```
 
@@ -166,7 +195,7 @@ export function getContentOfSection(
 Going to try to be more consistent with this again!
 
 ```ts
-console.trace("How did we get here?");
+console.trace('How did we get here?')
 ```
 
 Will do a `console.log` and also spit out a stack trace

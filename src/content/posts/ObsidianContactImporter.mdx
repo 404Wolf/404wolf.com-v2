@@ -1,56 +1,118 @@
 ---
 title: Obsidian Contact Importer
-type: "project"
-date: "2024-01-01"
-covers: ["https://static.404wolf.com/Post-20240806180300351.webp"]
+type: 'project'
+date: '2024-01-01'
+covers: ['https://static.404wolf.com/Post-20240806180300351.webp']
 description: |
   A project to bring phone contacts into Obsidian as markdown files, converting vCard (.vcf) files exported from phones or Google Contacts into nicely formatted notes. By storing contacts as markdown, users can take better notes about people they meet and maintain richer context around relationships, while keeping everything in their Obsidian vault. The tool uses customizable templates and handles contact details like names, phones, emails, addresses and even contact photos, making contact information easily searchable and editable within Obsidian's ecosystem.&#x20;
-tags: ["personal"]
+tags: ['personal']
 ---
 
 # Everything in One Place
 
-[Obsidian](https://obsidian.md) is a very cool markdown driven notetaking app. It's a very general purpose note taking app, and can do everything that every other note taking app can. It is also super extendable, which is really nice -- it is an electron desktop app, so plugins can be literally anything. There are plugins that add full on react UI components, and plugins that mess with webasm. Plugins are implemented by hooking onto type declarations that Obsidian provides, and it all is very well integrated into the app.
+[Obsidian](https://obsidian.md) is a very cool markdown driven notetaking app.
+It's a very general purpose note taking app, and can do everything that every
+other note taking app can. It is also super extendable, which is really nice --
+it is an electron desktop app, so plugins can be literally anything. There are
+plugins that add full on react UI components, and plugins that mess with webasm.
+Plugins are implemented by hooking onto type declarations that Obsidian
+provides, and it all is very well integrated into the app.
 
 ![Markdown all the way down](https://static.404wolf.com/https://static.404wolf.com/Post-20240802183939700.webp)
 
-The coolest part of Obsidian though, in my opinion, is the fact that all of your notes live as a hierarchy of [obsidian flavored markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) files (which is just a superset of markdown that adds things like highlighting, comments, and callouts). Obsidian itself is closed source, but I'm okay with using it anyway since my files are not obfuscated in any way.
+The coolest part of Obsidian though, in my opinion, is the fact that all of your
+notes live as a hierarchy of
+[obsidian flavored markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown)
+files (which is just a superset of markdown that adds things like highlighting,
+comments, and callouts). Obsidian itself is closed source, but I'm okay with
+using it anyway since my files are not obfuscated in any way.
 
-A lot of people have extended obsidian with its powerful plugin plugin system, to let you do more than just take notes. One philosophy that seems to be catching on is to use Obsidian as a life manager; as an all in one tool.
+A lot of people have extended obsidian with its powerful plugin plugin system,
+to let you do more than just take notes. One philosophy that seems to be
+catching on is to use Obsidian as a life manager; as an all in one tool.
 
 ## Plugin Ecosystem
 
-Obsidian is [Electron](https://www.electronjs.org/), so it can do anything a browser can. It's implemented very well and you don't really notice this unless you try, but if you want to _create_ for Obsidian, the sky is the limit -- heck, [you can create plugins with React](https://docs.obsidian.md/Plugins/Getting+started/Use+React+in+your+plugin).
+Obsidian is [Electron](https://www.electronjs.org/), so it can do anything a
+browser can. It's implemented very well and you don't really notice this unless
+you try, but if you want to _create_ for Obsidian, the sky is the limit -- heck,
+[you can create plugins with React](https://docs.obsidian.md/Plugins/Getting+started/Use+React+in+your+plugin).
 
 ![Obsidian full calendar](https://static.404wolf.com/Post-20240806165246984.webp)
 
-One plugin I've started using is [Obsidian Full Calendar](https://github.com/obsidian-community/obsidian-full-calendar), which a cool calendar plugin for Obsidian that lets you unidirectionally sync iCal calendars, and then also manage events within Obsidian, where it can treat events as markdown files. That means that I can create an event within Obsidian, and it can create a corresponding event markdown file, that has the actual metadata for the event in it.
+One plugin I've started using is
+[Obsidian Full Calendar](https://github.com/obsidian-community/obsidian-full-calendar),
+which a cool calendar plugin for Obsidian that lets you unidirectionally sync
+iCal calendars, and then also manage events within Obsidian, where it can treat
+events as markdown files. That means that I can create an event within Obsidian,
+and it can create a corresponding event markdown file, that has the actual
+metadata for the event in it.
 
-This is a paradigm that I really like -- treating usually structured and rigid data as semi-structured markdown.
+This is a paradigm that I really like -- treating usually structured and rigid
+data as semi-structured markdown.
 
-I have started to use templates to create other types of "typically _structured_ dataforms" in unstructured markdown. The nice thing about Obsidian is that this does **not** mean copying and pasting every single template. Templating in Obsidian is pretty mature at this point, it comes with a [built in templating plugin](https://help.obsidian.md/Plugins/Templates), and the community has created a much more powerful [Templator](https://github.com/SilentVoid13/Templater) plugin. You can plug in everything from the current note's file name, to the date, to arbitrary javascript function results.
+I have started to use templates to create other types of "typically _structured_
+dataforms" in unstructured markdown. The nice thing about Obsidian is that this
+does **not** mean copying and pasting every single template. Templating in
+Obsidian is pretty mature at this point, it comes with a
+[built in templating plugin](https://help.obsidian.md/Plugins/Templates), and
+the community has created a much more powerful
+[Templator](https://github.com/SilentVoid13/Templater) plugin. You can plug in
+everything from the current note's file name, to the date, to arbitrary
+javascript function results.
 
 ![Omnisearch](https://static.404wolf.com/Post-20240806170104437.webp)
 
-I think one of the coolest Obsidian plugins, that really does totally change the experience, is [Omnisearch](https://github.com/scambier/obsidian-omnisearch), which is a super powerful search engine for your entire note vault. It does weighted fuzzy finding across all vault contents, and it even OCRs images and PDFs. What that means is that the search results are always as relevant as possible -- if you search for a file, files with some of that name (it's fuzzy!) show up first, followed by notes with titles, and contents. This means that if all of my life is stored as markdown in my Obsidian vault, then it's easy to find things later.
+I think one of the coolest Obsidian plugins, that really does totally change the
+experience, is [Omnisearch](https://github.com/scambier/obsidian-omnisearch),
+which is a super powerful search engine for your entire note vault. It does
+weighted fuzzy finding across all vault contents, and it even OCRs images and
+PDFs. What that means is that the search results are always as relevant as
+possible -- if you search for a file, files with some of that name (it's fuzzy!)
+show up first, followed by notes with titles, and contents. This means that if
+all of my life is stored as markdown in my Obsidian vault, then it's easy to
+find things later.
 
 ## The dilemma
 
-Part of this does mean that I'm restarting systems that I've had in place for a really long time. I really like Google Calendar, but I _prefer_ being able to put whatever I want into _semi structured_ markdown files for events. Part of switching to this new system means that my old calendar events are not going to be in my Obsidian vault.
+Part of this does mean that I'm restarting systems that I've had in place for a
+really long time. I really like Google Calendar, but I _prefer_ being able to
+put whatever I want into _semi structured_ markdown files for events. Part of
+switching to this new system means that my old calendar events are not going to
+be in my Obsidian vault.
 
-Importing old calendar events is good enough for now, because since the plugin supports linking iCal I still can view all my old events, I just don't have the ability to have corresponding markdown files. I probably could figure out how to import them that way with some scripting, but that's not really worth it for me since those events are in the past and I'm probably not still taking notes on them.
+Importing old calendar events is good enough for now, because since the plugin
+supports linking iCal I still can view all my old events, I just don't have the
+ability to have corresponding markdown files. I probably could figure out how to
+import them that way with some scripting, but that's not really worth it for me
+since those events are in the past and I'm probably not still taking notes on
+them.
 
 ![My options](https://static.404wolf.com/Post-20240806171003276.webp)
 
-One area of my note-taking life that I would like to include in my Obsidian vault, though, is my contacts. All my contacts before this project were, as was the case for most people, stored in [Google Contacts](contacts.google.com), and on my phone in the Contacts app.
+One area of my note-taking life that I would like to include in my Obsidian
+vault, though, is my contacts. All my contacts before this project were, as was
+the case for most people, stored in [Google Contacts](contacts.google.com), and
+on my phone in the Contacts app.
 
-What I wanted was a system to load my contacts into structured markdown files (ideally following some sort of template that I could fine tune and specify). Obsidian has a plugin registry built into the app, which you can contribute to by just PRing to a repo. It is pretty extensive, but there were really limited options that showed up. It's possible there's some project out there on Github, since Obsidian plugins get loaded by just plopping a manifest and js bundle into a specific spot, but I couldn't find any.
+What I wanted was a system to load my contacts into structured markdown files
+(ideally following some sort of template that I could fine tune and specify).
+Obsidian has a plugin registry built into the app, which you can contribute to
+by just PRing to a repo. It is pretty extensive, but there were really limited
+options that showed up. It's possible there's some project out there on Github,
+since Obsidian plugins get loaded by just plopping a manifest and js bundle into
+a specific spot, but I couldn't find any.
 
 ## But also
 
-But also, I want to get better at remembering people. I encounter a lot of people on a fairly regular basis, but I think I could do a better job of remembering what people do, interesting things I talk about with them, and that sort of thing.
+But also, I want to get better at remembering people. I encounter a lot of
+people on a fairly regular basis, but I think I could do a better job of
+remembering what people do, interesting things I talk about with them, and that
+sort of thing.
 
-By having all my contacts in raw markdown, I think it will both lower the barrier to someone being a "contact," and will allow me to keep better records of how I know people and track my conversations with them over time.
+By having all my contacts in raw markdown, I think it will both lower the
+barrier to someone being a "contact," and will allow me to keep better records
+of how I know people and track my conversations with them over time.
 
 # The Project
 
@@ -58,9 +120,18 @@ By having all my contacts in raw markdown, I think it will both lower the barrie
 
 ![Google Contact export](https://static.404wolf.com/Post-20240806171751994.webp)
 
-If I assume that all my contacts are in Google contacts (a bold proposition), then I can export them as a CSV and then use them that way. But that also means that anyone who uses my tool will also need to be using Google contacts. I guess I could have asked people to upload their contacts to Google so that they could then download them as a CSV, but that's clunky, so I decided to look into how they exist on the phone itself.
+If I assume that all my contacts are in Google contacts (a bold proposition),
+then I can export them as a CSV and then use them that way. But that also means
+that anyone who uses my tool will also need to be using Google contacts. I guess
+I could have asked people to upload their contacts to Google so that they could
+then download them as a CSV, but that's clunky, so I decided to look into how
+they exist on the phone itself.
 
-I can't really know how Apple is storing them on the file system because of how closed source it is, but one thing I did figure out is that Apple let's you export your contacts in a uniquely unintuitive way: press and hold on a contact "list", or "all contacts", and choose to Export (or email every single contact in your phone! I will not be doing that, though.).
+I can't really know how Apple is storing them on the file system because of how
+closed source it is, but one thing I did figure out is that Apple let's you
+export your contacts in a uniquely unintuitive way: press and hold on a contact
+"list", or "all contacts", and choose to Export (or email every single contact
+in your phone! I will not be doing that, though.).
 
 ![Export all contacts](https://static.404wolf.com/Post-20240806172024892.webp)
 ![What?](https://static.404wolf.com/Post-20240806172020774.webp)
@@ -68,19 +139,46 @@ I can't really know how Apple is storing them on the file system because of how 
 
 ### VCards
 
-It turns out that the format that gets exported is the `vCard` format, which is the same format that gets used when you share contacts: if you text a friend your contact what you've sent them is a `vCard` file.
+It turns out that the format that gets exported is the `vCard` format, which is
+the same format that gets used when you share contacts: if you text a friend
+your contact what you've sent them is a `vCard` file.
 
-vCards are kinda a pain. There's a proper [RFC](https://www.rfc-editor.org/rfc/rfc6350.html) on the spec. It's a 74 page PDF. [The vCard format was originally developed by Apple, AT\&T, IBM, and Siemens.](https://www.loc.gov/preservation/digital/formats/fdd/fdd000616.shtml) as a new unified standard for contact storage, but it's very powerful.
+vCards are kinda a pain. There's a proper
+[RFC](https://www.rfc-editor.org/rfc/rfc6350.html) on the spec. It's a 74 page
+PDF.
+[The vCard format was originally developed by Apple, AT\&T, IBM, and Siemens.](https://www.loc.gov/preservation/digital/formats/fdd/fdd000616.shtml)
+as a new unified standard for contact storage, but it's very powerful.
 
-The US library of congress has a section for the format, so I'll drop in their description and move on
+The US library of congress has a section for the format, so I'll drop in their
+description and move on
 
-> Virtual Card Format (vCard) is a versatile data format designed for exchanging electronic representations of contact information. vCard is commonly referred to as an ["electronic business card"](https://www.nationalarchives.gov.uk/PRONOM/fmt/395) and is fully and openly standardized through IETF [RFC 6350](http://tools.ietf.org/html/rfc6350). The vCard file [contains](https://docs.fileformat.com/email/vcf/) the same type of content typically found on a physical business card, such as a contact’s name, address, phone number and email but may also list more personal data such as birthday or even organizational data such as line of supervision. Being digital, vCards can contain graphics (including headshots or ID photos), video, and audio as well as textual data. These files are shared across a wide variety of communication channels including email, instant messaging, text messaging, and website embedding. A single vCard file can contain information for one or more contacts. These digital cards are versatile, extending beyond personal descriptions to potentially represent various directory objects, including organizations, departments, or even buildings. However, the [predominant use](https://www.oreilly.com/library/view/programming-internet-email/9780596802585/) remains the representation of individuals.
+> Virtual Card Format (vCard) is a versatile data format designed for exchanging
+> electronic representations of contact information. vCard is commonly referred
+> to as an
+> ["electronic business card"](https://www.nationalarchives.gov.uk/PRONOM/fmt/395)
+> and is fully and openly standardized through IETF
+> [RFC 6350](http://tools.ietf.org/html/rfc6350). The vCard file
+> [contains](https://docs.fileformat.com/email/vcf/) the same type of content
+> typically found on a physical business card, such as a contact’s name,
+> address, phone number and email but may also list more personal data such as
+> birthday or even organizational data such as line of supervision. Being
+> digital, vCards can contain graphics (including headshots or ID photos),
+> video, and audio as well as textual data. These files are shared across a wide
+> variety of communication channels including email, instant messaging, text
+> messaging, and website embedding. A single vCard file can contain information
+> for one or more contacts. These digital cards are versatile, extending beyond
+> personal descriptions to potentially represent various directory objects,
+> including organizations, departments, or even buildings. However, the
+> [predominant use](https://www.oreilly.com/library/view/programming-internet-email/9780596802585/)
+> remains the representation of individuals.
 
 That's right, you can store arbitrary data in vCards! Pretty cool.
 
 ## Parsing VCards
 
-So, vCards are plain text that store contact information. Great, that means we can look at them (and diff them, and all the other fun things that plain text let's us do)...
+So, vCards are plain text that store contact information. Great, that means we
+can look at them (and diff them, and all the other fun things that plain text
+let's us do)...
 
 Here's my vCard
 
@@ -109,23 +207,35 @@ PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJ....SIJ
 END:VCARD
 ```
 
-I got it by clicking "share contact," and then I shared it via email with myself, and downloaded the email attachment.
+I got it by clicking "share contact," and then I shared it via email with
+myself, and downloaded the email attachment.
 
-It's pretty gnarly. I mean, it has all I need, but how do I actually yoink out the relevant pieces of information. Also notice that the image is just a regular base64 image -- that's pretty nice.
+It's pretty gnarly. I mean, it has all I need, but how do I actually yoink out
+the relevant pieces of information. Also notice that the image is just a regular
+base64 image -- that's pretty nice.
 
 ![My options](https://static.404wolf.com/https://static.404wolf.com/Post-20240806173810683.webp)
 
 So I looked into it a bit.
 
-It turns out that there's not a ton of good options. I tried three different ones before arriving on [vcf](https://www.npmjs.com/package/vcf), and faced a few issues:
+It turns out that there's not a ton of good options. I tried three different
+ones before arriving on [vcf](https://www.npmjs.com/package/vcf), and faced a
+few issues:
 
-- Wrong type of vCard. There's 4 different versions that aren't fully compatible.
-- Commonjs hell. I'm using [bun](https://bun.sh), which makes life so much easier, (you can import and require in the same file!), but I don't want to require. I want a pure esm solution.
+- Wrong type of vCard. There's 4 different versions that aren't fully
+  compatible.
+- Commonjs hell. I'm using [bun](https://bun.sh), which makes life so much
+  easier, (you can import and require in the same file!), but I don't want to
+  require. I want a pure esm solution.
 - Types. I want types. Typescript is a good thing.
 
 ![VCF library](https://static.404wolf.com/https://static.404wolf.com/Post-20240806174857068.webp)
 
-So, `vcf` isn't typed, but it does have type declarations, and works reasonably well. And, it turns out it's wicked fast with `bun`, which is really nice. I don't even have to bundle, just running it as a script is fast with `bun` (but we'll bundle later since I do need to package it with nix, since of course we do).
+So, `vcf` isn't typed, but it does have type declarations, and works reasonably
+well. And, it turns out it's wicked fast with `bun`, which is really nice. I
+don't even have to bundle, just running it as a script is fast with `bun` (but
+we'll bundle later since I do need to package it with nix, since of course we
+do).
 
 ```js
 vCard {
@@ -247,11 +357,14 @@ vCard {
 }
 ```
 
-So we have what we need, and we can interface with it with `typescript` now. It seems everything that we need is there, but it's just a pain in the neck to extract anything.
+So we have what we need, and we can interface with it with `typescript` now. It
+seems everything that we need is there, but it's just a pain in the neck to
+extract anything.
 
 _some hours later_
 
-I decided to move on anyway, and write a wrapper that uses `vcf` to extract the necessary pieces of information from the `vCard` to craft a `Contact` object.
+I decided to move on anyway, and write a wrapper that uses `vcf` to extract the
+necessary pieces of information from the `vCard` to craft a `Contact` object.
 
 ```json
 {
@@ -308,28 +421,34 @@ I decided to move on anyway, and write a wrapper that uses `vcf` to extract the 
 
 Much, much better.
 
-Most of the pain was in dealing with how Apple hacks about the `vCard` spec: for many of the elements in the parsed response I got, I would find that things like phone numbers would be labeled with tags like `label1`, `label2`, and `label3`, corresponding to `personal`, `home`, etc, where the mapping would exist elsewhere in the `vCard`, but not in one consistent spot.
+Most of the pain was in dealing with how Apple hacks about the `vCard` spec: for
+many of the elements in the parsed response I got, I would find that things like
+phone numbers would be labeled with tags like `label1`, `label2`, and `label3`,
+corresponding to `personal`, `home`, etc, where the mapping would exist
+elsewhere in the `vCard`, but not in one consistent spot.
 
-To solve this, I just created a global hashmap for each `vCard` that had all of the label references and their corresponding proper labels...
+To solve this, I just created a global hashmap for each `vCard` that had all of
+the label references and their corresponding proper labels...
 
 ```typescript
-const rawLabels = this.getPropertyJSONs("xAbLabel");
-let labelMap = [];
+const rawLabels = this.getPropertyJSONs('xAbLabel')
+let labelMap = []
 if (rawLabels !== null) {
   labelMap = Object.fromEntries(
     rawLabels.map((label: any) => [
       (label[1] as any).group,
       sanitizeVCardLabel(label[3]).trim(),
     ]),
-  );
+  )
 }
 const getLabel = (label: string) => {
-  if (label in labelMap) return labelMap[label];
-  else return labelFallback;
-};
+  if (label in labelMap) return labelMap[label]
+  else return labelFallback
+}
 ```
 
-Now that I have a function that can take a contact and give me a pretty JSON, I'm just about ready to start generating markdown.
+Now that I have a function that can take a contact and give me a pretty JSON,
+I'm just about ready to start generating markdown.
 
 For this, I have a few options, but it was a tricky decision.
 
@@ -337,15 +456,32 @@ For this, I have a few options, but it was a tricky decision.
 
 ![The template](https://static.404wolf.com/https://static.404wolf.com/Post-20240806180300351.webp)
 
-One cool idea I had pretty early on for this project was the ability for the process to be bidirectional. That is, I thought it'd be pretty neat if you could take vCard contacts and turn them into markdown, and then eventually go the other direction: take the markdown you generated, and maybe some hand written contacts that follow the schema, and create vCards that you can load back into your phone.
+One cool idea I had pretty early on for this project was the ability for the
+process to be bidirectional. That is, I thought it'd be pretty neat if you could
+take vCard contacts and turn them into markdown, and then eventually go the
+other direction: take the markdown you generated, and maybe some hand written
+contacts that follow the schema, and create vCards that you can load back into
+your phone.
 
-Also, it would be important to parse the generated markdown later on just so that I could change the template if I ever wanted to. I love configuring things, and I think it's pretty likely that I would want to make some changes to the template down the line, like moving different sections of the contacts to different spots in the template.
+Also, it would be important to parse the generated markdown later on just so
+that I could change the template if I ever wanted to. I love configuring things,
+and I think it's pretty likely that I would want to make some changes to the
+template down the line, like moving different sections of the contacts to
+different spots in the template.
 
-No matter what I did, I'd probably be using [remark](https://unifiedjs.com/explore/package/remark/) to parse the markdown, which is a plugin for the `unified` AST ecosystem. It lets you create a traversable AST from a plaintext markdown file. I was thinking it might be fun in the future to create my own vCard parser using `unified` in pure `typescript`.
+No matter what I did, I'd probably be using
+[remark](https://unifiedjs.com/explore/package/remark/) to parse the markdown,
+which is a plugin for the `unified` AST ecosystem. It lets you create a
+traversable AST from a plaintext markdown file. I was thinking it might be fun
+in the future to create my own vCard parser using `unified` in pure
+`typescript`.
 
-This was a really tough decision, I was brainstorming and devised a few different options that would be potentially bidirectional
+This was a really tough decision, I was brainstorming and devised a few
+different options that would be potentially bidirectional
 
-It turns out that markdown allows you to inject something called "frontmatter", which is basically a yaml, at the top of your markdown file, surrounded by `---` on either side. That is, something like
+It turns out that markdown allows you to inject something called "frontmatter",
+which is basically a yaml, at the top of your markdown file, surrounded by `---`
+on either side. That is, something like
 
 ```
 ---
@@ -356,11 +492,22 @@ tags: foo, bar, buzz
 
 ![Blog post metadata in frontmatter](https://static.404wolf.com/https://static.404wolf.com/Post-20240806180922110.webp)
 
-This is something I do for the Obsidian plugin for my website; I embed metadata about the blog posts at the top of the blog post files.
+This is something I do for the Obsidian plugin for my website; I embed metadata
+about the blog posts at the top of the blog post files.
 
-One idea then, using this, would be to pick a template and stick to it, and write a parser that can parse it into a specific format. Then I could add something like "parser-top-use" (in more practicality, probably something like "version" or "parserid"), and then dynamically parse notes based on the schema that they are using.
+One idea then, using this, would be to pick a template and stick to it, and
+write a parser that can parse it into a specific format. Then I could add
+something like "parser-top-use" (in more practicality, probably something like
+"version" or "parserid"), and then dynamically parse notes based on the schema
+that they are using.
 
-This is a pretty high effort idea, so another idea I was flirting with was rendering markdown based on the frontmatter. I found a very straightforward Obsidian plugin that does this called ["Obsidian handlebars"](https://github.com/sbquinlan/obsidian-handlebars). [Handlebars](https://handlebarsjs.com/) is a javascript library that lets you compile and then use templates for text files. It's a templating language and is pretty good at what it does.
+This is a pretty high effort idea, so another idea I was flirting with was
+rendering markdown based on the frontmatter. I found a very straightforward
+Obsidian plugin that does this called
+["Obsidian handlebars"](https://github.com/sbquinlan/obsidian-handlebars).
+[Handlebars](https://handlebarsjs.com/) is a javascript library that lets you
+compile and then use templates for text files. It's a templating language and is
+pretty good at what it does.
 
 The plugin's example is something very similar to what I want to do...
 
@@ -371,26 +518,35 @@ tags:
   - awesome
 ---
 
-\`\`\`handlebars
-tags: {{#each frontmatter.tags}}{{.}}, {{/each}}
-\`\`\`
+\`\`\`handlebars tags: {{#each frontmatter.tags}}{{.}}, {{/each}} \`\`\`
 ```
 
 Unfortunately, however, it's one directional.
 
-I found an Obsidian plugin called ["Obsidian meta bind"](https://github.com/mProjectsCode/obsidian-meta-bind-plugin) that does something like this in a bidirectional way.
+I found an Obsidian plugin called
+["Obsidian meta bind"](https://github.com/mProjectsCode/obsidian-meta-bind-plugin)
+that does something like this in a bidirectional way.
 
 ![Obsidain meta bind](https://static.404wolf.com/https://static.404wolf.com/Post-20240806181431211.webp)
 
-You can create "inputs" in the markdown template, and then when you edit them they automatically update the frontmatter, and then when the user edits the inputs OR the frontmatter it automatically updates the note/frontmatter.
+You can create "inputs" in the markdown template, and then when you edit them
+they automatically update the frontmatter, and then when the user edits the
+inputs OR the frontmatter it automatically updates the note/frontmatter.
 
-It works pretty good, but it's fairly janky and requires a lot of boilerplate that I rather not deal with. It also seems a bit fragile, since it is assuming that their inputs work properly long term and don't have any weird plugin interactions.
+It works pretty good, but it's fairly janky and requires a lot of boilerplate
+that I rather not deal with. It also seems a bit fragile, since it is assuming
+that their inputs work properly long term and don't have any weird plugin
+interactions.
 
-Another idea that I had was to very simply just create a vCard viewer/editor for Obsidian. I've wanted to learn [Svelt](https://svelte.dev/) for a while, so I might still do this eventually, but for now, I decided on a simpler solution.
+Another idea that I had was to very simply just create a vCard viewer/editor for
+Obsidian. I've wanted to learn [Svelt](https://svelte.dev/) for a while, so I
+might still do this eventually, but for now, I decided on a simpler solution.
 
 ## Obsidian Tables
 
-Obsidian tables are pretty good for storing tabulated data, and they are very human readable. It's an accessible format, and remark/unified should be able to parse it easily.
+Obsidian tables are pretty good for storing tabulated data, and they are very
+human readable. It's an accessible format, and remark/unified should be able to
+parse it easily.
 
 ```markdown
 | This is a header | This is another header |
@@ -398,33 +554,30 @@ Obsidian tables are pretty good for storing tabulated data, and they are very hu
 | This is a value  | This is another value  |
 ```
 
-I decided to go with storing the contact data in tables for now, since it'll be easy to parse them later on. To figure out which sections are which, for now I'll just have headings above the tables that say what is in them, that I can regex against when parsing. It is a bit restrictive to require that people structure their contact templates with markdown tables, but it's better than zero flexability, and it will let me figure out a better solution later on.
+I decided to go with storing the contact data in tables for now, since it'll be
+easy to parse them later on. To figure out which sections are which, for now
+I'll just have headings above the tables that say what is in them, that I can
+regex against when parsing. It is a bit restrictive to require that people
+structure their contact templates with markdown tables, but it's better than
+zero flexability, and it will let me figure out a better solution later on.
 
-The example template that I came up with, which is very table driven to store the key-value pairs, is this.
+The example template that I came up with, which is very table driven to store
+the key-value pairs, is this.
 
 ```markdown
 ---
-obsidian-contact-importer-schema-version: "1.0"
-tags: ["person"]
+obsidian-contact-importer-schema-version: '1.0'
+tags: ['person']
 ---
 
-Imported with [Obsidian Markdown Importer](https://github.com/404Wolf/obsidian-contact-importer)
+Imported with
+[Obsidian Markdown Importer](https://github.com/404Wolf/obsidian-contact-importer)
 
 ---
 
-{{#if organization}}
-{{#if title}}
-{{title}} @ {{organization}}
-{{else}}
-{{organization}}
-{{/if}}
-{{else}}
-{{#if title}}
-{{title}}
-{{/if}}
-{{/if}}
-{{#if image}}
-![Image]({{image}})
+{{#if organization}} {{#if title}} {{title}} @ {{organization}} {{else}}
+{{organization}} {{/if}} {{else}} {{#if title}} {{title}} {{/if}} {{/if}}
+{{#if image}} ![Image]({{image}})
 
 {{/if}}
 
@@ -433,18 +586,14 @@ Imported with [Obsidian Markdown Importer](https://github.com/404Wolf/obsidian-c
 | Type | Number |
 | :--- | :----- |
 
-{{#each phones}}
-| {{type}} | `c!{{number}}`|
-{{/each}}
+{{#each phones}} | {{type}} | `c!{{number}}`| {{/each}}
 
 ## Emails
 
 | Type | Address |
 | :--- | :------ |
 
-{{#each emails}}
-| {{type}} | `c!{{address}}` |
-{{/each}}
+{{#each emails}} | {{type}} | `c!{{address}}` | {{/each}}
 
 ## Socials
 
@@ -456,43 +605,41 @@ Imported with [Obsidian Markdown Importer](https://github.com/404Wolf/obsidian-c
 | Type | URL |
 | :--- | :-- |
 
-{{#each websites}}
-| {{label}} | `g!{{url}}` |
-{{/each}}
+{{#each websites}} | {{label}} | `g!{{url}}` | {{/each}}
 
 ## Addresses
 
 | Type | Street | City, State | Zip, Country |
 | :--- | :----- | :---------- | :----------- |
 
-{{#each addresses}}
-| {{type}} | {{street}} | {{city}}, {{state}} | {{zip}} {{country}} |
-{{/each}}
+{{#each addresses}} | {{type}} | {{street}} | {{city}}, {{state}} | {{zip}}
+{{country}} | {{/each}}
 
 ## Other
 
 | Type | Value |
 | :--- | :---- |
 
-{{#if birthday}}
-| Birthday | `g!{{birthday}}` |
-{{/if}}
-| Imported | {{imported.month}} {{imported.day}}, {{imported.year}} |
+{{#if birthday}} | Birthday | `g!{{birthday}}` | {{/if}} | Imported |
+{{imported.month}} {{imported.day}}, {{imported.year}} |
 
 ---
 
 {{notes}}
 ```
 
-Notice that I'm using handlebars to finally slot the json values into the template. To make this future proof and allow people to modify it to their liking, instead of remapping all of the handlebar fields in the templator function, I'm just dynamically dumping the JSON into the handlebar...
+Notice that I'm using handlebars to finally slot the json values into the
+template. To make this future proof and allow people to modify it to their
+liking, instead of remapping all of the handlebar fields in the templator
+function, I'm just dynamically dumping the JSON into the handlebar...
 
 ```typescript
 export default async function templateMarkdown(
   contact: ContactType,
   markdownTemplate: string,
 ) {
-  const template = handlebars.compile(markdownTemplate);
-  const now = new Date();
+  const template = handlebars.compile(markdownTemplate)
+  const now = new Date()
   return template({
     ...contact, // Dump the entire contact json as-is
     image:
@@ -504,7 +651,7 @@ export default async function templateMarkdown(
       day: now.getDate(),
       year: now.getFullYear(),
     },
-  });
+  })
 }
 ```
 
@@ -512,17 +659,44 @@ And it works! So now let's package it and call it a day.
 
 ## Bun + Nix
 
-I'm not going to go too deep into Nix here, but the TLDR is that it's a programming langauge and utility library that makes it very easy to create extremely pure and consistent, builds of arbitrary files, including executable.
+I'm not going to go too deep into Nix here, but the TLDR is that it's a
+programming langauge and utility library that makes it very easy to create
+extremely pure and consistent, builds of arbitrary files, including executable.
 
-The catch with `nix` is that it doesn't just try to be pure, it **forces** purity. Purity is, in this context, that whenever you run a build, the output artifact will be bit for bit identical given the same inputs. This makes it annoying to package things some times, since the `sandbox` that `nix` builds happen in is very restrictive -- it doesn't have internet!
+The catch with `nix` is that it doesn't just try to be pure, it **forces**
+purity. Purity is, in this context, that whenever you run a build, the output
+artifact will be bit for bit identical given the same inputs. This makes it
+annoying to package things some times, since the `sandbox` that `nix` builds
+happen in is very restrictive -- it doesn't have internet!
 
-There's a bunch of utility builder functions that are able to prefetch all your dependencies. A common one is `buildNpmPackage`, which is _de facto_ standard for `nixpkgs` packages (packages on the official registry) that are in `ts/js`. I'm using `bun` though, not `npm` or `node`.
+There's a bunch of utility builder functions that are able to prefetch all your
+dependencies. A common one is `buildNpmPackage`, which is _de facto_ standard
+for `nixpkgs` packages (packages on the official registry) that are in `ts/js`.
+I'm using `bun` though, not `npm` or `node`.
 
-Prefetching artifacts for builds is done by specifying the hash of the thing you're fetching, so that you can guarantee that the things you're fetching are what you think they are. This isn't that bad when you have a `package-lock.json` with `npm` or even with `yarn`. In that case all of the hashes already live there, and can be used to safely do the fetches.
+Prefetching artifacts for builds is done by specifying the hash of the thing
+you're fetching, so that you can guarantee that the things you're fetching are
+what you think they are. This isn't that bad when you have a `package-lock.json`
+with `npm` or even with `yarn`. In that case all of the hashes already live
+there, and can be used to safely do the fetches.
 
-But, in this case, I want to use `nix` to package a `bun` app. `bun` presents a few challenges; namely, it uses a [special binary lock file format](https://bun.sh/docs/install/lockfile) that's super fast and efficient, but isn't easily parseable. You can use `bun` to read it as a `yarn` lock file, and theoretically you could go down that route to do prefetching of deps, but I decided on a much easier approach: `fixed-point-derivations.`
+But, in this case, I want to use `nix` to package a `bun` app. `bun` presents a
+few challenges; namely, it uses a
+[special binary lock file format](https://bun.sh/docs/install/lockfile) that's
+super fast and efficient, but isn't easily parseable. You can use `bun` to read
+it as a `yarn` lock file, and theoretically you could go down that route to do
+prefetching of deps, but I decided on a much easier approach:
+`fixed-point-derivations.`
 
-[Fixed point derivations](https://bmcgee.ie/posts/2023/02/nix-what-are-fixed-output-derivations-and-why-use-them/) are when you ALLOW internet access in the sandbox during the build. This sounds scary, and like a bad idea. It kinda is. The catch is that you specify the hash of the output before doing the build. If the build, using the internet during the build, results in an output with the same hash that you pre-specified, then the build succeeds an it's fine, but otherwise the build fails and you get nothing. In the case of `bun` though, this isn't that bad, since `bun` is very good at getting very consistent dependencies using its lock file. So it's probably good enough for now.
+[Fixed point derivations](https://bmcgee.ie/posts/2023/02/nix-what-are-fixed-output-derivations-and-why-use-them/)
+are when you ALLOW internet access in the sandbox during the build. This sounds
+scary, and like a bad idea. It kinda is. The catch is that you specify the hash
+of the output before doing the build. If the build, using the internet during
+the build, results in an output with the same hash that you pre-specified, then
+the build succeeds an it's fine, but otherwise the build fails and you get
+nothing. In the case of `bun` though, this isn't that bad, since `bun` is very
+good at getting very consistent dependencies using its lock file. So it's
+probably good enough for now.
 
 Here's what it looks like in action, as a DIY nix builder utility function...
 
@@ -560,7 +734,9 @@ pkgs.stdenv.mkDerivation {
 }
 ```
 
-Basically, do the `bun install` in the sandbox, do the bundling in the sandbox, and then move the output to an output folder. To make it executable, I just wrap it in a shell script...
+Basically, do the `bun install` in the sandbox, do the bundling in the sandbox,
+and then move the output to an output folder. To make it executable, I just wrap
+it in a shell script...
 
 ```nix
 default = pkgs.writeShellScriptBin "obsidian-contact-importer" ''
@@ -572,66 +748,109 @@ default = pkgs.writeShellScriptBin "obsidian-contact-importer" ''
 '';
 ```
 
-Which just runs bun on the output file. Javascript isn't "compiled", so this is the best we're going to get. What this does do though is create a nice bundle, and makes the build nicely portable. It also means that anyone with nix can instantly run the project with a single CLI command (see the next section)!
+Which just runs bun on the output file. Javascript isn't "compiled", so this is
+the best we're going to get. What this does do though is create a nice bundle,
+and makes the build nicely portable. It also means that anyone with nix can
+instantly run the project with a single CLI command (see the next section)!
 
 # Using it Yourself
 
-Clone [this](https://github.com/404wolf/obsidian-contact-importer) repo, or create a `inputs` folder with a `vcards.vcf` and `template.md` file (see example template if you're creating your own).
+Clone [this](https://github.com/404wolf/obsidian-contact-importer) repo, or
+create a `inputs` folder with a `vcards.vcf` and `template.md` file (see example
+template if you're creating your own).
 
-Run `nix run github:404wolf/obsidian-contact-importer` if you have `nix`. If not, make sure that `bun` is installed, and then run `bun install`. Export your contacts to a `.vcf` format, and then just run `bun run dev`.
+Run `nix run github:404wolf/obsidian-contact-importer` if you have `nix`. If
+not, make sure that `bun` is installed, and then run `bun install`. Export your
+contacts to a `.vcf` format, and then just run `bun run dev`.
 
 # @ing People
 
-Another super cool Obsidian plugin, so cool that it's even baked into the program, is "[Daily Notes](https://help.obsidian.md/Plugins/Daily+notes)". Daily notes are exactly what they sound like -- Obsidian automatically creates a new note every day that you can dump information into, and by virtue of the structure they get sorted by date. I find it really useful for very quickly jotting things down, and since they're in my vault they're nicely searchable.
+Another super cool Obsidian plugin, so cool that it's even baked into the
+program, is "[Daily Notes](https://help.obsidian.md/Plugins/Daily+notes)". Daily
+notes are exactly what they sound like -- Obsidian automatically creates a new
+note every day that you can dump information into, and by virtue of the
+structure they get sorted by date. I find it really useful for very quickly
+jotting things down, and since they're in my vault they're nicely searchable.
 
-A big inspiration for the project is making it easier to take notes on people, so the ability to make people reference-able in my vault with a single hotkey would rapidly reduce the friction needed to begin taking notes on a person. Since I'm used to pinging people on apps like Slack, Zulip, Discord, etc, I thought it'd be handy if I could just @ my contacts in my vault.
+A big inspiration for the project is making it easier to take notes on people,
+so the ability to make people reference-able in my vault with a single hotkey
+would rapidly reduce the friction needed to begin taking notes on a person.
+Since I'm used to pinging people on apps like Slack, Zulip, Discord, etc, I
+thought it'd be handy if I could just @ my contacts in my vault.
 
-Enter [@ symbol linking.](<@ Symbol Linking](https://github.com/Ebonsignori/obsidian-at-symbol-linking)>).
+Enter
+[@ symbol linking.](<@ Symbol Linking](https://github.com/Ebonsignori/obsidian-at-symbol-linking)>).
 
 ## Fixing [@ Symbol Linking](https://github.com/Ebonsignori/obsidian-at-symbol-linking)
 
-An important part of Obsidian is the ability to easily link together your notes. Obsidian lets you reference any note in your vault by using `[[Note Title]]`, and it creates a clickable link. You can add a ! to cause the reference to actually show its contents in the current note.
+An important part of Obsidian is the ability to easily link together your notes.
+Obsidian lets you reference any note in your vault by using `[[Note Title]]`,
+and it creates a clickable link. You can add a ! to cause the reference to
+actually show its contents in the current note.
 
 ![Notes prefixed with @](https://static.404wolf.com/https://static.404wolf.com/Post-20240806234120398.webp)
 
-@ Symbol linking wasn't actually the first plugin I found for this purpose, though. I started off using [Obsidian at people](https://github.com/saibotsivad/obsidian-at-people), which claims to do literally exactly what I want. Unfortunately, even though there's a setting for it, all of the people notes you create with it end up in the top level directory of your Obsidian vault, when I want them to end up in a `/People` folder.
+@ Symbol linking wasn't actually the first plugin I found for this purpose,
+though. I started off using
+[Obsidian at people](https://github.com/saibotsivad/obsidian-at-people), which
+claims to do literally exactly what I want. Unfortunately, even though there's a
+setting for it, all of the people notes you create with it end up in the top
+level directory of your Obsidian vault, when I want them to end up in a
+`/People` folder.
 
-@ Symbol linking is a pretty straightforward plugin that does the same thing. It's a bit more generalized -- you can use other symbols as prefixes besides @, and you can customize a few more options.
+@ Symbol linking is a pretty straightforward plugin that does the same thing.
+It's a bit more generalized -- you can use other symbols as prefixes besides @,
+and you can customize a few more options.
 
-One thing that I did like that `Obsidian at people` did was prefixing all of my people notes with "@", though, which makes it really clear which notes are "People" notes. This was a feature lacking in @ Symbol linking so I[decided to implement it myself and PR the change](https://github.com/Ebonsignori/obsidian-at-symbol-linking/pull/34).
+One thing that I did like that `Obsidian at people` did was prefixing all of my
+people notes with "@", though, which makes it really clear which notes are
+"People" notes. This was a feature lacking in @ Symbol linking so
+I[decided to implement it myself and PR the change](https://github.com/Ebonsignori/obsidian-at-symbol-linking/pull/34).
 
 ![Example from github 1](https://static.404wolf.com/https://static.404wolf.com/Post-20240806233519583.webp)
 ![What it becomes](https://static.404wolf.com/https://static.404wolf.com/Post-20240806233455698.webp)
 
 ![Setting I added](https://static.404wolf.com/https://static.404wolf.com/Post-20240806233809359.webp)
 
-Their plugin was written pretty well, though more comments and docs would've been nice. It mostly boiled down to adding
+Their plugin was written pretty well, though more comments and docs would've
+been nice. It mostly boiled down to adding
 
 ```typescript
 if (settings.keepTriggerSymbol)
   filePath = value.obj?.filePath.replace(
     /([^/]+)$/,
     `${settings.triggerSymbol}$1`,
-  );
-else filePath = value.obj?.filePath;
+  )
+else filePath = value.obj?.filePath
 ```
 
-And the relevant setting. To polish things off, I also updated the "Create new note" suggestion to suggest the name with the @ symbol if the setting was enabled.
+And the relevant setting. To polish things off, I also updated the "Create new
+note" suggestion to suggest the name with the @ symbol if the setting was
+enabled.
 
 # Making it Look Pretty
 
 ![Inline admonitions](https://static.404wolf.com/https://static.404wolf.com/Post-20240802211800749.webp)
 ![Adding one](https://static.404wolf.com/https://static.404wolf.com/Post-20240802211839755.webp)
 
-To make the templates look nicer, I decided to use a plugin I already was using in my vault for my contacts too. [Obsidian inline admonitions](https://github.com/scottTomaszewski/obsidian-inline-admonitions) lets you change the way that your inline code (\` \<this type of thing> \`) renders so that it can have a nice color and even be slightly translucent. I decided to change the template slightly to incorporate these.
+To make the templates look nicer, I decided to use a plugin I already was using
+in my vault for my contacts too.
+[Obsidian inline admonitions](https://github.com/scottTomaszewski/obsidian-inline-admonitions)
+lets you change the way that your inline code (\` \<this type of thing> \`)
+renders so that it can have a nice color and even be slightly translucent. I
+decided to change the template slightly to incorporate these.
 
 # Next Steps
 
 ## Big things
 
-- Bidirectionality! I want to be able to take my note files that contain VCard data and then bring the markdown back into VCard format.
+- Bidirectionality! I want to be able to take my note files that contain VCard
+  data and then bring the markdown back into VCard format.
 
 ## Smaller things
 
-- VCards are a massive spec. I don't implement nearly close to all of the possible things that they could. I want to implement some more things though, like pronouns and nicknames.
-- That is tested with Apple contacts so far. I want to test to see if this works with Google/other flavors of contacts too.
+- VCards are a massive spec. I don't implement nearly close to all of the
+  possible things that they could. I want to implement some more things though,
+  like pronouns and nicknames.
+- That is tested with Apple contacts so far. I want to test to see if this works
+  with Google/other flavors of contacts too.

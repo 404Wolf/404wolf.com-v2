@@ -1,53 +1,90 @@
 ---
 title: Forced Browser-Based Zoom Extension
-type: "project"
-date: "2024-01-01"
+type: 'project'
+date: '2024-01-01'
 covers:
   [
-    "https://static.404wolf.com/Post-20240716211735260.webp",
-    "https://static.404wolf.com/Post-20240716212111111.webp",
-    "https://static.404wolf.com/Post-20240716214604533.webp",
+    'https://static.404wolf.com/Post-20240716211735260.webp',
+    'https://static.404wolf.com/Post-20240716212111111.webp',
+    'https://static.404wolf.com/Post-20240716214604533.webp',
   ]
 description: |
   This idea spawned from my hatred and eternal frustration with Zoom. It's just always a pain to deal with; screen share often just doesn't work right, the UI glitches out, audio is a mess and very inconsistent, and it eats up system resources and is probably doing mysterious things behind the scenes intruding on privacy. There's a solution though: use Zoom in your browser, only, always, ever! Zoom provides an option to join in the browser, given that you reject their popups to open in desktop, and then click through a chain of links to open in the browser. My solution: a browser extension to redirect Zoom links directly to browser Zoom.
-tags: ["personal"]
+tags: ['personal']
 ---
 
 # The Idea
 
-It's just always a pain to deal with Zoom. Screen share often just doesn't work right, the UI glitches out, audio is a mess and very inconsistent, and it eats up system resources and is probably doing mysterious things behind the scenes intruding on privacy. But privacy aside, I'm sure everyone reading this has been late to **at least** 1 meeting because Zoom randomly decided to update (I thought that when I ditched windows that problem was behind me!).
+It's just always a pain to deal with Zoom. Screen share often just doesn't work
+right, the UI glitches out, audio is a mess and very inconsistent, and it eats
+up system resources and is probably doing mysterious things behind the scenes
+intruding on privacy. But privacy aside, I'm sure everyone reading this has been
+late to **at least** 1 meeting because Zoom randomly decided to update (I
+thought that when I ditched windows that problem was behind me!).
 
-There's a solution though: use Zoom in your browser, only, always, ever! Zoom provides an option to join in the browser, given that you reject their popups to open in desktop, and then click through a chain of links to open in the browser. The nice thing about the browser is that it's sandboxed, it's very limited in what access it has to your system, and is much more private than a closed source binary.
+There's a solution though: use Zoom in your browser, only, always, ever! Zoom
+provides an option to join in the browser, given that you reject their popups to
+open in desktop, and then click through a chain of links to open in the browser.
+The nice thing about the browser is that it's sandboxed, it's very limited in
+what access it has to your system, and is much more private than a closed source
+binary.
 
-My solution: a browser extension to redirect Zoom links directly to browser Zoom. The idea was simple, I would create a simple plugin for Chrome (and eventually Firefox) to allow you to skip past popups to join Zoom rooms with the desktop app. The goal was so that you could paste in a Zoom URL as usual, and you would just be forwarded directly to the Zoom room in your browser.
+My solution: a browser extension to redirect Zoom links directly to browser
+Zoom. The idea was simple, I would create a simple plugin for Chrome (and
+eventually Firefox) to allow you to skip past popups to join Zoom rooms with the
+desktop app. The goal was so that you could paste in a Zoom URL as usual, and
+you would just be forwarded directly to the Zoom room in your browser.
 
 # Research
 
-The first step was to figure out what the exact user flow that I would need to automate would be. It would be ideal if I could avoid simulating user actions as much as possible, and just take advantage of flags/find ways to redirect right to the browser Zoom interface.
+The first step was to figure out what the exact user flow that I would need to
+automate would be. It would be ideal if I could avoid simulating user actions as
+much as possible, and just take advantage of flags/find ways to redirect right
+to the browser Zoom interface.
 
-What I quickly figured out is that when you visit a Zoom URL, `onWindowLoad` it creates the infamous "Open Zoom Workplace" popup, **AND** appends `#success` to the URL.
+What I quickly figured out is that when you visit a Zoom URL, `onWindowLoad` it
+creates the infamous "Open Zoom Workplace" popup, **AND** appends `#success` to
+the URL.
 
-I figured out if you visit a Zoom URL that already has this `#success` flag at the end of it, that Zoom will not give you the popup. This turned out to be a great step, since apparently it's just straight up not possible to interact with browser dialogs with an extension. Not discovering this may have killed off the project.
+I figured out if you visit a Zoom URL that already has this `#success` flag at
+the end of it, that Zoom will not give you the popup. This turned out to be a
+great step, since apparently it's just straight up not possible to interact with
+browser dialogs with an extension. Not discovering this may have killed off the
+project.
 
 ![Joining a Zoom](https://static.404wolf.com/Post-20240716211735260.webp)
 
-The next step in the user flow I thought would be simple, just scrape the page and find the URL that the "Join from your Browser" button links to, and then redirect there, but it turns out that that button is actually executing javascript.
+The next step in the user flow I thought would be simple, just scrape the page
+and find the URL that the "Join from your Browser" button links to, and then
+redirect there, but it turns out that that button is actually executing
+javascript.
 
 ![The button](https://static.404wolf.com/Post-20240716212111111.webp)
 
-Luckily extensions do have the ability to modify the webpage, so I could just click the button for the user. This is annoying, but it works fine.
+Luckily extensions do have the ability to modify the webpage, so I could just
+click the button for the user. This is annoying, but it works fine.
 
 Now let's dive into how I actually wrote it.
 
 # Implementation
 
-I'd never made a browser extension before, but it turns out that [Google](https://developer.chrome.com/docs/extensions)'s (and Mozilla's, as I'd figure out later when porting to Firefox) documentation for extensions is pretty good.
+I'd never made a browser extension before, but it turns out that
+[Google](https://developer.chrome.com/docs/extensions)'s (and Mozilla's, as I'd
+figure out later when porting to Firefox) documentation for extensions is pretty
+good.
 
-Basically, the general flow is that you create a directory with a image icon for the extension, a `manifest.json` file that follows a specific schema (there's a few versions of the schema that chrome supports, but the most recent one is called "Manifest v3"), and then some javascript files (technically optional, but that's where the extension's logic goes). I started with a very bare bones basic manifest and just added permissions and configuration as I went.
+Basically, the general flow is that you create a directory with a image icon for
+the extension, a `manifest.json` file that follows a specific schema (there's a
+few versions of the schema that chrome supports, but the most recent one is
+called "Manifest v3"), and then some javascript files (technically optional, but
+that's where the extension's logic goes). I started with a very bare bones basic
+manifest and just added permissions and configuration as I went.
 
 ## Development
 
-Getting a developer environment set up for the project was pretty straight forward. First, I made a `nix` devShell that had a base chromium and firefox binary, so that I could test in a clean "sandbox"-y environment:
+Getting a developer environment set up for the project was pretty straight
+forward. First, I made a `nix` devShell that had a base chromium and firefox
+binary, so that I could test in a clean "sandbox"-y environment:
 
 ```nix
 {
@@ -83,110 +120,152 @@ Getting a developer environment set up for the project was pretty straight forwa
 }
 ```
 
-And then in Chrome (and in Firefox it was a similar process) I went to `chrome://extensions`, and enabled developer mode.
+And then in Chrome (and in Firefox it was a similar process) I went to
+`chrome://extensions`, and enabled developer mode.
 
 ![Developer mode](https://static.404wolf.com/Post-20240716222255624.webp)
 
-Afterwards, I clicked to load the "unpacked" (you can "pack" your extension as a special zip like file with encryption, in case you want to deploy a closed source extension) plugin.
+Afterwards, I clicked to load the "unpacked" (you can "pack" your extension as a
+special zip like file with encryption, in case you want to deploy a closed
+source extension) plugin.
 
 ![Loading it in](ttps://static.404wolf.com/Post-20240716222359125.webp)
 
-And it was added! It was a pretty easy process. I could get logs by clicking "Details", and could just reload it by clicking a little reload icon.
+And it was added! It was a pretty easy process. I could get logs by clicking
+"Details", and could just reload it by clicking a little reload icon.
 
 ## Redirecting
 
-The first step of the project's implementation would be to figure out how to redirect users as they visit websites, as a function of the website they visit. Something like
+The first step of the project's implementation would be to figure out how to
+redirect users as they visit websites, as a function of the website they visit.
+Something like
 
 ```ts
-(websiteVisited: string) => websiteVisited + "#success";
+;(websiteVisited: string) => websiteVisited + '#success'
 ```
 
 Super simple, I know.
 
-I found [this super super helpful](https://stackoverflow.com/a/12070823) Stack Overflow post summarizing the options I had.
+I found [this super super helpful](https://stackoverflow.com/a/12070823) Stack
+Overflow post summarizing the options I had.
 
 The options they presented:
 
-> 1. The [`webRequest`](https://developer.chrome.com/extensions/webRequest.html) API, specifically the [`onBeforeRequest` event](https://developer.chrome.com/extensions/webRequest.html#event-onBeforeRequest). (Even better, the upcoming [`declarativeWebRequest` API](http://developer.chrome.com/extensions/declarativeWebRequest.html)).
+> 1. The [`webRequest`](https://developer.chrome.com/extensions/webRequest.html) API,
+>    specifically
+>    the [`onBeforeRequest` event](https://developer.chrome.com/extensions/webRequest.html#event-onBeforeRequest).
+>    (Even better, the
+>    upcoming [`declarativeWebRequest` API](http://developer.chrome.com/extensions/declarativeWebRequest.html)).
 
-(note that the url is broken -- it's now [here](https://developer.chrome.com/docs/extensions/reference/api/declarativeNetRequestk)
+(note that the url is broken -- it's now
+[here](https://developer.chrome.com/docs/extensions/reference/api/declarativeNetRequestk)
 
-This initially seemed like the best option. It seemed like the "proper" way to do it. Firstly, it's pretty secure since I don't have to have my extension view the web content itself (although, as I'll explain later, this turned out to be necessary anyway)
+This initially seemed like the best option. It seemed like the "proper" way to
+do it. Firstly, it's pretty secure since I don't have to have my extension view
+the web content itself (although, as I'll explain later, this turned out to be
+necessary anyway)
 
-> The `chrome.declarativeNetRequest` API is used to block or modify network requests by specifying declarative rules. This lets extensions modify network requests without intercepting them and viewing their content, thus providing more privacy.
+> The `chrome.declarativeNetRequest` API is used to block or modify network
+> requests by specifying declarative rules. This lets extensions modify network
+> requests without intercepting them and viewing their content, thus providing
+> more privacy.
 
-More importantly though, it seemed like this approach wasn't great for actual browser navigation, and was better for redirecting network requests, which wasn't really my goal.
+More importantly though, it seemed like this approach wasn't great for actual
+browser navigation, and was better for redirecting network requests, which
+wasn't really my goal.
 
-> 2. [Content scripts](http://developer.chrome.com/extensions/content_scripts.html). Inject `location.replace('http://example.com')` in a page.
+> 2. [Content scripts](http://developer.chrome.com/extensions/content_scripts.html).
+>    Inject `location.replace('http://example.com')` in a page.
 
-This option basically means swapping out links that users would click on so that they never end up at the link without `#success` to begin with. This also means that it wouldn't work if users pasted the URL into the search bar, so this wouldn't work.
+This option basically means swapping out links that users would click on so that
+they never end up at the link without `#success` to begin with. This also means
+that it wouldn't work if users pasted the URL into the search bar, so this
+wouldn't work.
 
-> 3. The [`tabs`](http://developer.chrome.com/extensions/tabs.html) API. Use the [`onUpdated` event](http://developer.chrome.com/extensions/tabs.html#event-onUpdated) to detect when a page has changed its location, and [`chrome.tabs.update`](http://developer.chrome.com/extensions/tabs.html#method-update) to change its URL. Avoid an infinite loop though!
+> 3. The [`tabs`](http://developer.chrome.com/extensions/tabs.html) API. Use
+>    the [`onUpdated` event](http://developer.chrome.com/extensions/tabs.html#event-onUpdated) to
+>    detect when a page has changed its location,
+>    and [`chrome.tabs.update`](http://developer.chrome.com/extensions/tabs.html#method-update) to
+>    change its URL. Avoid an infinite loop though!
 
-This option looked great! Just monitor when a tab starts to visit a URL and then before it can begin doing fetches swap the URL. This is what I went with, and it turned out later that Mozilla had an identical API and version for Firefox.
+This option looked great! Just monitor when a tab starts to visit a URL and then
+before it can begin doing fetches swap the URL. This is what I went with, and it
+turned out later that Mozilla had an identical API and version for Firefox.
 
-The code for deciding to redirect the user ended up being super minimal, and looked something like this...
+The code for deciding to redirect the user ended up being super minimal, and
+looked something like this...
 
 ```js
 chrome.webNavigation.onCommitted.addListener(
   (details) => {
     zoomPattern =
-      /^https:\/\/(\w+\.)?\w+\.\w+\/j\/\d{10}\?pwd\=[a-zA-Z0-9]{32}$/;
+      /^https:\/\/(\w+\.)?\w+\.\w+\/j\/\d{10}\?pwd\=[a-zA-Z0-9]{32}$/
     if (details.url.match(zoomPattern))
-      chrome.tabs.update(details.tabId, { url: `${details.url}#success` });
+      chrome.tabs.update(details.tabId, { url: `${details.url}#success` })
   },
-  { url: [{ urlMatches: ".*" }] },
-);
+  { url: [{ urlMatches: '.*' }] },
+)
 ```
 
-It's probably a bit more complicated than it had to be, but basically I wanted to be super careful that people would only be redirected when they visited Zoom URLs, and Zoom URLs can be hosted on your own enterprise domain (e.g. `zoom.yourcompany.com`), so I wanted to make sure that I pattern matched against the Zoom URL schema as tightly as possible with regex.
+It's probably a bit more complicated than it had to be, but basically I wanted
+to be super careful that people would only be redirected when they visited Zoom
+URLs, and Zoom URLs can be hosted on your own enterprise domain (e.g.
+`zoom.yourcompany.com`), so I wanted to make sure that I pattern matched against
+the Zoom URL schema as tightly as possible with regex.
 
 ## Clicking Past
 
-Now that I was able to skip the "Open in Zoom Desktop" popup, I'd need to click the button for the user to actually go to the browser Zoom page.
+Now that I was able to skip the "Open in Zoom Desktop" popup, I'd need to click
+the button for the user to actually go to the browser Zoom page.
 
-This is just a clickable element, and interacting with it was as simple as using a selector to select it, and calling the `click` method. I'd done quite a bit of `puppeteer` before and it was very similar syntax.
+This is just a clickable element, and interacting with it was as simple as using
+a selector to select it, and calling the `click` method. I'd done quite a bit of
+`puppeteer` before and it was very similar syntax.
 
 The full code for this looks like this
 
 ```js
 const elements = [
   ...document.querySelectorAll('a[role="button"][tabindex="0"]'),
-];
-const element = elements.find(
-  (el) => el.innerText === "Join from Your Browser",
-);
+]
+const element = elements.find((el) => el.innerText === 'Join from Your Browser')
 if (element) {
-  element.click();
+  element.click()
 }
 ```
 
-It's really not that bad. I just add a listener to execute this on all page loads (although I really should only do this on loads of Zoom-like-URLs, but optimizations come later!).
+It's really not that bad. I just add a listener to execute this on all page
+loads (although I really should only do this on loads of Zoom-like-URLs, but
+optimizations come later!).
 
-I also added some code to remove the other buttons on the page and Ads to get the app, for while the page redirected you and things were still loading
+I also added some code to remove the other buttons on the page and Ads to get
+the app, for while the page redirected you and things were still loading
 
 ```js
 // findAndRemoveIfExists is a helper function I define elsewhere. It does what
 // the name says it does.
-findAndRemoveIfExists("div.ifP196ZE.x2RD4pnS");
-findAndRemoveIfExists('hr[role="presentation"]');
-findAndRemoveIfExists('h3[class="rm-presentation"]');
+findAndRemoveIfExists('div.ifP196ZE.x2RD4pnS')
+findAndRemoveIfExists('hr[role="presentation"]')
+findAndRemoveIfExists('h3[class="rm-presentation"]')
 ```
 
 And had a bit of fun messing with the DOM...
 
 ```js
-const zoomAppSpans = document.querySelectorAll("span");
+const zoomAppSpans = document.querySelectorAll('span')
 const targetSpan = [...zoomAppSpans].find((span) =>
-  span.textContent.includes("with the Zoom"),
-);
+  span.textContent.includes('with the Zoom'),
+)
 if (targetSpan)
-  targetSpan.childNodes[0].textContent = "Hate the Zoom Desktop App? ";
+  targetSpan.childNodes[0].textContent = 'Hate the Zoom Desktop App? '
 ```
 
-And then all I had to do was write a `manifest.json` with the right permissions. It turns out that ChatGPT is much better at writing the old `manifest V2` style manifests, but it was still helpful
+And then all I had to do was write a `manifest.json` with the right permissions.
+It turns out that ChatGPT is much better at writing the old `manifest V2` style
+manifests, but it was still helpful
 
-It was pretty simple, and the hard part was just finding what I needed permissions for in the docs.
+It was pretty simple, and the hard part was just finding what I needed
+permissions for in the docs.
 
 ```json
 {
@@ -218,13 +297,17 @@ It was pretty simple, and the hard part was just finding what I needed permissio
 
 # Distributions
 
-The plugin is available on my Github [here](https://github.com/404wolf/Browser-Zoom), and is totally open source.
+The plugin is available on my Github
+[here](https://github.com/404wolf/Browser-Zoom), and is totally open source.
 
 ## Chrome
 
 ![Google Extension Rejection](https://static.404wolf.com/https://static.404wolf.com/Post-20240716215027831.webp)
 
-It was a bit tricky to publish the plugin on extension stores, mostly because it requires access to "modify" ANY website. Basically, in my extension's manifest (where metadata about it and its permissions live, which is mostly directives to the browser), it has
+It was a bit tricky to publish the plugin on extension stores, mostly because it
+requires access to "modify" ANY website. Basically, in my extension's manifest
+(where metadata about it and its permissions live, which is mostly directives to
+the browser), it has
 
 ```json
 ...
@@ -238,17 +321,33 @@ It was a bit tricky to publish the plugin on extension stores, mostly because it
 ...
 ```
 
-This means that the extension has permission to modify the DOM of any website. Initially I was worried Google would reject the plugin because of this extensive requirement, but my main justification is that Zoom can run on any domain (like zoom.yourcompany.us), and thus I can't match domains without complicated regex (but the match pattern here is not regex, it's special google syntax).
+This means that the extension has permission to modify the DOM of any website.
+Initially I was worried Google would reject the plugin because of this extensive
+requirement, but my main justification is that Zoom can run on any domain (like
+zoom.yourcompany.us), and thus I can't match domains without complicated regex
+(but the match pattern here is not regex, it's special google syntax).
 
 ![Chrome developer dashboard](https://static.404wolf.com/https://static.404wolf.com/Post-20240716215251691.webp)
 
-It turned out that the annoying parts of the Google extension publishing experience were elsewhere, though. To start, to even make a developer account for the Chrome webstore dashboard, you need to make a $5 deposit to "fight spam and abuse." Then, after publishing it a few times, while they haven't gotten upset about the permission I thought they would be upset about, they've rather been nit picky on things that don't matter -- like, in my most recent rejection, they told me I don't have a privacy policy link, even though I don't collect user data and supplied a link to a plaintext file that says "I do not collect any data." I'll keep trying to get it published on the Chrome extension store, though!
+It turned out that the annoying parts of the Google extension publishing
+experience were elsewhere, though. To start, to even make a developer account
+for the Chrome webstore dashboard, you need to make a $5 deposit to "fight spam
+and abuse." Then, after publishing it a few times, while they haven't gotten
+upset about the permission I thought they would be upset about, they've rather
+been nit picky on things that don't matter -- like, in my most recent rejection,
+they told me I don't have a privacy policy link, even though I don't collect
+user data and supplied a link to a plaintext file that says "I do not collect
+any data." I'll keep trying to get it published on the Chrome extension store,
+though!
 
-For now, to run it on Chrome just get it from the Github and install it yourself, it's not that hard and you don't need any developer experience.
+For now, to run it on Chrome just get it from the Github and install it
+yourself, it's not that hard and you don't need any developer experience.
 
 ## Firefox
 
-Mozilla on the other hand was really pleasant to deal with. Their store's developer UX was easier to navigate, there was no "anti-spam" deposit, and they gave me "preliminary approval" in two days.
+Mozilla on the other hand was really pleasant to deal with. Their store's
+developer UX was easier to navigate, there was no "anti-spam" deposit, and they
+gave me "preliminary approval" in two days.
 
 [It's here, on the Mozilla firefox extension store, if you use firefox!](https://addons.mozilla.org/en-US/firefox/addon/browser-zoom/reviews/)
 

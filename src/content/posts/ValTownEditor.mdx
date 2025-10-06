@@ -1,12 +1,13 @@
 ---
 title: Fullstack Language Servers
-description: Running the Deno LSP to make our TypeScript language tools dramatically better
+description:
+  Running the Deno LSP to make our TypeScript language tools dramatically better
 pubDate: 2025-09-09T00:00:00.000Z
 author: Wolf Mermelstein
 type: project
-date: "2025-01-01"
+date: '2025-01-01'
 covers:
-  - "https://filedumpthing.val.run/blob/blob_file_1759703617005_00063d8e-b192-4ef1-be0f-46cfbdc902c0.png"
+  - 'https://filedumpthing.val.run/blob/blob_file_1759703617005_00063d8e-b192-4ef1-be0f-46cfbdc902c0.png'
 tags:
   - featured
   - work
@@ -89,8 +90,7 @@ connection.
 
 Now, when you visit our editor, we launch a containerized server that exposes a
 WebSocket and speaks the LSP protocol. The architecture was partially inspired
-[Mahmud Ridwan's great writeup of connecting CodeMirror & an
-LSP](https://hjr265.me/blog/codemirror-lsp/#language-server-over-websocket),
+[Mahmud Ridwan's great writeup of connecting CodeMirror & an LSP](https://hjr265.me/blog/codemirror-lsp/#language-server-over-websocket),
 with the main difference being that we directly map stdio to the WebSocket
 rather than serializing messages, because
 [vscode-jsonrpc can do that for us!](https://www.npmjs.com/package/vscode-jsonrpc).

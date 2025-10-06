@@ -1,20 +1,31 @@
 ---
 title: SVG Shenanigans
-type: "blog"
-date: "2023-01-01"
-covers: ["https://static.404wolf.com/diamond.jfif"]
+type: 'blog'
+date: '2023-01-01'
+covers: ['https://static.404wolf.com/diamond.jfif']
 description: |
   In my quest to automate SVG file generation, I discovered Chrome's ability to convert complex SVGs with imports into self-contained PDFs through its printing protocol. My aim was to write a script to easily convert Chrome-preview-able files into PDFs. With Selenium and Chrome's Devtools Protocol, I was able to figure out how to perform the conversion, but wasn't satisfied. In this post, I discuss my script to convert complex files like SVGs to PDFs without any file handling, from memory to memory, headless-ly to allow for a smooth and efficient conversion process.
-tags: ["personal"]
+tags: ['personal']
 ---
 
 # The Task
 
-I've recently been working on a project to automatically generate English flashcards with a blend of AI and APIs to fetch data, and a template of some sort to slot it into. For the latter part, I've spent significant time researching. I've come across different Js frameworks like [Paper.js](http://paperjs.org/), but eventually settled on utilizing raw, generated `SVG` files. `SVG`s are a great type of image file to generate, since they follow a strict XML format, and thus can have text or base64 images injected into them with ease.
+I've recently been working on a project to automatically generate English
+flashcards with a blend of AI and APIs to fetch data, and a template of some
+sort to slot it into. For the latter part, I've spent significant time
+researching. I've come across different Js frameworks like
+[Paper.js](http://paperjs.org/), but eventually settled on utilizing raw,
+generated `SVG` files. `SVG`s are a great type of image file to generate, since
+they follow a strict XML format, and thus can have text or base64 images
+injected into them with ease.
 
 ## SVGs are Awesome
 
-`SVG`s really are great. They're a undervalued file format that can be used for so, so much more than just icons and simple graphics. They allow you to easily integrate countless different elements in `xml` form, like `<animate>` and `<path>`. You can slot in `<foreignObject>`s to add external elements like such...
+`SVG`s really are great. They're a undervalued file format that can be used for
+so, so much more than just icons and simple graphics. They allow you to easily
+integrate countless different elements in `xml` form, like `<animate>` and
+`<path>`. You can slot in `<foreignObject>`s to add external elements like
+such...
 
 ```xml
 <!-- Inspirational quote -->
@@ -27,23 +38,57 @@ I've recently been working on a project to automatically generate English flashc
 </foreignObject>
 ```
 
-`<iFrame>`s, and all other `HTML` and even some `js` goodies become real possibilities. `css` styles can be added natively, including classes and all. However, when you begin to slot in external sources like this, problems arise when it comes to rendering the `svg`s into self-contained `PDF`s or rasterized `JPG`/`PNG` images.
+`<iFrame>`s, and all other `HTML` and even some `js` goodies become real
+possibilities. `css` styles can be added natively, including classes and all.
+However, when you begin to slot in external sources like this, problems arise
+when it comes to rendering the `svg`s into self-contained `PDF`s or rasterized
+`JPG`/`PNG` images.
 
-The external imports and HTML elements that I'm loading into my SVGs prevents most libraries that already exist from importing them, likely as either a security precaution, or perhaps because externally defined data is hard to render. Something I noticed, however, is that Chrome has no issue with loading complex SVGs with imports. Chrome is a full fledged browser, so it makes sense that it has baked-in support for all the external elements I may include.
+The external imports and HTML elements that I'm loading into my SVGs prevents
+most libraries that already exist from importing them, likely as either a
+security precaution, or perhaps because externally defined data is hard to
+render. Something I noticed, however, is that Chrome has no issue with loading
+complex SVGs with imports. Chrome is a full fledged browser, so it makes sense
+that it has baked-in support for all the external elements I may include.
 
-But how does this help me render `SVG`s? Well, as it turns out, Chrome provides a great renderer too. It's a bit clunky, and maybe not an ideal solution, but it works well and consistently.
+But how does this help me render `SVG`s? Well, as it turns out, Chrome provides
+a great renderer too. It's a bit clunky, and maybe not an ideal solution, but it
+works well and consistently.
 
 ## Printing to PDFs
 
 ![Chrome Devtools PDF Printing](https://static.404wolf.com/renderPDF.pngn)
 
-To render `SVG`s with chrome, I first turned to its printing functionality. Importantly, Chrome lets you print not just to printers, but also to PDF files directly. The settings are highly customizable, and let you export `SVG` super easily to a `PDF`.
+To render `SVG`s with chrome, I first turned to its printing functionality.
+Importantly, Chrome lets you print not just to printers, but also to PDF files
+directly. The settings are highly customizable, and let you export `SVG` super
+easily to a `PDF`.
 
-Just like with regular printing, Chrome provides options for setting the page layout, along with adding margins (which, since I'm not actually planning to print my `SVG`s, could be set to 0), setting a page range, and more. With the devtools protocol, which is essentially a way to computationally interact with the printing API, even more options become possible. With the API, Chrome allows for the file to be exported as a data stream or base64 data string, which would allow me to not have to do additional file handling.
+Just like with regular printing, Chrome provides options for setting the page
+layout, along with adding margins (which, since I'm not actually planning to
+print my `SVG`s, could be set to 0), setting a page range, and more. With the
+devtools protocol, which is essentially a way to computationally interact with
+the printing API, even more options become possible. With the API, Chrome allows
+for the file to be exported as a data stream or base64 data string, which would
+allow me to not have to do additional file handling.
 
 # Loading up a chrome driver
 
-The first step of the process is to load up a chrome driver. I decided to externalize this step, loading up a chrome driver in a separate "engine" module, so that I wouldn't need to load in a new chrome driver for each PDF conversion. In the past I've used [Pyppeteer](https://github.com/pyppeteer/pyppeteer), a fork of [Puppeteer](https://pptr.dev/) to automate Chrome, for various unrelated projects. However, since Pyppeteer is now no longer maintained, I decided to explore [Selenium](https://www.selenium.dev/), a different popular browser automation library, instead. After some research, I came across many StackOverflow articles like [this one](https://stackoverflow.com/a/68353518/14266969), explaining how I could take advantage of the Chrome DevTools Protocol command [Page.printToPDF](https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF) to run the print command. Since my goal was to avoid needless file handling, I didn't plan on using the exact code from StackOverflow, but it would be a good starting point, and showed that my planned procedure was indeed a possibility.
+The first step of the process is to load up a chrome driver. I decided to
+externalize this step, loading up a chrome driver in a separate "engine" module,
+so that I wouldn't need to load in a new chrome driver for each PDF conversion.
+In the past I've used [Pyppeteer](https://github.com/pyppeteer/pyppeteer), a
+fork of [Puppeteer](https://pptr.dev/) to automate Chrome, for various unrelated
+projects. However, since Pyppeteer is now no longer maintained, I decided to
+explore [Selenium](https://www.selenium.dev/), a different popular browser
+automation library, instead. After some research, I came across many
+StackOverflow articles like
+[this one](https://stackoverflow.com/a/68353518/14266969), explaining how I
+could take advantage of the Chrome DevTools Protocol command
+[Page.printToPDF](https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF)
+to run the print command. Since my goal was to avoid needless file handling, I
+didn't plan on using the exact code from StackOverflow, but it would be a good
+starting point, and showed that my planned procedure was indeed a possibility.
 
 ```py
 import atexit
@@ -78,27 +123,44 @@ atexit.register(webdriver_chrome.close)
 
 # Webpage Injection 'Hack'
 
-As aforementioned, something important for the rendering process is for it to be able to be done purely in memory. My project utilized templated `SVG`s, so writing rendered templates in their `SVG` form to disc for the sole purpose of loading them into Chrome only to dump them back to dic would be extremely redundant. So, I devised a solution.
+As aforementioned, something important for the rendering process is for it to be
+able to be done purely in memory. My project utilized templated `SVG`s, so
+writing rendered templates in their `SVG` form to disc for the sole purpose of
+loading them into Chrome only to dump them back to dic would be extremely
+redundant. So, I devised a solution.
 
-The thing with `SVG`s is that they are, when it comes down to it, a special type of image file. You can put them into html with the special `<svg>` tag, or, just like any other image, with `<img src="data:image/xml+svg;base64{base64-encoded-svg}>`. Then, you can set properties just like any other old `<img>` element: `{width: 100%; height: 100%; ...}`. Super simple! So, instead of dumping the `SVG` to disc and using Chrome's file preview ability (in Chrome you can visit `file:///<path>` to preview a file), I decided to inject the `SVG` I wanted to render.
+The thing with `SVG`s is that they are, when it comes down to it, a special type
+of image file. You can put them into html with the special `<svg>` tag, or, just
+like any other image, with
+`<img src="data:image/xml+svg;base64{base64-encoded-svg}>`. Then, you can set
+properties just like any other old `<img>` element:
+`{width: 100%; height: 100%; ...}`. Super simple! So, instead of dumping the
+`SVG` to disc and using Chrome's file preview ability (in Chrome you can visit
+`file:///<path>` to preview a file), I decided to inject the `SVG` I wanted to
+render.
 
 ![Chrome's about:blank](https://static.404wolf.com/aboutBlank.png)
 ![Injected image](https://static.404wolf.com/injectedImage.png)
 
-To do this, first I opened an `about:blank` page. I knew I'd want to resize the image to fill the entire viewport, but I'd also want to resize the viewport to be the exact size that I wished for my final export to be. For this, I used Chrome devtools' `Emulation.setVisibleSize` command. Then, I sent the following javascript to the browser to inject the image.
+To do this, first I opened an `about:blank` page. I knew I'd want to resize the
+image to fill the entire viewport, but I'd also want to resize the viewport to
+be the exact size that I wished for my final export to be. For this, I used
+Chrome devtools' `Emulation.setVisibleSize` command. Then, I sent the following
+javascript to the browser to inject the image.
 
 ```js
-document.body.style.margin = "0"; // remove the default document margin
-const content = document.createElement("img"); // create the <img> element
-content.src = "data:{mimetype};base64,{data}"; // inject the svg as a b64 image
-content.style.width = "100%"; // maximize the image
-content.style.height = "100%";
-document.body.appendChild(content); // inject the image
+document.body.style.margin = '0' // remove the default document margin
+const content = document.createElement('img') // create the <img> element
+content.src = 'data:{mimetype};base64,{data}' // inject the svg as a b64 image
+content.style.width = '100%' // maximize the image
+content.style.height = '100%'
+document.body.appendChild(content) // inject the image
 ```
 
 # 'Printing' the PDF
 
-Now comes the most important step: actually printing to a PDF. This step was super simple: just a Chrome devtools command. Check it out...
+Now comes the most important step: actually printing to a PDF. This step was
+super simple: just a Chrome devtools command. Check it out...
 
 ```py
 webdriver_chrome.execute_cdp_cmd(
@@ -121,6 +183,14 @@ webdriver_chrome.execute_cdp_cmd(
 
 # Potential
 
-The cool thing with SVGs is that not only can you write them out in a text editor easily, but you can also template them. I'm not going to go too far into that procedure here, but [here's a simple example](https://github.com/404Wolf/SvgTemplating) of utilizing `SVG`s as a document template for an English vocab flashcard. The idea is that you can slot in `{{ FIELD_NAME }}` `jijna2` (templating engine) fields, slot in your own data (whether fetched from an API, user entered, AI generated, or what not), and then render it to a PDF.
+The cool thing with SVGs is that not only can you write them out in a text
+editor easily, but you can also template them. I'm not going to go too far into
+that procedure here, but
+[here's a simple example](https://github.com/404Wolf/SvgTemplating) of utilizing
+`SVG`s as a document template for an English vocab flashcard. The idea is that
+you can slot in `{{ FIELD_NAME }}` `jijna2` (templating engine) fields, slot in
+your own data (whether fetched from an API, user entered, AI generated, or what
+not), and then render it to a PDF.
 
-This is just the start, and feel free to reach out if any other `SVG`-related ideas come to mind!
+This is just the start, and feel free to reach out if any other `SVG`-related
+ideas come to mind!

@@ -1,84 +1,182 @@
 ---
-title: "404Wolf.com"
+title: '404Wolf.com'
 description: |
   How I made my website, and an overview of all its unique features, including an integrated what-you-see-is-what-you-get markdown viewer, and fully featured Obsidian plugin. I explain my stack choice, how the posts are managed, and present my custom in-site editor. I also talk briefly about some specific struggles when building the website, like creating a good backup protocol and getting my markdown to parse properly and in a very specific way.
-image: "https://static.404wolf.com/https://404wolf.com/og.png"
-tags: ["personal"]
-type: "project"
-date: "2024-01-01"
-covers: ["https://static.404wolf.com/postEditor_0001.png"]
-url: "https://404wolf.com"
+image: 'https://static.404wolf.com/https://404wolf.com/og.png'
+tags: ['personal']
+type: 'project'
+date: '2024-01-01'
+covers: ['https://static.404wolf.com/postEditor_0001.png']
+url: 'https://404wolf.com'
 ---
 
 # Making [404Wolf.com](https://404wolf.com)
 
 ## Inspiration
 
-I initially was planning on working on various other ongoing projects, such as an English flashcard generating service, but decided that I wanted to have a good place to document my progress on everything else. I started by making a simple homepage, and then when determining how to integrate a post/blog system fell down the rabbithole of learning my first stack and javascript for the first time. I could've used Wordpress, but I thought it would be a good chance to learn how to do it from scratch.
+I initially was planning on working on various other ongoing projects, such as
+an English flashcard generating service, but decided that I wanted to have a
+good place to document my progress on everything else. I started by making a
+simple homepage, and then when determining how to integrate a post/blog system
+fell down the rabbithole of learning my first stack and javascript for the first
+time. I could've used Wordpress, but I thought it would be a good chance to
+learn how to do it from scratch.
 
-I began working on this website during my second week of my batch at [Recurse Center](https://recurse.com), an amazing open-ended programming retreat based in Brooklyn, NY.
+I began working on this website during my second week of my batch at
+[Recurse Center](https://recurse.com), an amazing open-ended programming retreat
+based in Brooklyn, NY.
 
 ## Choosing frameworks
 
-One of the main goals of this website was to get started with webdev. It was my first proper "full stack project." Previously I'd experimented with some templated HTML, but I hadn't done `javascript` before. I really enjoyed Harvard's CS50 React Native course's video, where they speed-teach the language (which is public and can be found [here](https://www.youtube.com/watch?v=X52b-8y2Hf4)). I also read over the [learnxinyminutes.com](https://learnxinyminutes.com) website to get a brief overview of the syntax. I've found that javascript (and, later, typescript), is weird, and not quite like other languages I've used. In some ways it's functional, especially with such flexible lambdas and promises. Yet, in others, it's object-orianted. Everything is a descendent of a primitive `object`, much like Python, and you can have "classes," but using it functionally is often a lot more straightforward than in Python in my opinion.
+One of the main goals of this website was to get started with webdev. It was my
+first proper "full stack project." Previously I'd experimented with some
+templated HTML, but I hadn't done `javascript` before. I really enjoyed
+Harvard's CS50 React Native course's video, where they speed-teach the language
+(which is public and can be found
+[here](https://www.youtube.com/watch?v=X52b-8y2Hf4)). I also read over the
+[learnxinyminutes.com](https://learnxinyminutes.com) website to get a brief
+overview of the syntax. I've found that javascript (and, later, typescript), is
+weird, and not quite like other languages I've used. In some ways it's
+functional, especially with such flexible lambdas and promises. Yet, in others,
+it's object-orianted. Everything is a descendent of a primitive `object`, much
+like Python, and you can have "classes," but using it functionally is often a
+lot more straightforward than in Python in my opinion.
 
-For the frontend I went with React; I liked the idea of a composable component based system, it is quite popular, and I didn't really know what I was getting into. At the time I didn't know about React component libraries like MUI, so I ended up building everything from the ground up, which I think was good for learning, but bad for longer term maintenance.
+For the frontend I went with React; I liked the idea of a composable component
+based system, it is quite popular, and I didn't really know what I was getting
+into. At the time I didn't know about React component libraries like MUI, so I
+ended up building everything from the ground up, which I think was good for
+learning, but bad for longer term maintenance.
 
-Since I knew I was going to want a backend for things like managing the posts on my website, I did a bit of research on how to set up a webserver for the project. I considered using `express` or `django` to serve the site and corresponding API, but a Recurse batch-mate introduced me to [NextJS](https://nextjs.org/), which was very easy to scaffold and fun to work with. It was also very easy (and free!) to get it hosted with [Vercel](https://vercel.com/). NextJS is an interesting framework that blends React for the frontend with Express for the backend, so that you can write your backend would-be API code in the same file directory, and even files, as your frontend code.
+Since I knew I was going to want a backend for things like managing the posts on
+my website, I did a bit of research on how to set up a webserver for the
+project. I considered using `express` or `django` to serve the site and
+corresponding API, but a Recurse batch-mate introduced me to
+[NextJS](https://nextjs.org/), which was very easy to scaffold and fun to work
+with. It was also very easy (and free!) to get it hosted with
+[Vercel](https://vercel.com/). NextJS is an interesting framework that blends
+React for the frontend with Express for the backend, so that you can write your
+backend would-be API code in the same file directory, and even files, as your
+frontend code.
 
-Originally, I made my website pages pull from a folder of markdown files which I edited and directly commited to Github. Eventually, though, it became unwieldy, and I met someone who introduced me to [Prisma](https://www.prisma.io/) and `Postgresql`. Postgres is a relational database system, an extension of SQL, and Prisma is a popular Javascript ORM (object-relational-mapping framework, used for querying the database with JS-object-style calls instead of literal SQL queries). I stored the posts and some resources in AWS S3 blob storage (flat ID to file storage), which at first was a pain to set up but got easier as I tinkered with the settings and began to understand how it (and auth) worked, referencing the images of my posts with keys that I stored in the database. It was a rabbit hole into my first full stack web app.
+Originally, I made my website pages pull from a folder of markdown files which I
+edited and directly commited to Github. Eventually, though, it became unwieldy,
+and I met someone who introduced me to [Prisma](https://www.prisma.io/) and
+`Postgresql`. Postgres is a relational database system, an extension of SQL, and
+Prisma is a popular Javascript ORM (object-relational-mapping framework, used
+for querying the database with JS-object-style calls instead of literal SQL
+queries). I stored the posts and some resources in AWS S3 blob storage (flat ID
+to file storage), which at first was a pain to set up but got easier as I
+tinkered with the settings and began to understand how it (and auth) worked,
+referencing the images of my posts with keys that I stored in the database. It
+was a rabbit hole into my first full stack web app.
 
-I originally was planning on just using basic CSS, but after stumbling upon tailwind in a react guide I was reading, I decided that it was worth giving it a shot. It was simple to get set up, and made styling the website much easier and faster. Tailwind is a "utility-first" styling framework that provides a ton of useful classes that pre-pack styles so that you can do the styling directly in HTML instead of ever needing any CSS, sort of like bootstrap. For example, to add a bit of padding to the left of a `div`, you can simply add the class "pl-3". It has classes for pretty much every possible CSS style, and has predetermined discrete choices for sizes and colors (which can be customized, but in general help development more than hurt).
+I originally was planning on just using basic CSS, but after stumbling upon
+tailwind in a react guide I was reading, I decided that it was worth giving it a
+shot. It was simple to get set up, and made styling the website much easier and
+faster. Tailwind is a "utility-first" styling framework that provides a ton of
+useful classes that pre-pack styles so that you can do the styling directly in
+HTML instead of ever needing any CSS, sort of like bootstrap. For example, to
+add a bit of padding to the left of a `div`, you can simply add the class
+"pl-3". It has classes for pretty much every possible CSS style, and has
+predetermined discrete choices for sizes and colors (which can be customized,
+but in general help development more than hurt).
 
-One fun thing I came across when designing the homepage UX is [Typewriter.js](https://safi.me.uk/typewriterjs/), a library for simulating typing. I thought it'd be a cool affect to apply to headers on my site, and then later experimented with other animations and animation frameworks a bit. It lets you do typewriter animations in a very nice modonic style.
+One fun thing I came across when designing the homepage UX is
+[Typewriter.js](https://safi.me.uk/typewriterjs/), a library for simulating
+typing. I thought it'd be a cool affect to apply to headers on my site, and then
+later experimented with other animations and animation frameworks a bit. It lets
+you do typewriter animations in a very nice modonic style.
 
 ```js
 typewriter
-  .typeString("Hello World!")
+  .typeString('Hello World!')
   .pauseFor(2500)
   .deleteAll()
-  .typeString("Strings can be removed")
+  .typeString('Strings can be removed')
   .pauseFor(2500)
   .deleteChars(7)
-  .start();
+  .start()
 ```
 
 ## Post Management
 
-One of the key features of my website is its integrated post management system. Though originally my purpose was to just have a collection of my projects on the site, as a portfolio of sorts, I decided to also add the ability to post blogs too. All posts on the site are of a specific `type`, either `project` or `blog`. By going to the pattern matched URL `https://404wolf.com/posts/<type>s`, you can view all posts of a specific type. Each post has a specific schema, which is used to generate a grid of tiles that present post previews.
+One of the key features of my website is its integrated post management system.
+Though originally my purpose was to just have a collection of my projects on the
+site, as a portfolio of sorts, I decided to also add the ability to post blogs
+too. All posts on the site are of a specific `type`, either `project` or `blog`.
+By going to the pattern matched URL `https://404wolf.com/posts/<type>s`, you can
+view all posts of a specific type. Each post has a specific schema, which is
+used to generate a grid of tiles that present post previews.
 
 ```ts
 interface PostData {
-  coverUrl: string | null;
-  coverAlt: string | null;
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  tags: string[];
+  coverUrl: string | null
+  coverAlt: string | null
+  id: string
+  title: string
+  description: string
+  date: string
+  tags: string[]
 }
 ```
 
 ![href](https://static.404wolf.com/postsPage_0001.png)
 
-The posts themselves store this metadata in the database, and have corresponding markdown files in S3. When the page is loaded to view a post, the S3 markdown is prefetched, and is rendered client side. I use [react-markdown](https://github.com/remarkjs/react-markdown) to render the markdown, with some custom overrides to handle images and codeblocks. I talk about this more [in this blog I wrote](/posts/blog/imageBlocks), but I've also added image blocks to markdown, to allow for groups of many images to show up inline in the rendered markdown, by actually toying with the markdown to html `AST` process.
+The posts themselves store this metadata in the database, and have corresponding
+markdown files in S3. When the page is loaded to view a post, the S3 markdown is
+prefetched, and is rendered client side. I use
+[react-markdown](https://github.com/remarkjs/react-markdown) to render the
+markdown, with some custom overrides to handle images and codeblocks. I talk
+about this more [in this blog I wrote](/posts/blog/imageBlocks), but I've also
+added image blocks to markdown, to allow for groups of many images to show up
+inline in the rendered markdown, by actually toying with the markdown to html
+`AST` process.
 
 ### Post editor
 
 ![Post editor](https://static.404wolf.com/postEditor_0001.png)
 ![Editable S3 text area](https://static.404wolf.com/editAboutMe_0001.png)
 
-To edit my posts, I decided to add an integrated editor into my website. This is because I want the website to automatically handle storage of associated post resources (images, files, markdown versions, etc.), rather than having to manually deal with uploading things to S3 and directly using the hard S3 links. My goal was to be able to reference the resources by keys (unique IDs I assign to them) directly in the markdown, and by integrating the editor into the website I've made it possible to have a what-you-see-is-what-you-get markdown editing system where the markdown automatically replaces aliases live. The actual post-editing page is quite complex since it includes many different fields to enter metadata for the project post, a split screen viewing panel, and a resource panel. The most notable part, seen in the `Editable S3 text area` image above, is I've made a component to directly edit an AWS S3 file with simple text area entry that is capable of displaying images and other artifacts as rendered markdown.
+To edit my posts, I decided to add an integrated editor into my website. This is
+because I want the website to automatically handle storage of associated post
+resources (images, files, markdown versions, etc.), rather than having to
+manually deal with uploading things to S3 and directly using the hard S3 links.
+My goal was to be able to reference the resources by keys (unique IDs I assign
+to them) directly in the markdown, and by integrating the editor into the
+website I've made it possible to have a what-you-see-is-what-you-get markdown
+editing system where the markdown automatically replaces aliases live. The
+actual post-editing page is quite complex since it includes many different
+fields to enter metadata for the project post, a split screen viewing panel, and
+a resource panel. The most notable part, seen in the `Editable S3 text area`
+image above, is I've made a component to directly edit an AWS S3 file with
+simple text area entry that is capable of displaying images and other artifacts
+as rendered markdown.
 
 ![The resource editor](https://static.404wolf.com/https://static.404wolf.com/Post-20240710001621089.webp)
 
-This system of using IDs was done with keys that are required to be unique by the user, which is probably not the ideal way of doing it -- I was manually naming files uniquely. I decided to solve this problem by making all posts upload with a unique ID automatically based on their filename, by appending `000n` to the end, like `filename_0004.png`. It's a bit clunky and requires iteration to find an unused file name, but it works for now.
+This system of using IDs was done with keys that are required to be unique by
+the user, which is probably not the ideal way of doing it -- I was manually
+naming files uniquely. I decided to solve this problem by making all posts
+upload with a unique ID automatically based on their filename, by appending
+`000n` to the end, like `filename_0004.png`. It's a bit clunky and requires
+iteration to find an unused file name, but it works for now.
 
 ## Exporting/importing
 
 ![Export tree](https://static.404wolf.com/exportTree_0001.png)
 
-In general, I don't like locking myself into ecosystems, so from the beginning I knew I wanted a system to export the contents of the site. This website obviously relies on the hosting of various different cloud providers, which, though reliable, are fail points. When I created the post editing system, I also wrote two basic scripts to upload and download the all the posts and their respective metadata. All files associated with a specific post get stored in a folder alongside the post's markdown, and the metadata is saved as a simple `json`. Writing these scripts was rather simple, since I'm iteratively doing a database call for each post to download all the resources using the public S3 URL, and my ORM can give me a metadata json automatically. This script was made obsolete by my new Obsidian plugin for the website, though.
+In general, I don't like locking myself into ecosystems, so from the beginning I
+knew I wanted a system to export the contents of the site. This website
+obviously relies on the hosting of various different cloud providers, which,
+though reliable, are fail points. When I created the post editing system, I also
+wrote two basic scripts to upload and download the all the posts and their
+respective metadata. All files associated with a specific post get stored in a
+folder alongside the post's markdown, and the metadata is saved as a simple
+`json`. Writing these scripts was rather simple, since I'm iteratively doing a
+database call for each post to download all the resources using the public S3
+URL, and my ORM can give me a metadata json automatically. This script was made
+obsolete by my new Obsidian plugin for the website, though.
 
 # Obsidian Plugin
 

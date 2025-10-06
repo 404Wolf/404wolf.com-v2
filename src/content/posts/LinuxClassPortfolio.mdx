@@ -1,25 +1,27 @@
 ---
 title: CWRU Linux Scripting Class Portfolio
-type: "blog"
-date: "2024-01-01"
+type: 'blog'
+date: '2024-01-01'
 covers:
   [
-    "https://static.404wolf.com/Screenshot_from_2024-04-14_23-29-12_0001.png",
-    "https://static.404wolf.com/Screenshot_from_2024-04-14_23-29-31_0001.png",
-    "https://static.404wolf.com/Pasted_image_20240414232043_0001.png",
-    "https://static.404wolf.com/Linux-desktopentry_0001.png",
-    "https://static.404wolf.com/Screenshot_from_2024-04-16_18-15-57_0001.png",
+    'https://static.404wolf.com/Screenshot_from_2024-04-14_23-29-12_0001.png',
+    'https://static.404wolf.com/Screenshot_from_2024-04-14_23-29-31_0001.png',
+    'https://static.404wolf.com/Pasted_image_20240414232043_0001.png',
+    'https://static.404wolf.com/Linux-desktopentry_0001.png',
+    'https://static.404wolf.com/Screenshot_from_2024-04-16_18-15-57_0001.png',
   ]
 description: |
   This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU, a class that teaches various Linux tools and concepts, like bash, awk, regex, and bottom-up design. It's an eclectic mix of scripts and Linux-y things I've done with the stuff I've learned throughout the semester in the course. There are a few projects towards the beginning, and then I have a bunch of random bash scripts and more Linux-y things towards the bottom portion.
-tags: ["academic"]
+tags: ['academic']
 ---
 
 # Linux Scripting/Tools Class Portfolio
 
 # What's this?
 
-This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU. It's an eclectic mix of scripts and linux-y things I've done with the stuff I've learned throughout the semester in the course.
+This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU. It's an
+eclectic mix of scripts and linux-y things I've done with the stuff I've learned
+throughout the semester in the course.
 
 # Some Projects/Scripts
 
@@ -29,32 +31,51 @@ This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU. It's an eclecti
 
 ### What is it?
 
-Text sender is a basic website that uses client side Javascript to poll a PHP server to obtain the current text contents of a Redis cache. The server is deployed to AWS and is publicly accessible through AWS. The live polling is a feature I added later on, and I also added bootstrap to make the website look nice.
+Text sender is a basic website that uses client side Javascript to poll a PHP
+server to obtain the current text contents of a Redis cache. The server is
+deployed to AWS and is publicly accessible through AWS. The live polling is a
+feature I added later on, and I also added bootstrap to make the website look
+nice.
 
-The current contents of the text box are accessed from redis by PHP using [PHPRedis](https://github.com/phpredis/phpredis). I decided to use [composer](https://getcomposer.org/) to manage this package, since it made installing it super easy. The project is also dockerized, so it can be easily deployed, and uses `Nginx` to serve the content.
+The current contents of the text box are accessed from redis by PHP using
+[PHPRedis](https://github.com/phpredis/phpredis). I decided to use
+[composer](https://getcomposer.org/) to manage this package, since it made
+installing it super easy. The project is also dockerized, so it can be easily
+deployed, and uses `Nginx` to serve the content.
 
 ### Uses
 
-- Sending text data between devices (shipping from phone to phone or desktop to phone etc)
+- Sending text data between devices (shipping from phone to phone or desktop to
+  phone etc)
 - Sharing data in front of a live audience
 - Conversations and interactive use
 
 ![Network Logs](https://static.404wolf.com/Screenshot_from_2024-04-14_23-29-31_0001.png)
 ![Mobile Version](https://static.404wolf.com/Screenshot_from_2024-04-14_23-26-55_0001.png)
 
-Originally, I used the file system to cache the contents, but migrated for performance and to learn how to do Redis in PHP. I also added bootstrap to make it look nicer.
+Originally, I used the file system to cache the contents, but migrated for
+performance and to learn how to do Redis in PHP. I also added bootstrap to make
+it look nicer.
 
-Basically, you can visit [sender.404wolf.com](http://sender.404wolf.com) and you'll be met with a text input box. You can plop text into it, and it will show up to date contents. If you go to a different device or tab it will keep in sync the current content.
+Basically, you can visit [sender.404wolf.com](http://sender.404wolf.com) and
+you'll be met with a text input box. You can plop text into it, and it will show
+up to date contents. If you go to a different device or tab it will keep in sync
+the current content.
 
-All of the source code can be found [here](https://github.com/404Wolf/Code-Ship), since it's a bigger project than can reasonably fit here. But here's some of the important PHP code.
+All of the source code can be found
+[here](https://github.com/404Wolf/Code-Ship), since it's a bigger project than
+can reasonably fit here. But here's some of the important PHP code.
 
-It's made of two parts: backend API and frontend client. The first codeblock is the main page with the actual layout and input boxes. The second codeblock is a backend that the clients use to update the state of the redis cache.
+It's made of two parts: backend API and frontend client. The first codeblock is
+the main page with the actual layout and input boxes. The second codeblock is a
+backend that the clients use to update the state of the redis cache.
 
 ### Changelog
 
 - Version 1 - Create basic working version that stores state in file.
 - Version 2 - Add redis with PHP redis. Get working on localhost
-- Version 3 - Add compose.yml and dockerize. Then deploy to aws and use Nginx to serve
+- Version 3 - Add compose.yml and dockerize. Then deploy to aws and use Nginx to
+  serve
 
 ```php
 // Index.php
@@ -277,7 +298,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 ```
 
-Also, here is the `Nginx` config that serves the website. I haven't used `Nginx` before, but it wasn't too bad to set up and it works well. ChatGPT helped me configure this and also added all the comments.
+Also, here is the `Nginx` config that serves the website. I haven't used `Nginx`
+before, but it wasn't too bad to set up and it works well. ChatGPT helped me
+configure this and also added all the comments.
 
 ```nginx
 server
@@ -318,7 +341,14 @@ server
 
 ![Discord update popup](https://static.404wolf.com/https://static.404wolf.com/discords-lucky-day-hits-arch-btw-once-again-with-no-update-v0-p4j4bweuu0ca1_0001.webp)
 
-[Discord](https://discord.com) (chatting app) requires you to completely redownload the app whenever there are updates on Desbian. It makes a popup that says that you need to download a whole new binary each time there is an update. Additionally, I use a client called [BetterDiscord](https://betterdiscord.app) that requires you to "patch" Discord every time you install it. This means that every now and then, I open discord, and have to manually install a new version and then also re-patch it with Betterdiscord. It's a pain in the neck every time updates are released.
+[Discord](https://discord.com) (chatting app) requires you to completely
+redownload the app whenever there are updates on Desbian. It makes a popup that
+says that you need to download a whole new binary each time there is an update.
+Additionally, I use a client called [BetterDiscord](https://betterdiscord.app)
+that requires you to "patch" Discord every time you install it. This means that
+every now and then, I open discord, and have to manually install a new version
+and then also re-patch it with Betterdiscord. It's a pain in the neck every time
+updates are released.
 
 ```bash
 #!/usr/bin/bash
@@ -385,9 +415,14 @@ Discord/discord.desktop
 BetterDiscord is installed.
 ```
 
-Originally this script only installed Betterdiscord, but I added the part to install Discord itself too after.
+Originally this script only installed Betterdiscord, but I added the part to
+install Discord itself too after.
 
-I added the part that installs Discord after and changed it slightly for my needs, which a friend had written for themselves. I wrote the part that installs betterdiscord myself, which uses an open source tool called `betterdiscordctl`. Basically, it checks to see if betterdiscord is installed, and if it isn't then it re-patches discord.
+I added the part that installs Discord after and changed it slightly for my
+needs, which a friend had written for themselves. I wrote the part that installs
+betterdiscord myself, which uses an open source tool called `betterdiscordctl`.
+Basically, it checks to see if betterdiscord is installed, and if it isn't then
+it re-patches discord.
 
 I then put it in my `crontab` to run automatically every day using
 
@@ -402,14 +437,21 @@ I won't know if this works until Discord releases an update, though.
 ![Website](https://static.404wolf.com/Screenshot_from_2024-04-21_16-15-04_0001.png)
 ![Loading... Part](https://static.404wolf.com/Screenshot_from_2024-04-21_16-14-57_0001.png)
 
-I made a very complex python webserver with a selenium virtual chromedriver to get an auth token to Case's room reservation system. Then I use that token to find all rooms that are not taken from X to Y time, so I can find a study room. I created a basic html/css/js page that hits the website and displays vacant rooms, and has textual input. It uses the API I built previously.
+I made a very complex python webserver with a selenium virtual chromedriver to
+get an auth token to Case's room reservation system. Then I use that token to
+find all rooms that are not taken from X to Y time, so I can find a study room.
+I created a basic html/css/js page that hits the website and displays vacant
+rooms, and has textual input. It uses the API I built previously.
 
 TLDR: I have an API to find empty rooms on campus. I made a frontend for it.
 
-DISCLAIMER:
-I wrote this HTML/JS for this course portfolio, but it doesn't work at the moment only because of a dependency that I wrote outside of this course. I'm still going to include it since I think it's pretty cool.
+DISCLAIMER: I wrote this HTML/JS for this course portfolio, but it doesn't work
+at the moment only because of a dependency that I wrote outside of this course.
+I'm still going to include it since I think it's pretty cool.
 
-The API was down when writing this to get screenshots, and I'm currently fixing a part of the authing flow. However, the general idea is that you can see it load and then fetch all empty rooms on campus.
+The API was down when writing this to get screenshots, and I'm currently fixing
+a part of the authing flow. However, the general idea is that you can see it
+load and then fetch all empty rooms on campus.
 
 ### Changelog
 
@@ -420,70 +462,68 @@ The API was down when writing this to get screenshots, and I'm currently fixing 
 ```html
 <html>
   <script type="text/javascript">
-    const url = "http://149.28.40.6:5000/find-rooms";
+    const url = 'http://149.28.40.6:5000/find-rooms'
 
     function getRoomURL(duration_hours, hours_from_now) {
       const params = {
         duration_hours: duration_hours,
         hours_from_now: hours_from_now,
-      };
+      }
       const queryString = Object.keys(params)
-        .map((key) => key + "=" + params[key])
-        .join("&");
-      return url + "?" + queryString;
+        .map((key) => key + '=' + params[key])
+        .join('&')
+      return url + '?' + queryString
     }
 
     function findRooms(duration_hours, hours_from_now) {
-      const path = getRoomURL(duration_hours, hours_from_now);
+      const path = getRoomURL(duration_hours, hours_from_now)
 
       return fetch(path, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }).then((resp) => resp.json());
+      }).then((resp) => resp.json())
     }
 
     function parseFoundRooms(rooms) {
-      rooms = rooms["rooms"];
-      rooms = rooms.sort((a, b) =>
-        a.building_code > b.building_code ? 1 : -1,
-      );
+      rooms = rooms['rooms']
+      rooms = rooms.sort((a, b) => (a.building_code > b.building_code ? 1 : -1))
       return rooms
-        .map((room) => room.building_code + " " + room.room_code)
-        .join("&#10;");
+        .map((room) => room.building_code + ' ' + room.room_code)
+        .join('&#10;')
     }
 
     function displayResults(results) {
-      const resultsBox = document.getElementById("results-box");
-      resultsBox.innerHTML = results;
+      const resultsBox = document.getElementById('results-box')
+      resultsBox.innerHTML = results
     }
 
     function onGetResultsClick() {
       // Get the form values
-      const duration_hours = document.getElementById("duration_hours").value;
-      const hours_from_now = document.getElementById("hours_from_now").value;
+      const duration_hours = document.getElementById('duration_hours').value
+      const hours_from_now = document.getElementById('hours_from_now').value
 
       // Run the query
       findRooms(duration_hours, hours_from_now)
         .then((results) => parseFoundRooms(results))
-        .then(displayResults);
-      document.getElementById("results-url").href = getRoomURL(
+        .then(displayResults)
+      document.getElementById('results-url').href = getRoomURL(
         duration_hours,
         hours_from_now,
-      );
+      )
 
       // Update the results area header
-      document.getElementById("results-area-head").innerHTML =
-        "Results for " +
+      document.getElementById('results-area-head').innerHTML =
+        'Results for ' +
         duration_hours +
-        " hours from now, for " +
+        ' hours from now, for ' +
         hours_from_now +
-        " hours";
-      document.getElementById("results-box").innerHTML = "Loading...";
+        ' hours'
+      document.getElementById('results-box').innerHTML = 'Loading...'
 
       // Reset the form
-      document.getElementById("duration_hours").value = "";
-      document.getElementById("hours_from_now").value = "";
+      document.getElementById('duration_hours').value = ''
+      document.getElementById('hours_from_now').value = ''
     }
   </script>
 
@@ -541,11 +581,16 @@ Results will appear here
 
 ### What is it?
 
-A tool that lets you zip something and then move it into `/home/Archive` automatically.
+A tool that lets you zip something and then move it into `/home/Archive`
+automatically.
 
-Basically, you run `bash archive.sh file_to_be_archived.extension`, and it automatically 7z compresses it, moves the file, and deletes the old uncompressed file.
+Basically, you run `bash archive.sh file_to_be_archived.extension`, and it
+automatically 7z compresses it, moves the file, and deletes the old uncompressed
+file.
 
-After I made it I added some basic error handling, and automatically will add a `_121` (counter) to the back of the file if there are duplicates already in the out directory (`_121` indicates 120 other files already exist with its name).
+After I made it I added some basic error handling, and automatically will add a
+`_121` (counter) to the back of the file if there are duplicates already in the
+out directory (`_121` indicates 120 other files already exist with its name).
 
 ### Changelog
 
@@ -640,14 +685,18 @@ test.7z
 
 ## Move types into folders
 
-I made a very basic script that moves files into folders named after their file type. It iterates through files in the current directory and moves each file to a folder named after its extension.
+I made a very basic script that moves files into folders named after their file
+type. It iterates through files in the current directory and moves each file to
+a folder named after its extension.
 
 ### Changelog
 
 - Make a basic script to move different filetypes into different folders
-- Add protections, like ensuring the script file itself isn't moved, or that directories aren't touched or changed.
+- Add protections, like ensuring the script file itself isn't moved, or that
+  directories aren't touched or changed.
 
-ChatGPT helped me figure out how to iterate over files in a directory (it is shockingly easy!).
+ChatGPT helped me figure out how to iterate over files in a directory (it is
+shockingly easy!).
 
 ```bash
 for file in ./*; do
@@ -768,18 +817,31 @@ wolf@wolfs-laptop:~$ lt -p 8080
 your url is: https://petite-ends-stay.loca.lt
 ```
 
-Localtunnel maps a public URL to your localhost at a port. This is a script that runs `lt -p 8080` in the background, extracts the URL, exports it as an env variable, and then launches a process that requires it. It also does some basic environment setup.
+Localtunnel maps a public URL to your localhost at a port. This is a script that
+runs `lt -p 8080` in the background, extracts the URL, exports it as an env
+variable, and then launches a process that requires it. It also does some basic
+environment setup.
 
 ### Why?
 
-When I boot a react native app (mobile app development framework that I'm using to make an Android app) project with the Metro bundler (a development tool for shipping the app to a virtual Android device) to get it to run usually my project needs me to manually do these things:
+When I boot a react native app (mobile app development framework that I'm using
+to make an Android app) project with the Metro bundler (a development tool for
+shipping the app to a virtual Android device) to get it to run usually my
+project needs me to manually do these things:
 
-1. Start the android emulator and press `super shift t` to set it to be always on top (so it sits on top of my IDE)
-2. Start a HTTPS tunnel so I can access `localhost:8080` (where my API lives) from the android device
+1. Start the android emulator and press `super shift t` to set it to be always
+   on top (so it sits on top of my IDE)
+2. Start a HTTPS tunnel so I can access `localhost:8080` (where my API lives)
+   from the android device
 3. Run the bundler to boot the app on the emulator
-4. Enter the letter "a" to get the bundler to know that I want to run the app on android
+4. Enter the letter "a" to get the bundler to know that I want to run the app on
+   android
 
-It's all really annoying, so I wrote a bash script to do it all for me. What was fun about this is that I got to learn how to use `xdotool` to actually simulate a keypress which I added later on (chatGPT definitely helped). In the future I want to figure out if there's a proper non-interactive way to boot Metro for Android.
+It's all really annoying, so I wrote a bash script to do it all for me. What was
+fun about this is that I got to learn how to use `xdotool` to actually simulate
+a keypress which I added later on (chatGPT definitely helped). In the future I
+want to figure out if there's a proper non-interactive way to boot Metro for
+Android.
 
 ```shell
 ~/Android/Sdk/emulator/emulator @mainAndroid & sleep 3 && xdotool key super+shift+t
@@ -803,7 +865,12 @@ sleep 8 && xdotool type 'a' & npx react-native start --port 9097
 
 ![Successful click at 7:00:00!](https://static.404wolf.com/image_0001.png)
 
-For course registration I made a super simple `Python` script to click the register button at exactly 7AM. It's a very simple script that simulates a left mouse click. I left the cursor over the register button, and ran it on a headed Linux system so the clock was super super accurate. I was able to get all the courses I wanted for next semester (all of which were very competitive) this way. It's Python, but it's definitely a script in the style of this course.
+For course registration I made a super simple `Python` script to click the
+register button at exactly 7AM. It's a very simple script that simulates a left
+mouse click. I left the cursor over the register button, and ran it on a headed
+Linux system so the clock was super super accurate. I was able to get all the
+courses I wanted for next semester (all of which were very competitive) this
+way. It's Python, but it's definitely a script in the style of this course.
 
 ```python
 import pyautogui
@@ -837,11 +904,22 @@ if __name__ == "__main__":
 
 ### TLDR
 
-A simple bash script that uses `JQ` piping and an `API` I found to fetch a list of names of board games produced by a specific company.
+A simple bash script that uses `JQ` piping and an `API` I found to fetch a list
+of names of board games produced by a specific company.
 
-I recently was interested in finding a list of all board games that the board game producing company Funforge had produced. They make a lot of great board games and I was curious to learn of new ones and also investigate resale potential for some of their older ones. I checked board game geek, a forum and data source for board games, and they have lists of games for specific publishers, but it's paginated and annoying to parse.
+I recently was interested in finding a list of all board games that the board
+game producing company Funforge had produced. They make a lot of great board
+games and I was curious to learn of new ones and also investigate resale
+potential for some of their older ones. I checked board game geek, a forum and
+data source for board games, and they have lists of games for specific
+publishers, but it's paginated and annoying to parse.
 
-I decided to open network tab to see if there were any requests with `Json` data being sent from an API, and it turned out that there was. I tinkered a bit with getting the right parameters, and figured out that the API endpoint was paginating the board games that Funforge had produced. So, I wrote a simple bash script with a loop to list out all the games that they've produced, and automatically deal with the pagination.
+I decided to open network tab to see if there were any requests with `Json` data
+being sent from an API, and it turned out that there was. I tinkered a bit with
+getting the right parameters, and figured out that the API endpoint was
+paginating the board games that Funforge had produced. So, I wrote a simple bash
+script with a loop to list out all the games that they've produced, and
+automatically deal with the pagination.
 
 ### Example of Content to Parse
 
@@ -2130,7 +2208,10 @@ I decided to open network tab to see if there were any requests with `Json` data
 }
 ```
 
-After, I added the `-s` flag for `CURL` to prevent getting status logs and just get the list of board games. I found that the for loop could iterate to an arbitrarily large value, like `50`, and that all the requests would be empty afterwards anyway.
+After, I added the `-s` flag for `CURL` to prevent getting status logs and just
+get the list of board games. I found that the for loop could iterate to an
+arbitrarily large value, like `50`, and that all the requests would be empty
+afterwards anyway.
 
 ```bash
 for (( i=0; i<50; i++ )); do
@@ -2143,7 +2224,9 @@ for (( i=0; i<50; i++ )); do
 done
 ```
 
-I improved the script to automatically terminate instead of using an arbitrary guess for the number of pages by implementing a while loop, and using the `-z` bash flag to check if null.
+I improved the script to automatically terminate instead of using an arbitrary
+guess for the number of pages by implementing a while loop, and using the `-z`
+bash flag to check if null.
 
 ```bash
 i=0;
@@ -2292,15 +2375,25 @@ done
 
 # Other Random Linux Scripts/Things
 
-Towards the latter half of the semester I switched from Windows to PopOs (an Ubuntu fork), and have been loving it. Here's a list of random Linux-y things I've figured out and done...
+Towards the latter half of the semester I switched from Windows to PopOs (an
+Ubuntu fork), and have been loving it. Here's a list of random Linux-y things
+I've figured out and done...
 
 ## Desktop Entries
 
 ![Desktop entry syntax](https://static.404wolf.com/https://static.404wolf.com/Linux-desktopentry_0001.webp)
 
-I learned a bit about how to set up desktop entries on popos with gnome desktop. These are items displayed on the desktop of the computer, that have customized functionality specified in a specially formatted desktop file. Archwiki explains,
+I learned a bit about how to set up desktop entries on popos with gnome desktop.
+These are items displayed on the desktop of the computer, that have customized
+functionality specified in a specially formatted desktop file. Archwiki
+explains,
 
-> Desktop entries for applications, or .desktop files, are generally a combination of meta information resources and a shortcut of an application. These files usually reside in `/usr/share/applications/` or `/usr/local/share/applications/` for applications installed system-wide, or `~/.local/share/applications/` for user-specific applications. User entries take precedence over system entries.
+> Desktop entries for applications, or .desktop files, are generally a
+> combination of meta information resources and a shortcut of an application.
+> These files usually reside in `/usr/share/applications/` or
+> `/usr/local/share/applications/` for applications installed system-wide, or
+> `~/.local/share/applications/` for user-specific applications. User entries
+> take precedence over system entries.
 
 ```shell
 [Desktop Entry]
@@ -2313,27 +2406,44 @@ Icon=google-chrome
 
 ![My desktop entries](https://static.404wolf.com/Screenshot_from_2024-04-18_19-09-41_0001.png)
 
-This then makes icons on your desktop that can do specific actions. I added some for chrome so that it launches chrome with a specific chrome profile (for example, a chrome profile on my desktop that launches me into my CWRU google account when it boots). It's super useful. Later on I added some for other accounts too.
+This then makes icons on your desktop that can do specific actions. I added some
+for chrome so that it launches chrome with a specific chrome profile (for
+example, a chrome profile on my desktop that launches me into my CWRU google
+account when it boots). It's super useful. Later on I added some for other
+accounts too.
 
 ## Getting Fingerprint Sensor working
 
-Getting fingerprint detection to work on my laptop with Linux was a bit annoying. I was able to make it work with a lot of trial and error and some help from `ChatGPT`. After I got it working, I wanted to be able to use my fingerprint for `sudo` instead of typing in my password every single time. To get this working, I followed the following steps...
+Getting fingerprint detection to work on my laptop with Linux was a bit
+annoying. I was able to make it work with a lot of trial and error and some help
+from `ChatGPT`. After I got it working, I wanted to be able to use my
+fingerprint for `sudo` instead of typing in my password every single time. To
+get this working, I followed the following steps...
 
 ChatGPT instructions that seemed to work
 
 ```markdown
-1. install fprintd: use the following command to install fprintd. sudo apt-get install fprintd
-2. enroll your fingerprint: enroll your right index finger with the following command. `fprintd-enroll -f right-index-finger`
-3. install libpam-fprintd: install this pam module to enable fingerprint authentication. `sudo apt-get install libpam-fprintd`  
-   who uses 4 configure pam: open /etc/pam.d/common-auth in a text editor with root privileges. You can use nano editor with the following command. sudo nano /etc/pam.d/common-auth
-4. add the following line at the top of the file. `auth [success=2 default=ignore] pam_fprintd.so`
+1. install fprintd: use the following command to install fprintd. sudo apt-get
+   install fprintd
+2. enroll your fingerprint: enroll your right index finger with the following
+   command. `fprintd-enroll -f right-index-finger`
+3. install libpam-fprintd: install this pam module to enable fingerprint
+   authentication. `sudo apt-get install libpam-fprintd`  
+   who uses 4 configure pam: open /etc/pam.d/common-auth in a text editor with
+   root privileges. You can use nano editor with the following command. sudo
+   nano /etc/pam.d/common-auth
+4. add the following line at the top of the file.
+   `auth [success=2 default=ignore] pam_fprintd.so`
 
-> The auth [success=2 default=ignore] pam_fprintd.so line in the PAM (Pluggable Authentication Modules)  
-> configuration file is used for fingerprint authentication. If the fingerprint authentication is successful,
-> it will skip the next two lines specified in the configuration. If fingerprint authentication fails, it  
+> The auth [success=2 default=ignore] pam_fprintd.so line in the PAM (Pluggable
+> Authentication Modules)  
+> configuration file is used for fingerprint authentication. If the fingerprint
+> authentication is successful, it will skip the next two lines specified in the
+> configuration. If fingerprint authentication fails, it  
 > will continue with the default behavior specified in the configuration.
 
-6. save and close the file. if you are using nano, you can do this by pressing ctrl + x, then y, then enter.
+6. save and close the file. if you are using nano, you can do this by pressing
+   ctrl + x, then y, then enter.
 7. test: try using sudo command. it should now ask for your fingerprint.
 ```
 
@@ -2341,16 +2451,28 @@ ChatGPT instructions that seemed to work
 
 After a bit of additional research:
 
-- `fprintd` is a library for storing fingerprints of a user in a local database. It stores them (by default) in `/var/lib/fprint/`. I was curious, so I searched and found the actual fingerpint file, which was a binary file,, under `/var/lib/fprint/wolf/goodixmoc/UIDFAE70212_XXXX_MOC_B0/7`. You can use commands like `fprintd-enroll` and `fprintd-verify` to manage fingerprints.
-- PAM seems to be some sort of tool that acts as an intermediary between the actual authentication methods and the program trying to do authentication. So like, you can use fingerprint auth, password auth, or something else, and just change the PAM config.
+- `fprintd` is a library for storing fingerprints of a user in a local database.
+  It stores them (by default) in `/var/lib/fprint/`. I was curious, so I
+  searched and found the actual fingerpint file, which was a binary file,, under
+  `/var/lib/fprint/wolf/goodixmoc/UIDFAE70212_XXXX_MOC_B0/7`. You can use
+  commands like `fprintd-enroll` and `fprintd-verify` to manage fingerprints.
+- PAM seems to be some sort of tool that acts as an intermediary between the
+  actual authentication methods and the program trying to do authentication. So
+  like, you can use fingerprint auth, password auth, or something else, and just
+  change the PAM config.
 
 ## Getting Hibernation working
 
-I followed [this](https://abskmj.github.io/notes/) guide to set up a swap partition and get hibernation to work. It was a bit annoying to do but I got it working where when my computer hibernates it moves all the ram into a specific disc swap partition and then powers off, and can restore from it.
+I followed [this](https://abskmj.github.io/notes/) guide to set up a swap
+partition and get hibernation to work. It was a bit annoying to do but I got it
+working where when my computer hibernates it moves all the ram into a specific
+disc swap partition and then powers off, and can restore from it.
 
 ## Automatic mount Google Drive
 
-I wrote a very simple cronjob to call a python script I wrote to automatically mount my Google Drives as hard drives using `rclone`, which is a CLI tool for mounting cloud storage drives with an interface similar to `rsync`.
+I wrote a very simple cronjob to call a python script I wrote to automatically
+mount my Google Drives as hard drives using `rclone`, which is a CLI tool for
+mounting cloud storage drives with an interface similar to `rsync`.
 
 Then, later, after writing the script I added an automatic call to my crontab.
 
@@ -2407,17 +2529,27 @@ while True:
 ![NVim telescope search](https://static.404wolf.com/Screenshot_from_2024-04-16_18-17-38_0001.png)
 ![NVim With File Tree](https://static.404wolf.com/Screenshot_from_2024-04-16_18-15-57_0001.png)
 
-Since the start of this course I've begun to use vimkeys for everything. I touch type very fast (120+) so I thought it'd be worth the effort to learn keybinds. Here's some fun things I've figured out:
+Since the start of this course I've begun to use vimkeys for everything. I touch
+type very fast (120+) so I thought it'd be worth the effort to learn keybinds.
+Here's some fun things I've figured out:
 
-- I configured `neovim` using `vim-plug` to have language engine support so that I can get error checking. I also have symbol tab support and set up github Copilot.
-- `zz` centers your cursor on the page. If the majority of the page is above the cursor this can help center things so you can see more on either side of the cursor.
-- `vi"` selects everything inside quotes. Then you can do `"+p` to paste from clipboard into them
+- I configured `neovim` using `vim-plug` to have language engine support so that
+  I can get error checking. I also have symbol tab support and set up github
+  Copilot.
+- `zz` centers your cursor on the page. If the majority of the page is above the
+  cursor this can help center things so you can see more on either side of the
+  cursor.
+- `vi"` selects everything inside quotes. Then you can do `"+p` to paste from
+  clipboard into them
 - Following two keybinds work for any letter (not just "A"):
   - `mA` sets a global marker `A` which you can go to with \`A.
-  - `qa` begins recording a macro `a`. Then `q` again to stop recording. Then `@a` to play it back. Or `<num>@a`!
+  - `qa` begins recording a macro `a`. Then `q` again to stop recording. Then
+    `@a` to play it back. Or `<num>@a`!
   - `==` automatically aligns the current line
-  - `V` selects the current line. So you can also do `Vd` instead of `dd` to delete a line.
-  - `T` (not `t`) goes up to the first occurrence backwards. Then pressing `;` to progress forward through matches also goes backwards.
+  - `V` selects the current line. So you can also do `Vd` instead of `dd` to
+    delete a line.
+  - `T` (not `t`) goes up to the first occurrence backwards. Then pressing `;`
+    to progress forward through matches also goes backwards.
 
 ```lua
 -- My NVIM config (scrapped together from various internet sources with some personalizations too)
@@ -2480,7 +2612,15 @@ require("nvim-tree").setup({
 })
 ```
 
-I also configured my vscode vimkeys settings. I made it so that `control + u`, which normally scrolls up half a page, automatically then aligns the page such that the cursor is centered. Also, I added cords for `leader, h` and `leader l` to switch between split screen tabs. Finally, one interesting and slightly solution to a problem I was facing: I remapped `o` to `["I", "Enter"]`, which puts the cursor in insert mode at the end of the current line, and presses enter. This does the same thing as `o`, but in order to trigger Github copilot you need to press enter, and this seems to get it to trigger (whereas just pressing `o` to open a line does not).
+I also configured my vscode vimkeys settings. I made it so that `control + u`,
+which normally scrolls up half a page, automatically then aligns the page such
+that the cursor is centered. Also, I added cords for `leader, h` and `leader l`
+to switch between split screen tabs. Finally, one interesting and slightly
+solution to a problem I was facing: I remapped `o` to `["I", "Enter"]`, which
+puts the cursor in insert mode at the end of the current line, and presses
+enter. This does the same thing as `o`, but in order to trigger Github copilot
+you need to press enter, and this seems to get it to trigger (whereas just
+pressing `o` to open a line does not).
 
 ```json
 [
@@ -2525,13 +2665,15 @@ I also configured my vscode vimkeys settings. I made it so that `control + u`, w
 
 ## Stuff I added to my `.bashrc`
 
-This was all iterative and I added more things as the semester went along. The main things of note:
+This was all iterative and I added more things as the semester went along. The
+main things of note:
 
 - Aliases for:
   - `suspend` and `hibernate`
   - Editing my `bashrc` itself and then reloading it
   - Launching `chrome` with a specific user logged in to Google
-- My `Zoxide` installation (an alternative for CD that remembers commonly used paths to help you find them)
+- My `Zoxide` installation (an alternative for CD that remembers commonly used
+  paths to help you find them)
 - `control k` or `control j`
 - Exporting some API keys that I always want access to
 
