@@ -22,7 +22,7 @@ container](https://developers.cloudflare.com/containers/)). This is *probably* a
 bad idea, so please don't abuse it 😂.
 
 <iframe
-  src={`https://vt-demo-2.wolf-mermelstein.workers.dev/?id=${crypto.randomUUID()}`}
+  src={`https://vt-demo-2.wolf-mermelstein.workers.dev/?id=${Math.floor(Math.random() * 5) + 1}`}
   className="border border-solid border-black w-full h-[600px] rounded bg-slate-100 mb-4"
   title="Val Town LSP Demo"
 ></iframe>
