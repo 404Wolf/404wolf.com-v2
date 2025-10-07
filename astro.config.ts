@@ -35,8 +35,6 @@ export default defineConfig({
 		"/bio": "/about",
 		"/resume": "/resume.pdf",
 		"/posts": "/",
-		"/posts/project/[...postId]": "/posts/[...postId]",
-		"/posts/blog/[...postId]": "/posts/[...postId]",
 	},
 	adapter: cloudflare({
 		platformProxy: {
