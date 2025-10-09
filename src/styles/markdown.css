@@ -65,7 +65,7 @@
 }
 
 .markdown img {
-	@apply rounded-xl;
+	@apply rounded-xl ring-3 ring-inset ring-slate-700 mx-auto my-2;
 }
 
 .markdown figure {

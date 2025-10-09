@@ -94,12 +94,12 @@ const featuredPosts = allPosts
   {
     lastCommitDate && (
       <a
-        class="hidden sm:block absolute bottom-0 -left-10 rotate-[20deg] bg-slate-300/30 hover:bg-slate-400/30 px-2 py-[2px] rounded-xl"
+        class="hidden sm:block absolute bottom-0 -left-10 rotate-[20deg] bg-linear-to-br from-slate-300/30 to-blue-300/30 hover:bg-blue-900/20 hover:drop-shadow-black px-2 py-[2px] rounded-xl"
         href={`${GITHUB_URL}/commit/${lastCommitHash}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <p class="text-sm text-white">
+        <p class="text-sm text-gray-200">
           Updated @ <span id="commit-date" data-date={lastCommitDate.toISOString()}>
             {lastCommitDate.toLocaleDateString("en-US", {
               month: "numeric",

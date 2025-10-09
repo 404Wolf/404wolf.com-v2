@@ -8,6 +8,7 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import remarkToc from "remark-toc";
 import { SITE_URL } from "./src/consts.ts";
+import { fetchLatestResume } from "./src/resume.ts";
 
 export default defineConfig({
 	site: SITE_URL,
@@ -29,7 +30,15 @@ export default defineConfig({
 	output: "static",
 	publicDir: "public",
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [
+			tailwindcss(),
+			fetchLatestResume({
+				owner: "404wolf",
+				repo: "resume-v2",
+				releasePath: "resume.pdf",
+				outputPath: "resume.pdf",
+			}),
+		],
 	},
 	redirects: {
 		"/bio": "/about",
