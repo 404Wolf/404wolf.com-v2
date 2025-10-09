@@ -1,8 +1,8 @@
-import { Octokit } from "@octokit/rest";
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
+import { Octokit } from "@octokit/rest";
 import type { Plugin } from "rollup";
 
 interface FetchLatestResumeOptions {
