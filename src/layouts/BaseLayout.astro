@@ -17,7 +17,8 @@ const styles = {
 		"flex",
 		"flex-col",
 		"gap-2",
-		"p-6",
+		"p-4",
+		"sm:p-6",
 		"rounded-3xl",
 		"relative",
 		"bg-[#2960B4]",
@@ -40,7 +41,7 @@ const { title = "404wolf.com" } = Astro.props;
   <body class={styles.body()}>
     <div class="sm:mx-[5%] xl:mx-0">
       <div
-        class="max-w-6xl flex flex-col gap-6 bg-slate-400 p-6 rounded-3xl relative -mt-6 sm:mt-0"
+        class="max-w-6xl flex flex-col gap-6 bg-slate-400 p-4 sm:p-6 rounded-3xl relative -mt-6 sm:mt-0"
       >
         <Header {...Astro.props.headerProps}>
           <slot name="header-body" />
