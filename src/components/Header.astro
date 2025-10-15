@@ -15,7 +15,8 @@ const styles = {
 		"bg-slate-600",
 		"text-white",
 		"rounded-xl",
-		"text-2xl",
+		"text-xl",
+		"sm:text-2xl",
 		"px-3",
 		"py-2",
 		"transition-all",
@@ -37,7 +38,7 @@ const onlyOne =
       includeBody ? (
         <Tile>
           <HeaderName
-            className={styles.header({ class: "absolute -top-14 -left-10 sm:-top-10 sm:-left-10" })}
+            className={styles.header({ class: "absolute -top-10 -left-6 sm:-top-10 sm:-left-10" })}
             client:load
           />
           <slot />

@@ -4,19 +4,23 @@ import Navbutton from "./Navbutton.astro";
 import ContactsPopup from "./ContactsPopup.astro";
 
 const styles = {
-	container: cva(["pt-3 -mt-2 relative"]),
-	navbutton: cva(["mx-2 my-1"]),
+	container: cva([
+		"relative bg-gray-300 md:bg-transparent shadow-md md:shadow-none px-2 sm:px-1 py-2 rounded-2xl mb-0 md:-mb-3 mt-0 md:-mt-2",
+	]),
+	navbutton: cva(["px-1 sm:px-0 mx-1 sm:mx-2 my-1"]),
 };
 ---
 
 <div class={styles.container()}>
   <div class="flex items-center">
     <Navbutton text="About" href="/about" className={styles.navbutton()} />
+
     <Navbutton 
       text="Contacts" 
       onClick="document.getElementById('contacts-modal').showModal()" 
       className={styles.navbutton()} 
     />
+
     <Navbutton text="Resume" href="/resume.pdf" className={styles.navbutton()} />
   </div>
 
