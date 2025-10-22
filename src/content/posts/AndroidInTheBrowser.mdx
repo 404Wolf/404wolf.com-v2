@@ -37,8 +37,7 @@ anything other than a mac, because tooling to "talk" to iPhones for development
 relies on xCode. That means that I couldn't use a physical iPhone, or even run
 an emulator (a "fake" phone running on my computer).
 
-![Android
-studio](https://static.404wolf.com/https://static.404wolf.com/Post-20240807195159827.webp)
+![Android studio](https://static.404wolf.com/Post-20240807195159827.webip)
 
 For Android development, Google is much nicer about it, and lets you run
 emulators and bridge a physical phone over on all platforms. They recommend
@@ -112,8 +111,7 @@ There's a lot of CLI tools for dealing with android, but it turns out that
 there's a few critical ones for getting an emulator up and running, and having a
 better conceptual understanding of the magic behind android studio.
 
-![Our
-tools](https://static.404wolf.com/https://static.404wolf.com/Post-20240807233545196.webp)
+![Our tools](https://static.404wolf.com/Post-20240807233545196.webp)
 
 First things first. You need to set `ANDROID_SDK_ROOT` to the directory with the
 various binary cli tools we were just talking about (so like, if they're in your
@@ -469,8 +467,7 @@ It seemed pretty neat and promising here, since it would solve the issue of
 having images change over time in ways that break my setup because of differing
 dependencies.
 
-![Nixified android
-builds](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144625586.webp)
+![Nixified android builds](https://static.404wolf.com/Post-20240807144625586.webp)
 
 I spent a long time trying to get an emulator working using the images it
 provided, and in the process I learned a ton about android cli tooling.
@@ -546,10 +543,10 @@ all the little phone widgets that say "Expo" on them are powered by
 embed them in webpages with decently low latency. They also expose an API, so
 that you can do CI/CD testing with proper phones.
 
-![React native docs](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144243428.webp)
-![It's expensive](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144458831.webp)
-![Appetize.io](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144317000.webp)
-![It "just works"](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144431237.webp)
+![React native docs](https://static.404wolf.com/Post-20240807144243428.webp)
+![It's expensive](https://static.404wolf.com/Post-20240807144458831.webp)
+![Appetize.io](https://static.404wolf.com/Post-20240807144317000.webp)
+![It "just works"](https://static.404wolf.com/Post-20240807144431237.webp)
 
 But appetize comes at a cost. It's very expensive, and very restrictive. It
 isn't open source, and definitely isn't nixified.
@@ -667,8 +664,8 @@ later, but for now I am using what I believe to be a better alternative,
 
 #### Scrcpy
 
-![Scrcpy](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144813092.webp)
-![Scrpy in action](https://static.404wolf.com/https://static.404wolf.com/Post-20240807144914137.webp)
+![Scrcpy](https://static.404wolf.com/Post-20240807144813092.webp)
+![Scrpy in action](https://static.404wolf.com/Post-20240807144914137.webp)
 
 Scrcpy ("screen copy") is a 3rd party utility that lets you stream an android
 device to a window at extremely low latency (30ms or less!). It "just works,"
@@ -701,8 +698,7 @@ they are also `unix`!). This `apk` exposes a server on the android phone on a
 `scrcpy` port on the phone, which then the `scrcpy` client can access and send
 data through.
 
-![Scrcpy server with
-audio](https://static.404wolf.com/https://static.404wolf.com/Post-20240808142749751.webp)
+![Scrcpy server with audio](https://static.404wolf.com/Post-20240808142749751.webp)
 
 This `scrcpy` server that runs on the phone is implemented in `java` (which most
 android apps are), and acts as just a server running in the background.
@@ -718,8 +714,7 @@ relevant here.
 
 #### Hijacking Scrcpy
 
-![Standalone scrcpy
-sever](https://static.404wolf.com/https://static.404wolf.com/Post-20240808142957377.webp)
+![Standalone scrcpy sever](https://static.404wolf.com/Post-20240808142957377.webp)
 
 Knowing that scrcpy is just using a server running on the phone was enticing
 though.
