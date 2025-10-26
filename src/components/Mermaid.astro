@@ -2,6 +2,7 @@
 import { execa } from "execa";
 import { createHash } from "node:crypto";
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 interface Props {
@@ -24,6 +25,17 @@ const cacheFile = join(cacheDir, `${hash}.svg`);
 
 let svgContent: string;
 
+const cfg = {
+	args: [
+		"--no-sandbox",
+		"--disable-setuid-sandbox",
+		"--disable-dev-shm-usage",
+		"--disable-gpu",
+	],
+};
+const configPath = join(tmpdir(), "puppeteer.config.json");
+await writeFile(configPath, JSON.stringify(cfg));
+
 try {
 	await access(cacheFile);
 	// Use cached version
@@ -39,9 +51,8 @@ try {
 			"-",
 			"-b",
 			"transparent",
-			"--chromePath",
-			"chromium",
-			"--noSandbox",
+			"--puppeteer-config",
+			configPath,
 		],
 		{
 			input: code,
