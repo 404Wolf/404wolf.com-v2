@@ -43,7 +43,9 @@
             nil
             nixd
             nixfmt-rfc-style
-            mermaid-cli
+            (pkgs.writeShellScriptBin "mmdc" ''
+              exec ${pkgs.mermaid-cli}/bin/mmdc -p puppeteer-config.json "$@"
+            '')
             chromium
           ];
         };

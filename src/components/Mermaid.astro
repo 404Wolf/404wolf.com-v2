@@ -11,7 +11,6 @@ interface Props {
 
 const { code } = Astro.props;
 
-// Create cache directory
 const cacheDir = join(process.cwd(), "node_modules", ".astro", "mermaid");
 try {
 	await access(cacheDir);
@@ -19,42 +18,18 @@ try {
 	await mkdir(cacheDir, { recursive: true });
 }
 
-// Generate hash of the code for cache key
 const hash = createHash("md5").update(code).digest("hex");
 const cacheFile = join(cacheDir, `${hash}.svg`);
 
 let svgContent: string;
 
-const cfg = {
-	args: [
-		"--no-sandbox",
-		"--disable-setuid-sandbox",
-		"--disable-dev-shm-usage",
-		"--disable-gpu",
-	],
-};
-const configPath = join(tmpdir(), "puppeteer.config.json");
-await writeFile(configPath, JSON.stringify(cfg));
-
 try {
 	await access(cacheFile);
-	// Use cached version
 	svgContent = await readFile(cacheFile, "utf-8");
 } catch {
-	// Generate new SVG and cache it
 	const { stdout } = await execa(
 		"pnpx",
-		[
-            "mmdc",
-			"-i",
-			"-",
-			"-o",
-			"-",
-			"-b",
-			"transparent",
-			"--puppeteer-config",
-			configPath,
-		],
+		["mmdc", "-i", "-", "-o", "-", "-b", "transparent"],
 		{
 			input: code,
 		},
