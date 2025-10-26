@@ -7,12 +7,20 @@ import { Tile } from "../components/Tile.tsx";
 import BasicPostCard from "../components/BasicPostCard.astro";
 import simpleGit from "simple-git";
 import { GITHUB_URL, SITE_URL } from "../consts";
+import { env } from "../../env";
 
-const lastCommit = await simpleGit().log({ maxCount: 1 });
-const lastCommitDate = lastCommit.latest?.date
-	? new Date(lastCommit.latest.date)
-	: null;
-const lastCommitHash = lastCommit.latest?.hash;
+const SHOW_UPDATED = env.SHOW_UPDATED;
+
+let lastCommitDate: Date | null = null;
+let lastCommitHash: string | undefined;
+
+if (SHOW_UPDATED !== "false") {
+	const lastCommit = await simpleGit().log({ maxCount: 1 });
+	lastCommitDate = lastCommit.latest?.date
+		? new Date(lastCommit.latest.date)
+		: null;
+	lastCommitHash = lastCommit.latest?.hash;
+}
 
 const allPosts = await getCollection("posts");
 const featuredPosts = allPosts
@@ -92,7 +100,7 @@ const featuredPosts = allPosts
   </div>
 
   {
-    lastCommitDate && (
+    SHOW_UPDATED !== "false" && lastCommitDate && (
       <a
         class="hidden sm:block absolute bottom-0 -left-10 rotate-[20deg] bg-linear-to-br from-slate-300/30 to-blue-300/30 hover:bg-blue-900/20 hover:drop-shadow-black px-2 py-[2px] rounded-xl"
         href={`${GITHUB_URL}/commit/${lastCommitHash}`}

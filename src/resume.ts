@@ -4,6 +4,7 @@ import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { Octokit } from "@octokit/rest";
 import type { Plugin } from "rollup";
+import { env } from "../env.ts";
 
 interface FetchLatestResumeOptions {
 	owner: string;
@@ -21,6 +22,11 @@ export function fetchLatestResume({
 	return {
 		name: "fetch-latest-resume",
 		async closeBundle() {
+			if (env.FETCH_RESUME === "false") {
+				console.log("Skipping resume fetch due to FETCH_RESUME=false");
+				return;
+			}
+
 			const octokit = new Octokit();
 			const { data: release } = await octokit.repos.getLatestRelease({
 				owner,

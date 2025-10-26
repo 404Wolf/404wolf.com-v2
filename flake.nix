@@ -30,11 +30,12 @@
         };
       in
       {
-        packages.default = pkgs.callPackage ./build.nix { inherit (self.inputs) myResume; };
+        packages.default = pkgs.callPackage ./nix/build.nix { inherit (self.inputs) myResume; };
         devShells.default = pkgs.mkShell {
           CLOUDFLARE_ACCOUNT_ID = "02e54289e54c9bca7d99203f8df8c230";
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true";
-          PUPPETEER_EXECUTABLE_PATH = "${pkgs.ungoogled-chromium}/bin/chromium";
+          PUPPETEER_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
+          PUPPETEER_ARGS = "--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --disable-gpu";
           packages = with pkgs; [
             nodejs_22
             pnpm

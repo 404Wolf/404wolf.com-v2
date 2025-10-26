@@ -40,11 +40,11 @@ export default defineConfig({
 			}),
 		],
 		optimizeDeps: {
-			exclude: ['@deno/kv', '@deno/kv-linux-x64-gnu'],
+			exclude: ["@deno/kv", "@deno/kv-linux-x64-gnu"],
 		},
 		ssr: {
 			noExternal: [],
-			external: ['@deno/kv', '@deno/kv-linux-x64-gnu'],
+			external: ["@deno/kv", "@deno/kv-linux-x64-gnu"],
 		},
 	},
 	redirects: {

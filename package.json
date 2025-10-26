@@ -29,6 +29,7 @@
 		"@types/react-dom": "^19.2.0",
 		"astro": "^5.14.1",
 		"class-variance-authority": "^0.7.1",
+		"envsafe": "^2.0.3",
 		"execa": "^9.6.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
