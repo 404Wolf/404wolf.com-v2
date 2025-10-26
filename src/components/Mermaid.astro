@@ -32,7 +32,17 @@ try {
 	// Generate new SVG and cache it
 	const { stdout } = await execa(
 		"mmdc",
-		["-i", "-", "-o", "-", "-b", "transparent"],
+		[
+			"-i",
+			"-",
+			"-o",
+			"-",
+			"-b",
+			"transparent",
+			"--chromePath",
+			"chromium",
+			"--noSandbox",
+		],
 		{
 			input: code,
 		},
