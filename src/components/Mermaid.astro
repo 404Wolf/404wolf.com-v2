@@ -28,8 +28,8 @@ try {
 	svgContent = await readFile(cacheFile, "utf-8");
 } catch {
 	const { stdout } = await execa(
-		"pnpx",
-		["mmdc", "-i", "-", "-o", "-", "-b", "transparent"],
+		"mmdc",
+		["-i", "-", "-o", "-", "-b", "transparent"],
 		{
 			input: code,
 		},
