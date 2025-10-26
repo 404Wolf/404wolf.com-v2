@@ -3,6 +3,7 @@
   nodejs,
   pnpm,
   mermaid-cli,
+  ungoogled-chromium,
   system,
   myResume,
 }:
@@ -24,6 +25,7 @@ stdenv.mkDerivation rec {
 
   SHOW_UPDATED = "false";
   FETCH_RESUME = "false";
+  PUPPETEER_EXECUTABLE_PATH = "${ungoogled-chromium}/bin/chromium";
 
   buildPhase = ''
     mkdir $out
