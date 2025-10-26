@@ -43,8 +43,9 @@ try {
 } catch {
 	// Generate new SVG and cache it
 	const { stdout } = await execa(
-		"mmdc",
+		"pnpx",
 		[
+            "mmdc",
 			"-i",
 			"-",
 			"-o",
