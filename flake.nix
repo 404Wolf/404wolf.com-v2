@@ -33,6 +33,8 @@
         packages.default = pkgs.callPackage ./build.nix { inherit (self.inputs) myResume; };
         devShells.default = pkgs.mkShell {
           CLOUDFLARE_ACCOUNT_ID = "02e54289e54c9bca7d99203f8df8c230";
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true";
+          PUPPETEER_EXECUTABLE_PATH = "${pkgs.ungoogled-chromium}/bin/chromium";
           packages = with pkgs; [
             nodejs_22
             pnpm
@@ -40,8 +42,9 @@
             typescript
             nil
             nixd
-            nixfmt
+            nixfmt-rfc-style
             mermaid-cli
+            chromium
           ];
         };
         formatter = tree-fmt-cfg.config.build.wrapper;
