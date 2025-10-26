@@ -42,22 +42,14 @@
 	@apply font-semibold;
 }
 
-.markdown pre,
-.inline-markdown-codeblock {
-	font-family: "Roboto Mono", monospace !important;
-	@apply bg-slate-200 rounded-md text-xs;
-}
-
 .markdown pre {
-	@apply p-4 px-8 my-4 overflow-scroll;
+	@apply p-4 px-8 my-4 overflow-scroll text-sm;
 	max-height: 800px;
 	line-height: 130%;
 }
 
-.inline-markdown-codeblock,
-.markdown kbd,
-.markdown samp {
-	@apply px-0.5 py-0;
+.markdown code:not(pre code) {
+	@apply bg-slate-200 font-mono rounded px-1 text-sm;
 }
 
 .markdown blockquote {
@@ -66,7 +58,16 @@
 
 .markdown img {
 	@apply rounded-xl ring-3 ring-inset ring-slate-700 mx-auto my-2 min-h-[200px] min-w-[50%] inline-flex items-center justify-center text-center;
-	background: linear-gradient(135deg, #f3f4f6 25%, #e5e7eb 25%, #e5e7eb 50%, #f3f4f6 50%, #f3f4f6 75%, #e5e7eb 75%, #e5e7eb);
+	background: linear-gradient(
+		135deg,
+		#f3f4f6 25%,
+		#e5e7eb 25%,
+		#e5e7eb 50%,
+		#f3f4f6 50%,
+		#f3f4f6 75%,
+		#e5e7eb 75%,
+		#e5e7eb
+	);
 	background-size: 20px 20px;
 }
 

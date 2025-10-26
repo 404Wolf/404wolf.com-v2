@@ -10,9 +10,11 @@ export async function GET(context: APIContext) {
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
 		site: context.site!,
-		items: posts.map((post) => ({
-			...post.data,
-			link: `/posts/${post.id}/`,
-		})),
+		items: posts
+			.filter((post) => !post.data.tags.includes("draft"))
+			.map((post) => ({
+				...post.data,
+				link: `/posts/${post.id}/`,
+			})),
 	});
 }

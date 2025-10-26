@@ -1,0 +1,55 @@
+---
+import { Cache } from "@jcayzac/astro-build-cache";
+import { execa } from "execa";
+
+interface Props {
+	code: string;
+}
+
+const { code } = Astro.props;
+
+const cache = new Cache("mermaid");
+
+const svgContent = await cache.cached<string>(
+	{ code },
+	async () => {
+		const { stdout } = await execa("mmdc", [
+			"-i", "-",
+			"-o", "-",
+			"-b", "transparent"
+		], {
+			input: code,
+		});
+		return stdout;
+	}
+);
+---
+
+<div class="mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto">
+    <div 
+        class="mermaid-svg-container"
+        set:html={svgContent} 
+    />
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const containers = document.querySelectorAll('.mermaid-svg-container');
+    
+    containers.forEach(container => {
+        const svg = container.querySelector('svg');
+        if (svg) {
+            // Add attributes to make SVG saveable via right-click
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            svg.setAttribute('title', 'Mermaid Diagram');
+        }
+    });
+});
+</script>
+
+<style>
+.mermaid-svg-container svg {
+    max-width: 100%;
+    height: auto;
+}
+</style>

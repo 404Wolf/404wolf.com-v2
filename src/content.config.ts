@@ -10,6 +10,7 @@ export const VALID_TAG_TYPES = [
 	"featured",
 	"hidden",
 	"ongoing",
+	"draft",
 ] as const;
 
 export const postsFrontmatterSchema = z.object({

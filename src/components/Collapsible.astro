@@ -1,0 +1,17 @@
+---
+export interface Props {
+	title: string;
+	open?: boolean;
+}
+
+const { title, open = false } = Astro.props;
+---
+
+<details class="border border-gray-300 rounded mb-2" open={open}>
+  <summary class="p-3 cursor-pointer bg-gray-100 rounded-t hover:bg-gray-200 font-medium">
+    {title}
+  </summary>
+  <div class="p-3">
+    <slot />
+  </div>
+</details>

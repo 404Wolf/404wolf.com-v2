@@ -41,6 +41,7 @@
             nil
             nixd
             nixfmt
+            mermaid-cli
           ];
         };
         formatter = tree-fmt-cfg.config.build.wrapper;
