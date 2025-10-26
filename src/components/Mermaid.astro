@@ -1,6 +1,8 @@
 ---
-import { Cache } from "@jcayzac/astro-build-cache";
 import { execa } from "execa";
+import { createHash } from "node:crypto";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 
 interface Props {
 	code: string;
@@ -8,21 +10,36 @@ interface Props {
 
 const { code } = Astro.props;
 
-const cache = new Cache("mermaid");
+// Create cache directory
+const cacheDir = join(process.cwd(), "node_modules", ".astro", "mermaid");
+try {
+	await access(cacheDir);
+} catch {
+	await mkdir(cacheDir, { recursive: true });
+}
 
-const svgContent = await cache.cached<string>(
-	{ code },
-	async () => {
-		const { stdout } = await execa("mmdc", [
-			"-i", "-",
-			"-o", "-",
-			"-b", "transparent"
-		], {
+// Generate hash of the code for cache key
+const hash = createHash("md5").update(code).digest("hex");
+const cacheFile = join(cacheDir, `${hash}.svg`);
+
+let svgContent: string;
+
+try {
+	await access(cacheFile);
+	// Use cached version
+	svgContent = await readFile(cacheFile, "utf-8");
+} catch {
+	// Generate new SVG and cache it
+	const { stdout } = await execa(
+		"mmdc",
+		["-i", "-", "-o", "-", "-b", "transparent"],
+		{
 			input: code,
-		});
-		return stdout;
-	}
-);
+		},
+	);
+	svgContent = stdout;
+	await writeFile(cacheFile, svgContent, "utf-8");
+}
 ---
 
 <div class="mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto">
