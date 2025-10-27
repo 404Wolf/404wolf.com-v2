@@ -124,13 +124,13 @@ It looks like this (ok, a little complicated :/):
       StoreInCache --> ProxyToWorker : Use fresh boot-package
 
       ProxyToWorker --> [*] : Response sent
-      
+
       EditRequest --> BustCache : Someone's edit-a-Val request
       RedisMessage --> BustCache : Cache invalidation from Redis
       BustCache --> AdvertiseInvalidation : Publish to Redis if edit request
       AdvertiseInvalidation --> [*] : Cache busted & advertised
-`}
-/>
+
+`} />
 
 ## Node, as a Banana!
 
@@ -151,7 +151,7 @@ cannot proxy the requests fast enough, because every request is going through a
 single "funnel".
 
 Making this worse is that our nodejs fastify servers are responsible for
-*everyone's* Vals' executions, so it is possible that if one person's Val
+_everyone's_ Vals' executions, so it is possible that if one person's Val
 experiences a huge amount of traffic all of a sudden, that other peoples' Vals
 that consistently hash to that server will also experience a slow down.
 
@@ -211,7 +211,7 @@ request. That banana process is also responsible for the worker's lifecycle.
 </div>
 ---
 
-But *concurrency is hard*.
+But _concurrency is hard_.
 
 We wanted to be able to accept many requests at once, but preserve a resilient
 source of truth for our users' processes. My idea was simple: cross-thread (err,
@@ -225,34 +225,23 @@ import cluster from 'node:cluster';
 import { cpus } from 'node:os';
 import { createServer } from 'node:http';
 
-if (cluster.isPrimary) {
-  // Fork one worker per CPU
-  const numCPUs = cpus().length;
-  for (let i = 0; i < numCPUs; i++) cluster.fork();
+if (cluster.isPrimary) { // Fork one worker per CPU const numCPUs =
+cpus().length; for (let i = 0; i < numCPUs; i++) cluster.fork();
 
-  // Example: send message to all workers
-  for (const id in cluster.workers) {
-    cluster.workers[id]?.send({ cmd: 'hello', from: 'primary' });
-  }
+// Example: send message to all workers for (const id in cluster.workers) {
+cluster.workers[id]?.send({ cmd: 'hello', from: 'primary' }); }
 
-  // Listen for messages from workers
-  cluster.on('message', (worker, msg) => {
-    console.log(`Primary received from worker ${worker.id}:`, msg);
-  });
-} else {
-  // Each worker runs its own HTTP server
-  const server = createServer((req, res) => {
-    process.send?.({ cmd: 'request', pid: process.pid });
-    res.end(`Handled by worker ${process.pid}\n`);
-  });
+// Listen for messages from workers cluster.on('message', (worker, msg) => {
+console.log(`Primary received from worker ${worker.id}:`, msg); }); } else { //
+Each worker runs its own HTTP server const server = createServer((req, res) => {
+process.send?.({ cmd: 'request', pid: process.pid });
+res.end(`Handled by worker ${process.pid}\n`); });
 
-  // Listen for messages from primary
-  process.on('message', (msg) => {
-    console.log(`Worker ${process.pid} got message:`, msg);
-  });
+// Listen for messages from primary process.on('message', (msg) => {
+console.log(`Worker ${process.pid} got message:`, msg); });
 
-  server.listen(3000);
-}
+server.listen(3000); }
+
 ```
 </Collapsible>
 
@@ -308,46 +297,69 @@ In the diagram there's two example requests:
   nodejs process to do the spawning for us, and we wait for it to finish.
 
 <Mermaid
-code = {`
-  graph TD
-      A1["Regular Request (there's a warm Deno worker)"]
-      A2["Cold Start Request (need to spawn a new Deno worker)"]
-      A3["Another Regular Request (warm worker)"]
-      B1[NodeJS Primary]
-      B2[NodeJS Worker]
-      B3[NodeJS Worker]
-      
-      subgraph "File System Pool"
-          F1[worker#1.sock]
-          F2[worker#2.sock]
-          F3[worker#3.sock]
-      end
-      
-      subgraph "Worker Processes"
-          C1[Deno Worker #1]
-          C2[Deno Worker #2]
-          C3[Deno Worker #3]
-      end
-      
-      DB[(Database)]
+  code={`
+    graph TD
+    %% Requests
+    R1["Initial Cold Request --> a.com (arrives first)"]
+    R2["Already Warming Request --> a.com (arrives during spawn)"]
 
-      A1 --> B1
-      A3 --> B3
+    %% NodeJS processes
+    N0["NodeJS Primary (boot info + cache)"]
+    N1["NodeJS Child #1"]
+    N2["NodeJS Child #2"]
+    N3["NodeJS Child #3"]
 
-      B2 -.->|Wait with file watcher for unix socket file that the primary will create| B2
-      B2 -.->|A cache file exists for the hostname, so we can just spawn ourselves| F3
-      B1 -.->|If this is a cold start, query boot information| DB
+    %% Database
+    DB[(Database)]
 
-      B1 -.-> F1
-      B3 -.-> F2
+    %% File system
+    subgraph FS["File System (Unix Sockets)"]
+        F1["a.com.sock"]
+        F2["b.com.sock"]
+        F3["c.com.sock"]
+    end
 
-      B2 -.->|Waiting for unix socket file for process to appear| F3
+    %% Workers
+    subgraph Workers["Deno Worker Processes"]
+        W1["Deno Worker for a.com"]
+        W2["Deno Worker for b.com"]
+        W3["Deno Worker for c.com"]
+    end
 
-      F1 --> C1
-      F2 --> C2
-      F3 --> C3
+    %% Cold start flow
+    R1 --> N1
+    N1 -->|"Ask boot info if not in /cache/a.com.json (for example)"| N0
+    N0 -->|Query boot info| DB
+    DB -->|"Return boot info and put in /cache/a.com.json (for example)"| N0
+    N0 -->|Responds| N1
+    N1 -->|Spawn worker & create socket| F1
+    F1 --> W1
 
-`} />
+    %% Warm request arriving during spawn
+    R2 --> N2
+    N2 -.->|Wait for a.com.sock to appear| F1
+
+    %% Warm request that's already running
+    R3["Warm Request --> b.com (happy path)"] --> N3
+    N3 -->|Proxy to b.com.sock| F2
+    F2 --> W2
+
+    %% Styling
+    classDef primary fill:#e1f5fe,stroke:#0288d1
+    classDef child fill:#f3e5f5,stroke:#7b1fa2
+    classDef file fill:#e8f5e8,stroke:#388e3c
+    classDef worker fill:#fff3e0,stroke:#f57c00
+    classDef request fill:#e0f7fa,stroke:#006064
+    classDef db fill:#ede7f6,stroke:#5e35b1
+
+    class N0 primary
+    class N1,N2,N3 child
+    class F1,F2,F3 file
+    class W1,W2,W3 worker
+    class R1,R2,R3 request
+    class DB db
+  `}
+/>
 
 ## Going in Parallel
 
