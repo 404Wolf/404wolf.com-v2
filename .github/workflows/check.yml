@@ -2,13 +2,6 @@ name: Check
 on:
   pull_request:
     branches: [main]
-  workflow_dispatch:
-    inputs:
-      debug_enabled:
-        description: 'Enable tmate debugging'
-        required: false
-        default: false
-        type: boolean
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -21,7 +14,5 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: Build with Nix
         run: nix build
