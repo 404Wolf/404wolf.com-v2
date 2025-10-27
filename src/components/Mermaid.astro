@@ -29,7 +29,7 @@ try {
 } catch {
 	const { stdout } = await execa(
 		"mmdc",
-		["-i", "-", "-o", "-", "-b", "transparent"],
+		["-i", "-", "-o", "-", "-b", "transparent", "-c", "mermaid-config.json"],
 		{
 			input: code,
 		},

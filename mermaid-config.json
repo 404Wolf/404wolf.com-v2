@@ -1,0 +1,8 @@
+{
+  "theme": "default",
+  "flowchart": { "htmlLabels": false },
+  "state": { "htmlLabels": false },
+  "class": { "htmlLabels": false },
+  "graph": { "htmlLabels": false },
+  "sequence": { "htmlLabels": false }
+}
