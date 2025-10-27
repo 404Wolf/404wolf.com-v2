@@ -1,3 +1,5 @@
+import about from '../about.json'
+
 <img
   src="https://static.404wolf.com/profileMe.jpg"
   alt="Profile image of me"
@@ -7,16 +9,16 @@
 Hello! I'm Wolf. I'm a senior CS student at [Case Western](https://case.edu) and
 [Bard HS Early College](https://bhsec.bard.edu/queens/) grad. I'm also a two
 time alum of [Recurse Center](https://www.recurse.com/) an open ended NYC based
-programming retreat. Most recently I interned (and work part time) at [Val
-Town](https://val.town), a "delightful serverless functions" platform. We make
-it easy to instantly ship a JavaScript function to the internet! 
+programming retreat. Most recently I interned (and work part time) at
+[Val Town](https://val.town), a "delightful serverless functions" platform. We
+make it easy to instantly ship a JavaScript function to the internet!
 
 At Val Town, I've been focused on reworking our web editor to stream the full
 Deno language server, and am working on a rust/Pingora k8s load balancer;
-previously I wrote [our CLI](https://github.com/val-town/vt). At Recurse, I
-worked on an android-in-the-browser project streaming Nix-Docker Android
-containers over WebRTC, and on building this website. At Case, I recently
-completed the
+previously I wrote [our CLI](https://github.com/val-town/vt). At
+[Recurse](https://www.recurse.com/), I worked on an android-in-the-browser
+project streaming Nix-Docker Android containers over WebRTC, and on building
+this website. At Case, I recently completed the
 [Veale Snyder fellowship](https://case.edu/entrepreneurship/fellowships/veale-snyder-fellows-program),
 I'm a member of the SEC allocations committee (which disburses funds to clubs),
 am vice president of Linux club, and president of board game club.
@@ -24,9 +26,9 @@ am vice president of Linux club, and president of board game club.
 I'm interested in creating complex, technically interesting developer tools. I
 love tinkering with frameworks and configuration, and am always learning new
 tools. I enjoy webdev because of how many different frameworks I get to learn
-and how widespread, powerful, and extensive the web is. And, I love consistency
-and reproducability; I'm particularly interested in nix/nixos, containerizing,
-packaging, and dev ops.
+and how widespread, powerful, and extensive the web is, but I also love systems
+and infra in general. And, I love consistency and reproducability; I'm
+particularly interested in nix/nixos, containerizing, networks, and DevOps.
 
 In general, I'm very meticulous and curious. I've had a variety of eclectic
 hobbies like fermenting yogurt and closet hydroponics, I love everything
@@ -41,77 +43,66 @@ as precision (I love monads!), and, I enjoy programming things that yes, are
 genuinely useful, but that are technically interesting and approach things in
 unique ways.
 
-I began my coding journey in high school; one of my first personal coding
-projects was a D&D character sheet viewing tool, and I quickly after starting
-writing many scripts, from managing my computer's windows to many other
-automation tools. Over 10th grade summer, I began my first larger-scale personal
-project: Minecraft username sniping. It was a very simple concept that was, in
-practice, extremely complicated and fun to implement. I coded systems to
-automatically attempt to grab desirable usernames (like real-world usernames) at
-the exact millisecond they were to free up (after users changed their username),
-and then held auctions to resell the accounts with the valuable names that my
-bots automatically claimed. It was exhilarating to work on such a fast-paced and
-quickly growing project: I sharpened my understanding of OOP and Python
-designging an automated deployment system to queue username "snipes" with
-automated SFTP, integrating with APIs, and some fun, complemented async Python.
-By the end of summer, Mojang began made breaking changes to their API and I sold
-our inventory of accounts, but by the end it was clear that software was
-definitely the right path for me.
+I began my coding journey in high school with a D&D character sheet tool and
+various automation scripts. My first major project started in my junior year: a
+Minecraft username sniping service that automatically claimed valuable usernames
+at the exact millisecond they became available, to resell through auctions. I
+got to learn OOP concepts with Python, async programming, and a bit about system
+deployments. My unique strategy was to automate spawning 80+ servers 2 minutes
+prior to names being released, and automatically setting them up and syncing
+them to have a perfect spread of offsets within 2 miliseconds of the drop time,
+so that I could minimize server costs. Though Mojang eventually changed their
+API, the experience confirmed that software development was the right path for
+me.
 
 In 12th grade I set up a custom data-structures tutorial-course with another
 student and our CS professor, where I got to learn the basics of some CS
 concepts that I missed during my more informal project-based experiences. In the
 'course,' since I and a peer were the first to undergo it, we worked to design a
-curriculum for us, but also for future students, since the plan is to eventually
-make it a regular class at my former school. Around the same time, I also began
-working on a DNA-Nanotech design tool, which took the form of a research project
-with my physics professor. It let me more meaningfully apply the skills I picked
-up informally, and was a great opportunity to learn more about the issues
-accompanying UI/UX design and maintainability. Integrating CS into a completely
-unfamiliar field was really fun and rewarding. Via the project I was able to
+curriculum for us, but also for future students. Around the same time, I began
+working on a DNA-Nanotech design tool with my physics professor.
+
+Integrating CS into a completely unfamiliar field was really fun and rewarding.
+I'd always been obsessed with learning tools. Via the project I was able to
 create a design tool of my own, which was something I'd always wanted to do, and
 towards the end of the year, I had a great experience attending the Nadrian
 Seeman Memorial at NYU, learning more about the field and its frontiers.
 
-However, since graduating, I've shifted my focus to explore additional new CS
-areas. When working on my Minecraft sniping service I was quite engrossed in the
-idea of backend API design and wanted to look further into webdev. To start, I
-decided to self-teach the fundamentals of HTML/CSS, to create a basic about-me
-page for myself. At around the same time, I decided that it'd be best to put the
-knowledge to use building more advanced personal website, since I've found that
-my favorite way to learn is through implementing into projects with actual
-utility, and it was through this initial dive into front-end, along with being
-surrounded by many other amazing techies at Recurse, where I (perhaps as usual)
-spiraled down a chain of rabbit-holes that led me to spend significant time
-learning javascript/typescript, react and nextjs, and various other fullstack
-tools like postgres and S3. I came to once again find a love working with the
-tooling of the field, just like tinkering with design software when I was
-younger.
+After high school, I dove deeper into web development during my first batch at
+Recurse Center. It was awesome to get to be around a community of technical
+tinkerers like myself, and I quickly spiraled down rabbit holes learning
+TypeScript, React, Next.js, and fullstack tools like Postgres and S3 while
+building my original personal website (which I
+[rewrote in Astro](https://github.com/404Wolf/404wolf.com-v2) a few years
+later). I rediscovered my love for tinkering with development tooling, similar
+to my earlier experiences with design software.
 
 Now, at Case, I've been diving further into the weeds of CS through more formal
 courses. It has been very interesting to see what happens 'under the hood,' and
-to understand some of the math behind computer systems. Last year I took a Linux
-Scripting and Tools class, which has been amazing, and has completely changed my
-computer interaction trajectory; it's turned me into a Linux geek. Learning
-about so many super cool hacky tools like vim, grep, and awk has been sublime. I
-also particularly enjoyed my computer networks course, and especially learning
-about TCP and lower level networking protocols.
+to understand some of the actual implementation details of computer systems.
+Last year I took a Linux Scripting and Tools class, which has been amazing, and
+has completely changed my computer interaction trajectory; it's turned me into a
+Linux geek. Learning about so many super cool hacky tools like vim, grep, and
+awk has been sublime. My favorite course at Case has been computer networks,
+where I was found myself totally obsessed with learning fun protocols.
 
-During my first year, I began been dabbling with hardware a bit, working on a
-robot that sorts coins by date. I was awarded a student project grant from our
-campus makerspace earlier this year, and have been focusing on CAD and actually
-building the robot. I'm planning on building out a Django backend to interface
-with the Raspberry Pi that actually drives the bot, and do the image analysis to
-read dates off coins. I also recently won my school's hackathon with two
-friends, with [a project](https://404wolf.com/posts/project/freeCwruFood) that
-uses a fine tuned OpenAI model to scan all events on campus and find those with
-free food.
+During my first year, I dabbled with hardware, working on a robot that sorts
+coins by date. I received a student project grant from our campus makerspace and
+focused on CAD and building the robot with a Django backend for the Raspberry
+Pi. I also won my school's hackathon with two friends, creating
+[a project](https://404wolf.com/posts/cwrufreefoodfinder/) that uses a
+fine-tuned OpenAI model to scan campus events for free food.
 
-Most recently I've been working on learning Nix, Nixos, and Bash/UNIX related
-things at a second [Recurse center](https://recurse.com) batch. I've been
-getting a lot more comfortable with linux, and the command line. My goal for the
-summer has been to take the magic out of the tooling I rely on, since I enjoy
-having a clear understanding of what things do. I've also been working on a
+I did another Recurse batch over freshman summer, since I had such an incredible
+experience during high school summer. I started by learning Nix, Nixos, and
+Bash/UNIX, and other fun more Linux-y technologies. I found Nix to be the
+coolest tool I've ever used, because of how it attempts to solve so many
+problems in such a fundamental, carefully thought out way. I think that many of
+the concepts of Nix are more important than ever now with AI. I also worked on a
 larger scoped project to get a fully featured android emulator to run with low
 latency in the browser,
-[which is still very much a work in progress](https://404wolf.com/posts/project/androidBrowser).
+[which is still very much a work in progress](https://404wolf.com/posts/androidinthebrowser/).
+
+And that brings me to now! I'm super excited to continue learning and building
+cool things. If you'd like to get in touch, feel free to <a
+href={`mailto:${about.email}`}>reach out!</a>

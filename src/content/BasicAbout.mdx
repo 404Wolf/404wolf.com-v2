@@ -1,3 +1,5 @@
+import about from '../about.json'
+
 <div className="flex justify-end mb-4">
   <div>
     Hi! I'm Wolf. I'm a [**CWRU**](https://www.case.edu/) student and
@@ -9,7 +11,7 @@
 
     Information, projects, contacts, my resume, and more can be found on this
     website. If you have any questions, feel free to
-    **[email](mailto:wolf@404wolf.com)**!
+    <a href={`mailto:${about.email}`}>**email**</a>!
 
   </div>
 
