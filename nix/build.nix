@@ -3,6 +3,7 @@
   nodejs,
   pnpm,
   mermaid-cli,
+  fontconfig,
   writeShellScriptBin,
   ungoogled-chromium,
   system,
@@ -31,6 +32,9 @@ stdenv.mkDerivation rec {
   PUPPETEER_EXECUTABLE_PATH = "${ungoogled-chromium}/bin/chromium";
 
   buildPhase = ''
+    export FONTCONFIG_PATH=${fontconfig.out}/etc/fonts
+    export FONTCONFIG_FILE=${fontconfig.out}/etc/fonts/fonts.conf
+
     mkdir $out
     pnpm build
 
