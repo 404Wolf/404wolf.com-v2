@@ -5,10 +5,7 @@ import BasicAbout from "../content/BasicAbout.mdx";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Tile } from "../components/Tile.tsx";
 import BasicPostCard from "../components/BasicPostCard.astro";
-import { GITHUB_URL, SITE_URL } from "../consts";
-import { env } from "../../env";
-
-const SHOW_UPDATED = env.SHOW_UPDATED;
+import { SITE_URL } from "../consts";
 
 const allPosts = await getCollection("posts");
 const featuredPosts = allPosts

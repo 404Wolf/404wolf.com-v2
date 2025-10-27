@@ -1,3 +1,8 @@
+/**
+ * This is only used in development now, to make sure there's an up-to-date
+ * resume in the `dist/` folder for testing.
+ */
+
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";

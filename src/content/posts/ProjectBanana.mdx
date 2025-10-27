@@ -87,27 +87,6 @@ One point of complexity here, is that there's a few servers for our API, and
 that means that if _we_ are a given server, and _we_ receive a request to edit a
 Val, we need to bust our cache, AND inform all other servers to bust theirs too.
 
-<div className="float-right w-[30%] ml-4">
-<Mermaid
-  code={`
-  stateDiagram-v2
-      [*] --> DecideToBustCache
-      [*] --> ReceiveCacheBust
-
-      DecideToBustCache --> InvalidateCache : Local
-      ReceiveCacheBust --> InvalidateCache : External
-
-      InvalidateCache --> NotifyOthers : Broadcast
-      NotifyOthers --> [*]
-
-`} />
-
-Either we get a request to edit a Val, which causes us to bust the cache and
-then advertise to other servers, or we receive a message from another server to
-bust the cache.
-
-</div>
-
 My idea here was to just use a
 [Postgres watch channel](https://www.postgresql.org/docs/current/sql-listen.html),
 so that we would not need to update our code everywhere to know that the cache
@@ -138,17 +117,17 @@ It looks like this (ok, a little complicated :/):
       CheckCache --> CacheHit : Found in cache
       CheckCache --> CacheMiss : Not in cache
       
-      CacheHit --> ProxyToServer : Use cached boot-package
+      CacheHit --> ProxyToWorker : Use cached boot-package
       
       CacheMiss --> QueryDatabase : Get boot-package info
       QueryDatabase --> StoreInCache : Cache under hostname
-      StoreInCache --> ProxyToServer : Use fresh boot-package
-      
-      ProxyToServer --> [*] : Response sent
+      StoreInCache --> ProxyToWorker : Use fresh boot-package
+
+      ProxyToWorker --> [*] : Response sent
       
       EditRequest --> BustCache : Someone's edit-a-Val request
       RedisMessage --> BustCache : Cache invalidation from Redis
-      BustCache --> AdvertiseInvalidation : Publish to Redis
+      BustCache --> AdvertiseInvalidation : Publish to Redis if edit request
       AdvertiseInvalidation --> [*] : Cache busted & advertised
 `}
 />
@@ -170,6 +149,11 @@ happy to run (possibly expensive) user code, it **does not** need to query the
 database, there's already a nice warm worker, but our nodejs server simply
 cannot proxy the requests fast enough, because every request is going through a
 single "funnel".
+
+Making this worse is that our nodejs fastify servers are responsible for
+*everyone's* Vals' executions, so it is possible that if one person's Val
+experiences a huge amount of traffic all of a sudden, that other peoples' Vals
+that consistently hash to that server will also experience a slow down.
 
 **Enter the banana**: splitting up work across threads with hostname specific
 PID files for workers. With `node:cluster`, or even other server side Javascript
@@ -216,6 +200,7 @@ request. That banana process is also responsible for the worker's lifecycle.
           A4[Request 4] --> Q2
           Q1 --> B1[NodeJS Process 1]
           Q2 --> B2[NodeJS Process 2]
+          B2 -.->|Child process of| B1
           B1 --> C1[Process Worker 1]
           B1 --> C3[Process Worker 3]
           B2 --> C2[Process Worker 2]
@@ -283,12 +268,18 @@ unix socket file too? I mean, we'll need to make a unix socket file eventually,
 since we will at the end of the day be proxying requests to deno workers over
 unix sockets.
 
-Let's say that if we are a worker, and we receive a request, and we look and see
-that there's a unix socket file in a folder that has the literal name being the
-hostname of the request we received, we are allowed to proxy. If we don't, then
-we can delegate to a primary process that's allowed to talk to the database,
-which can do the actual spawning, while we wait for it to finish and the needed
-unix socket file to come into existence.
+I actually had this initial crazy idea of storing the "boot information" in the
+*name* of the socket file itself (as a uri-encoded JSON), and we could rename
+the socket file to update the state, but it turns out [there's pretty strict
+limits to the length of unix
+filenames](https://unix.stackexchange.com/questions/367008/why-is-socket-path-length-limited-to-a-hundred-chars).
+
+Okay, so let's say that if we are a worker, and we receive a request, and we
+look and see that there's a unix socket file in a folder that has the literal
+name being the hostname of the request we received, we are allowed to proxy. If
+we don't, then we can delegate to a primary process that's allowed to talk to
+the database, which can do the actual spawning, while we wait for it to finish
+and the needed unix socket file to come into existence.
 
 It's a little bit complicated when you start to actually think about how the
 system works, but here's the general idea:
@@ -308,6 +299,13 @@ system works, but here's the general idea:
    necessary to spawn the deno process.
 
 We've simplified it a bit, but that's the general idea. Here's a diagram!
+
+In the diagram there's two example requests:
+- A regular request, where there's already a warm deno worker for the
+  hostname, so we can just proxy to it.
+- A cold start request, where there's no deno worker for the hostname, so
+  we need to spawn one. Since we're a child nodejs process, we ask the primary
+  nodejs process to do the spawning for us, and we wait for it to finish.
 
 <Mermaid
 code = {`
@@ -334,10 +332,8 @@ code = {`
       DB[(Database)]
 
       A1 --> B1
-      A2 --> B2
       A3 --> B3
 
-      B2 -.->|Ask the primary to boot the worker, which will cause a unix socket file to exist| B1
       B2 -.->|Wait with file watcher for unix socket file that the primary will create| B2
       B2 -.->|A cache file exists for the hostname, so we can just spawn ourselves| F3
       B1 -.->|If this is a cold start, query boot information| DB

@@ -6,9 +6,4 @@ export const env = envsafe({
 		choices: ["true", "false"],
 		allowEmpty: true,
 	}),
-	SHOW_UPDATED: str({
-		default: "true",
-		choices: ["true", "false"],
-		allowEmpty: true,
-	}),
 });
