@@ -462,17 +462,29 @@ import Fastify from 'fastify'
 
 const numCPUs = os.cpus().length
 
-if (cluster.isPrimary) { // Fork workers. for (let i = 0; i < numCPUs; i++) {
-cluster.fork() }
+if (cluster.isPrimary) {
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork()
+  }
 
-cluster.on('exit', (worker, code, signal) => {
-console.log(`Worker ${worker.process.pid} died`) }) } else { const fastify =
-Fastify()
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died`)
+  })
+} else {
+  const fastify = Fastify()
 
-fastify.get('/', async (request, reply) => { return { hello: 'world' } })
+  fastify.get('/', async (request, reply) => {
+    return { hello: 'world' }
+  })
 
-fastify.listen({ port: 8000 }, (err) => { if (err) { console.error(err)
-process.exit(1) } }) }
+  fastify.listen({ port: 8000 }, (err) => {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+  })
+}
 
 ```
 </Collapsible>
