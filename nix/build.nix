@@ -3,6 +3,7 @@
   nodejs,
   pnpm,
   mermaid-cli,
+  writeShellScriptBin,
   ungoogled-chromium,
   system,
   myResume,
@@ -13,7 +14,9 @@ stdenv.mkDerivation rec {
   src = ../.;
 
   buildInputs = [
-    mermaid-cli
+    (writeShellScriptBin "mmdc" ''
+      exec ${mermaid-cli}/bin/mmdc -p puppeteer-config.json "$@"
+    '')
     nodejs
     pnpm.configHook
   ];
