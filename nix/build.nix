@@ -40,6 +40,6 @@ stdenv.mkDerivation rec {
 
     mkdir -p $out/dist/public
     cp -r dist $out
-    cp ${myResume.packages.${system}.default} $out/dist/public/resume.pdf
+    cp ${myResume.packages.${system}.default} $out/dist/resume.pdf
   '';
 }
