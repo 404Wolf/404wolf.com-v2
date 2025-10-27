@@ -5,22 +5,10 @@ import BasicAbout from "../content/BasicAbout.mdx";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Tile } from "../components/Tile.tsx";
 import BasicPostCard from "../components/BasicPostCard.astro";
-import simpleGit from "simple-git";
 import { GITHUB_URL, SITE_URL } from "../consts";
 import { env } from "../../env";
 
 const SHOW_UPDATED = env.SHOW_UPDATED;
-
-let lastCommitDate: Date | null = null;
-let lastCommitHash: string | undefined;
-
-if (SHOW_UPDATED !== "false") {
-	const lastCommit = await simpleGit().log({ maxCount: 1 });
-	lastCommitDate = lastCommit.latest?.date
-		? new Date(lastCommit.latest.date)
-		: null;
-	lastCommitHash = lastCommit.latest?.hash;
-}
 
 const allPosts = await getCollection("posts");
 const featuredPosts = allPosts
@@ -99,39 +87,45 @@ const featuredPosts = allPosts
     </Tile>
   </div>
 
-  {
-    SHOW_UPDATED !== "false" && lastCommitDate && (
-      <a
-        class="hidden sm:block absolute bottom-0 -left-10 rotate-[20deg] bg-linear-to-br from-slate-300/30 to-blue-300/30 hover:bg-blue-900/20 hover:drop-shadow-black px-2 py-[2px] rounded-xl"
-        href={`${GITHUB_URL}/commit/${lastCommitHash}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <p class="text-sm text-gray-100">
-          Updated @ <span id="commit-date" data-date={lastCommitDate.toISOString()}>
-            {lastCommitDate.toLocaleDateString("en-US", {
-              month: "numeric",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </span>
-        </p>
-      </a>
-    )
-  }
+  <a
+    id="commit-link"
+    class="hidden sm:block absolute bottom-0 -left-10 rotate-[20deg] bg-linear-to-br from-slate-300/30 to-blue-300/30 hover:bg-blue-900/20 hover:drop-shadow-black px-2 py-[2px] rounded-xl opacity-50"
+    href="#"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="display: none;"
+  >
+    <p class="text-sm text-gray-100">
+      Updated @ <span id="commit-date">Loading...</span>
+    </p>
+  </a>
 </BaseLayout>
 
 <script>
-  const commitDateElement = document.getElementById('commit-date');
-  if (commitDateElement) {
-    const isoDate = commitDateElement.getAttribute('data-date');
-    if (isoDate) {
-      const date = new Date(isoDate);
-      commitDateElement.textContent = date.toLocaleDateString('en-US', {
-        month: 'numeric',
-        day: 'numeric',
-        year: 'numeric',
-      });
-    }
+import { GITHUB_URI } from "../consts.ts";
+    
+const response = await fetch(`https://api.github.com/repos/${GITHUB_URI}/commits?per_page=1`);
+if (!response.ok) throw new Error('Failed to fetch commits');
+
+const commits = await response.json();
+if (commits.length > 0) {
+  const latestCommit = commits[0];
+  const commitDate = new Date(latestCommit.commit.author.date);
+  const commitHash = latestCommit.sha;
+  
+  const commitLinkElement = document.getElementById('commit-link') as HTMLAnchorElement;
+  const commitDateElement = document.getElementById('commit-date') as HTMLSpanElement;
+
+  if (commitLinkElement && commitDateElement) {
+    commitLinkElement.href = `https://github.com/${GITHUB_URI}/commit/${commitHash}`;
+    commitLinkElement.style.display = 'block';
+    commitLinkElement.style.opacity = '1';
+    
+    commitDateElement.textContent = commitDate.toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
+    });
   }
+}
 </script>

@@ -1,6 +1,7 @@
 export const SITE_URL = "https://404wolf.com";
 export const SITE_TITLE = "404wolf.com";
 export const SITE_DESCRIPTION = "Wolf Mermelstein's website";
-export const GITHUB_URL = "https://github.com/404Wolf/404wolf.com-v2";
+export const GITHUB_URI = "404Wolf/404wolf.com-v2";
+export const GITHUB_URL = `https://github.com/${GITHUB_URI}`;
 export const RESUME_REPO = "https://github.com/404Wolf/resume-v2";
 export const RESUME_RELEASE_OUTPUT_PATH = "resume.pdf";
