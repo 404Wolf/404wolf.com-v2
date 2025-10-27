@@ -5,12 +5,38 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Enable tmate debugging'
+        required: false
+        default: false
+        type: boolean
 jobs:
-  build-and-release:
+  check:
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main' && github.event_name != 'workflow_dispatch'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Install Nix
+        uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Build with Nix
+        run: nix build
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+        with:
+          limit-access-to-actor: true
       - name: Install Nix
         uses: cachix/install-nix-action@v22
         with:
