@@ -1,5 +1,4 @@
 ---
-import Typewriter from "typewriter-effect";
 import Navbar from "./Navbar.astro";
 import { HeaderName } from "./HeaderName";
 import { Tile } from "./Tile";
@@ -8,6 +7,7 @@ import { cva } from "class-variance-authority";
 export interface Props {
 	includeBody?: boolean;
 	includeNavbar?: boolean;
+	customHeaderText?: string;
 }
 
 const styles = {
@@ -27,7 +27,11 @@ const styles = {
 	]),
 };
 
-const { includeNavbar = true, includeBody = true } = Astro.props;
+const {
+	includeNavbar = true,
+	includeBody = true,
+	customHeaderText,
+} = Astro.props;
 const onlyOne =
 	(!includeNavbar && !includeBody) || (includeNavbar && includeBody);
 ---
@@ -46,6 +50,7 @@ const onlyOne =
       ) : (
         <div>
           <HeaderName
+            customText={customHeaderText}
             className={styles.header({ class: "absolute -top-6 -left-3 sm:-top-5 sm:-left-5" })}
             client:load
           />

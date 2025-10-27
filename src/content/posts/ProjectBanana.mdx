@@ -1,6 +1,6 @@
 ---
 title: Project Banana
-type: 'project'
+type: 'blog'
 date: '2025-08-22'
 covers:
   - 'https://static.404wolf.com/images.jpg'
@@ -242,7 +242,7 @@ console.log(`Worker ${process.pid} got message:`, msg); });
 
 server.listen(3000); }
 
-```
+````
 </Collapsible>
 
 Also, another aside: we were exploring writing this part of our server stack in
@@ -399,7 +399,7 @@ export default {
     return new Response('Hello world!')
   },
 } satisfies Deno.ServeDefaultExport
-```
+````
 
 Nodejs has the same thing! But it's built into the language, not a CLI feature.
 
@@ -458,7 +458,7 @@ fastify.get('/', async (request, reply) => { return { hello: 'world' } })
 fastify.listen({ port: 8000 }, (err) => { if (err) { console.error(err)
 process.exit(1) } }) }
 
-```
+````
 </Collapsible>
 
 <Collapsible title="And, for good measure, Bun has its own super cool, Linux way to do this!">
@@ -487,41 +487,43 @@ serve({
 		return new Response('Hello from Bun #' + id + '!\n');
 	},
 });
-```
+````
 
 ```ts
 // cluster.ts (spawns instances of server.ts)
-import {spawn} from 'bun';
+import { spawn } from 'bun'
 
-const cpus = navigator.hardwareConcurrency; // Number of CPU cores
-const buns = new Array(cpus);
+const cpus = navigator.hardwareConcurrency // Number of CPU cores
+const buns = new Array(cpus)
 
 for (let i = 0; i < cpus; i++) {
-	buns[i] = spawn({
-		cmd: ['bun', './server.ts'],
-		stdout: 'inherit',
-		stderr: 'inherit',
-		stdin: 'inherit',
-	});
+  buns[i] = spawn({
+    cmd: ['bun', './server.ts'],
+    stdout: 'inherit',
+    stderr: 'inherit',
+    stdin: 'inherit',
+  })
 }
 
 function kill() {
-	for (const bun of buns) {
-		bun.kill();
-	}
+  for (const bun of buns) {
+    bun.kill()
+  }
 }
 
-process.on('SIGINT', kill);
-process.on('exit', kill);
+process.on('SIGINT', kill)
+process.on('exit', kill)
 ```
 
-And Bun also supports `node:cluster`! [(Deno does **not**)](https://docs.deno.com/api/node/cluster/).
+And Bun also supports `node:cluster`!
+[(Deno does **not**)](https://docs.deno.com/api/node/cluster/).
 
 </Collapsible>
 
-And, since we have control of the code that the primary runs versus the workers, we
-can have the primary process be the only one that hits the database, while the
-workers just proxy to it when they need to spawn a new Deno worker for a Val.
+And, since we have control of the code that the primary runs versus the workers,
+we can have the primary process be the only one that hits the database, while
+the workers just proxy to it when they need to spawn a new Deno worker for a
+Val.
 
 We just conditionally grab a database connection!
 
@@ -531,16 +533,10 @@ We just conditionally grab a database connection!
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int main() {
-    int num_processes = 4; // Number of child processes to create
-    for (int i = 0; i < num_processes; i++) {
-        pid_t pid = fork();
-        if (pid == 0) {
-            // Child process
-            printf("Child process %d with PID %d\n", i, getpid());
-            exit(0); // Exit child process
-        }
-    }
+int main() { int num_processes = 4; // Number of child processes to create for
+(int i = 0; i < num_processes; i++) { pid_t pid = fork(); if (pid == 0) { //
+Child process printf("Child process %d with PID %d\n", i, getpid()); exit(0); //
+Exit child process } }
 
     // Parent process waits for all child processes to finish
     for (int i = 0; i < num_processes; i++) {
@@ -549,8 +545,10 @@ int main() {
 
     printf("All child processes have finished.\n");
     return 0;
+
 }
-```
+
+````
 
 Just a little of an aside
 
@@ -643,7 +641,7 @@ watcher
       procs.delete(socketId)
     }
   })
-```
+````
 
 And the actual worker server (the processes we're spawning, which happen to also
 be javascript (Deno)) looks like this,
@@ -683,8 +681,8 @@ Noting that
 - We also want to clean up the unix socket file when we exit, so the processes
   observe that we are no longer reachable and stop proxying to us.
 
-If a deno process dies, then all the nodejs processes will see the socket file go
-away and clean up their own memory state.
+If a deno process dies, then all the nodejs processes will see the socket file
+go away and clean up their own memory state.
 
 ## Ironing it Out
 
@@ -700,8 +698,8 @@ we have multiple processes, it is totally possible.
 
 Okay, so back to my linux brain "just use the file system" mindset.
 
-Yes, we could use [Redis
-locks](https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/).
+Yes, we could use
+[Redis locks](https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/).
 
 <Collapsible title="Let's just use the file system... for locks!">
 ```ts
@@ -749,7 +747,7 @@ async function tryLockFile<T>({
 } finally { if (acquiredLock) { // Remove the lock directory await
 fs.rmdir(`${target}.lock`); } } }
 
-```
+````
 </Collapsible>
 
 We can literally just create a folder right before we spawn a new worker, and delete it
@@ -839,7 +837,7 @@ async function getConnPool(socketPath: string) {
   }
   return conn;
 }
-```
+````
 
 <Collapsible title="waitForWatcherEvent is just like it sounds">
 
@@ -855,21 +853,22 @@ function waitForWatcherEvent(
   event: keyof FSWatcherEventMap,
   path: string,
 ): Promise<void> {
-    return new Promise<void>((res) => {
-      const handler = (eventPath: string) => {
-        if (resolve(eventPath) === resolve(path)) {
-          watcher.off(event, handler);
-          res();
-        }
-      };
+  return new Promise<void>((res) => {
+    const handler = (eventPath: string) => {
+      if (resolve(eventPath) === resolve(path)) {
+        watcher.off(event, handler)
+        res()
+      }
+    }
 
-      watcher.on(event, handler);
-  });
+    watcher.on(event, handler)
+  })
 }
 ```
 
 Note that `chokidar` will batch events together and uses real `inotify`, so this
 is actually quite efficient.
+
 </Collapsible>
 
 Okay, so now we have a concurrent nodejs server that can handle many requests at
@@ -892,31 +891,32 @@ being unique hostnames), where the rest are hitting warm workers, and the actual
 spawning was uniformly distributed. The idea is that with less unique hostnames,
 most requests are going to warm workers, so we should see the biggest benefits
 from multiprocessing. Likewise, with more unique hostnames, more requests
-require spawning, which is probably even slower now that we have lock contention.
+require spawning, which is probably even slower now that we have lock
+contention.
 
 All the table entries are in requests per second.
 
 ### 300 Concurrent Connections w/o Keepalive
 
 | % New Workers | 10 Workers | 8 Workers | 1 Worker |
-|----------------|------------|-----------|-----------|
-| 2.00 | 2631 | 1848 | 1439 |
-| 7.00 | 1025 | 1096 | 704 |
-| 10.00 | 823 | 808 | 547 |
-| 15.00 | 453 | 502 | 372 |
-| 20.00 | 641 | 362 | 295 |
+| ------------- | ---------- | --------- | -------- |
+| 2.00          | 2631       | 1848      | 1439     |
+| 7.00          | 1025       | 1096      | 704      |
+| 10.00         | 823        | 808       | 547      |
+| 15.00         | 453        | 502       | 372      |
+| 20.00         | 641        | 362       | 295      |
 
 ---
 
 ### 100 Concurrent Connections w/ Keepalive
 
 | % New Workers | 10 Workers | 8 Workers | 1 Worker |
-|----------------|------------|-----------|-----------|
-| 2.00 | 3296 | 3555 | 1960 |
-| 7.00 | 2351 | 2473 | 2273 |
-| 10.00 | 840 | 404 | 976 |
-| 15.00 | 412 | 310 | 520 |
-| 20.00 | 311 | 203 | 329 |
+| ------------- | ---------- | --------- | -------- |
+| 2.00          | 3296       | 3555      | 1960     |
+| 7.00          | 2351       | 2473      | 2273     |
+| 10.00         | 840        | 404       | 976      |
+| 15.00         | 412        | 310       | 520      |
+| 20.00         | 311        | 203       | 329      |
 
 In general, things look great! When we test at high concurrency with high new
 worker spawn rate, for all keepalive connections we see that the process
@@ -943,39 +943,41 @@ TCP connections to Deno workers, now that each worker process is managing its
 own connections, we can distribute it.
 
 It's a bit weird to actually do with fastify. That's because node's built-in
-HTTP server does not natively support WebSockets, but it gives you the ability to respond to
-`upgrade` requests, (which makes sense, since this is just part of the HTTP spec).
+HTTP server does not natively support WebSockets, but it gives you the ability
+to respond to `upgrade` requests, (which makes sense, since this is just part of
+the HTTP spec).
 
 That "responding to upgrade requests" part is a bit tricky because it requires a
 WebSocket handshake, but thankfully there's a library that handles the framing
 and handshake for you, [`ws`](https://www.npmjs.com/package/ws).
 
-When doing it manually with the `upgrade` callback and nodejs http, it looks like this:
+When doing it manually with the `upgrade` callback and nodejs http, it looks
+like this:
 
 ```ts
-import http from 'http';
-import WebSocket, { WebSocketServer } from 'ws';
+import http from 'http'
+import WebSocket, { WebSocketServer } from 'ws'
 
-const server = http.createServer();
-const wss = new WebSocketServer({ noServer: true });
+const server = http.createServer()
+const wss = new WebSocketServer({ noServer: true })
 
 server.on('upgrade', (request, socket, head) => {
   // the magic function!
   //  |            |
   wss.handleUpgrade(request, socket, head, (ws) => {
-    ws.send('Hello World!');
+    ws.send('Hello World!')
 
     ws.on('message', (data) => {
-      console.log('Received:', data.toString());
-      ws.send(`Echo: ${data}`);
-    });
-  });
-});
+      console.log('Received:', data.toString())
+      ws.send(`Echo: ${data}`)
+    })
+  })
+})
 
 server.listen(8080, () => {
-  console.log('Server listening on port 8080');
-});
-````
+  console.log('Server listening on port 8080')
+})
+```
 
 Under the hood, fastify uses node http too. There's a plugin that handles this
 for us, which is
@@ -1125,7 +1127,7 @@ await fastify.register(async () => {
 fastify.listen({ port: 8000 }, () => {
   console.log(`Worker listening on port 8000, PID: ${process.pid}`)
 })
-```
+````
 
 ## Docker
 

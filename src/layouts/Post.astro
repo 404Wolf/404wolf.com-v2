@@ -17,7 +17,7 @@ const cover =
 const post = Astro.props;
 ---
 
-<BaseLayout headerProps={{ includeNavbar: false, includeBody: false }} title={post.title + " | 404wolf.com"}>
+<BaseLayout headerProps={{ includeNavbar: false, includeBody: false, customHeaderText: post.title }} title={post.title + " | 404wolf.com"}>
   <Fragment slot="head">
     <meta name="description" content={post.description || post.title} />
     
