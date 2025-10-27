@@ -229,24 +229,36 @@ import cluster from 'node:cluster';
 import { cpus } from 'node:os';
 import { createServer } from 'node:http';
 
-if (cluster.isPrimary) { // Fork one worker per CPU const numCPUs =
-cpus().length; for (let i = 0; i < numCPUs; i++) cluster.fork();
+if (cluster.isPrimary) {
+  // Fork one worker per CPU
+  const numCPUs = cpus().length;
+  for (let i = 0; i < numCPUs; i++) cluster.fork();
 
-// Example: send message to all workers for (const id in cluster.workers) {
-cluster.workers[id]?.send({ cmd: 'hello', from: 'primary' }); }
+  // Example: send message to all workers
+  for (const id in cluster.workers) {
+    cluster.workers[id]?.send({ cmd: 'hello', from: 'primary' });
+  }
 
-// Listen for messages from workers cluster.on('message', (worker, msg) => {
-console.log(`Primary received from worker ${worker.id}:`, msg); }); } else { //
-Each worker runs its own HTTP server const server = createServer((req, res) => {
-process.send?.({ cmd: 'request', pid: process.pid });
-res.end(`Handled by worker ${process.pid}\n`); });
+  // Listen for messages from workers
+  cluster.on('message', (worker, msg) => {
+    console.log(`Primary received from worker ${worker.id}:`, msg);
+  });
+} else {
+  // Each worker runs its own HTTP server
+  const server = createServer((req, res) => {
+    process.send?.({ cmd: 'request', pid: process.pid });
+    res.end(`Handled by worker ${process.pid}\n`);
+  });
 
-// Listen for messages from primary process.on('message', (msg) => {
-console.log(`Worker ${process.pid} got message:`, msg); });
+  // Listen for messages from primary
+  process.on('message', (msg) => {
+    console.log(`Worker ${process.pid} got message:`, msg);
+  });
 
-server.listen(3000); }
+  server.listen(3000);
+}
 
-````
+```
 </Collapsible>
 
 Also, another aside: we were exploring writing this part of our server stack in
@@ -403,7 +415,7 @@ export default {
     return new Response('Hello world!')
   },
 } satisfies Deno.ServeDefaultExport
-````
+```
 
 Nodejs has the same thing! But it's built into the language, not a CLI feature.
 
@@ -462,7 +474,7 @@ fastify.get('/', async (request, reply) => { return { hello: 'world' } })
 fastify.listen({ port: 8000 }, (err) => { if (err) { console.error(err)
 process.exit(1) } }) }
 
-````
+```
 </Collapsible>
 
 <Collapsible title="And, for good measure, Bun has its own super cool, Linux way to do this!">
@@ -491,7 +503,7 @@ serve({
 		return new Response('Hello from Bun #' + id + '!\n');
 	},
 });
-````
+```
 
 ```ts
 // cluster.ts (spawns instances of server.ts)
@@ -552,7 +564,7 @@ Exit child process } }
 
 }
 
-````
+```
 
 Just a little of an aside
 
@@ -645,7 +657,7 @@ watcher
       procs.delete(socketId)
     }
   })
-````
+```
 
 And the actual worker server (the processes we're spawning, which happen to also
 be javascript (Deno)) looks like this,
@@ -751,7 +763,7 @@ async function tryLockFile<T>({
 } finally { if (acquiredLock) { // Remove the lock directory await
 fs.rmdir(`${target}.lock`); } } }
 
-````
+```
 </Collapsible>
 
 We can literally just create a folder right before we spawn a new worker, and delete it
@@ -841,7 +853,7 @@ async function getConnPool(socketPath: string) {
   }
   return conn;
 }
-````
+```
 
 <Collapsible title="waitForWatcherEvent is just like it sounds">
 
@@ -1059,7 +1071,7 @@ websocketToUs.send(event.data) }) websocketToUs.addEventListener('message',
 (event) => { webSocketToUpstream.send(event.data as any) })
 websocketToUs.addEventListener('close', () => { webSocketToUpstream.close() })
 
-````
+```
 </Collapsible>
 
 And, all put together, WebSocket support looks like this:
@@ -1131,7 +1143,7 @@ await fastify.register(async () => {
 fastify.listen({ port: 8000 }, () => {
   console.log(`Worker listening on port 8000, PID: ${process.pid}`)
 })
-````
+```
 
 ## Docker
 
@@ -1158,36 +1170,47 @@ import { createHash } from "node:crypto";
 
 const CONTAINER_SOCKETS_DIR = "/var/run/sockets";
 
-interface LogMessage { src: string; msg: string; }
+interface LogMessage {
+  src: string;
+  msg: string;
+}
 
-interface DenoContainerArgs { containerTag: string; socketsDir: string; }
+interface DenoContainerArgs {
+  containerTag: string;
+  socketsDir: string;
+}
 
-interface ContainerEvents { /\*_ Exit code and module URL _/ exit: [number |
-null, string?]; log: [LogMessage]; }
+interface ContainerEvents {
+  /** Exit code and module URL */
+  exit: [number | null, string?];
+  log: [LogMessage];
+}
 
-/\*\*
-
-- A DenoContainer manages a single Docker container running a Deno supervisor
-  process.
--
-- The supervisor process listens for JSON payloads on stdin to spawn Deno
-  processes
-- that run user-provided modules.
--
-- .spawn() - starts the Docker container and supervisor process
-- .stop() - stops the current running module (if any) but keeps the container
-  alive
-- .run() - sends a JSON payload to the supervisor to run a specific module with
-  env \*/ export class DenoContainer extends EventEmitter<ContainerEvents> {
+/**
+ * A DenoContainer manages a single Docker container running a Deno supervisor process.
+ *
+ * The supervisor process listens for JSON payloads on stdin to spawn Deno processes
+ * that run user-provided modules.
+ *
+ * .spawn() - starts the Docker container and supervisor process
+ * .stop() - stops the current running module (if any) but keeps the container alive
+ * .run() - sends a JSON payload to the supervisor to run a specific module with env
+ */
+export class DenoContainer extends EventEmitter<ContainerEvents> {
   public id: string | null = null;
 
-#proc!: ReturnType<typeof spawn>; #currentModuleUrl: string | null = null;
+  #proc!: ReturnType<typeof spawn>;
+  #currentModuleUrl: string | null = null;
 
-#containerTag: string; #socketsDir: string; #stdout: Readable; #stderr:
-Readable;
+  #containerTag: string;
+  #socketsDir: string;
+  #stdout: Readable;
+  #stderr: Readable;
 
-constructor({ containerTag, socketsDir }: DenoContainerArgs) { super();
-this.#containerTag = containerTag; this.#socketsDir = resolve(socketsDir);
+  constructor({ containerTag, socketsDir }: DenoContainerArgs) {
+    super();
+    this.#containerTag = containerTag;
+    this.#socketsDir = resolve(socketsDir);
 
     this.#stdout = new Readable({
       read() {}, // No-op, data is pushed via events
@@ -1196,22 +1219,24 @@ this.#containerTag = containerTag; this.#socketsDir = resolve(socketsDir);
     this.#stderr = new Readable({
       read() {}, // No-op, data is pushed via events
     });
-
-}
-
-/\*\*
-
-- Readable stream of the container's running modules' stdout (from the
-  supervisor process). \*/ public get stdout(): Readable { return this.#stdout;
   }
 
-/\*\*
-
-- Readable stream of the container's running modules' stderr (from the
-  supervisor process). \*/ public get stderr(): Readable { return this.#stderr;
+  /**
+   * Readable stream of the container's running modules' stdout (from the supervisor process).
+   */
+  public get stdout(): Readable {
+    return this.#stdout;
   }
 
-public async spawn() { const DENO_DIR = process.env.DENO_DIR;
+  /**
+   * Readable stream of the container's running modules' stderr (from the supervisor process).
+   */
+  public get stderr(): Readable {
+    return this.#stderr;
+  }
+
+  public async spawn() {
+    const DENO_DIR = process.env.DENO_DIR;
 
     this.#proc = spawn(
       "docker",
@@ -1268,59 +1293,85 @@ public async spawn() { const DENO_DIR = process.env.DENO_DIR;
     await this.#waitForSupervisorLine(
       (parsed) => parsed.src === "main" && parsed.msg === "starting",
     );
+  }
 
-}
-
-public async stop() { if (this.#proc) { this.#proc.kill("SIGUSR1"); // Kill the
-child, but keep the docker container running }
+  public async stop() {
+    if (this.#proc) {
+      this.#proc.kill("SIGUSR1"); // Kill the child, but keep the docker container running
+    }
 
     await this.#waitForSupervisorLine(
       (parsed) => parsed.src === "main" && parsed.msg === "stopped",
     );
+  }
 
-}
-
-public async run({ moduleUrl, envVars = {}, cwd = "/app", }: { moduleUrl:
-string; envVars: Record<string, string>; cwd: string; socketName: string; }) {
-this.id = moduleUrl; this.#currentModuleUrl = moduleUrl; const input =
-`${       JSON.stringify({         moduleUrl,         envVars,         cwd,         socketPath: socketPathToUse(CONTAINER_SOCKETS_DIR, moduleUrl),       })     }\n`;
-this.#proc.stdin?.write(input);
+  public async run({
+    moduleUrl,
+    envVars = {},
+    cwd = "/app",
+  }: {
+    moduleUrl: string;
+    envVars: Record<string, string>;
+    cwd: string;
+    socketName: string;
+  }) {
+    this.id = moduleUrl;
+    this.#currentModuleUrl = moduleUrl;
+    const input = `${
+      JSON.stringify({
+        moduleUrl,
+        envVars,
+        cwd,
+        socketPath: socketPathToUse(CONTAINER_SOCKETS_DIR, moduleUrl),
+      })
+    }\n`;
+    this.#proc.stdin?.write(input);
 
     await this.#waitForSupervisorLine(
       (parsed) => parsed.src === "main" && parsed.msg === "spawned",
     );
+  }
 
-}
-
-async #waitForSupervisorLine( stop: (msg: LogMessage) => boolean, ):
-Promise<LogMessage> { return new Promise((res) => { const onLog = (log:
-LogMessage) => { if (stop(log)) { this.off("log", onLog); res(log); } };
+  async #waitForSupervisorLine(
+    stop: (msg: LogMessage) => boolean,
+  ): Promise<LogMessage> {
+    return new Promise((res) => {
+      const onLog = (log: LogMessage) => {
+        if (stop(log)) {
+          this.off("log", onLog);
+          res(log);
+        }
+      };
 
       this.on("log", onLog);
     });
+  }
+}
 
-} }
-
-/\*\*
-
-- A pool of DenoContainers that can be reused to run different modules. \*/
-  export class DenoContainerPool { #availablePool: DenoContainer[] = [];
+/**
+ * A pool of DenoContainers that can be reused to run different modules.
+ */
+export class DenoContainerPool {
+  #availablePool: DenoContainer[] = [];
   #inUsePool: Map<string, DenoContainer> = new Map();
 
-#containerTag: string; #socketsDir: string;
+  #containerTag: string;
+  #socketsDir: string;
 
-constructor(initialCount: number, containerTag: string, socketsDir: string) {
-this.#containerTag = containerTag; this.#socketsDir = resolve(socketsDir);
+  constructor(initialCount: number, containerTag: string, socketsDir: string) {
+    this.#containerTag = containerTag;
+    this.#socketsDir = resolve(socketsDir);
 
     // Preload containers
     this.#preloadContainers(initialCount);
+  }
 
-}
-
-public async getContainer(moduleUrl: string): Promise<DenoContainer> { // Check
-if we already have a container for this module URL const existingContainer =
-this.#inUsePool.get(moduleUrl); if (existingContainer) { return
-existingContainer; }
+  public async getContainer(moduleUrl: string): Promise<DenoContainer> {
+    // Check if we already have a container for this module URL
+    const existingContainer = this.#inUsePool.get(moduleUrl);
+    if (existingContainer) {
+      return existingContainer;
+    }
 
     let container: DenoContainer | undefined;
 
@@ -1351,7 +1402,6 @@ existingContainer; }
         this.#inUsePool.delete(exitModuleUrl);
 
         await container.stop();
-        // socketPathToUse just hashes the hostname, since the length needs to be short
         await rm(socketPathToUse(this.#socketsDir, exitModuleUrl));
 
         await container.spawn();
@@ -1362,24 +1412,40 @@ existingContainer; }
     });
 
     return container;
+  }
 
-}
-
-async #preloadContainers(count: number): Promise<void> { const containers =
-await this.#getNContainers(count);
+  async #preloadContainers(count: number): Promise<void> {
+    const containers = await this.#getNContainers(count);
 
     for (const container of containers) {
       this.#availablePool.push(container);
     }
+  }
 
+  async #getNContainers(n: number): Promise<DenoContainer[]> {
+    return Promise.all(
+      Array.from({ length: n }, async () => {
+        const container = new DenoContainer({
+          containerTag: this.#containerTag,
+          socketsDir: this.#socketsDir,
+        });
+        await container.spawn();
+        return container;
+      }),
+    );
+  }
 }
 
-async #getNContainers(n: number): Promise<DenoContainer[]> { return Promise.all(
-Array.from({ length: n }, async () => { const container = new DenoContainer({
-containerTag: this.#containerTag, socketsDir: this.#socketsDir, }); await
-container.spawn(); return container; }), ); } }
+export function socketPathToUse(socketsDir: string, moduleUrl: string): string {
+  // Socket paths cannot be over 108 characters, so we hash it down
+  const hashedPathName = createHash("sha256")
+    .update(basename(moduleUrl))
+    .digest("hex")
+    .slice(0, 6);
 
-````
+  return join(socketsDir, `${hashedPathName}.sock`);
+}
+```
 </Collapsible>
 
 ```ts
@@ -1410,7 +1476,7 @@ fastify.all("*", async (req, resp) => {
     .forEach(([key, value]) => resp.trailer(key, () => value));
   return resp.send(denoResp.body);
 });
-````
+```
 
 And `getConnPool` just looks like this (recall from earlier that we have to be
 careful about locks to prevent concurrently spawning multiple workers for the
