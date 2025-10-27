@@ -289,12 +289,20 @@ system works, but here's the general idea:
 
 We've simplified it a bit, but that's the general idea. Here's a diagram!
 
-In the diagram there's two example requests:
-- A regular request, where there's already a warm deno worker for the
-  hostname, so we can just proxy to it.
-- A cold start request, where there's no deno worker for the hostname, so
-  we need to spawn one. Since we're a child nodejs process, we ask the primary
-  nodejs process to do the spawning for us, and we wait for it to finish.
+In the diagram there's three example requests, and they arrive in this timeline:
+1. An initial cold request for a.com, which requires spawning a new worker. In
+  order to spawn the new worker the child process creates a lock for the hostname.
+  It then asks the primary process for boot info, which it queries from the
+  database, since there was no cached boot info (recall cached boot info just
+  gets stored in a file). The primary process returns the boot info, and the
+  child process spawns the worker, creating the unix socket file.
+1. An already warming request for a.com, which arrives while the first request
+  is still spawning the worker. This process sees that there's no socket file
+  yet, and so it waits for it to appear (it could also ask the primary process
+  for boot info, but that would be wasteful since another process is already
+  spawning it).
+1. A warm request for b.com, which is the happy path. The child process sees
+  that there's already a socket file for b.com, and so it just proxies to it.
 
 <Mermaid
   code={`
@@ -446,7 +454,7 @@ fastify.get('/', async (request, reply) => { return { hello: 'world' } })
 fastify.listen({ port: 8000 }, (err) => { if (err) { console.error(err)
 process.exit(1) } }) }
 
-````
+```
 </Collapsible>
 
 And, since we have control of the code that the primary runs versus the workers, we
@@ -622,6 +630,9 @@ a single-threaded server, since requests are handled one at a time, but now that
 we have multiple processes, it is totally possible.
 
 Okay, so back to my linux brain "just use the file system" mindset.
+
+Yes, we could use [Redis
+locks](https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/).
 
 <Collapsible title="Let's just use the file system... for locks!">
 ```ts
