@@ -289,21 +289,6 @@ system works, but here's the general idea:
 
 We've simplified it a bit, but that's the general idea. Here's a diagram!
 
-In the diagram there's three example requests, and they arrive in this timeline:
-1. An initial cold request for a.com, which requires spawning a new worker. In
-  order to spawn the new worker the child process creates a lock for the hostname.
-  It then asks the primary process for boot info, which it queries from the
-  database, since there was no cached boot info (recall cached boot info just
-  gets stored in a file). The primary process returns the boot info, and the
-  child process spawns the worker, creating the unix socket file.
-1. An already warming request for a.com, which arrives while the first request
-  is still spawning the worker. This process sees that there's no socket file
-  yet, and so it waits for it to appear (it could also ask the primary process
-  for boot info, but that would be wasteful since another process is already
-  spawning it).
-1. A warm request for b.com, which is the happy path. The child process sees
-  that there's already a socket file for b.com, and so it just proxies to it.
-
 <Mermaid
   code={`
     graph TD
@@ -369,9 +354,28 @@ In the diagram there's three example requests, and they arrive in this timeline:
   `}
 />
 
+Like we said above, in the diagram there's three example requests, and they
+arrive in this timeline:
+
+1. An initial cold request for a.com, which requires spawning a new worker. In
+  order to spawn the new worker the child process creates a lock for the hostname.
+  It then asks the primary process for boot info, which it queries from the
+  database, since there was no cached boot info (recall cached boot info just
+  gets stored in a file). The primary process returns the boot info, and the
+  child process spawns the worker, creating the unix socket file.
+1. An already warming request for a.com, which arrives while the first request
+  is still spawning the worker. This process sees that there's no socket file
+  yet, and so it waits for it to appear (it could also ask the primary process
+  for boot info, but that would be wasteful since another process is already
+  spawning it).
+1. A warm request for b.com, which is the happy path. The child process sees
+  that there's already a socket file for b.com, and so it just proxies to it.
+
 ## Going in Parallel
 
-So what does this parallelism actually end up looking like?
+Okay so we have a general idea of how the system will work, at a high level. But
+how do we implement something like this -- a proxying setup -- in, err, server
+side javascript?
 
 Well, to start, to do real parallelism in serverside JS land, there's a few
 paths:
@@ -397,7 +401,7 @@ export default {
 } satisfies Deno.ServeDefaultExport
 ```
 
-Nodejs has the same thing! But it's built into the langauge, not a CLI feature.
+Nodejs has the same thing! But it's built into the language, not a CLI feature.
 
 This is what we hinted at earlier, and this is node's
 [`node:cluster`](https://nodejs.org/api/cluster.html) module: a way to fork
@@ -455,6 +459,64 @@ fastify.listen({ port: 8000 }, (err) => { if (err) { console.error(err)
 process.exit(1) } }) }
 
 ```
+</Collapsible>
+
+<Collapsible title="And, for good measure, Bun has its own super cool, Linux way to do this!">
+
+With Bun, you can take advantage of `SO_REUSEPORT` and `SO_REUSEADDR` socket
+options to allow multiple processes to listen on the same port and address (crazy!).
+
+Here's the examples from [their docs](https://bun.com/docs/guides/http/cluster):
+
+```ts
+// server.ts
+
+import {serve} from 'bun';
+
+const id = Math.random().toString(36).slice(2);
+
+serve({
+	port: process.env.PORT || 8080,
+	development: false,
+
+	// Share the same port across multiple processes
+	// This is the important part!
+	reusePort: true,
+
+	async fetch(request) {
+		return new Response('Hello from Bun #' + id + '!\n');
+	},
+});
+```
+
+```ts
+// cluster.ts (spawns instances of server.ts)
+import {spawn} from 'bun';
+
+const cpus = navigator.hardwareConcurrency; // Number of CPU cores
+const buns = new Array(cpus);
+
+for (let i = 0; i < cpus; i++) {
+	buns[i] = spawn({
+		cmd: ['bun', './server.ts'],
+		stdout: 'inherit',
+		stderr: 'inherit',
+		stdin: 'inherit',
+	});
+}
+
+function kill() {
+	for (const bun of buns) {
+		bun.kill();
+	}
+}
+
+process.on('SIGINT', kill);
+process.on('exit', kill);
+```
+
+And Bun also supports `node:cluster`! [(Deno does **not**)](https://docs.deno.com/api/node/cluster/).
+
 </Collapsible>
 
 And, since we have control of the code that the primary runs versus the workers, we
@@ -545,6 +607,7 @@ Let's look at some code!
 
 ```ts
 const conns = new Map<string, Pool>() // Map of hashed hostname to undici connection pool
+// If it has a key in the map, then it has a file on disc!
 
 watcher
   .on('add', (path) => {
@@ -582,13 +645,8 @@ watcher
   })
 ```
 
-And the actual worker server looks like this,
-
-- We want to keep track of all requests we've received, so that when we are
-  SIGTERM'd we can wait for them to finish (we just use a simple promise queue
-  to make it easy)
-- We also want to clean up the unix socket file when we exit, so the processes
-  observe that we are no longer reachable and stop proxying to us.
+And the actual worker server (the processes we're spawning, which happen to also
+be javascript (Deno)) looks like this,
 
 ```ts
 if (import.meta.url === Deno.mainModule) {
@@ -616,6 +674,17 @@ if (import.meta.url === Deno.mainModule) {
   })
 }
 ```
+
+Noting that
+
+- We want to keep track of all requests we've received, so that when we are
+  SIGTERM'd we can wait for them to finish (we just use a simple promise queue
+  to make it easy)
+- We also want to clean up the unix socket file when we exit, so the processes
+  observe that we are no longer reachable and stop proxying to us.
+
+If a deno process dies, then all the nodejs processes will see the socket file go
+away and clean up their own memory state.
 
 ## Ironing it Out
 
