@@ -26,9 +26,11 @@ import Collapsible from '../../components/Collapsible.astro'
   ![Banana overview](https://static.404wolf.com/banana-overall.png)
 </div>
 
-Project Banana was a project I worked on at Val Town to help allow for
-concurrent request handling for our nodejs/fastfiy servers processing user Val
-requests.
+Project Banana was an exploratory project I worked on at Val Town to help allow
+for concurrent request handling for our nodejs/fastify servers processing user
+Val requests. It was based on a file-system based process management idea that I
+had which would allow us to introduce concurrency while letting us reuse our
+fastify/nodejs backend with minimal changes.
 
 Previously all user requests would go to one of our nodejs servers, which are
 single-threaded, and that server is bottlenecked both in that we would need to
