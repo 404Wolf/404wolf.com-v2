@@ -1,14 +1,14 @@
 {
-  "headless": true,
-  "defaultViewport": {
-    "width": 1600,
-    "height": 900,
-    "deviceScaleFactor": 2
-  },
-  "args": [
-    "--no-sandbox",
-    "--disable-setuid-sandbox",
-    "--font-render-hinting=none",
-    "--force-device-scale-factor=2"
-  ]
+	"headless": true,
+	"defaultViewport": {
+		"width": 1600,
+		"height": 900,
+		"deviceScaleFactor": 2
+	},
+	"args": [
+		"--no-sandbox",
+		"--disable-setuid-sandbox",
+		"--font-render-hinting=none",
+		"--force-device-scale-factor=2"
+	]
 }
