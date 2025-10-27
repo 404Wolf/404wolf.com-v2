@@ -21,7 +21,7 @@ jobs:
           rm -rf dist
           cp -r result/* dist/
       - name: Install Wrangler
-        run: npm install -g wrangler
+        run: pnpm install -g wrangler
       - name: Deploy to Cloudflare Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
