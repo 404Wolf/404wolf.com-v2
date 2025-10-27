@@ -1125,15 +1125,15 @@ await fastify.register(async () => {
 fastify.listen({ port: 8000 }, () => {
   console.log(`Worker listening on port 8000, PID: ${process.pid}`)
 })
-````
+```
 
 ## Docker
 
 Just for fun, we also tried running our Workers in their own Docker containers.
-This was a lot of fun, and it really just was using the
-`docker -a=STDIN -a=STDOUT -a=STDERR -i` flags to keep stdin open and attach to
-the appropriate streams. Then we could just spawn the container, and pipe
-commands to its stdin to have it spawn Deno processes inside the container.
+This really just was using the `docker -a=STDIN -a=STDOUT -a=STDERR -i` flags to
+keep stdin open and attach to the appropriate streams. Then we could just spawn
+the container, and pipe commands to its stdin to have it spawn Deno processes
+inside the container.
 
 I was a little fancy, and also set up pooling so that we could always have warm
 deno processes ready!
