@@ -46,11 +46,11 @@
         "typix": "typix"
       },
       "locked": {
-        "lastModified": 1762282910,
-        "narHash": "sha256-pYp+08cI+hhUqvaf2Nau02EPwhZPGHIYqUH+6En++fc=",
+        "lastModified": 1762326779,
+        "narHash": "sha256-hLH65Sbdc9ClI4ZvwBkaugqP9/OucxB2PTOcp0O5pMg=",
         "owner": "404wolf",
         "repo": "resume-v2",
-        "rev": "0d5d8552c02a643ec299025b3c2998d637c70a5c",
+        "rev": "b85b8c8e908a4668d87aef3c7441252c4b143e1b",
         "type": "github"
       },
       "original": {
