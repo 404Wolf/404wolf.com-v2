@@ -30,27 +30,40 @@ const { title = "404wolf.com" } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow" />
-    <title>{title}</title>
-    <slot name="head" />
-  </head>
+		<head>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="robots" content="index, follow" />
+			<title>{title}</title>
 
-  <body class={styles.body()}>
-    <div class="sm:mx-[5%] xl:mx-0">
-      <div
-        class="max-w-6xl flex flex-col gap-6 bg-slate-400 p-4 sm:p-6 rounded-3xl relative -mt-6 sm:mt-0"
-      >
-        <Header {...Astro.props.headerProps}>
-          <slot name="header-body" />
-        </Header>
+			<!-- Google tag (gtag.js) -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-GQBTX2KVSB"></script>
+			<script>
+       			// @ts-expect-error
+				window.dataLayer = window.dataLayer || [];
+				// @ts-expect-error
+				function gtag(){dataLayer.push(arguments);}
+				// @ts-expect-error
+				gtag('js', new Date());
+				// @ts-expect-error
+				gtag('config', 'G-GQBTX2KVSB');
+			</script>
+			<slot name="head" />
+	</head>
 
-        <slot />
-      </div>
-    </div>
+		<body class={styles.body()}>
+				<div class="sm:mx-[5%] xl:mx-0">
+						<div
+								class="max-w-6xl flex flex-col gap-6 bg-slate-400 p-4 sm:p-6 rounded-3xl relative -mt-6 sm:mt-0"
+						>
+								<Header {...Astro.props.headerProps}>
+										<slot name="header-body" />
+								</Header>
 
-    <RotatedLinks />
-    </body>
+								<slot />
+						</div>
+				</div>
+
+				<RotatedLinks />
+				</body>
 </html>

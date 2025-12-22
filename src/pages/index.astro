@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import ExtendedAbout from "../content/ExtendedAbout.mdx";
-import BasicAbout from "../content/BasicAbout.mdx";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { Tile } from "../components/Tile.tsx";
 import BasicPostCard from "../components/BasicPostCard.astro";
+import { Tile } from "../components/Tile.tsx";
 import { SITE_URL } from "../consts";
+import BasicAbout from "../content/BasicAbout.mdx";
+import ExtendedAbout from "../content/ExtendedAbout.mdx";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 const allPosts = await getCollection("posts");
 const featuredPosts = allPosts
