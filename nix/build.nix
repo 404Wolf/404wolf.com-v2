@@ -1,7 +1,8 @@
 {
   stdenv,
   nodejs,
-  pnpm,
+  fetchPnpmDeps,
+  pnpmConfigHook,
   mermaid-cli,
   fontconfig,
   writeShellScriptBin,
@@ -19,11 +20,12 @@ stdenv.mkDerivation rec {
       exec ${mermaid-cli}/bin/mmdc -p puppeteer-config.json "$@"
     '')
     nodejs
-    pnpm.configHook
+    pnpmConfigHook
   ];
 
-  pnpmDeps = pnpm.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
+    fetcherVersion = 1;
     hash = "sha256-h6Y17DY1dTjuS1Hx3M+9RDvJe/yBqUIu5NBmLORHHLA=";
   };
 
