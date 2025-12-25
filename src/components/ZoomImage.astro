@@ -1,55 +1,59 @@
 ---
 interface Props {
-	src: string;
-	alt: string;
-	className?: string;
+    src: string;
+    alt: string;
+    className?: string;
 }
 
 const { src, alt, className = "" } = Astro.props;
 ---
 
 <div>
-  <img
-    src={src}
-    alt={alt}
-    class={`cursor-pointer ${className}`}
-    data-zoom-trigger
-  />
-
-  <div class="zoom-modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 hidden">
-    <div class="relative max-w-screen-lg max-h-screen-lg p-4">
-      <img
+    <img
         src={src}
         alt={alt}
-        class="max-w-full max-h-full object-contain"
-        data-zoom-content
-      />
+        class={`cursor-pointer ${className}`}
+        data-zoom-trigger
+    />
+
+    <div
+        class="zoom-modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 hidden"
+    >
+        <div class="relative max-h-screen-lg p-4">
+            <img
+                src={src}
+                alt={alt}
+                class="max-w-full max-h-full object-contain"
+                data-zoom-content
+            />
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const triggers = document.querySelectorAll('[data-zoom-trigger]');
-    const modal = document.querySelector('.zoom-modal') as HTMLDivElement | null;
+    document.addEventListener("DOMContentLoaded", () => {
+        const triggers = document.querySelectorAll("[data-zoom-trigger]");
+        const modal = document.querySelector(
+            ".zoom-modal",
+        ) as HTMLDivElement | null;
 
-    for (const trigger of triggers) {
-      trigger.addEventListener('click', () => {
-        modal?.classList.remove('hidden');
-        modal?.classList.add('flex');
-      });
-    }
+        for (const trigger of triggers) {
+            trigger.addEventListener("click", () => {
+                modal?.classList.remove("hidden");
+                modal?.classList.add("flex");
+            });
+        }
 
-    modal?.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+        modal?.addEventListener("click", () => {
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                modal?.classList.add("hidden");
+                modal?.classList.remove("flex");
+            }
+        });
     });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        modal?.classList.add('hidden');
-        modal?.classList.remove('flex');
-      }
-    });
-  });
 </script>

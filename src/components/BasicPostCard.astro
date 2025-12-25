@@ -6,8 +6,8 @@ import { RandomCover } from "./RandomCover";
 import Tag from "./Tag.astro";
 
 export interface Props extends VariantProps<typeof styles.cards> {
-	post: BlogFrontmatterType;
-	path: string;
+    post: BlogFrontmatterType;
+    path: string;
 }
 
 const { post, path } = Astro.props;
@@ -15,57 +15,57 @@ const { post, path } = Astro.props;
 const tags: string[] = (post.tags || []).sort();
 
 const styles = {
-	cards: cva("relative p-2 group", {
-		variants: {
-			size: {
-				sm: "h-20",
-				md: "h-32",
-				lg: "h-40",
-			},
-		},
-		defaultVariants: {
-			size: "md",
-		},
-	}),
+    cards: cva("relative p-2 group", {
+        variants: {
+            size: {
+                sm: "h-20",
+                md: "h-32",
+                lg: "h-40",
+            },
+        },
+        defaultVariants: {
+            size: "md",
+        },
+    }),
 };
 ---
 
 <a href={path} class="relative">
-  <div
-    class={cva([
-      "relative",
-      "bg-cover",
-      "bg-center",
-      "rounded transition-all h-24 lg:h-20 hover:brightness-[95%]",
-      "duration-50 ease-in",
-      post.covers.length > 0 ? "" : "bg-gray-600",
-    ])()}
-  >
-    <RandomCover covers={post.covers} changeFrequency={4_000}>
-      <h1
-        class="text-center text-sm sm:text-lg text-white font-bold flex items-center justify-center h-full"
-        style="text-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.5);"
-      >
-        {post.title}
-      </h1>
+    <div
+        class={cva([
+            "relative",
+            "bg-cover",
+            "bg-center",
+            "rounded transition-all h-24 lg:h-20 hover:brightness-95",
+            "duration-50 ease-in",
+            post.covers.length > 0 ? "" : "bg-gray-600",
+        ])()}
+    >
+        <RandomCover covers={post.covers} changeFrequency={4_000}>
+            <h1
+                class="text-center text-sm sm:text-lg text-white font-bold flex items-center justify-center h-full"
+                style="text-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.5);"
+            >
+                {post.title}
+            </h1>
 
-      <div>
-        <div class="flex gap-1 absolute -bottom-2 -right-2">
-          {
-            tags.map((tag: string) => (
-              <Tag size="sm" contents={toTitleCase(tag)} />
-            ))
-          }
-        </div>
+            <div>
+                <div class="flex gap-1 absolute -bottom-2 -right-2">
+                    {
+                        tags.map((tag: string) => (
+                            <Tag size="sm" contents={toTitleCase(tag)} />
+                        ))
+                    }
+                </div>
 
-        <div class="flex gap-1 absolute -bottom-2 -left-2">
-          <Tag
-            size="sm"
-            contents={new Date(post.date).getFullYear().toString()}
-          />
-          <Tag size="sm" contents={post.type} />
-        </div>
-      </div>
-    </RandomCover>
-  </div>
+                <div class="flex gap-1 absolute -bottom-2 -left-2">
+                    <Tag
+                        size="sm"
+                        contents={new Date(post.date).getFullYear().toString()}
+                    />
+                    <Tag size="sm" contents={post.type} />
+                </div>
+            </div>
+        </RandomCover>
+    </div>
 </a>

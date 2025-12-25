@@ -2,9 +2,9 @@
 import { getCollection } from "astro:content";
 import { titleCase as toTitleCase } from "title-case";
 import ExtendedPostCard from "../../../components/ExtendedPostCard.astro";
-import { Tile } from "../../../components/Tile";
+import { Tile } from "../../../components/Tile.ts";
 import ToggleButton from "../../../components/ToggleButton.astro";
-import { VALID_TYPE_TYPES } from "../../../content.config";
+import { VALID_TYPE_TYPES } from "../../../content.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 const allPosts = (await getCollection("posts")).sort(

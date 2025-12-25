@@ -2,58 +2,58 @@
 import { cva } from "class-variance-authority";
 
 export interface Props {
-	text: string;
-	href?: string;
-	onClick?: string;
-	className?: string;
+    text: string;
+    href?: string;
+    onClick?: string;
+    className?: string;
 }
 
 const styles = {
-	navbutton: cva([
-		"px-1",
-		"py-1",
-		"bg-slate-600",
-		"hover:bg-slate-700",
-		"text-white",
-		"text-center",
-		"rounded-xl",
-		"transition-colors",
-		"w-full",
-		"text-lg",
-		"cursor-pointer",
-		"border-none",
-	]),
+    navbutton: cva([
+        "px-1",
+        "py-1",
+        "bg-slate-600",
+        "hover:bg-slate-700",
+        "text-white",
+        "text-center",
+        "rounded-xl",
+        "transition-colors",
+        "w-full",
+        "text-lg",
+        "cursor-pointer",
+        "border-none",
+    ]),
 };
 
 const { text, href, onClick, className } = Astro.props;
 ---
 
 {
-  onClick ? (
-    <button
-      onclick={onClick}
-      class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
-    >
-      {text}
-    </button>
-  ) : (
-    <a
-      href={href}
-      class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
-    >
-      {text}
-    </a>
-  )
+    onClick ? (
+        <button
+            onclick={onClick}
+            class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
+        >
+            {text}
+        </button>
+    ) : (
+        <a
+            href={href}
+            class={`inline-block transition-transform [animation:pulseScale_1.65s_cubic-bezier(0.65,0,0.36,1)_infinite] ${styles.navbutton()} ${className ?? ""}`}
+        >
+            {text}
+        </a>
+    )
 }
 
 <style>
-  @keyframes pulseScale {
-    0%,
-    100% {
-      transform: scale(1, 1);
+    @keyframes pulseScale {
+        0%,
+        100% {
+            transform: scale(1, 1);
+        }
+        50% {
+            transform: scale(1.014, 1.028);
+        }
     }
-    50% {
-      transform: scale(1.014, 1.028);
-    }
-  }
 </style>

@@ -1,49 +1,49 @@
 ---
 import { cva } from "class-variance-authority";
-import links from "../content/links";
+import links from "../content/links.ts";
 
 const styles = {
-	container: cva(["hidden", "sm:block", "fixed", "right-3", "top-3", "z-50"]),
-	linksContainer: cva(["flex", "flex-col", "gap-2"]),
-	link: cva([
-		"bg-blue-300/25",
-		"hover:bg-blue-400/25",
-		"hover:-translate-x-1",
-		"rounded-xl",
-		"text-[#C0C0C0]",
-		"text-sm",
-		"font-bold",
-		"px-4",
-		"py-2",
-		"transition-colors",
-		"transform",
-		"origin-top",
-		"whitespace-nowrap",
-	]),
+    container: cva(["hidden", "sm:block", "fixed", "right-3", "top-3", "z-50"]),
+    linksContainer: cva(["flex", "flex-col", "gap-2"]),
+    link: cva([
+        "bg-blue-300/25",
+        "hover:bg-blue-400/25",
+        "hover:-translate-x-1",
+        "rounded-xl",
+        "text-[#C0C0C0]",
+        "text-sm",
+        "font-bold",
+        "px-4",
+        "py-2",
+        "transition-colors",
+        "transform",
+        "origin-top",
+        "whitespace-nowrap",
+    ]),
 };
 ---
 
 <div class={styles.container()}>
-  <div class={styles.linksContainer()}>
-    {
-      links.map((link) => (
-        <a
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class={styles.link()}
-          style="writing-mode: vertical-rl; text-orientation: mixed;"
-        >
-          {link.text}
-        </a>
-      ))
-    }
-  </div>
+    <div class={styles.linksContainer()}>
+        {
+            links.map((link) => (
+                <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={styles.link()}
+                    style="writing-mode: vertical-rl; text-orientation: mixed;"
+                >
+                    {link.text}
+                </a>
+            ))
+        }
+    </div>
 </div>
 
 <style>
-  a {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-  }
+    a {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+    }
 </style>

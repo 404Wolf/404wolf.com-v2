@@ -1,7 +1,6 @@
 ---
 import { createHash } from "node:crypto";
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execa } from "execa";
 
@@ -40,16 +39,16 @@ try {
 ---
 
 <div class="mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto">
-    <div 
+    <div
         class="mermaid-svg-container"
-        set:html={svgContent} 
+        set:html={svgContent}
     />
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const containers = document.querySelectorAll('.mermaid-svg-container');
-    
+
     containers.forEach(container => {
         const svg = container.querySelector('svg');
         if (svg) {

@@ -37,7 +37,7 @@ export function RandomCover({
 
 	return (
 		<div
-			className="bg-cover bg-center rounded transition-all h-24 lg:h-20 hover:brightness-[95%] hover:scale-[103%] duration-50 ease-in"
+			className="bg-cover bg-center rounded transition-all h-24 lg:h-20 hover:scale-[103%] duration-50 ease-in"
 			style={{ backgroundImage: `url('${selectedCover}')` }}
 		>
 			{children}
