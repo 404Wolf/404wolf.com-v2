@@ -6,7 +6,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import remarkToc from "remark-toc";
 import { SITE_URL } from "./src/consts.ts";
 import { fetchLatestResume } from "./src/resume.ts";
 
