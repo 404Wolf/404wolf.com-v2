@@ -1,27 +1,56 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import ZoomImage from "../../components/ZoomImage.astro";
+import { PostOutline } from "../../components/PostOutline.tsx";
+import { Tile } from "../../components/Tile.tsx";
 import Post from "../../layouts/Post.astro";
 
 export async function getStaticPaths() {
-	const posts = await getCollection("posts");
+    const posts = await getCollection("posts");
 
-	return posts.map((post) => ({
-		params: { postId: post.id },
-		props: post,
-	}));
+    return posts.map((post) => ({
+        params: { postId: post.id },
+        props: post,
+    }));
 }
 
 type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 ---
 
-<Post {...post.data} >
-  <Content 
-		components={{
-		img: ZoomImage,
-		}}
-	/>
+<Post {...post.data}>
+    {/* Mobile contents overview */}
+    <div class="xl:hidden">
+        <Tile title="Contents" client:load>
+            <PostOutline headings={headings} expand={1} />
+        </Tile>
+    </div>
+
+    {/* Desktop sidebar */}
+    <aside
+        class="hidden xl:block fixed left-6 bottom-4 3xl:top-4 3x:bottom-auto z-40 w-64 rounded-2xl bg-slate-400 p-4 max-h-[calc(100vh-2rem)] overflow-auto shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] 3xl:shadow-none"
+    >
+        <div class="bg-slate-300 p-4 rounded-2xl">
+            <h1 class="mb-2 text-lg font-medium">Contents</h1>
+
+            <PostOutline headings={headings} expand={2} client:load />
+        </div>
+    </aside>
+
+    {/* Main content */}
+    <Tile
+        client:load
+        title={post.data.title}
+        side="right"
+    >
+        <div class="sm:px-12 xl:px-20 markdown">
+            <Content
+                components={{
+                    img: ZoomImage,
+                }}
+            />
+        </div>
+    </Tile>
 </Post>

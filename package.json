@@ -12,11 +12,6 @@
 		"lint:fix": "biome check --write .",
 		"check": "biome check"
 	},
-	"pnpm": {
-		"overrides": {
-			"npm-run-path": "5.2.0"
-		}
-	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^12.6.12",
 		"@astrojs/mdx": "^4.3.13",
@@ -31,11 +26,11 @@
 		"class-variance-authority": "^0.7.1",
 		"envsafe": "^2.0.3",
 		"execa": "^9.6.1",
+		"lucide-react": "^0.562.0",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3",
 		"remark-frontmatter": "^5.0.0",
 		"remark-mdx-frontmatter": "^5.2.0",
-		"remark-toc": "^9.0.0",
 		"rollup": "^4.54.0",
 		"sharp": "^0.34.5",
 		"simple-git": "^3.30.0",
@@ -48,5 +43,8 @@
 		"playwright": "^1.57.0",
 		"prettier": "3.6.2",
 		"prettier-plugin-astro": "0.14.1"
+	},
+	"overrides": {
+		"npm-run-path": "5.2.0"
 	}
 }

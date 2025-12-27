@@ -43,7 +43,7 @@
 }
 
 .markdown pre {
-  @apply p-4 px-8 my-4 overflow-scroll text-sm;
+  @apply p-4 px-8 my-4 overflow-scroll text-sm rounded-xl;
   max-height: 800px;
   line-height: 130%;
 }
@@ -57,7 +57,7 @@
 }
 
 .markdown img {
-  @apply rounded-xl ring-3 ring-inset ring-slate-700 mx-auto my-2 min-h-[200px] min-w-[50%] inline-flex items-center justify-center text-center;
+  @apply rounded-xl ring-3 ring-inset ring-slate-700 mx-auto;
   background: linear-gradient(
     135deg,
     #f3f4f6 25%,

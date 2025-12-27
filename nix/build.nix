@@ -1,4 +1,5 @@
 {
+  pnpm,
   stdenv,
   nodejs,
   fetchPnpmDeps,
@@ -21,12 +22,13 @@ stdenv.mkDerivation rec {
     '')
     nodejs
     pnpmConfigHook
+    pnpm
   ];
 
   pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
     fetcherVersion = 1;
-    hash = "sha256-h6Y17DY1dTjuS1Hx3M+9RDvJe/yBqUIu5NBmLORHHLA=";
+    hash = "sha256-j6Y17DY1dTjuS1Hx3M+9RDvJe/yBqUIu5NBmLORHHLA=";
   };
 
   SHOW_UPDATED = "false";

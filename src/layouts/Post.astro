@@ -3,75 +3,92 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import "../styles/markdown.css";
 import Tag from "../components/Tag.astro";
-import { Tile } from "../components/Tile";
+import { Tile } from "../components/Tile.tsx";
 import BaseLayout from "./BaseLayout.astro";
 
 type Props = CollectionEntry<"posts">["data"];
 
 const { title, covers, tags, description } = Astro.props;
 const cover =
-	covers && covers.length > 0
-		? covers[Math.floor(Math.random() * covers.length)]
-		: null;
+    covers && covers.length > 0
+        ? covers[Math.floor(Math.random() * covers.length)]
+        : null;
 
 const post = Astro.props;
 ---
 
-<BaseLayout headerProps={{ includeNavbar: false, includeBody: false, customHeaderText: post.title }} title={post.title + " | 404wolf.com"}>
-  <Fragment slot="head">
-    <meta name="description" content={post.description || post.title} />
-    
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content={post.title} />
-    <meta property="og:description" content={post.description || post.title} />
-    {post.covers?.[0] && <meta property="og:image" content={post.covers[0]} />}
-    
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content={post.title} />
-    <meta property="twitter:description" content={post.description || post.title} />
-    {post.covers?.[0] && <meta property="twitter:image" content={post.covers[0]} />}
-  </Fragment>
-  
-  <Tile client:load title="Overview" side="right" containerClassName="-mb-18">
-    <div class="h-fit overflow-auto">
-      {
-        cover && (
-          <div class="relative pointer-events-none rounded-xl w-2/5 sm:w-1/4 sm:mt-4 sm:ml-2 float-right">
-            <div class="max-h-60 overflow-clip border-4 border-slate-500 rounded-xl">
-              <Image
-                width={400}
-                height={400}
-                src={cover}
-                class="rounded-xl scale-105"
-                alt={`${title}'s cover image`}
-              />
+<BaseLayout
+    headerProps={{
+        includeNavbar: false,
+        includeBody: false,
+        customHeaderText: post.title,
+    }}
+    title={post.title + " | 404wolf.com"}
+>
+    <Fragment slot="head">
+        <meta name="description" content={post.description || post.title} />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta
+            property="og:description"
+            content={post.description || post.title}
+        />
+        {
+            post.covers?.[0] && (
+                <meta property="og:image" content={post.covers[0]} />
+            )
+        }
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={post.title} />
+        <meta
+            property="twitter:description"
+            content={post.description || post.title}
+        />
+        {
+            post.covers?.[0] && (
+                <meta property="twitter:image" content={post.covers[0]} />
+            )
+        }
+    </Fragment>
+
+    <Tile client:load title="Overview" side="right" containerClassName="-mb-18">
+        <div class="h-fit overflow-auto">
+            {
+                cover && (
+                    <div class="relative pointer-events-none rounded-xl w-2/5 sm:w-1/4 sm:mt-4 sm:ml-2 float-right">
+                        <div class="max-h-60 overflow-clip border-4 border-slate-500 rounded-xl">
+                            <Image
+                                width={400}
+                                height={400}
+                                src={cover}
+                                class="rounded-xl scale-105"
+                                alt={`${title}'s cover image`}
+                            />
+                        </div>
+                    </div>
+                )
+            }
+            <div class="-mt-1 sm:mb-1 text-lg sm:text-xl">
+                {description || title}
             </div>
-          </div>
-        )
-      }
-      <div class="-mt-1 sm:mb-1 text-lg sm:text-xl">
-        {description || title}
-      </div>
-    </div>
-
-    {
-      tags && (
-        <div class="brightness-125 absolute -right-4 -bottom-2 z-50">
-          <div class="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <Tag contents={tag} />
-            ))}
-          </div>
         </div>
-      )
-    }
-  </Tile>
 
-  <div class="m-6"></div>
+        {
+            tags && (
+                <div class="brightness-125 absolute -right-4 -bottom-2 z-50">
+                    <div class="flex flex-wrap gap-2">
+                        {tags.map((tag) => (
+                            <Tag contents={tag} />
+                        ))}
+                    </div>
+                </div>
+            )
+        }
+    </Tile>
 
-  <Tile client:load title={title} side="right">
-    <div class="sm:px-12 py-8 xl:px-20 markdown">
-      <slot />
-    </div>
-  </Tile>
+    <div class="m-6"></div>
+
+    <slot />
 </BaseLayout>

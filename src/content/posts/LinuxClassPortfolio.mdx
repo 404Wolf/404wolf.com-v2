@@ -11,11 +11,14 @@ covers:
     'https://static.404wolf.com/Screenshot_from_2024-04-16_18-15-57_0001.png',
   ]
 description: |
-  This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU, a class that teaches various Linux tools and concepts, like bash, awk, regex, and bottom-up design. It's an eclectic mix of scripts and Linux-y things I've done with the stuff I've learned throughout the semester in the course. There are a few projects towards the beginning, and then I have a bunch of random bash scripts and more Linux-y things towards the bottom portion.
+  This is my portfolio for Professor Ronald Loui's CSDS285 @ CWRU, a class that
+  teaches various Linux tools and concepts, like bash, awk, regex, and bottom-up
+  design. It's an eclectic mix of scripts and Linux-y things I've done with the
+  stuff I've learned throughout the semester in the course. There are a few
+  projects towards the beginning, and then I have a bunch of random bash scripts
+  and more Linux-y things towards the bottom portion.
 tags: ['academic']
 ---
-
-# Contents
 
 # Linux Scripting/Tools Class Portfolio
 
@@ -2430,7 +2433,7 @@ ChatGPT instructions that seemed to work
 2. enroll your fingerprint: enroll your right index finger with the following
    command. `fprintd-enroll -f right-index-finger`
 3. install libpam-fprintd: install this pam module to enable fingerprint
-   authentication. `sudo apt-get install libpam-fprintd`  
+   authentication. `sudo apt-get install libpam-fprintd`
    who uses 4 configure pam: open /etc/pam.d/common-auth in a text editor with
    root privileges. You can use nano editor with the following command. sudo
    nano /etc/pam.d/common-auth
@@ -2438,10 +2441,10 @@ ChatGPT instructions that seemed to work
    `auth [success=2 default=ignore] pam_fprintd.so`
 
 > The auth [success=2 default=ignore] pam_fprintd.so line in the PAM (Pluggable
-> Authentication Modules)  
+> Authentication Modules)
 > configuration file is used for fingerprint authentication. If the fingerprint
 > authentication is successful, it will skip the next two lines specified in the
-> configuration. If fingerprint authentication fails, it  
+> configuration. If fingerprint authentication fails, it
 > will continue with the default behavior specified in the configuration.
 
 6. save and close the file. if you are using nano, you can do this by pressing

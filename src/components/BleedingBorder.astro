@@ -1,0 +1,33 @@
+---
+// BleedingBorder.astro
+---
+
+<div class="bleeding-border">
+    <div class="max-w-2/3 mx-auto bleeding-border-container">
+        <slot />
+    </div>
+</div>
+
+<style>
+    @reference "tailwindcss";
+
+    /* Default styling - apply the bleeding border effect */
+    .bleeding-border {
+        @apply bg-white/30 py-4 px-8 sm:-mx-17 xl:-mx-25;
+    }
+
+    /*
+    Remove the bleeding border effect when inside a floating element
+
+    Note that we have to target classes and styles, and it's really just a
+    heuristic, since CSS doesn't have a way to target "final computed styles".
+    */
+    :global([class*="float"] .bleeding-border),
+    :global([style*="float:"] .bleeding-border) {
+        @apply bg-transparent mx-0 py-0;
+    }
+    :global([class*="float"] .bleeding-border-container),
+    :global([style*="float:"] .bleeding-border-container) {
+        @apply max-w-full mx-0 p-0;
+    }
+</style>

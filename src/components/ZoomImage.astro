@@ -1,4 +1,6 @@
 ---
+import BleedingBorder from "./BleedingBorder.astro";
+
 interface Props {
     src: string;
     alt: string;
@@ -6,18 +8,21 @@ interface Props {
 }
 
 const { src, alt, className = "" } = Astro.props;
+const modalId = `zoom-modal-${src.replace(/[^a-zA-Z0-9]/g, "-")}`;
 ---
 
-<div>
+<BleedingBorder>
     <img
         src={src}
         alt={alt}
         class={`cursor-pointer ${className}`}
-        data-zoom-trigger
+        data-zoom-trigger={modalId}
     />
 
+    <!-- By default, the modal is hidden -->
     <div
-        class="zoom-modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 hidden"
+        id={modalId}
+        class="zoom-modal fixed inset-0 backdrop-blur-sm items-center justify-center z-50 hidden"
     >
         <div class="relative max-h-screen-lg p-4">
             <img
@@ -28,31 +33,36 @@ const { src, alt, className = "" } = Astro.props;
             />
         </div>
     </div>
-</div>
+</BleedingBorder>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const triggers = document.querySelectorAll("[data-zoom-trigger]");
-        const modal = document.querySelector(
-            ".zoom-modal",
-        ) as HTMLDivElement | null;
 
         for (const trigger of triggers) {
             trigger.addEventListener("click", () => {
+                const modalId = trigger.getAttribute("data-zoom-trigger");
+                const modal = modalId ? document.getElementById(modalId) : null;
                 modal?.classList.remove("hidden");
                 modal?.classList.add("flex");
             });
         }
 
-        modal?.addEventListener("click", () => {
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
-        });
+        const modals = document.querySelectorAll(".zoom-modal");
+        for (const modal of modals) {
+            modal.addEventListener("click", () => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            });
+        }
 
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
-                modal?.classList.add("hidden");
-                modal?.classList.remove("flex");
+                const modals = document.querySelectorAll(".zoom-modal");
+                for (const modal of modals) {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }
             }
         });
     });

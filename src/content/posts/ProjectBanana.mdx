@@ -44,8 +44,6 @@ simple-ish!
 
 </div>
 
-# Contents
-
 # Bottlenecks!
 
 > If you're not super interested in the nitty gritty, and just want to skip to
@@ -54,9 +52,11 @@ simple-ish!
 > inotify!
 
 <div className="mr-4 w-[40%] float-left">
-  ![The bottleneck](https://static.404wolf.com/bottleneck-15.png) (Note that
-  this is a bit simplified, since there are actually many nodejs servers behind
-  haproxy, and requests are being consistent hashed to them)
+  ![The bottleneck](https://static.404wolf.com/bottleneck-15.png)
+  <p className="text-sm mt-2">
+      (Note that this is a bit simplified, since there are actually many nodejs
+      servers behind haproxy, and requests are being consistent hashed to them)
+  </p>
 </div>
 
 **Some context:**
@@ -120,9 +120,9 @@ It looks like this (ok, a little complicated :/):
       RequestReceived --> CheckCache : Query cache by hostname
       CheckCache --> CacheHit : Found in cache
       CheckCache --> CacheMiss : Not in cache
-      
+
       CacheHit --> ProxyToWorker : Use cached boot-package
-      
+
       CacheMiss --> QueryDatabase : Get boot-package info
       QueryDatabase --> StoreInCache : Cache under hostname
       StoreInCache --> ProxyToWorker : Use fresh boot-package

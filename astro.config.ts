@@ -17,7 +17,6 @@ export default defineConfig({
 			remarkPlugins: [
 				remarkFrontmatter,
 				[remarkMdxFrontmatter, { name: "frontmatterData" }],
-				[remarkToc, { heading: "Contents" }],
 			],
 			gfm: true,
 			shikiConfig: {
