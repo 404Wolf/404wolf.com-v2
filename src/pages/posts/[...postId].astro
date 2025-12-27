@@ -4,6 +4,7 @@ import ZoomImage from "../../components/ZoomImage.astro";
 import { PostOutline } from "../../components/PostOutline.tsx";
 import { Tile } from "../../components/Tile.tsx";
 import Post from "../../layouts/Post.astro";
+import { cva } from "class-variance-authority";
 
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
@@ -18,6 +19,25 @@ type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
 const { Content, headings } = await render(post);
+
+const styles = {
+    sidebar: cva([
+        "fixed",
+        "left-6",
+        "top-4",
+        "z-40",
+        "hidden",
+        "xl:block",
+        "w-64",
+        "max-h-[calc(100vh-2rem)]",
+        "rounded-2xl",
+        "bg-slate-400",
+        "p-4",
+        "shadow-none",
+        "sm:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)]",
+        "xl:shadow-2xl",
+    ]),
+};
 ---
 
 <Post {...post.data}>
@@ -29,22 +49,18 @@ const { Content, headings } = await render(post);
     </div>
 
     {/* Desktop sidebar */}
-    <aside
-    class="hidden xl:block fixed left-6 top-4 z-40 w-64 rounded-2xl bg-slate-400 p-4 max-h-[calc(100vh-2rem)] overflow-auto shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] 3xl:shadow-none"
-    >
-        <div class="bg-slate-300 p-4 rounded-2xl">
-            <h1 class="mb-2 text-lg font-medium">Contents</h1>
+    <aside class={styles.sidebar()}>
+        <div class="bg-slate-300 pb-1 rounded-2xl">
+            <div class="bg-slate-300 p-4 rounded-2xl h-[33vh] overflow-auto">
+                <h1 class="mb-2 text-lg font-medium">Contents</h1>
 
-            <PostOutline headings={headings} expand={2} client:load />
+                <PostOutline headings={headings} expand={2} client:load />
+            </div>
         </div>
     </aside>
 
     {/* Main content */}
-    <Tile
-        client:load
-        title={post.data.title}
-        side="right"
-    >
+    <Tile client:load title={post.data.title} side="right">
         <div class="sm:px-12 xl:px-20 markdown">
             <Content
                 components={{
