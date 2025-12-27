@@ -40,11 +40,9 @@
 		"unist-util-visit": "^5.0.0"
 	},
 	"devDependencies": {
+		"npm-run-path": "5.1.0",
 		"playwright": "^1.57.0",
 		"prettier": "3.6.2",
 		"prettier-plugin-astro": "0.14.1"
-	},
-	"overrides": {
-		"npm-run-path": "5.2.0"
 	}
 }
