@@ -1,7 +1,6 @@
 import { cva } from "class-variance-authority";
 import { ChevronRight } from "lucide-react";
 import { type JSX, useEffect, useState } from "react";
-import { waitUntilScrollEnd } from "../utils.ts";
 
 interface MarkdownHeading {
   depth: number;
@@ -100,7 +99,7 @@ export function PostOutline({ headings, expand = false, outlineItemClassName, co
     const grouped = groupByMinDepth(nodes);
 
     return (
-      <div className="flex flex-col gap-0.5">
+      <div className={cva("flex flex-col gap-0.5 ")({ className: containerClassName })}>
         {grouped.map((list) => {
           const [first, ...rest] = list;
           if (!first) return null;
@@ -188,8 +187,6 @@ function OutlineItem({
   );
 }
 
-/* vga */
-/* vga */
 const styles = {
   postOutline: {
     summary: cva([
