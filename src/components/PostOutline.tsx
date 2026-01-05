@@ -102,7 +102,16 @@ export function PostOutline({ headings, expand = false, outlineItemClassName, co
       <div className={cva("flex flex-col gap-0.5 ")({ className: containerClassName })}>
         {grouped.map((list) => {
           const [first, ...rest] = list;
-          if (!first) return null;
+
+          // If there's no parent at this min depth (first === null),
+          // render the remaining nodes at this level instead of dropping them.
+          if (!first) {
+            return (
+              <div key={rest[0]?.slug ?? `orphan-${Math.random()}`}>
+                {renderOutline(rest)}
+              </div>
+            );
+          }
 
           const shouldExpand =
             expand === true ||
@@ -193,12 +202,12 @@ const styles = {
       "flex items-center gap-2",
       "py-1 text-sm font-medium cursor-pointer list-none",
       "text-gray-800 hover:text-black",
-      "[&::-webkit-details-marker]:hidden",
+      "[&::-webkit-details-marker]:hidden", // hides the ugly > marker that the browser uses, so we can use lucide instead
     ]),
 
     chevron: cva([
       "h-3 w-3 text-gray-400 transition-transform duration-150",
-      "group-open:rotate-90",
+      "rotate-90",
     ]),
 
     link: cva(["truncate underline-offset-2"], {

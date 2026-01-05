@@ -49,7 +49,11 @@
 }
 
 .markdown code:not(pre code) {
-  @apply bg-slate-200 font-mono rounded px-1 text-sm;
+  @apply bg-slate-200 font-mono rounded px-1;
+}
+
+.markdown code:not(pre code):not(h1 code):not(h2 code):not(h3 code):not(h4 code):not(h5 code):not(h6 code) {
+  @apply text-sm;
 }
 
 .markdown blockquote {

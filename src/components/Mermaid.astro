@@ -6,9 +6,10 @@ import { execa } from "execa";
 
 interface Props {
 	code: string;
+    class?: string;
 }
 
-const { code } = Astro.props;
+const { code, class: className } = Astro.props;
 
 const cacheDir = join(process.cwd(), "node_modules", ".astro", "mermaid");
 try {
@@ -38,7 +39,7 @@ try {
 }
 ---
 
-<div class="mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto">
+<div class={`mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto ${className || ''}`}>
     <div
         class="mermaid-svg-container"
         set:html={svgContent}

@@ -1,0 +1,87 @@
+---
+import { Check, X } from "@lucide/astro";
+import Tabs from "../../../components/tabs/Tabs.astro";
+import TabItem from "../../../components/tabs/TabItem.astro";
+import { Code } from "astro:components";
+
+interface Props {
+    schema: string;
+    input: string;
+    valid?: boolean;
+    title?: string;
+    output?: string;
+}
+
+const { schema, input, valid, output } = Astro.props;
+
+// Format JSON output if it exists
+let formattedOutput = output;
+if (output) {
+    try {
+        const parsed = JSON.parse(output);
+        formattedOutput = JSON.stringify(parsed, null, 2);
+    } catch {
+        // If parsing fails, use the original output
+        formattedOutput = output;
+    }
+}
+---
+
+<div class="relative bg-gray-100 p-2 pt-0 rounded">
+    <div class="absolute -top-2 -right-2 scale-150">
+        {valid ? <Check class="text-green-500" /> : <X class="text-red-500" />}
+    </div>
+
+    {
+        formattedOutput ? (
+            <Tabs class="-mt-2">
+                <TabItem title="Schema/Input">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="h-full">
+                            <Code
+                                code={schema}
+                                lang="markdown"
+                                theme="github-light"
+                                class="h-full"
+                            />
+                        </div>
+                        <div class="h-full">
+                            <Code
+                                code={input}
+                                lang="markdown"
+                                theme="github-light"
+                                class="h-full"
+                            />
+                        </div>
+                    </div>
+                </TabItem>
+                <TabItem title="Output">
+                    <Code
+                        code={formattedOutput}
+                        lang="json"
+                        theme="github-light"
+                    />
+                </TabItem>
+            </Tabs>
+        ) : (
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="h-full">
+                    <Code
+                        code={schema}
+                        lang="markdown"
+                        theme="github-light"
+                        class="h-full"
+                    />
+                </div>
+                <div class="h-full">
+                    <Code
+                        code={input}
+                        lang="markdown"
+                        theme="github-light"
+                        class="h-full"
+                    />
+                </div>
+            </div>
+        )
+    }
+</div>

@@ -1,0 +1,720 @@
+---
+title: mdvalidate
+type: 'project'
+date: '2026-01-04'
+covers:
+  ['https://static.404wolf.com/Screenshot_from_2024-03-28_23-28-45_0001.png']
+description: |
+  Mdvalidate is a new way to validate the shape of markdown documents. With
+  Mdvalidate's schema definition language, mdschema, you can ensure that an
+  arbitrary Markdown file conforms to some general shape, like starting with a
+  heading with some specific content, followed by a paragraph, and extract data
+  from regions of the file.
+tags: ['featured', 'personal']
+cssclasses: ['404WolfMarkdown']
+---
+
+import Mermaid from '../../components/Mermaid.astro'
+import Collapsible from '../../components/Collapsible.astro'
+import SchemaAndInput from './components/SchemaAndInput.astro'
+
+I love markdown. If you know me, you probably know this. But I also like types.
+And what's more untyped than a raw text document? So I sought to put an end to
+this madness.
+
+I like to use Markdown to store information that you'd normally expect to be
+structured in a daatabase or JSON, because, well, it looks nice, and it's just
+text. Here's what a contact in my contacts folder looks like (it's just a text
+file):
+
+
+```md
+Imported with [Obsidian Markdown Importer](https://github.com/404Wolf/obsidian-contact-importer)
+
+---
+
+![Image](6bf36ff64dfc6d8a.jpeg)
+
+## Phones
+| Type   | Number             |
+| :----- | :----------------- |
+| Backup | `c!(917) 246-7875` |
+| Misc   | `c!(929) 265-7180` |
+
+## Emails
+| Type           | Address                        |
+| :------------- | :----------------------------- |
+| Misc           | `c!wolf@404wolf.com`           |
+| Misc           | `c!wsm32@case.edu`             |
+
+## Socials
+| Type          | Handle        |
+|:--------------|:--------------|
+
+## Links
+| Type     | URL                     |
+| :------- | :---------------------- |
+| HomePage | `g!https://404wolf.com` |
+
+## Other
+| Type          | Value         |
+|:--------------|:--------------|
+| Birthday      | `g!xxxxxxxx`  |
+
+---
+
+This is me.
+```
+
+It's Markdown!
+
+I'm a heavy user of [Obsidian](https://obsidian.md/), a Markdown-first note
+taking desktop app where all of your nodes live as a simple hierarchy of Markdown
+files.
+
+{/*
+<Collapsible title="What is Markdown?">
+Markdown is a very simple markup language.
+
+What is a markup language? A way to describe the general layout of a body of
+text in a textual format. Rather than something like Libreoffice or Microsoft
+Word, you describe the semantic elements of your document, like "this is where a
+heading goes" and "this is what the first paragraph looks like" in a form that
+looks somewhat similar to the final output. In the case of Markdown, the target
+output is almost always HTML (for example, this blog post itself was written in
+Markdown and compiled to HTML!)
+</Collapsible>
+*/}
+
+Storing my contacts this way is great, because I get to use all my favorite
+text tools to mess with it. I can use vim binds to edit contacts, search across
+them with ripgrep, and more. But they are just loose text. I want to force
+them to be *structured*.
+
+Enter **`mdvalidate`**.
+
+
+# What is `mdvalidate`?
+
+`mdvalidate` is a tool to validate the *shape* of Markdown. With `mdvalidate`,
+you write *schemas* that define a shape of Markdown, and MDS checks real
+documents against them.
+
+Let's look at a simple example from the [README](https://github.com/404wolf/mdvalidate):
+
+<SchemaAndInput
+  schema={`# Grocery List
+
+- \`item:/[A-Z][a-z]\`{2,2}
+  - \`note:/\\w+\`?{,2}`}
+  input={`# Grocery List
+
+- Apples
+  - organic
+  - local
+- Bananas
+  - ripe`}
+  valid={true}
+/>
+
+Here, we validate the shape of a grocery list, ensuring:
+
+- It has the right heading
+- It has exactly two items that start with capital letters
+- With each item maybe having up to 2 sub-items that are alphanumeric.
+
+`mdvalidate` was made with streaming in mind, so you can also use it pipe input
+(like LLM output) and validate the shape of its response. If the input becomes
+malformed, we can short circuit. For example, if we get something like:
+
+<div class="flex gap-2 justify-center">
+
+```md
+# Hello there Wolf!
+```
+
+```md
+# Hello t
+```
+
+```md
+# Hello tb
+```
+</div>
+
+<div class="float-right w-1/2">
+![AI speaks markdown](https://static.404wolf.com/ai-likes-markdown.png)
+</div>
+
+We don't have to keep waiting.
+
+This is super handy, since Markdown is the native language of LLMs. With
+`mdvalidate` you can extract text out of an LLM response, terminate it early if
+it violates the allowed shape, and be much more token efficient than using many
+other techniques like JSON schema.
+
+# How does it work?
+
+`mdvalidate` is a rust project made with the help of
+[treesitter](https://tree-sitter.github.io/tree-sitter/) for incremental parsing
+and [this](https://github.com/ikatyang/tree-sitter-markdown) Markdown grammar.
+The development of `mdvalidate` is greatly simplified by the fact that the input
+and schema both parse as valid markdown, so I didn't really have to implement
+any parsing or lexing logic.
+
+## Tree Zippers
+
+At a high level, `mdvalidate` works by taking two abstract syntax trees for an
+input markdown file and crawls them at the same time. At different points in the
+schema, we should expect different elements in the input.
+
+<Collapsible title="What's an AST?">
+    An AST (abstract syntax tree) is a tree that represents the semantic
+    relationships between elements in some language.
+
+    For example, code like `x = 1 + 2` might be represented as:
+
+    ```
+    Module
+    └─ Assign
+       ├─ Name (x)
+       └─ BinOp
+          ├─ Constant (1)
+          ├─ Add
+          └─ Constant (2)
+    ```
+
+    In Markdown, a document like `# Hello` would have an AST like:
+
+    ```
+    document
+    └─ atx_heading
+       ├─ atx_h1_marker (#)
+       └─ heading_content
+          └─ text (Hello)
+    ```
+
+    Fun fact: Zed (editor) uses treesitter, the same incremental parser I'm using, and lets you preview an AST of your code in the editor live!
+
+    ![Treesitter in zed](https://static.404Wolf.com/treesitter-in-zed.png)
+
+    To check out the AST for a document in `zed`, open the run menu
+    `ctrl+shift+p` and type `dev: open syntax tree view`.
+
+    `zed` uses a different treesitter grammer than I am -- [this
+    one](https://github.com/tree-sitter-grammars/tree-sitter-markdown).
+</Collapsible>
+
+Consider this:
+
+When we are looking at the input:
+
+<SchemaAndInput
+  schema={`# Hi there`}
+  input={`# Hi there`}
+  valid={true}
+/>
+
+These are the actual syntax trees that Treesitter gives us:
+
+<SchemaAndInput
+  schema={`document[0]0..7
+└─ atx_heading[1]0..6
+   ├─ atx_h1_marker[2]0..1
+   └─ heading_content[3]1..6
+      └─ text[4]1..6`}
+  input={`document[0]0..7
+└─ atx_heading[1]0..6
+   ├─ atx_h1_marker[2]0..1
+   └─ heading_content[3]1..6
+      └─ text[4]1..6`}
+  valid={true}
+/>
+
+In this case, we are doing "literal validation" where we want to make sure that
+each node matches exactly with the schema. To start, we put pointers here:
+
+<SchemaAndInput
+  schema={`document[0]0..7 <-- we are here
+└─ atx_heading[1]0..6
+   ├─ atx_h1_marker[2]0..1
+   └─ heading_content[3]1..6
+      └─ text[4]1..6`}
+  input={`document[0]0..7 <-- we are here
+└─ atx_heading[1]0..6
+   ├─ atx_h1_marker[2]0..1
+   └─ heading_content[3]1..6
+      └─ text[4]1..6`}
+  valid={true}
+/>
+
+And "walk" the tree...
+
+<SchemaAndInput
+  schema={`document[0]0..7 <-- matches ✔
+└─ atx_heading[1]0..6 <-- matches ✔
+   ├─ atx_h1_marker[2]0..1 <-- matches ✔
+   └─ heading_content[3]1..6 <-- matches ✔
+      └─ text[4]1..6 <-- matches ✔`}
+  input={`document[0]0..7 <-- matches ✔
+└─ atx_heading[1]0..6 <-- matches ✔
+   ├─ atx_h1_marker[2]0..1 <-- matches ✔
+   └─ heading_content[3]1..6 <-- matches ✔
+      └─ text[4]1..6 <-- matches ✔`}
+  valid={true}
+/>
+
+Recursing our way down. To know that a document is valid, we need to ensure that
+the children are valid, to know that the child `heading_content` is valid, it
+has to be the same kind of heading with the same text content.
+
+I call this method the "zipper tree" method, because we're "zipping" our way
+down the two ASTs making sure they are the same.
+
+The implementation of this is conceptually simple. We look at the root document
+node, iterate over the siblings of the schema and input at the same rate, and
+figure out what *kind* of validator we need to use to compare them. When we get
+to more fun cases besides literals, this gets a little more tricky.
+
+## MDS Matchers
+
+Things get real complicated real fast. `mdvalidate` has the concept of
+"matchers," which are a mechanism to perform "captures." A matcher has the form
+`` `id:/re/`<extras> ``, where `id` is what the capture of the `re` regex pattern in
+the output, and `<extras>` is for special cases like repeating lists. For
+example,
+
+<SchemaAndInput
+  schema={`# Hi \`name:/[A-Z][a-z]+/\``}
+  input={`# Hi Wolf`}
+  output={"{name: \"Wolf\"}"}
+  valid={true}
+/>
+
+"extracts" my name from the header of some Markdown document. How do we go about
+implementing this? Well, the call stack looks roughly like:
+
+```
+validate_node_vs_node (document vs document)
+└─ validate_node_vs_node (heading vs heading)
+   └─ validate_heading_vs_heading
+      └─ validate_textual_container_vs_textual_container
+         └─ validate_textual_vs_textual
+            ├─ Validate prefix "Hi " ✔
+            ├─ Match regex /[A-Z][a-z]+/ against "Wolf" ✔
+            └─ Store capture {name: "Wolf"}
+```
+
+We start at the document root, recurse into the heading nodes, and then validate
+the heading content. Textual containers are collections of inline textual nodes,
+like `*test*_test_` is a paragraph with a italic and subsequent bold node. When
+we get to the text content, we find the matcher `` `name:/[A-Z][a-z]+/` ``,
+validate the prefix "Hi " matches, then apply the regex pattern to extract
+"Wolf" and store it under the id "name". We have to keep careful track of byte
+offsets.
+
+Each of these "validator" functions returns a validation result, which stores:
+
+- `value`: The resulting JSON value with all captures we just got
+- `errors`: A vector of all validation errors encountered
+- `farthest_reached_pos`: The farthest position reached in both trees
+
+As we keep going, we get a stack like:
+
+```
+---------
+ValidationResult
+  value: {name: "Wolf", ...},
+  errors: [],
+  farthest_reached_pos: { schema_idx: usize, input_idx: usize }
+---------
+...
+---------
+ValidationResult
+  value: {name: "Wolf"},
+  errors: [],
+  farthest_reached_pos: { schema_idx: usize, input_idx: usize }
+---------
+```
+
+Along the way, there's some complicated cases we have to handle specially when
+certain nodes act like other nodes. For example, you can specify you expect a
+literal code node in your input by using a "!" extra, like so 
+
+<SchemaAndInput
+  schema={`# Hi \`Wolf\`!`}
+  input={`# Hi \`Wolf\``}
+  valid={true}
+/>
+
+When we run `validate_textual_container_vs_textual_container`, when we check that the number of children matches up, we have to consider the number of children counting `` `wolf`! `` as a single node, since the AST looks like
+
+```ansi
+(document[0]0..13)
+└─ (atx_heading[1]0..12)
+   ├─ (atx_h1_marker[2]0..1)
+   └─ (heading_content[3]1..12)
+      ├─ (text[4]1..5)
+      ├─ (code_span[5]5..11)
+      │  └─ (text[6]6..10)
+      └─ (text[7]11..12)
+```
+
+But if we have 
+
+<SchemaAndInput
+  schema={`# Hi \`Wolf\`! there`}
+  input={`# Hi \`Wolf\` there`}
+  valid={true}
+/>
+
+Then we actually don't "coalesce" the "!".
+
+<Collapsible title="You'd think something like counting nodes would be simple!">
+
+The actual algorithm I used to figure out how many nodes we expect in the input
+for some schema involves counting the nodes in the schema, and then subtracting
+the number of nodes we must collapse, by iterating over each node, and for each
+node, updating a correction factor using the following decision tree. Then, we
+subtract the two to find the number of nodes we expect.
+
+```ansi
+we at matcher?
+├── no
+│   └── next is matcher?
+│       ├── no -> collapse 0 nodes
+│       └── yes
+│           └── at text?
+│               ├── no -> collapse 0 nodes
+│               └── yes -> next is coalescing
+│                           ├── no -> collapse 1 node
+│                           └── yes -> collapse 0 nodes
+└── yes
+    ├── is coalescing?
+    │   └── yes
+    │       └── end is at end?
+    │           ├── yes -> collapse 1 node
+    │           └── no -> non text follows?
+    │                       ├── yes -> collapse 1 node
+    │                       └── no -> collapse 1 node
+    └── no
+        └── has extra text?
+            ├── yes -> collapse 1 node
+            └── no -> collapse 0 nodes
+```
+</Collapsible>
+
+
+## The Walker Abstraction
+
+And then we can, in the context of a validator, pick up at the index one of our
+callees left off at.  In this case, validate_textual_vs_textual will leave us
+off at the end of the "textual container", so there's no more work left to be
+done.
+
+Treesitter makes dealing with positions like this relatively straightforward.
+you can use
+[treecursor](https://docs.rs/tree-sitter/latest/tree_sitter/struct.treecursor.html)s,
+which are mutable and keep state about where they are in the tree.
+
+Using tree cursors usually looks something like this:
+
+```rs
+let tree = parser.parse("# Hello\n", None).unwrap();
+let mut cursor: TreeCursor = tree.walk();
+
+// document -> first child
+cursor.goto_first_child();
+println!("node kind: {}", cursor.node().kind());
+
+// heading -> marker
+cursor.goto_first_child();
+println!("node kind: {}", cursor.node().kind());
+
+// marker -> heading_content
+cursor.goto_next_sibling();
+println!("node kind: {}", cursor.node().kind());
+```
+
+All of the `validator` functions take immutable references to a cursor, which
+has stateful information that is immediately useful, and then does validation,
+picking up where that cursor is by cloning the cursor into a mutable new one, so
+that we don't mess up the callers' state in case they choose not to leave off
+where we finish.
+
+To make it easier to maintain state, I created an abstraction over the two trees
+we are walking called a
+[`Validator`](https://github.com/404Wolf/mdvalidate/blob/dfc24cd798ef74b333d3e75a819be6ca155fbe69/src/mdschema/validator/validator.rs).
+This manages the state of where the schema node and input nodes currently last
+left off, and makes it easy to load in more input incrementally by "remembering"
+the previous state.
+
+```rs
+pub struct Validator {
+    /// The current input tree. When read_input is called, this is replaced with a new tree.
+    pub input_tree: Tree,
+    /// The schema tree, which does not change after initialization.
+    pub schema_tree: Tree,
+    state: ValidatorState,
+}
+```
+
+The validator has two important methods: `read_input` and `validate`.
+
+
+<Collapsible title='`read_input` updates the `input_tree` by applying an "edit." Treesitter makes this extremely fast for us.'>
+
+```rs
+fn read_input(&mut self, input: &str, got_eof: bool) -> Result<(), ValidationError> {
+    // Update internal state of the last input string
+    self.state.set_last_input_str(input.to_string());
+
+    // If we already got EOF, do not accept more input
+    if self.state.got_eof() {
+        return Err(ValidationError::ParserError(ParserError::ReadAfterEOF));
+    }
+
+    self.state.set_got_eof(got_eof);
+
+    // Calculate the range of new content
+    let old_len = self.input_tree.root_node().byte_range().end;
+    let new_len = input.len();
+
+    // Only parse if there's actually new content
+    if new_len <= old_len {
+        return Ok(());
+    }
+
+    // Parse incrementally, providing the edit information
+    let edit = InputEdit {
+        start_byte: old_len,
+        old_end_byte: old_len,
+        new_end_byte: new_len,
+        start_position: self.input_tree.root_node().end_position(),
+        old_end_position: self.input_tree.root_node().end_position(),
+        new_end_position: {
+            let lookup = LineColLookup::new(input);
+            let (row, col) = lookup.get(new_len);
+            Point { row, column: col }
+        },
+    };
+
+    // We need to call edit() to inform the tree about changes in the source text
+    // before reusing it for incremental parsing. This allows tree-sitter to
+    // efficiently reparse only the modified portions of the tree. (it
+    // requires the state to match the new text)
+    self.input_tree.edit(&edit); // edit doesn't know about the new text content!
+
+    let mut input_parser = new_markdown_parser();
+    match input_parser.parse(input, Some(&self.input_tree)) {
+        Some(parse) => {
+            self.input_tree = parse;
+            Ok(())
+        }
+        None => Err(ValidationError::ParserError(ParserError::TreesitterError)),
+    }
+}
+```
+
+</Collapsible>
+
+<Collapsible title='And `validate` delegates to a `NodeWalker`, which does the actual tree walking and validation.'>
+```rs
+/// Validates the input markdown against the schema by traversing both trees
+/// in parallel to the ends, starting from where we last left off.
+pub fn validate(&mut self) {
+  if self.state().got_eof() {
+      self.state.set_farthest_reached_pos(NodePosPair::default());
+  }
+  let mut node_validator = NodeWalker::new(
+      &mut self.state,
+      self.input_tree.walk(),
+      self.schema_tree.walk(),
+  );
+  node_validator.validate();
+}
+```
+</Collapsible>
+
+We have this separate `NodeWalker` abstraction that does the actual walking
+because we can't store cursors and trees in the same struct, since cursors rely
+on their trees' lifetimes.
+
+When we put it all together, using `mdvalidate` as a library is really simple!
+It looks something like:
+
+```rs
+pub fn process<R: Read>(
+    schema_str: &String,
+    input: &mut R,
+    fast_fail: bool,
+) -> Result<((Vec<ValidationError>, Value), Validator, String), ProcessingError> {
+    let buffer_size = get_buffer_size();
+
+    let mut input_str = String::new();
+    let mut buffer = vec![0; buffer_size];
+
+    // Create a new validator from a fragment of an input, and a complete schema
+    let mut validator = Validator::new_incomplete(schema_str.as_str(), input_str.as_str())
+        .ok_or(ValidationError::ValidatorCreationFailed)?;
+
+    loop {
+        let bytes_read = input.read(&mut buffer)?;
+
+        // If we're done reading, mark EOF
+        if bytes_read == 0 {
+            validator.read_final_input(&input_str)?;
+            validator.validate();
+
+            break;
+        }
+
+        let new_text = std::str::from_utf8(&buffer[..bytes_read])?;
+        input_str.push_str(new_text);
+
+        validator.read_more_input(&input_str)?;
+        validator.validate();
+
+        // Check for fast-fail AFTER validation
+        if fast_fail && validator.errors_so_far().count() > 0 {
+            break;
+        }
+    }
+
+    let errors: Vec<_> = validator.errors_so_far().cloned().collect();
+    let matches = validator.matches_so_far().clone();
+
+    Ok(((errors, matches), validator, input_str))
+}
+```
+
+And all the magic happens in the `valdiate` method of the `NodeWalker`. At a
+high level, the process looks like this:
+
+<div class="bg-slate-200 rounded-xl mb-2 p-8">
+<div class="flex gap-4 justify-center">
+<div class="flex flex-col items-center basis-1/2">
+  <span class="scale-150">`NodeWalker`</span>
+  <Mermaid
+    class="flex-1"
+    code={`
+flowchart TD
+    User[User]
+    Read["read_input(got_eof)"]
+    Validate[validate]
+    State[ValidatorState]
+    Report[errors / matches]
+
+    User --> Read
+    Read --> State
+
+    User --> Validate
+    Validate --> State
+
+    State --> Report
+`} />
+<p>
+</p>
+</div>
+
+<div class="flex flex-col items-center basis-1/2">
+  <span class="scale-150">`Validator`</span>
+  <Mermaid
+    class="flex-1"
+    code={`
+flowchart TD
+    InputCursor[Input TreeCursor]
+    SchemaCursor[Schema TreeCursor]
+    Walker[NodeWalker]
+
+    InputCursor --> Walker
+    SchemaCursor --> Walker
+
+    Walker --> Sync[Align cursors to position]
+    Sync --> Validate[validate_node_vs_node]
+    Validate --> State[ValidatorState]
+    `}
+  />
+</div>
+</div>
+<p>
+Starting with some initial schema and input *fragment*, we align the cursors to
+where we last left off (stored in the validator's internal state), validate as
+far as we can, and, if we got the EOF signal, report the errors and matches
+we've found so far, or otherwise update our farthest reached position and wait
+for more input.
+</p>
+</div>
+
+Now you have a high level idea of how it works!
+
+# What comes next?
+
+There's a lot more to come!
+
+Some of what I'm most excited about is:
+
+**JSON schema**
+
+The ability to generate JSON-schemas from a Markdown document. This means
+going from something like:
+
+```md
+# Hi `name:/[A-Z][a-z]+/`
+```
+
+to
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[A-Z][a-z]+$"
+    }
+  },
+  "required": ["name"]
+}
+```
+
+This would let you "compile" your schemas into types that you can use in your
+languages to safely validate Markdown schemas into langauge-safe constructs.
+
+**A language server!**: I'd really like to be able to edit markdown files and
+get live validation. Red squiggles, suggested fixes, etc.
+
+One limitation here for implementing this is that validation assumes that the
+input is streamed. With a language server, edits can occur anywhere in the
+document, and right now we would need to walk the trees all the way down from
+the location of edit to revalidate. But this is probably still relatively fast.
+
+**LLM tinkering**: There's a list of LLM related things I'd like to explore:
+
+- I'd like to [fine tune a
+  model](https://platform.openai.com/docs/guides/supervised-fine-tuning) to
+  understand MDS natively, and tinkering more with the AI use case.
+- Try to quantify how much more token efficient Markdown is compared to JSON
+  schema, and how much better the quality of structured output responses are when
+  you use Markdown
+
+**Typescript**: Eventually I'd love to have a WASM build working with
+Typescript bindings so you can validate schemas on the web too.
+
+<div class="float-right w-1/2 mb-4"> ![Sometimes the errors could be
+  better](https://static.404wolf.com/bad-mdv-errors.png) </div>
+
+**Better errors**: Right now, the error messages you get sometimes suck. Like,
+we should be able to infer in many cases that the user entered the schema as
+the input by mistake. Or provide autofixes. `
+
+# Learn more
+
+Okay, now enough about how it works and why I made it.
+
+You can find the repo **[here](https://github.com/404wolf/mdvalidate)** or the docs
+**[here](https://404wolf.github.io/mdvalidate/)**!
+
+But definitely note that it's all a half baked proof of concept. There's a lot
+left to do, and a lot of bugs!
