@@ -28,6 +28,17 @@ Your home directory is $HOME
 EOF
 ```
 
+You can also use `<<-` instead of `<<` to strip leading tabs from the heredoc content 🤯:
+```bash
+if true; then
+    cat <<- EOF
+ This line is indented with a tab
+ So is this one
+ But the tabs will be stripped from the output
+ EOF
+fi
+```
+
 The difference is that quoting the delimiter (`'EOF'`) prevents variable expansion.
 # 2025-11-02
 
