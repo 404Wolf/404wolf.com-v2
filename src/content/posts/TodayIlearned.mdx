@@ -8,6 +8,27 @@ description:
 tags: ['personal', 'featured']
 ---
 
+# 2026-01-11
+
+Bash has two types of heredocs!
+
+Regular heredoc (what you know and love):
+```bash
+cat << EOF
+Hello $USER
+Your home directory is $HOME
+EOF
+```
+
+Quoted heredoc (variables are NOT expanded, treated literally as a big chunk of string with literal $s in it):
+```bash
+cat << 'EOF'
+Hello $USER
+Your home directory is $HOME
+EOF
+```
+
+The difference is that quoting the delimiter (`'EOF'`) prevents variable expansion.
 # 2025-11-02
 
 Holding alt in vscode editors when you scroll makes you scroll faster.
