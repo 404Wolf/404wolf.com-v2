@@ -19,7 +19,6 @@
 		"@astrojs/rss": "^4.0.14",
 		"@astrojs/sitemap": "^3.6.0",
 		"@lion/ui": "^0.15.3",
-		"@lucide/astro": "^0.562.0",
 		"@octokit/rest": "^22.0.1",
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/react": "^19.2.7",
@@ -36,12 +35,14 @@
 		"rollup": "^4.54.0",
 		"sharp": "^0.34.5",
 		"simple-git": "^3.30.0",
+		"simple-icons-astro": "^16.1.0",
 		"tailwindcss": "^4.1.18",
 		"title-case": "^4.3.2",
 		"typewriter-effect": "^2.22.0",
 		"unist-util-visit": "^5.0.0"
 	},
 	"devDependencies": {
+		"@lucide/astro": "^0.562.0",
 		"npm-run-path": "5.1.0",
 		"playwright": "^1.57.0",
 		"prettier": "3.6.2",

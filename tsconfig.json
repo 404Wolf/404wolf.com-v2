@@ -6,7 +6,8 @@
 		"strictNullChecks": true,
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
-		"module": "nodenext",
-		"moduleResolution": "nodenext"
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true
 	}
 }

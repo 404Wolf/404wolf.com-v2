@@ -1,8 +1,10 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import ZoomImage from "../../components/ZoomImage.astro";
+import LinksBox from "../../components/LinksBox.astro";
 import { PostOutline } from "../../components/PostOutline.tsx";
 import { Tile } from "../../components/Tile.tsx";
+import type { BlogFrontmatterType } from "../../content.config.ts";
 import Post from "../../layouts/Post.astro";
 import { cva } from "class-variance-authority";
 
@@ -18,7 +20,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
-const { Content, headings } = await render(post);
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
 
 const styles = {
     sidebar: cva([
@@ -38,6 +40,8 @@ const styles = {
         "xl:shadow-2xl",
     ]),
 };
+
+const frontmatter = remarkPluginFrontmatter as BlogFrontmatterType;
 ---
 
 <Post {...post.data}>
@@ -61,6 +65,19 @@ const styles = {
 
     {/* Main content */}
     <Tile client:load title={post.data.title} side="right">
+        {/* Links sidebar */}
+        {
+            frontmatter.links && (
+                <LinksBox
+                    links={frontmatter.links.map(([alt, src]) => ({
+                        alt,
+                        src,
+                    }))}
+                    className="absolute -right-4 top-6"
+                />
+            )
+        }
+
         <div class="sm:px-12 xl:px-20 markdown">
             <Content
                 components={{

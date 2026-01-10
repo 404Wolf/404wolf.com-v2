@@ -47,7 +47,7 @@ export default defineConfig({
 			exclude: ["@deno/kv", "@deno/kv-linux-x64-gnu"],
 		},
 		ssr: {
-			noExternal: [],
+			noExternal: ["simple-icons-astro"],
 			external: ["@deno/kv", "@deno/kv-linux-x64-gnu"],
 		},
 	},

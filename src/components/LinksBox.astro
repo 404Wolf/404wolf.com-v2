@@ -1,0 +1,49 @@
+---
+import { Github } from "simple-icons-astro";
+import { cva } from "class-variance-authority";
+
+export interface Props {
+    links: {
+        alt: string;
+        src: string;
+    }[];
+    className?: string;
+}
+
+const { links, className } = Astro.props;
+
+const styles = {
+    container: cva(["flex", "flex-col", "gap-2", "items-center"]),
+    circle: cva([
+        "w-10",
+        "h-10",
+        "rounded-full",
+        "bg-slate-600",
+        "hover:bg-slate-700",
+        "flex",
+        "items-center",
+        "justify-center",
+    ]),
+};
+
+function getLinkIcon(url: string) {
+    if (url.includes("github.com")) {
+        return Github;
+    }
+    // Add more special cases here as needed
+    return null;
+}
+---
+
+<div class={styles.container({ className })}>
+    {
+        links.map((link) => {
+            const Icon = getLinkIcon(link.src);
+            return (
+                <a href={link.src} class={styles.circle()} title={link.alt} target="_blank" rel="noopener noreferrer">
+                    {Icon && <Icon size={24} class="text-white" />}
+                </a>
+            );
+        })
+    }
+</div>

@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { execa } from "execa";
 
 interface Props {
-	code: string;
+    code: string;
     class?: string;
 }
 
@@ -13,9 +13,9 @@ const { code, class: className } = Astro.props;
 
 const cacheDir = join(process.cwd(), "node_modules", ".astro", "mermaid");
 try {
-	await access(cacheDir);
+    await access(cacheDir);
 } catch {
-	await mkdir(cacheDir, { recursive: true });
+    await mkdir(cacheDir, { recursive: true });
 }
 
 const hash = createHash("md5").update(code).digest("hex");
@@ -24,46 +24,56 @@ const cacheFile = join(cacheDir, `${hash}.svg`);
 let svgContent: string;
 
 try {
-	await access(cacheFile);
-	svgContent = await readFile(cacheFile, "utf-8");
+    await access(cacheFile);
+    svgContent = await readFile(cacheFile, "utf-8");
+    console.log(`mermaid: cache hit for ${hash}`);
 } catch {
-	const { stdout } = await execa(
-		"mmdc",
-		["-i", "-", "-o", "-", "-b", "transparent", "-c", "mermaid-config.json"],
-		{
-			input: code,
-		},
-	);
-	svgContent = stdout;
-	await writeFile(cacheFile, svgContent, "utf-8");
+    console.log(`mermaid: cache miss for ${hash}, generating SVG...`);
+    const { stdout } = await execa(
+        "mmdc",
+        [
+            "-i",
+            "-",
+            "-o",
+            "-",
+            "-b",
+            "transparent",
+            "-c",
+            "mermaid-config.json",
+        ],
+        {
+            input: code,
+        },
+    );
+    svgContent = stdout;
+    await writeFile(cacheFile, svgContent, "utf-8");
 }
 ---
 
-<div class={`mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto ${className || ''}`}>
-    <div
-        class="mermaid-svg-container"
-        set:html={svgContent}
-    />
+<div
+    class={`mermaid w-full overflow-x-auto p-4 rounded-xl mx-auto ${className || ""}`}
+>
+    <div class="mermaid-svg-container" set:html={svgContent} />
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const containers = document.querySelectorAll('.mermaid-svg-container');
+    document.addEventListener("DOMContentLoaded", function () {
+        const containers = document.querySelectorAll(".mermaid-svg-container");
 
-    containers.forEach(container => {
-        const svg = container.querySelector('svg');
-        if (svg) {
-            // Add attributes to make SVG saveable via right-click
-            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-            svg.setAttribute('title', 'Mermaid Diagram');
-        }
+        containers.forEach((container) => {
+            const svg = container.querySelector("svg");
+            if (svg) {
+                // Add attributes to make SVG saveable via right-click
+                svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                svg.setAttribute("title", "Mermaid Diagram");
+            }
+        });
     });
-});
 </script>
 
 <style>
-.mermaid-svg-container svg {
-    max-width: 100%;
-    height: auto;
-}
+    .mermaid-svg-container svg {
+        max-width: 100%;
+        height: auto;
+    }
 </style>
