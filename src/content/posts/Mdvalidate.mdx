@@ -11,7 +11,7 @@ description: |
   arbitrary Markdown file conforms to some general shape, like starting with a
   heading with some specific content, followed by a paragraph, and extract data
   from regions of the file.
-tags: ['featured', 'personal', 'draft']
+tags: ['featured', 'personal']
 cssclasses: ['404WolfMarkdown']
 links: [["Github", "https://github.com/404wolf/mdvalidate"]]
 ---
@@ -211,14 +211,16 @@ Some important decisions in planning `mdvalidate` were defining an easy schema
 lanugage looks like what it validates, supporting streaming input, and being
 careful about expectations. Markdown is a convoluted language that comes in a
 million flavors, and I'm only supporting what I think is the most important
-subset for storing "data" in Markdown.
+subset for storing "data" in Markdown (so even though tables aren't
+[CommonMark](https://commonmark.org/), they're still a must).
 
 ## ``mdschema"
 
-`mdschema` is desinged to aesthetically *look* like the type of document that
-it is validating. Because of this, you can could take any type of Markdown
-document you have already that stores semi-structured data, and turn it into a
-schema that can match a category of document. Let's look at an example.
+`mdschema` is the schema language I desinged for `mdvalidate`. It is made to
+aesthetically *look* like the type of document that it is validating. Because of
+this, you can could take any type of Markdown document you have already that
+stores semi-structured data, and turn it into a schema that can match a category
+of document. Let's look at an example.
 
 Suppose you store a task list in Markdown:
 
@@ -278,7 +280,28 @@ For example, if we get something like:
 ```
 </div>
 
-We don't have to keep waiting.
+We don't have to keep waiting. We can know that it will not validate and exit
+early.
+
+<div class="bg-slate-200 rounded-xl mb-2 px-8 pt-8 pb-2">
+  <div class="flex flex-col items-center">
+    <video
+      src="https://static.404wolf.com/mdvalidate-stream.mp4"
+      style="border: 1px solid #000; width:100%; border-radius: 2px;"
+      width="640"
+      height="360"
+      controls
+      autoplay
+      loop
+    ></video>
+
+    Here we have a simple schema that defines a list of items that have a word,
+    followed by a number. We have an input with many items, all of which are
+    valid except one in the middle. I wrote a tiny script that streams the
+    input file into `mdvalidate` via stdin, so you can see that once we have
+    enough info to know the document has an invalid portion, we can exit early.
+  </div>
+</div>
 
 This is super handy, since Markdown is the native language of LLMs. With
 `mdvalidate` you can extract text out of an LLM response, terminate it early if
@@ -290,6 +313,8 @@ other techniques like JSON schema.
 `mdvalidate` is a rust project made with the help of
 [treesitter](https://tree-sitter.github.io/tree-sitter/) for incremental parsing
 and [this](https://github.com/ikatyang/tree-sitter-markdown) Markdown grammar.
+I'm also using [ariadne](https://docs.rs/ariadne/latest/ariadne/), a super cool
+pretty printer Rust crate!
 
 The development of `mdvalidate` is greatly simplified by the fact that the input
 and schema both parse as valid markdown, so I didn't really have to implement
@@ -351,16 +376,16 @@ When we are looking at the input:
 These are the actual syntax trees that Treesitter gives us:
 
 <SchemaAndInput
-  schema={`document[0]0..7
-└─ atx_heading[1]0..6
-   ├─ atx_h1_marker[2]0..1
-   └─ heading_content[3]1..6
-      └─ text[4]1..6`}
-  input={`document[0]0..7
-└─ atx_heading[1]0..6
-   ├─ atx_h1_marker[2]0..1
-   └─ heading_content[3]1..6
-      └─ text[4]1..6`}
+  schema={`document
+└─ atx_heading
+   ├─ atx_h1_marker
+   └─ heading_content
+      └─ text`}
+  input={`document
+└─ atx_heading
+   ├─ atx_h1_marker
+   └─ heading_content
+      └─ text`}
   valid={true}
 />
 
@@ -368,32 +393,32 @@ In this case, we are doing "literal validation" where we want to make sure that
 each node matches exactly with the schema. To start, we put pointers here:
 
 <SchemaAndInput
-  schema={`document[0]0..7 <-- we are here
-└─ atx_heading[1]0..6
-   ├─ atx_h1_marker[2]0..1
-   └─ heading_content[3]1..6
-      └─ text[4]1..6`}
-  input={`document[0]0..7 <-- we are here
-└─ atx_heading[1]0..6
-   ├─ atx_h1_marker[2]0..1
-   └─ heading_content[3]1..6
-      └─ text[4]1..6`}
+  schema={`document <-- we are here
+└─ atx_heading
+   ├─ atx_h1_marker
+   └─ heading_content
+      └─ text`}
+  input={`document <-- we are here
+└─ atx_heading
+   ├─ atx_h1_marker
+   └─ heading_content
+      └─ text`}
   valid={true}
 />
 
 And "walk" the tree...
 
 <SchemaAndInput
-  schema={`document[0]0..7 <-- matches ✔
-└─ atx_heading[1]0..6 <-- matches ✔
-   ├─ atx_h1_marker[2]0..1 <-- matches ✔
-   └─ heading_content[3]1..6 <-- matches ✔
-      └─ text[4]1..6 <-- matches ✔`}
-  input={`document[0]0..7 <-- matches ✔
-└─ atx_heading[1]0..6 <-- matches ✔
-   ├─ atx_h1_marker[2]0..1 <-- matches ✔
-   └─ heading_content[3]1..6 <-- matches ✔
-      └─ text[4]1..6 <-- matches ✔`}
+  schema={`document <-- matches ✔
+└─ atx_heading <-- matches ✔
+   ├─ atx_h1_marker <-- matches ✔
+   └─ heading_content <-- matches ✔
+      └─ text <-- matches ✔`}
+  input={`document <-- matches ✔
+└─ atx_heading <-- matches ✔
+   ├─ atx_h1_marker <-- matches ✔
+   └─ heading_content <-- matches ✔
+      └─ text <-- matches ✔`}
   valid={true}
 />
 
@@ -455,12 +480,12 @@ How do we go about implementing this? Abstraction, of course!
 "Validators." For the case of matchers, the call stack looks roughly like:
 
 ```ansi
-validate_node_vs_node (document vs document)
-└─ validate_node_vs_node (heading vs heading)
-   └─ validate_heading_vs_heading
-      └─ validate_textual_container_vs_textual_container
-         └─ validate_textual_vs_textual
-           └─ validate_matcher_vs_textual
+NodeVsNodeValidator::validate (document vs document)
+└─ NodeVsNodeValidator::validate (heading vs heading)
+   └─ HeadingVsHeadingValidator::validate
+      └─ ContainerVsContainerValidator::validate
+         └─ TextualVsTextualValidator::validate
+           └─ MatcherVsTextualValidator::validate
             ├─ Validate prefix "Hi " ✔
             ├─ Match regex /[A-Z][a-z]+/ against "Wolf" ✔
             └─ Store capture {name: "Wolf"}
@@ -509,7 +534,7 @@ input by using a "!" extra, like so
   valid={true}
 />
 
-When we run `validate_textual_container_vs_textual_container`, when we check
+When we run `ContainerVsContainerValidator::validate`, when we check
 that the number of children matches up, we have to consider the number of
 children counting `` `wolf`! `` as a single node, since the AST looks like
 
@@ -573,7 +598,7 @@ we at matcher?
 ## The Walker Abstraction
 
 And then we can, in the context of a validator, pick up at the index one of our
-callees left off at. In this case, `validate_textual_vs_textual` will leave us
+callees left off at. In this case, `TextualVsTextualValidator::validate` will leave us
 off at the end of the "textual container", so there's no more work left to be
 done.
 
@@ -609,18 +634,34 @@ where we finish.
 
 To make it easier to maintain state, I created an abstraction over the two trees
 we are walking called a
-[`Validator`](https://github.com/404Wolf/mdvalidate/blob/dfc24cd798ef74b333d3e75a819be6ca155fbe69/src/mdschema/validator/validator.rs).
+[`Validator`](https://github.com/404Wolf/mdvalidate/blob/main/src/mdschema/validation/validator.rs).
 This manages the state of where the schema node and input nodes currently last
 left off, and makes it easy to load in more input incrementally by "remembering"
 the previous state.
 
 ```rs
+/// A Validator implementation that uses a zipper tree approach to validate
+/// an input Markdown document against a markdown schema treesitter tree.
+#[derive(Debug)]
 pub struct Validator {
-    /// The current input tree. When read_input is called, this is replaced with a new tree.
-    pub input_tree: Tree,
     /// The schema tree, which does not change after initialization.
-    pub schema_tree: Tree,
-    state: ValidatorState,
+    schema_tree: Tree,
+    /// The full schema string. Does not change.
+    schema_str: String,
+    /// The current input tree. When read_input is called, this is replaced with a new tree.
+    input_tree: Tree,
+    /// The full input string as last read. Not used internally but useful for
+    /// debugging or reporting.
+    last_input_str: String,
+    /// Whether we have received the end of the input. This means that last
+    /// input tree descendant index is at the end of the input.
+    got_eof: bool,
+    /// Map of matches found so far.
+    matches_so_far: Value,
+    /// Any errors encountered during validation.
+    errors_so_far: Vec<ValidationError>,
+    /// Our farthest reached position.
+    farthest_reached_pos: NodePosPair,
 }
 ```
 
@@ -683,7 +724,7 @@ fn read_input(&mut self, input: &str, got_eof: bool) -> Result<(), ValidationErr
 
 </Collapsible>
 
-<Collapsible title='And `validate` kicks off the chain, calling validate_node_vs_node.'>
+<Collapsible title='And `validate` kicks off the chain, calling NodeVsNodeValidator::validate.'>
 
 ```rs
 /// Validates the input markdown against the schema by traversing both trees
@@ -706,7 +747,7 @@ pub fn validate(&mut self) {
 All in all, using `mdvalidate` as a library is really simple! It looks
 something like:
 
-```rs
+`````rs
 pub fn process<R: Read>(
     schema_str: &String,
     input: &mut R,
@@ -749,7 +790,7 @@ pub fn process<R: Read>(
 
     Ok(((errors, matches), validator, input_str))
 }
-```
+`````
 
 The process looks like this:
 
@@ -759,7 +800,6 @@ The process looks like this:
     <Mermaid
       class="w-full"
       code={`
-
 flowchart TD
     User[user]
     Read["read_input(got_eof)"]
@@ -769,7 +809,7 @@ flowchart TD
     InputCursor[input TreeCursor]
     SchemaCursor[schema TreeCursor]
     Sync[align cursors to position]
-    ValidateNode[validate_node_vs_node]
+    ValidateNode[NodeVsNodeValidator::validate]
 
     User --> Read
     User --> SchemaTree
@@ -784,7 +824,6 @@ flowchart TD
     Report -- new Validation Result --> State
     State -- wait for more input --> Read
     State -- we were told this read was at EOF --> done
-
       `}
     />
 
@@ -805,9 +844,13 @@ Now you have a high level idea of how it works!
 
 There's a lot more to come!
 
-One of the things I'm most excited about is generating **JSON schemas** from
-"mdschema"s, so that you can integrate `mdvalidate` with your favorite existing
-tools.
+First, there's just so much surface area. It's kinda insane. So I need to
+finish polishing super specific things like streaming input support for tables
+with repeating matchers and writing oh so many more tests.
+
+but then the fun roadmap: one of the things i'm most excited about is
+generating **json schemas** from "mdschema"s, so that you can integrate
+`mdvalidate` with your favorite existing tools.
 
  This means going from something like:
 
@@ -834,7 +877,7 @@ to
 This would let you "compile" your schemas into types that you can use in your
 languages to safely validate Markdown schemas into langauge-safe constructs.
 
-I also really want to package `mdvalidate` into **a language server!**. I'd
+I also really want to package `mdvalidate` into **a language server!** I'd
 really like to be able to edit markdown files and get live validation. Red
 squiggles, suggested fixes, etc.
 
@@ -869,6 +912,9 @@ You can find the repo **[here](https://github.com/404wolf/mdvalidate)** or the d
 
 But definitely note that it's all a half baked proof of concept. There's a lot
 left to do, and a lot of bugs!
+
+If you're excited about this idea, or have cool use cases, I'd love to hear!
+[Email me](mailto:wolf@404wolf.com)!
 
 # Shout out
 

@@ -8,7 +8,29 @@ description:
 tags: ['personal', 'featured']
 ---
 
-# 2026-01-11
+# 2026-01-10
+
+If I have a unit struct like:
+
+```rust
+struct UnitStruct;
+
+impl UnitStruct {
+	pub fn say_hi(&self) -> 'static &str {
+		"Hi!"
+	}
+}
+```
+
+Then
+
+```rust
+UnitStruct.say_hi() // implicitly creates an instance
+```
+
+Will automatically create a new one and run the method!
+
+# 2026-01-1
 
 Bash has two types of heredocs!
 
