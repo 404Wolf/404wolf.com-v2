@@ -13,7 +13,15 @@
 
     /* Default styling - apply the bleeding border effect */
     .bleeding-border {
-        @apply bg-white/30 py-4 px-8 sm:-mx-17 xl:-mx-25;
+        @apply bg-white/30 py-4 px-8
+    }
+
+    :global(not(details bleeding-border)) {
+        @apply sm:-mx-17 xl:-mx-25;
+    }
+
+    :global(details .bleeding-border) {
+        @apply sm:-mx-3 xl:-mx-3;
     }
 
     /*

@@ -183,7 +183,7 @@ $ mdv examples/cli/schema.md examples/cli/input.md - | jq
 
 So cool!
 
-## What is `mdvalidate`?
+# What is `mdvalidate`?
 
 `mdvalidate` is a tool to validate the *shape* of Markdown. With `mdvalidate`,
 you write *schemas* that define a shape of Markdown, and then check real
@@ -191,7 +191,9 @@ documents against them.
 
 There are two main components right now, the schema definition language, which
 I call `mds` (Markdown-schema), and a tool to both *validate* input documents
-and *extract* arbitrary pieces of information from them.
+and *extract* arbitrary pieces of information from them. Right now, it's all
+packaged into a CLI, but evenutally I'd like to make it a Rust and Typescript
+(wasm) library.
 
 I created `mdvalidate` because it was something I wanted. I want a way to use
 Markdown to store structured data. It's prettier and more fun to write than
@@ -220,13 +222,45 @@ subset for storing "data" in Markdown (so even though tables aren't
 aesthetically *look* like the type of document that it is validating. Because of
 this, you can could take any type of Markdown document you have already that
 stores semi-structured data, and turn it into a schema that can match a category
-of document. Let's look at an example.
+of document.
+
+Let's look at a very basic example. To start, all "mdschema" files with vanilla
+Markdown validate themselves. So
+
+<SchemaAndInput
+  schema={`# Hello Wolf`}
+  input={`# Hello Wolf`}
+  output={`{}`}
+  valid={true}
+/>
+
+Validates, but produces no output. An input document will validate itself! We
+can insert "matchers" into the Markdown, which are inline code spans with
+special internal content, to "capture" text:
+
+<SchemaAndInput
+  schema={`# Hello \`name\``}
+  input={`# Hello Wolf`}
+  output={`{"name": "Wolf"}`}
+  valid={true}
+/>
+
+And use regular expressions to force the text to be of a specific shape.
+
+<SchemaAndInput
+  schema={`# Hello \`name:/[A-Z][a-z]+/\``}
+  input={`# Hello Wolf`}
+  output={`{"name": "Wolf"}`}
+  valid={true}
+/>
+
+There is special matcher syntax for various different types of Markdown nodes.
 
 Suppose you store a task list in Markdown:
 
 <SchemaAndInput
-  schema={`# Grocery list\n\n ## Food items\n \`food_item\`{,}\n\n ## Cosmetics\n \`cosmetic\`{,}`}
-  input={`# Grocery list\n\n ## Food items\n Apples\n Oranges\n\n ## Cosmetics\n Shampoo`}
+  schema={`# Grocery list\n\n ## Food items\n - \`food_item\`{,}\n\n ## Cosmetics\n - \`cosmetic\`{,}`}
+  input={`# Grocery list\n\n ## Food items\n - Apples\n - Oranges\n\n ## Cosmetics\n - Shampoo`}
   output={`{
   "cosmetic": [
     [
@@ -246,6 +280,9 @@ Suppose you store a task list in Markdown:
 />
 
 Notice how "natural" it is to write up a schema for it.
+
+You use repeating matchers, specifying `{,}` to say "as many list items of this
+form as you want."
 
 ## Streaming
 
@@ -308,13 +345,20 @@ This is super handy, since Markdown is the native language of LLMs. With
 it violates the allowed shape, and be much more token efficient than using many
 other techniques like JSON schema.
 
+It turns out streaming is really complicated to implement, and requires
+validating trees that aren't totally well formed yet. So there are probably
+some bugs lurking here.
+
 # Making it!
 
 `mdvalidate` is a rust project made with the help of
-[treesitter](https://tree-sitter.github.io/tree-sitter/) for incremental parsing
-and [this](https://github.com/ikatyang/tree-sitter-markdown) Markdown grammar.
-I'm also using [ariadne](https://docs.rs/ariadne/latest/ariadne/), a super cool
-pretty printer Rust crate!
+[treesitter](https://tree-sitter.github.io/tree-sitter/) for incremental
+parsing and [this](https://github.com/ikatyang/tree-sitter-markdown) Markdown
+grammar. I chose Treesitter so that streaming support would be possible, since
+Treesitter is good at dealing with incomplete trees, and also so that I can
+quickly recompute trees without starting from scratch. I'm also using
+[ariadne](https://docs.rs/ariadne/latest/ariadne/), a super cool pretty printer
+Rust crate!
 
 The development of `mdvalidate` is greatly simplified by the fact that the input
 and schema both parse as valid markdown, so I didn't really have to implement
@@ -730,15 +774,31 @@ fn read_input(&mut self, input: &str, got_eof: bool) -> Result<(), ValidationErr
 /// Validates the input markdown against the schema by traversing both trees
 /// in parallel to the ends, starting from where we last left off.
 pub fn validate(&mut self) {
-  if self.state().got_eof() {
-      self.state.set_farthest_reached_pos(NodePosPair::default());
-  }
-  let mut node_validator = NodeWalker::new(
-      &mut self.state,
-      self.input_tree.walk(),
-      self.schema_tree.walk(),
-  );
-  node_validator.validate();
+    if self.got_eof() {
+        self.set_farthest_reached_pos(NodePosPair::default());
+        // Clear errors when revalidating from the beginning at EOF
+        // to avoid duplicate errors from streaming validation
+        self.errors_so_far.clear();
+        self.matches_so_far = Value::Object(Map::new());
+    }
+
+    let got_eof = self.got_eof();
+    let farthest_reached_pos = self.farthest_reached_pos();
+    let schema_str = self.schema_str.clone();
+    let input_str = self.last_input_str.clone();
+
+    let validation_result = {
+        let mut schema_cursor = self.schema_tree.walk();
+        let mut input_cursor = self.input_tree.walk();
+
+        // Go to where we last left off
+        farthest_reached_pos.walk_cursors_to_pos(&mut schema_cursor, &mut input_cursor);
+
+        let walker = ValidatorWalker::new(schema_cursor, &schema_str, input_cursor, &input_str);
+        NodeVsNodeValidator.validate(&walker, got_eof)
+    };
+
+    self.push_validation_result(validation_result);
 }
 ```
 
