@@ -724,7 +724,7 @@ fn read_input(&mut self, input: &str, got_eof: bool) -> Result<(), ValidationErr
 
 </Collapsible>
 
-<Collapsible title='And `validate` kicks off the chain, calling NodeVsNodeValidator::validate.'>
+<Collapsible title={'And \`validate\` kicks off the chain, calling NodeVsNodeValidator::validate.'}>
 
 ```rs
 /// Validates the input markdown against the schema by traversing both trees
@@ -747,7 +747,7 @@ pub fn validate(&mut self) {
 All in all, using `mdvalidate` as a library is really simple! It looks
 something like:
 
-`````rs
+```rs
 pub fn process<R: Read>(
     schema_str: &String,
     input: &mut R,
@@ -790,7 +790,7 @@ pub fn process<R: Read>(
 
     Ok(((errors, matches), validator, input_str))
 }
-`````
+```
 
 The process looks like this:
 

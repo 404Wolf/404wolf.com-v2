@@ -13,7 +13,7 @@ const featuredPosts = allPosts
 	.sort(
 		(a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 	)
-	.slice(0, 6)
+	.slice(0, 8)
 	.map((post) => {
 		// Remove the "featured" tag since we are only showing featured posts anyway
 		post.data.tags = post.data.tags.filter((tag) => tag !== "featured");
