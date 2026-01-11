@@ -293,7 +293,7 @@ and [this](https://github.com/ikatyang/tree-sitter-markdown) Markdown grammar.
 
 The development of `mdvalidate` is greatly simplified by the fact that the input
 and schema both parse as valid markdown, so I didn't really have to implement
-any parsing or lexing logic.
+any parsing or lexing logic!
 
 ## Tree Zippers
 
@@ -499,8 +499,9 @@ ValidationResult
 ```
 
 Along the way, there's some complicated cases we have to handle specially when
-certain nodes act like other nodes. For example, you can specify you expect a
-literal code node in your input by using a "!" extra, like so
+certain nodes act like other nodes, which the different validators are able to
+delagate. For example, you can specify you expect a literal code node in your
+input by using a "!" extra, like so
 
 <SchemaAndInput
   schema={`# Hi \`Wolf\`!`}
@@ -565,6 +566,7 @@ we at matcher?
             ├── yes -> collapse 1 node
             └── no -> collapse 0 nodes
 ```
+
 </Collapsible>
 
 
@@ -803,7 +805,7 @@ Now you have a high level idea of how it works!
 
 There's a lot more to come!
 
-One of the thigns I'm most excited about is generating **JSON schemas** from
+One of the things I'm most excited about is generating **JSON schemas** from
 "mdschema"s, so that you can integrate `mdvalidate` with your favorite existing
 tools.
 
@@ -832,7 +834,7 @@ to
 This would let you "compile" your schemas into types that you can use in your
 languages to safely validate Markdown schemas into langauge-safe constructs.
 
-I also really want to package `mdvalidate` into **A language server!**. I'd
+I also really want to package `mdvalidate` into **a language server!**. I'd
 really like to be able to edit markdown files and get live validation. Red
 squiggles, suggested fixes, etc.
 
@@ -841,7 +843,7 @@ input is streamed. With a language server, edits can occur anywhere in the
 document, and right now we would need to walk the trees all the way down from
 the location of edit to revalidate. But this is probably still relatively fast.
 
-And, in general, more **LLM tinkering**: There's a few LLM related things I'd
+And, in general, more **LLM tinkering**: there's a few LLM related things I'd
 like to explore.
 
 I'd like to [fine tune a
