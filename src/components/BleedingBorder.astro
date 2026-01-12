@@ -13,17 +13,17 @@
 
     /* Default styling - apply the bleeding border effect */
     .bleeding-border {
-        @apply bg-white/30 py-4 px-8
+        @apply bg-white/30 py-4 px-8 -mx-5 sm:-mx-17 xl:-mx-25
     }
 
-    :global(not(details bleeding-border)) {
+    /*:global(not(details bleeding-border)) {
         @apply sm:-mx-17 xl:-mx-25;
     }
 
     :global(details .bleeding-border) {
         @apply sm:-mx-3 xl:-mx-3;
     }
-
+*/
     /*
     Remove the bleeding border effect when inside a floating element
 
