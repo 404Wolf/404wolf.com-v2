@@ -1,0 +1,284 @@
+---
+title: Live Typing Demo
+type: 'blog'
+date: '2026-06-26'
+covers: []
+description: |
+  An experiment: a blog post that writes itself. The intro is replayed from a
+  captured trace of an AI agent editing a live document — every keystroke, cursor
+  move, and selection — then the rest of the post fades in.
+tags: ['personal', 'draft']
+---
+
+import ReplayEditor from './ReplayEditor.tsx'
+import trace from './trace.json'
+
+<ReplayEditor client:only="react" trace={trace} speed={1.25} />
+
+<div id="blog-rest">
+
+<video src="https://static-file-service.macro.com/file/c356f246-d659-4b49-b4e0-8dc6ce3b33dd" autoplay muted loop playsinline controls width="100%"></video>
+
+Finding a safe way to let LLMs modify your document *tree* in a way that is
+natural and doesn't totally bork the document state is a hard problem. We want
+many timed and concurrent changes in small pieces like keystrokes, surgically
+mutating nodes, without abruptly swapping out big chunks.
+
+## Our System
+
+Macro documents aren't regular markdown documents. They're a tree (an
+[*AST*](https://en.wikipedia.org/wiki/Abstract_syntax_tree)ree) of all the
+common nodes (headers, lists, tables), and a bunch of awesome custom ones --
+like our @mention node that points at other documents, document preview chips,
+etc. AI's really great at pumping out Markdown, but for the case of Macro
+documents, we're a bit beyond vanilla MD.
+
+For our first pass, we took a simple approach: let the LLM only swap entire top
+level blocks with a generated hunks of Markdown that we parse into Lexical. We
+thought it'd be easier for it to produce quality MD than to reason "**bold**ing
+this word means splitting a text node into three nodes, with a bold child." `a
+markdown **bold** word` is a natural. This was true-ish, but the "swap the
+entire block" approach was much too coarse, and it'd often either edit way too
+much, or not get the job done. We eventually un-shipped the implementation.
+
+![](https://static-file-service.macro.com/file/27762acc-d485-456e-a96c-5e62f97b076f)
+
+The second time around, I put focus not just on correctness, but also on editing
+having a more natural, definitively noncreepy human vibe. So I built a black box
+(I love black boxes) that pretends to be a human that can edit your documents on
+your behalf. You say POST "update my tables and checklists" and `Bob (AI)` `Sam
+(AI)` and `Lilly (AI)` pop in and start editing all over the document. It's fun,
+the job gets done, and the way we do it the agents have full control down to the
+deepest leaf in your document's node tree. Let's get building.
+
+Doing some research, there's other people who have tried similar techniques. The
+Electricsql folks have a blog about using a [ tool-call based
+system](https://electric.ax/blog/2026/04/08/ai-agents-as-crdt-peers-with-yjs)
+where the LLM operates like a human editor -- it walks to a spot and "starts
+streaming" text. One idea that I had was to just give an agent full access to a
+real Neovim instance. But the issues with these kinds of approaches are that
+fundamentally our documents are not flat. We need a system that properly
+understands the structure of our documents.
+
+## Views
+
+My first step was playing around with a bunch of different formats for
+presenting documents to AI. I imagined we needed a way where we would have the
+power to know exactly what node changed so as to emit proper CRDT events.
+Keeping with our static ID system would let us keep using our existing abstracti
+
+The easiest path was just give it the raw JSON  state
+
+```json
+{
+  "root": {
+    "type": "root",
+    "children": [ {
+        "type": "paragraph", "$": { "id": "UR-e0WKc", "searchText": "Test" },
+        "children": [ { "text": "Test", "$": { "id": "I4LEHzZP" } } ]
+	  }, ],
+    "$": { "documentMetadata": { ... }, "id": "root" }
+  }
+}
+```
+
+And have it produce [JSON-patches](https://jsonpatch.com/) to get us to a new
+state. Or we have it produce tool calls like "insert node after" on this JSON.
+It turns out LLMs are absolutely terrible at producing good patches or JSON
+diffs, and the JSON itself overloads its context with complicated structure that
+it struggles to reason about.
+
+We could use a fancy markdown-with-ID stamp view
+
+```plaintext
+# Test {j79y-kQTrLC}
+
+- Test {TmIbYUa2T0B}
+{list YDo797VdY9Q}
+```
+
+Where we could see what node is what if the LLM edited while keeping IDs next to
+nodes, and inserted some sort of placeholder when it wanted to create new ones.
+We also could use *raw* markdown, where we "infer" what the changes are. But
+going down this route would mean writing a complicated parser, and having to
+deal with serializing all of our custom nodes properly.
+
+What I ended up settling on is an XML tree view
+
+```html
+<doc>
+  <p id="UR-e0WKc">
+    <t id="I4LEHzZP">Test</t>
+  </p>
+</doc>
+```
+
+It's easy, the LLM can understand the structure, and it's natural for AI to
+think about things in XML. The main drawback here is that XML's balloon pretty
+quickly, and context is expensive $$
+
+## The Macro Document "Toolkit"
+
+What I realized is that we don't *need* the input format for the LLM to match
+its output! My initial approach was to just have it edit some serialized *view*
+and tell it to go crazy with `sed` and `python`, but instead I got more
+creative.
+
+Claude Code recently added "dynamic workflows" recently, which is a feature
+where a primary agent writes a script to orchestrate a complicated flow of
+tasks.
+
+![](https://static-file-service.macro.com/file/2055d663-e137-4fee-9aff-b3a390c529d1)
+
+Rather than have the AI read some input and modify it, it got me thinking: maybe
+it'd most natural if the *view* is more of a "*lens*" that helps the agent
+figure out what it needs to do to edit the document, and it isn't the one to
+make the changes. It can have small "editors" write code against a fake library
+that it believes actually modifies the AST. My thesis: *having many small agents
+complete hyperspecific tasks produces a better result than having a single giant
+agent do everything at once because the semantics of document structure are
+delegated.*
+
+For the library I expose to these coders, I wanted it **thin**: it doesn't
+literally act on Lexical, but instead accumulates intended edits, so that I
+could do post-processing on the edit events to simulate animation, and more
+easily write tests.
+
+Rather than literal imperative Lexical mutations
+
+```ts
+import { $getNodeByKey, $createTextNode } from 'lexical';
+
+editor.update(() => {
+  const para = $getNodeByKey('UKTNFKdd');
+  if (!para) throw new Error('node gone');
+  para.append($createTextNode('Hello, world!'));
+});
+```
+
+It writes simple mutations.
+
+```ts editor.setText('UKTNFKdd', 'Hello, world!'); ```
+
+So that the "editors" can be cheap models that don't need much cognitive
+overhead to make real changes. These changes nest into a nice list of
+"operations," like
+
+```ts
+[ { "kind": "setText", "node": "UKTNFKdd", "text": "Hello, world!" } ]
+```
+
+And we can "chop" it up with an animation post-processing framework to make it look human.
+
+```json
+[
+  { "kind": "awareness", "x": { "type": "cursor", "node": "UKTNFKdd", "at": 0 } },
+  { "kind": "pause", "ms": 120 },
+  { "kind": "edit", "y": { "kind": "insertText", "node": "UKTNFKdd", "at": 0, "text": "Hel" } },
+  { "kind": "edit", "y": { "kind": "setText", "node": "UKTNFKdd", "text": "Hello, world!" } }
+]
+```
+
+The animation "framework": a giant match on every op. Another unintended upside
+of going this route: we can run the generated code in a cheap
+[quickjs](https://bellard.org/quickjs/) sandbox with no libraries, and print out
+a JSON serialization super easily.
+
+And for the supervising agent, it doesn't have to think at all about *how* the
+document is edited. It just reasons out a list of tasks for writers "insert
+paragraph next to node ID X that says Y," "set the cell (2,3) in table ID Z to
+be blank," etc.
+
+The magic trio ends up looking like:
+
+- An "**interpreter**" sonnet thinking agent to digest the request. What do you
+  want? Why do you want it?
+- A "**supervisor**" haiku agent, that dispatches "writers" to write to the
+  document, and keeps iterating until it's happy with all the changes and feels
+  the request has been met
+- And a "team" of **writer**s that work to execute simple mechanical tasks "add
+  a heading", "fill in the table," "repeatedly check and uncheck these checkboxes
+  and swap around the order to mess with Eric." These agents write very simple
+  code, and I've found success with cheap and fast
+  [Cerebras](https://www.cerebras.ai/) OpenAI OSS agents
+
+I applied some cool tricks for the agent-to-agent communication, like that the
+supervisor agent includes "snippets" to the coder, so the coder doesn't have to
+manually "type out" (generatec) long strings of text.
+
+Okay enough of the details. Now we're both experts, let's go through a real
+example here.....
+
+# Following the flow
+
+Let's edit a document with our new AI editing system!
+
+<video src="https://static-file-service.macro.com/file/f762584c-d7b8-4128-ac7a-bfe6fa72e875" autoplay muted loop playsinline controls width="100%"></video>
+
+The first step to kicking off the flow is asking our Macro agent to edit your
+document. Let's try a creative request
+
+>  "write hello world in my document"
+
+This will get it to call the document edit tool...
+
+> The user is asking me to edit the @Frog Report document. This is a request to
+> edit an existing document. I will use my DocumentEdit tool to dispatch the
+> edit.
+
+Which will kick off the system. Now the interpreter agent will understand what
+you want...
+
+```plaintext
+# Interpretation
+1. Literal ask: Write "Hello, world!" into the document.
+2. Underlying goal: A minimal smoke-test of the editing pipeline.
+3. End state: One <p> containing the text "Hello, world!".
+4. Scope: Single paragraph. No structural changes.
+5. Style: Plain text. No format to conform to.
+6. Success checklist:
+   - Paragraph holds the literal string (no placeholder).
+   - No extra nodes introduced.
+```
+
+The supervisor reads the interpretation and dispatch the "editors" (potentially
+more than one at once!) to get the job done.
+
+```markdown
+**dispatch** — 1 edit(s)
+1. In paragraph id='UKTNFKdd', set its text to snippets.text.
+```
+
+Each editor writes a tiny bit of code, using our custom library,
+
+```js
+const snippets = {
+  text: "Hello, world!"
+};
+editor.setText('UKTNFKdd', snippets.text);
+```
+
+And we can now easily use a small Lexical translation layer to map the setText
+to the real document. But instead we pre-process the edits into a broken-up
+animation sequence and push them into a queue that will stream the events to
+everyone looking at the document...
+
+...meanwhile, the supervisor will get a "report" back of how applying the code
+went:
+
+```markdown
+1. ✓ APPLIED
+
++ Hello, world!
+```
+
+And then report back to the main Macro agent to conclude the tool call
+
+```markdown
+Done! The paragraph now contains "Hello, world!" as a single text node.
+```
+
+Which will then have it tell you that the job has been done. Now, the document
+is left being typed out by real looking editors.
+
+</div>

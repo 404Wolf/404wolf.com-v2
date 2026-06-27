@@ -8,6 +8,7 @@ import { defineConfig } from "astro/config";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { SITE_URL } from "./src/consts.ts";
+import { lexicalVite } from "./src/content/posts/LiveTypingDemo/vite.ts";
 import { fetchLatestResume } from "./src/resume.ts";
 
 export default defineConfig({
@@ -42,9 +43,13 @@ export default defineConfig({
 			alias: {
 				"unicorn-magic": path.resolve("./src/hack/unicorn-magic.js"),
 			},
+			// dedupe the lexical family → single `lexical` instance (see vite.ts).
+			...lexicalVite.resolve,
 		},
 		optimizeDeps: {
 			exclude: ["@deno/kv", "@deno/kv-linux-x64-gnu"],
+			// pre-bundle the lexical family together (see vite.ts).
+			...lexicalVite.optimizeDeps,
 		},
 		ssr: {
 			noExternal: ["simple-icons-astro"],

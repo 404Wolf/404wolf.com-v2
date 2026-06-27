@@ -33,7 +33,14 @@ export const postsFrontmatterSchema = z.object({
 export type BlogFrontmatterType = z.infer<typeof postsFrontmatterSchema>;
 
 const posts = defineCollection({
-	loader: glob({ base: "./src/content/posts", pattern: "**/*.{mdx,md}" }),
+	loader: glob({
+		base: "./src/content/posts",
+		pattern: "**/*.{mdx,md}",
+		// A post may be a flat `Name.mdx` or a folder `Name/index.mdx` (so it can
+		// colocate its own code/assets). Both yield the id `Name` → clean URLs.
+		generateId: ({ entry }) =>
+			entry.replace(/\/index\.mdx?$/, "").replace(/\.mdx?$/, ""),
+	}),
 	schema: () => postsFrontmatterSchema,
 });
 

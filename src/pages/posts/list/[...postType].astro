@@ -20,7 +20,9 @@ const singularPostType = postType.endsWith("s")
 	? postType.slice(0, -1)
 	: postType;
 
-const posts = allPosts.filter((p) => p.data.type === singularPostType);
+const posts = allPosts.filter(
+	(p) => p.data.type === singularPostType && !p.data.tags.includes("draft"),
+);
 
 // The header for a given "type" of post, like for "Projects" posts, must
 // have a corresponding MDX file in the content directory

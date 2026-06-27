@@ -1,0 +1,4926 @@
+{
+	"initial": {
+		"root": {
+			"children": [
+				{
+					"children": [
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": "I recently started at Macro.cm",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "FJd4lyaX" }
+						},
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": ", working on our open source supertool that brings together the best of productivity tools like Obsidian, Linear, and Slack, into a sweet, unified platform that's delightful to use.",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "ADT-83FE" }
+						}
+					],
+					"direction": "ltr",
+					"format": "",
+					"indent": 0,
+					"type": "paragraph",
+					"version": 1,
+					"$": {
+						"id": "yWdaYpCj",
+						"searchText": "I recently started at Macro.cm, working on our open source supertool that brings together the best of productivity tools like Obsidian, Linear, and Slack, into a sweet, unified platform that's delightful to use."
+					},
+					"textFormat": 0,
+					"textStyle": ""
+				},
+				{
+					"children": [
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": "One of my first tasks: make it possible for ",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "cucGpfoj" }
+						},
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": "AI to edit documents across the platform",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "-kD7wRVq" }
+						},
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": " ",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "LocPsdP3" }
+						},
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": "create s",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "ABh01HK6" }
+						},
+						{
+							"detail": 0,
+							"format": 0,
+							"mode": "normal",
+							"style": "",
+							"text": "warms of agents to come in and attack your documents with requested changes while you are mid edit and have no way to stop them.",
+							"type": "text",
+							"version": 1,
+							"$": { "id": "eOviwdG7" }
+						}
+					],
+					"direction": "ltr",
+					"format": "",
+					"indent": 0,
+					"type": "paragraph",
+					"version": 1,
+					"$": {
+						"id": "5PsiN08E",
+						"searchText": "One of my first tasks: make it possible for AI to edit documents across the platform create swarms of agents to come in and attack your documents with requested changes while you are mid edit and have no way to stop them."
+					},
+					"textFormat": 0,
+					"textStyle": ""
+				},
+				{
+					"children": [],
+					"direction": null,
+					"format": "",
+					"indent": 0,
+					"type": "paragraph",
+					"version": 1,
+					"$": { "id": "qI5OjFox", "searchText": "" },
+					"textFormat": 0,
+					"textStyle": ""
+				}
+			],
+			"direction": "ltr",
+			"format": "",
+			"indent": 0,
+			"type": "root",
+			"version": 1,
+			"$": { "documentMetadata": { "version": 2.1 }, "id": "root" }
+		}
+	},
+	"events": [
+		{
+			"t": 17612,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 0 }
+		},
+		{
+			"t": 17778,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "qI5OjFox",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 17952,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "qI5OjFox",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 18016,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ABh01HK6", "at": 0 }
+		},
+		{
+			"t": 18172,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "qI5OjFox",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 18176,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ABh01HK6",
+				"span": { "start": 0, "end": 2 }
+			}
+		},
+		{
+			"t": 18398,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ABh01HK6",
+				"span": { "start": 0, "end": 3 }
+			}
+		},
+		{
+			"t": 18505,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "qI5OjFox", "at": 0, "text": "In " }
+		},
+		{
+			"t": 18505,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 3 }
+		},
+		{
+			"t": 18540,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "qI5OjFox", "at": 3, "text": "thi" }
+		},
+		{
+			"t": 18541,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 6 }
+		},
+		{
+			"t": 18599,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "qI5OjFox", "at": 6, "text": "s b" }
+		},
+		{
+			"t": 18599,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 9 }
+		},
+		{
+			"t": 18615,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ABh01HK6",
+				"span": { "start": 0, "end": 5 }
+			}
+		},
+		{
+			"t": 18659,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "qI5OjFox", "at": 9, "text": "log" }
+		},
+		{
+			"t": 18659,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 12 }
+		},
+		{
+			"t": 18725,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 12,
+				"text": " I "
+			}
+		},
+		{
+			"t": 18725,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 15 }
+		},
+		{
+			"t": 18734,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ABh01HK6",
+				"span": { "start": 0, "end": 6 }
+			}
+		},
+		{
+			"t": 18762,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 15,
+				"text": "tal"
+			}
+		},
+		{
+			"t": 18762,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 18 }
+		},
+		{
+			"t": 18818,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 18,
+				"text": "k a"
+			}
+		},
+		{
+			"t": 18818,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 21 }
+		},
+		{
+			"t": 18854,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ABh01HK6",
+				"span": { "start": 0, "end": 8 }
+			}
+		},
+		{
+			"t": 18876,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 21,
+				"text": "bou"
+			}
+		},
+		{
+			"t": 18877,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 24 }
+		},
+		{
+			"t": 18937,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 24,
+				"text": "t h"
+			}
+		},
+		{
+			"t": 18937,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 27 }
+		},
+		{
+			"t": 18951,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "FJd4lyaX", "at": 0 }
+		},
+		{
+			"t": 18999,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 27,
+				"text": "ow "
+			}
+		},
+		{
+			"t": 18999,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 30 }
+		},
+		{
+			"t": 19036,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "edit",
+			"op": {
+				"kind": "formatText",
+				"node": "ABh01HK6",
+				"match": "create s",
+				"format": "strike",
+				"on": true,
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 19036,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "eOviwdG7", "at": 127 }
+		},
+		{
+			"t": 19039,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "FJd4lyaX",
+				"span": { "start": 0, "end": 8 }
+			}
+		},
+		{
+			"t": 19042,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 30,
+				"text": "we "
+			}
+		},
+		{
+			"t": 19042,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 33 }
+		},
+		{
+			"t": 19080,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 33,
+				"text": "imp"
+			}
+		},
+		{
+			"t": 19081,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 36 }
+		},
+		{
+			"t": 19110,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 36,
+				"text": "lem"
+			}
+		},
+		{
+			"t": 19110,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 39 }
+		},
+		{
+			"t": 19157,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 39,
+				"text": "ent"
+			}
+		},
+		{
+			"t": 19158,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 42 }
+		},
+		{
+			"t": 19162,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "FJd4lyaX",
+				"span": { "start": 0, "end": 15 }
+			}
+		},
+		{
+			"t": 19190,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 42,
+				"text": "ed "
+			}
+		},
+		{
+			"t": 19190,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 45 }
+		},
+		{
+			"t": 19198,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "eOviwdG7",
+				"span": { "start": 106, "end": 127 }
+			}
+		},
+		{
+			"t": 19248,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 45,
+				"text": "AI "
+			}
+		},
+		{
+			"t": 19248,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 48 }
+		},
+		{
+			"t": 19278,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 48,
+				"text": "Edi"
+			}
+		},
+		{
+			"t": 19278,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 51 }
+		},
+		{
+			"t": 19284,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "FJd4lyaX",
+				"span": { "start": 0, "end": 23 }
+			}
+		},
+		{
+			"t": 19289,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "eOviwdG7",
+				"span": { "start": 85, "end": 127 }
+			}
+		},
+		{
+			"t": 19337,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 51,
+				"text": "tin"
+			}
+		},
+		{
+			"t": 19338,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 54 }
+		},
+		{
+			"t": 19379,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 54,
+				"text": "g p"
+			}
+		},
+		{
+			"t": 19380,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 57 }
+		},
+		{
+			"t": 19413,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 57,
+				"text": "art"
+			}
+		},
+		{
+			"t": 19414,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 60 }
+		},
+		{
+			"t": 19462,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 60,
+				"text": " 2."
+			}
+		},
+		{
+			"t": 19463,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 63 }
+		},
+		{
+			"t": 19515,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "eOviwdG7",
+				"span": { "start": 63, "end": 127 }
+			}
+		},
+		{
+			"t": 19519,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "FJd4lyaX",
+				"span": { "start": 0, "end": 30 }
+			}
+		},
+		{
+			"t": 19523,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 63,
+				"text": "0, "
+			}
+		},
+		{
+			"t": 19523,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 66 }
+		},
+		{
+			"t": 19559,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 66,
+				"text": "wit"
+			}
+		},
+		{
+			"t": 19559,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 69 }
+		},
+		{
+			"t": 19602,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 69,
+				"text": "h a"
+			}
+		},
+		{
+			"t": 19602,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 72 }
+		},
+		{
+			"t": 19638,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 72,
+				"text": " “t"
+			}
+		},
+		{
+			"t": 19639,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 75 }
+		},
+		{
+			"t": 19640,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "eOviwdG7",
+				"span": { "start": 42, "end": 127 }
+			}
+		},
+		{
+			"t": 19700,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 75,
+				"text": "eam"
+			}
+		},
+		{
+			"t": 19700,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 78 }
+		},
+		{
+			"t": 19756,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 78,
+				"text": "” o"
+			}
+		},
+		{
+			"t": 19757,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 81 }
+		},
+		{
+			"t": 19803,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 81,
+				"text": "f a"
+			}
+		},
+		{
+			"t": 19803,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 84 }
+		},
+		{
+			"t": 19808,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "eOviwdG7",
+				"span": { "start": 21, "end": 127 }
+			}
+		},
+		{
+			"t": 19834,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 84,
+				"text": "gen"
+			}
+		},
+		{
+			"t": 19835,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 87 }
+		},
+		{
+			"t": 19880,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 87,
+				"text": "ts "
+			}
+		},
+		{
+			"t": 19880,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 90 }
+		},
+		{
+			"t": 19930,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 90,
+				"text": "tha"
+			}
+		},
+		{
+			"t": 19931,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 93 }
+		},
+		{
+			"t": 19975,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 93,
+				"text": "t c"
+			}
+		},
+		{
+			"t": 19975,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 96 }
+		},
+		{
+			"t": 20007,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "eOviwdG7",
+				"span": { "start": 0, "end": 127 }
+			}
+		},
+		{
+			"t": 20038,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 96,
+				"text": "oop"
+			}
+		},
+		{
+			"t": 20039,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 99 }
+		},
+		{
+			"t": 20073,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 99,
+				"text": "era"
+			}
+		},
+		{
+			"t": 20073,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 102 }
+		},
+		{
+			"t": 20110,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "edit",
+			"op": {
+				"kind": "formatText",
+				"node": "eOviwdG7",
+				"match": "warms of agents to come in and attack your documents with requested changes while you are mid edit and have no way to stop them",
+				"format": "strike",
+				"on": true,
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 20134,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 102,
+				"text": "te "
+			}
+		},
+		{
+			"t": 20134,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 105 }
+		},
+		{
+			"t": 20182,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 105,
+				"text": "to "
+			}
+		},
+		{
+			"t": 20183,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 108 }
+		},
+		{
+			"t": 20225,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 108,
+				"text": "mak"
+			}
+		},
+		{
+			"t": 20225,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 111 }
+		},
+		{
+			"t": 20264,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "removeText", "node": "FJd4lyaX", "at": 0, "len": 30 }
+		},
+		{
+			"t": 20264,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "FJd4lyaX", "at": 0 }
+		},
+		{
+			"t": 20289,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 111,
+				"text": "e t"
+			}
+		},
+		{
+			"t": 20289,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 114 }
+		},
+		{
+			"t": 20319,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 114,
+				"text": "arg"
+			}
+		},
+		{
+			"t": 20319,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 117 }
+		},
+		{
+			"t": 20375,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 117,
+				"text": "ete"
+			}
+		},
+		{
+			"t": 20376,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 120 }
+		},
+		{
+			"t": 20405,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "FJd4lyaX", "at": 0, "text": "I r" }
+		},
+		{
+			"t": 20439,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 120,
+				"text": "d c"
+			}
+		},
+		{
+			"t": 20439,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 123 }
+		},
+		{
+			"t": 20497,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 123,
+				"text": "onc"
+			}
+		},
+		{
+			"t": 20498,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 126 }
+		},
+		{
+			"t": 20556,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 126,
+				"text": "urr"
+			}
+		},
+		{
+			"t": 20557,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 129 }
+		},
+		{
+			"t": 20625,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 129,
+				"text": "ent"
+			}
+		},
+		{
+			"t": 20625,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 132 }
+		},
+		{
+			"t": 20690,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 132,
+				"text": " ed"
+			}
+		},
+		{
+			"t": 20690,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 135 }
+		},
+		{
+			"t": 20725,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 135,
+				"text": "its"
+			}
+		},
+		{
+			"t": 20725,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 138 }
+		},
+		{
+			"t": 20769,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 138,
+				"text": " to"
+			}
+		},
+		{
+			"t": 20769,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 141 }
+		},
+		{
+			"t": 20822,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 141,
+				"text": " yo"
+			}
+		},
+		{
+			"t": 20822,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 144 }
+		},
+		{
+			"t": 20878,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 144,
+				"text": "ur "
+			}
+		},
+		{
+			"t": 20878,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 147 }
+		},
+		{
+			"t": 20926,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 147,
+				"text": "doc"
+			}
+		},
+		{
+			"t": 20927,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 150 }
+		},
+		{
+			"t": 20990,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 150,
+				"text": "ume"
+			}
+		},
+		{
+			"t": 20990,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 153 }
+		},
+		{
+			"t": 21045,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 153,
+				"text": "nt "
+			}
+		},
+		{
+			"t": 21045,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 156 }
+		},
+		{
+			"t": 21082,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 156,
+				"text": "to "
+			}
+		},
+		{
+			"t": 21082,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 159 }
+		},
+		{
+			"t": 21111,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 159,
+				"text": "ful"
+			}
+		},
+		{
+			"t": 21111,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 162 }
+		},
+		{
+			"t": 21150,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 162,
+				"text": "fil"
+			}
+		},
+		{
+			"t": 21150,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 165 }
+		},
+		{
+			"t": 21151,
+			"peer": { "name": "Wolf (AI)", "color": "accent-30" },
+			"kind": "clear"
+		},
+		{
+			"t": 21207,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 165,
+				"text": "l r"
+			}
+		},
+		{
+			"t": 21208,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 168 }
+		},
+		{
+			"t": 21264,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 168,
+				"text": "equ"
+			}
+		},
+		{
+			"t": 21264,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 171 }
+		},
+		{
+			"t": 21307,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 171,
+				"text": "est"
+			}
+		},
+		{
+			"t": 21307,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 174 }
+		},
+		{
+			"t": 21372,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 174,
+				"text": "s. "
+			}
+		},
+		{
+			"t": 21373,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 177 }
+		},
+		{
+			"t": 21421,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 177,
+				"text": "It’"
+			}
+		},
+		{
+			"t": 21421,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 180 }
+		},
+		{
+			"t": 21489,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 180,
+				"text": "s m"
+			}
+		},
+		{
+			"t": 21489,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 183 }
+		},
+		{
+			"t": 21546,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 183,
+				"text": "agi"
+			}
+		},
+		{
+			"t": 21546,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 186 }
+		},
+		{
+			"t": 21604,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 186,
+				"text": "cal"
+			}
+		},
+		{
+			"t": 21605,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 189 }
+		},
+		{
+			"t": 21671,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 189,
+				"text": ", f"
+			}
+		},
+		{
+			"t": 21671,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 192 }
+		},
+		{
+			"t": 21735,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 192,
+				"text": "un,"
+			}
+		},
+		{
+			"t": 21735,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 195 }
+		},
+		{
+			"t": 21799,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 195,
+				"text": " an"
+			}
+		},
+		{
+			"t": 21799,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 198 }
+		},
+		{
+			"t": 21834,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 198,
+				"text": "d y"
+			}
+		},
+		{
+			"t": 21834,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 201 }
+		},
+		{
+			"t": 21870,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 201,
+				"text": "ou "
+			}
+		},
+		{
+			"t": 21870,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 204 }
+		},
+		{
+			"t": 21912,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 204,
+				"text": "can"
+			}
+		},
+		{
+			"t": 21912,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 207 }
+		},
+		{
+			"t": 21971,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 207,
+				"text": " tr"
+			}
+		},
+		{
+			"t": 21971,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 210 }
+		},
+		{
+			"t": 22007,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 210,
+				"text": "y i"
+			}
+		},
+		{
+			"t": 22008,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 213 }
+		},
+		{
+			"t": 22065,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 213,
+				"text": "t o"
+			}
+		},
+		{
+			"t": 22066,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 216 }
+		},
+		{
+			"t": 22106,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 216,
+				"text": "ut "
+			}
+		},
+		{
+			"t": 22107,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 219 }
+		},
+		{
+			"t": 22168,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 219,
+				"text": "you"
+			}
+		},
+		{
+			"t": 22168,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 222 }
+		},
+		{
+			"t": 22221,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 222,
+				"text": "rse"
+			}
+		},
+		{
+			"t": 22222,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 225 }
+		},
+		{
+			"t": 22270,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 225,
+				"text": "lf "
+			}
+		},
+		{
+			"t": 22271,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 228 }
+		},
+		{
+			"t": 22335,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 228,
+				"text": "at "
+			}
+		},
+		{
+			"t": 22335,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 231 }
+		},
+		{
+			"t": 22399,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 231,
+				"text": "Mac"
+			}
+		},
+		{
+			"t": 22399,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 234 }
+		},
+		{
+			"t": 22467,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 234,
+				"text": "ro."
+			}
+		},
+		{
+			"t": 22467,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 237 }
+		},
+		{
+			"t": 22512,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "qI5OjFox",
+				"at": 237,
+				"text": "com"
+			}
+		},
+		{
+			"t": 22512,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 240 }
+		},
+		{
+			"t": 22554,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "qI5OjFox", "at": 240, "text": "!" }
+		},
+		{
+			"t": 22554,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "qI5OjFox", "at": 241 }
+		},
+		{
+			"t": 22565,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "edit",
+			"op": {
+				"kind": "setText",
+				"node": "qI5OjFox",
+				"text": "In this blog I talk about how we implemented AI Editing part 2.0, with a “team” of agents that cooperate to make targeted concurrent edits to your document to fulfill requests. It’s magical, fun, and you can try it out yourself at Macro.com!"
+			}
+		},
+		{
+			"t": 23367,
+			"peer": { "name": "Priya (AI)", "color": "accent-210" },
+			"kind": "clear"
+		},
+		{
+			"t": 24310,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "clear"
+		},
+		{
+			"t": 39250,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 0 }
+		},
+		{
+			"t": 39357,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 0, "text": "I r" }
+		},
+		{
+			"t": 39358,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 3 }
+		},
+		{
+			"t": 39423,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 3, "text": "ece" }
+		},
+		{
+			"t": 39424,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 6 }
+		},
+		{
+			"t": 39481,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 6, "text": "ntl" }
+		},
+		{
+			"t": 39482,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 9 }
+		},
+		{
+			"t": 39532,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 9, "text": "y s" }
+		},
+		{
+			"t": 39532,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 12 }
+		},
+		{
+			"t": 39597,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "ADT-83FE",
+				"at": 12,
+				"text": "tar"
+			}
+		},
+		{
+			"t": 39598,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 15 }
+		},
+		{
+			"t": 39651,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "ADT-83FE",
+				"at": 15,
+				"text": "ted"
+			}
+		},
+		{
+			"t": 39652,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 18 }
+		},
+		{
+			"t": 39680,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "ADT-83FE",
+				"at": 18,
+				"text": " at"
+			}
+		},
+		{
+			"t": 39680,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 21 }
+		},
+		{
+			"t": 39744,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 21, "text": " " }
+		},
+		{
+			"t": 39744,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 22 }
+		},
+		{
+			"t": 39764,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 0 }
+		},
+		{
+			"t": 39900,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 0, "text": "I r" }
+		},
+		{
+			"t": 39900,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 3 }
+		},
+		{
+			"t": 39964,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 3, "text": "ece" }
+		},
+		{
+			"t": 39964,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 6 }
+		},
+		{
+			"t": 39993,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 6, "text": "ntl" }
+		},
+		{
+			"t": 39993,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 9 }
+		},
+		{
+			"t": 40059,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 9, "text": "y s" }
+		},
+		{
+			"t": 40060,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 12 }
+		},
+		{
+			"t": 40122,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "ADT-83FE",
+				"at": 12,
+				"text": "tar"
+			}
+		},
+		{
+			"t": 40123,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 15 }
+		},
+		{
+			"t": 40174,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "ADT-83FE",
+				"at": 15,
+				"text": "ted"
+			}
+		},
+		{
+			"t": 40175,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 18 }
+		},
+		{
+			"t": 40237,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "ADT-83FE",
+				"at": 18,
+				"text": " at"
+			}
+		},
+		{
+			"t": 40238,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 21 }
+		},
+		{
+			"t": 40291,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 21, "text": " " }
+		},
+		{
+			"t": 40292,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 22 }
+		},
+		{
+			"t": 40307,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 53 }
+		},
+		{
+			"t": 40492,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 37, "end": 53 }
+			}
+		},
+		{
+			"t": 40724,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 22, "end": 53 }
+			}
+		},
+		{
+			"t": 40860,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "replaceText",
+				"node": "ADT-83FE",
+				"find": "I recently started at , working",
+				"to": ", working",
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 40861,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "linkText",
+				"node": "yWdaYpCj",
+				"match": "Macro.com",
+				"url": "https://macro.com",
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 42870,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "clear"
+		},
+		{
+			"t": 54057,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 0 }
+		},
+		{
+			"t": 54126,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 0, "end": 41 }
+			}
+		},
+		{
+			"t": 54326,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 0, "end": 81 }
+			}
+		},
+		{
+			"t": 54555,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 0, "end": 122 }
+			}
+		},
+		{
+			"t": 54692,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 0, "end": 162 }
+			}
+		},
+		{
+			"t": 54891,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "ADT-83FE",
+				"span": { "start": 0, "end": 203 }
+			}
+		},
+		{
+			"t": 55566,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "removeText", "node": "ADT-83FE", "at": 0, "len": 203 }
+		},
+		{
+			"t": 55567,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 0 }
+		},
+		{
+			"t": 55755,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 0, "text": ", w" }
+		},
+		{
+			"t": 55756,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ADT-83FE", "at": 0 }
+		},
+		{
+			"t": 55907,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "ADT-83FE", "at": 0, "text": "Mac" }
+		},
+		{
+			"t": 55908,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "linkText",
+				"node": "yWdaYpCj",
+				"match": "Macro.com",
+				"url": "https://macro.com",
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 55908,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 0 }
+		},
+		{
+			"t": 56079,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 0, "text": "I r" }
+		},
+		{
+			"t": 56080,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 3 }
+		},
+		{
+			"t": 56124,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 3, "text": "ece" }
+		},
+		{
+			"t": 56125,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 6 }
+		},
+		{
+			"t": 56186,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 6, "text": "ntl" }
+		},
+		{
+			"t": 56187,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 9 }
+		},
+		{
+			"t": 56218,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 9, "text": "y s" }
+		},
+		{
+			"t": 56219,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 12 }
+		},
+		{
+			"t": 56250,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 12,
+				"text": "tar"
+			}
+		},
+		{
+			"t": 56251,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 15 }
+		},
+		{
+			"t": 56317,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 15,
+				"text": "ted"
+			}
+		},
+		{
+			"t": 56318,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 18 }
+		},
+		{
+			"t": 56373,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 18,
+				"text": " at"
+			}
+		},
+		{
+			"t": 56373,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 21 }
+		},
+		{
+			"t": 56416,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 21, "text": " " }
+		},
+		{
+			"t": 56417,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 22 }
+		},
+		{
+			"t": 60293,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 22 }
+		},
+		{
+			"t": 60437,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 22,
+				"text": "Mac"
+			}
+		},
+		{
+			"t": 60437,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 25 }
+		},
+		{
+			"t": 60483,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 25,
+				"text": "ro."
+			}
+		},
+		{
+			"t": 60483,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 28 }
+		},
+		{
+			"t": 60538,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 28,
+				"text": "com"
+			}
+		},
+		{
+			"t": 60539,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 31 }
+		},
+		{
+			"t": 60600,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "nZtaINOp_xf", "at": 31 }
+		},
+		{
+			"t": 60704,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "nZtaINOp_xf",
+				"span": { "start": 29, "end": 31 }
+			}
+		},
+		{
+			"t": 60869,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "nZtaINOp_xf",
+				"span": { "start": 27, "end": 31 }
+			}
+		},
+		{
+			"t": 61087,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "nZtaINOp_xf",
+				"span": { "start": 26, "end": 31 }
+			}
+		},
+		{
+			"t": 61323,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "nZtaINOp_xf",
+				"span": { "start": 24, "end": 31 }
+			}
+		},
+		{
+			"t": 61504,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "nZtaINOp_xf",
+				"span": { "start": 22, "end": 31 }
+			}
+		},
+		{
+			"t": 61677,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "linkText",
+				"node": "yWdaYpCj",
+				"match": "Macro.com",
+				"url": "https://macro.com",
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 61678,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 31 }
+		},
+		{
+			"t": 61849,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 31,
+				"text": ", w"
+			}
+		},
+		{
+			"t": 61849,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 34 }
+		},
+		{
+			"t": 61902,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 34,
+				"text": "ork"
+			}
+		},
+		{
+			"t": 61902,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 37 }
+		},
+		{
+			"t": 61966,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 37,
+				"text": "ing"
+			}
+		},
+		{
+			"t": 61966,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 40 }
+		},
+		{
+			"t": 62008,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 40,
+				"text": " on"
+			}
+		},
+		{
+			"t": 62009,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 43 }
+		},
+		{
+			"t": 62072,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 43,
+				"text": " ou"
+			}
+		},
+		{
+			"t": 62073,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 46 }
+		},
+		{
+			"t": 62142,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 46,
+				"text": "r o"
+			}
+		},
+		{
+			"t": 62142,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 49 }
+		},
+		{
+			"t": 62200,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 49,
+				"text": "pen"
+			}
+		},
+		{
+			"t": 62201,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 52 }
+		},
+		{
+			"t": 62247,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 52,
+				"text": " so"
+			}
+		},
+		{
+			"t": 62248,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 55 }
+		},
+		{
+			"t": 62288,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 55,
+				"text": "urc"
+			}
+		},
+		{
+			"t": 62288,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 58 }
+		},
+		{
+			"t": 62344,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 58,
+				"text": "e s"
+			}
+		},
+		{
+			"t": 62345,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 61 }
+		},
+		{
+			"t": 62373,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 61,
+				"text": "upe"
+			}
+		},
+		{
+			"t": 62374,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 64 }
+		},
+		{
+			"t": 62431,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 64,
+				"text": "rto"
+			}
+		},
+		{
+			"t": 62432,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 67 }
+		},
+		{
+			"t": 62475,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 67,
+				"text": "ol "
+			}
+		},
+		{
+			"t": 62475,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 70 }
+		},
+		{
+			"t": 62525,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 70,
+				"text": "tha"
+			}
+		},
+		{
+			"t": 62526,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 73 }
+		},
+		{
+			"t": 62555,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 73,
+				"text": "t b"
+			}
+		},
+		{
+			"t": 62556,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 76 }
+		},
+		{
+			"t": 62611,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 76,
+				"text": "rin"
+			}
+		},
+		{
+			"t": 62611,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 79 }
+		},
+		{
+			"t": 62663,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 79,
+				"text": "gs "
+			}
+		},
+		{
+			"t": 62664,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 82 }
+		},
+		{
+			"t": 62705,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 82,
+				"text": "tog"
+			}
+		},
+		{
+			"t": 62705,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 85 }
+		},
+		{
+			"t": 62733,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 85,
+				"text": "eth"
+			}
+		},
+		{
+			"t": 62733,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 88 }
+		},
+		{
+			"t": 62764,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 88,
+				"text": "er "
+			}
+		},
+		{
+			"t": 62764,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 91 }
+		},
+		{
+			"t": 62832,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 91,
+				"text": "the"
+			}
+		},
+		{
+			"t": 62832,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 94 }
+		},
+		{
+			"t": 62890,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 94,
+				"text": " be"
+			}
+		},
+		{
+			"t": 62890,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 97 }
+		},
+		{
+			"t": 62945,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 97,
+				"text": "st "
+			}
+		},
+		{
+			"t": 62946,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 100 }
+		},
+		{
+			"t": 62998,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 100,
+				"text": "of "
+			}
+		},
+		{
+			"t": 62998,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 103 }
+		},
+		{
+			"t": 63065,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 103,
+				"text": "pro"
+			}
+		},
+		{
+			"t": 63066,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 106 }
+		},
+		{
+			"t": 63128,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 106,
+				"text": "duc"
+			}
+		},
+		{
+			"t": 63128,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 109 }
+		},
+		{
+			"t": 63194,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 109,
+				"text": "tiv"
+			}
+		},
+		{
+			"t": 63194,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 112 }
+		},
+		{
+			"t": 63230,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 112,
+				"text": "ity"
+			}
+		},
+		{
+			"t": 63231,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 115 }
+		},
+		{
+			"t": 63282,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 115,
+				"text": " to"
+			}
+		},
+		{
+			"t": 63282,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 118 }
+		},
+		{
+			"t": 63324,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 118,
+				"text": "ols"
+			}
+		},
+		{
+			"t": 63324,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 121 }
+		},
+		{
+			"t": 63358,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 121,
+				"text": " li"
+			}
+		},
+		{
+			"t": 63359,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 124 }
+		},
+		{
+			"t": 63409,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 124,
+				"text": "ke "
+			}
+		},
+		{
+			"t": 63409,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 127 }
+		},
+		{
+			"t": 63441,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 127,
+				"text": "Obs"
+			}
+		},
+		{
+			"t": 63441,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 130 }
+		},
+		{
+			"t": 63498,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 130,
+				"text": "idi"
+			}
+		},
+		{
+			"t": 63498,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 133 }
+		},
+		{
+			"t": 63566,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 133,
+				"text": "an,"
+			}
+		},
+		{
+			"t": 63567,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 136 }
+		},
+		{
+			"t": 63624,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 136,
+				"text": " Li"
+			}
+		},
+		{
+			"t": 63625,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 139 }
+		},
+		{
+			"t": 63688,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 139,
+				"text": "nea"
+			}
+		},
+		{
+			"t": 63688,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 142 }
+		},
+		{
+			"t": 63754,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 142,
+				"text": "r, "
+			}
+		},
+		{
+			"t": 63754,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 145 }
+		},
+		{
+			"t": 63790,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 145,
+				"text": "and"
+			}
+		},
+		{
+			"t": 63791,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 148 }
+		},
+		{
+			"t": 63832,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 148,
+				"text": " Sl"
+			}
+		},
+		{
+			"t": 63832,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 151 }
+		},
+		{
+			"t": 63880,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 151,
+				"text": "ack"
+			}
+		},
+		{
+			"t": 63880,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 154 }
+		},
+		{
+			"t": 63940,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 154,
+				"text": ", i"
+			}
+		},
+		{
+			"t": 63940,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 157 }
+		},
+		{
+			"t": 64002,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 157,
+				"text": "nto"
+			}
+		},
+		{
+			"t": 64003,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 160 }
+		},
+		{
+			"t": 64043,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 160,
+				"text": " a "
+			}
+		},
+		{
+			"t": 64044,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 163 }
+		},
+		{
+			"t": 64111,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 163,
+				"text": "swe"
+			}
+		},
+		{
+			"t": 64112,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 166 }
+		},
+		{
+			"t": 64150,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 166,
+				"text": "et,"
+			}
+		},
+		{
+			"t": 64150,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 169 }
+		},
+		{
+			"t": 64193,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 169,
+				"text": " un"
+			}
+		},
+		{
+			"t": 64193,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 172 }
+		},
+		{
+			"t": 64222,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 172,
+				"text": "ifi"
+			}
+		},
+		{
+			"t": 64223,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 175 }
+		},
+		{
+			"t": 64254,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 175,
+				"text": "ed "
+			}
+		},
+		{
+			"t": 64255,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 178 }
+		},
+		{
+			"t": 64305,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 178,
+				"text": "pla"
+			}
+		},
+		{
+			"t": 64305,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 181 }
+		},
+		{
+			"t": 64347,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 181,
+				"text": "tfo"
+			}
+		},
+		{
+			"t": 64348,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 184 }
+		},
+		{
+			"t": 64411,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 184,
+				"text": "rm "
+			}
+		},
+		{
+			"t": 64412,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 187 }
+		},
+		{
+			"t": 64465,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 187,
+				"text": "tha"
+			}
+		},
+		{
+			"t": 64465,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 190 }
+		},
+		{
+			"t": 64499,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 190,
+				"text": "t’s"
+			}
+		},
+		{
+			"t": 64499,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 193 }
+		},
+		{
+			"t": 64536,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 193,
+				"text": " de"
+			}
+		},
+		{
+			"t": 64536,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 196 }
+		},
+		{
+			"t": 64572,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 196,
+				"text": "lig"
+			}
+		},
+		{
+			"t": 64572,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 199 }
+		},
+		{
+			"t": 64628,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 199,
+				"text": "htf"
+			}
+		},
+		{
+			"t": 64629,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 202 }
+		},
+		{
+			"t": 64687,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 202,
+				"text": "ul "
+			}
+		},
+		{
+			"t": 64687,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 205 }
+		},
+		{
+			"t": 64728,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 205,
+				"text": "to "
+			}
+		},
+		{
+			"t": 64728,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 208 }
+		},
+		{
+			"t": 64785,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 208,
+				"text": "use"
+			}
+		},
+		{
+			"t": 64785,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 211 }
+		},
+		{
+			"t": 64829,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 211, "text": "." }
+		},
+		{
+			"t": 64830,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 212 }
+		},
+		{
+			"t": 66357,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "clear"
+		},
+		{
+			"t": 74310,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "VhODLUfV1eD", "at": 190 }
+		},
+		{
+			"t": 74464,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "VhODLUfV1eD",
+				"span": { "start": 95, "end": 190 }
+			}
+		},
+		{
+			"t": 74606,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "VhODLUfV1eD",
+				"span": { "start": 0, "end": 190 }
+			}
+		},
+		{
+			"t": 75404,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "removeText", "node": "VhODLUfV1eD", "at": 0, "len": 190 }
+		},
+		{
+			"t": 75405,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "VhODLUfV1eD", "at": 0 }
+		},
+		{
+			"t": 75584,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "VhODLUfV1eD",
+				"at": 0,
+				"text": "Mac"
+			}
+		},
+		{
+			"t": 75585,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "VhODLUfV1eD", "at": 3 }
+		},
+		{
+			"t": 75632,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "VhODLUfV1eD",
+				"at": 3,
+				"text": "ro."
+			}
+		},
+		{
+			"t": 75633,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "VhODLUfV1eD", "at": 6 }
+		},
+		{
+			"t": 75670,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "VhODLUfV1eD",
+				"at": 6,
+				"text": "com"
+			}
+		},
+		{
+			"t": 75670,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "VhODLUfV1eD", "at": 9 }
+		},
+		{
+			"t": 75739,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "setText", "node": "VhODLUfV1eD", "text": "Macro.com" }
+		},
+		{
+			"t": 75740,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "ILoPziqHc4-", "at": 0 }
+		},
+		{
+			"t": 75906,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertTextAfterInline",
+				"ref": "ILoPziqHc4-~after-text",
+				"inline": "ILoPziqHc4-",
+				"text": ", w"
+			}
+		},
+		{
+			"t": 81149,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "clear"
+		},
+		{
+			"t": 87673,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "w6Ptnce0icR", "at": 9 }
+		},
+		{
+			"t": 87846,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "w6Ptnce0icR",
+				"span": { "start": 7, "end": 9 }
+			}
+		},
+		{
+			"t": 88063,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "w6Ptnce0icR",
+				"span": { "start": 6, "end": 9 }
+			}
+		},
+		{
+			"t": 88257,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "w6Ptnce0icR",
+				"span": { "start": 4, "end": 9 }
+			}
+		},
+		{
+			"t": 88421,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "w6Ptnce0icR",
+				"span": { "start": 3, "end": 9 }
+			}
+		},
+		{
+			"t": 88612,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "w6Ptnce0icR",
+				"span": { "start": 1, "end": 9 }
+			}
+		},
+		{
+			"t": 88844,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "w6Ptnce0icR",
+				"span": { "start": 0, "end": 9 }
+			}
+		},
+		{
+			"t": 89419,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "removeText", "node": "w6Ptnce0icR", "at": 0, "len": 9 }
+		},
+		{
+			"t": 89420,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "w6Ptnce0icR", "at": 0 }
+		},
+		{
+			"t": 89585,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "w6Ptnce0icR",
+				"at": 0,
+				"text": "I r"
+			}
+		},
+		{
+			"t": 91878,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 0 }
+		},
+		{
+			"t": 91969,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "yWdaYpCj",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 92116,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "yWdaYpCj",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 92300,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "yWdaYpCj",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 92456,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "yWdaYpCj",
+				"span": { "start": 0, "end": 0 }
+			}
+		},
+		{
+			"t": 92826,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 0, "text": "I r" }
+		},
+		{
+			"t": 92827,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 3 }
+		},
+		{
+			"t": 92860,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 3, "text": "ece" }
+		},
+		{
+			"t": 92861,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 6 }
+		},
+		{
+			"t": 92921,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 6, "text": "ntl" }
+		},
+		{
+			"t": 92921,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 9 }
+		},
+		{
+			"t": 92965,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": { "kind": "insertText", "node": "yWdaYpCj", "at": 9, "text": "y s" }
+		},
+		{
+			"t": 92965,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 12 }
+		},
+		{
+			"t": 92998,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 12,
+				"text": "tar"
+			}
+		},
+		{
+			"t": 92998,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 15 }
+		},
+		{
+			"t": 93060,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 15,
+				"text": "ted"
+			}
+		},
+		{
+			"t": 93060,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 18 }
+		},
+		{
+			"t": 93128,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 18,
+				"text": " at"
+			}
+		},
+		{
+			"t": 93128,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 21 }
+		},
+		{
+			"t": 93171,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 21,
+				"text": " Ma"
+			}
+		},
+		{
+			"t": 93172,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 24 }
+		},
+		{
+			"t": 93235,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 24,
+				"text": "cro"
+			}
+		},
+		{
+			"t": 93235,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 27 }
+		},
+		{
+			"t": 93301,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 27,
+				"text": ".co"
+			}
+		},
+		{
+			"t": 93302,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 30 }
+		},
+		{
+			"t": 93335,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 30,
+				"text": "m, "
+			}
+		},
+		{
+			"t": 93336,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 33 }
+		},
+		{
+			"t": 93366,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 33,
+				"text": "wor"
+			}
+		},
+		{
+			"t": 93366,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 36 }
+		},
+		{
+			"t": 93425,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 36,
+				"text": "kin"
+			}
+		},
+		{
+			"t": 93425,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 39 }
+		},
+		{
+			"t": 93490,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 39,
+				"text": "g o"
+			}
+		},
+		{
+			"t": 93490,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 42 }
+		},
+		{
+			"t": 93558,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 42,
+				"text": "n o"
+			}
+		},
+		{
+			"t": 93558,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 45 }
+		},
+		{
+			"t": 93589,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 45,
+				"text": "ur "
+			}
+		},
+		{
+			"t": 93589,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 48 }
+		},
+		{
+			"t": 93623,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 48,
+				"text": "ope"
+			}
+		},
+		{
+			"t": 93623,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 51 }
+		},
+		{
+			"t": 93668,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 51,
+				"text": "n s"
+			}
+		},
+		{
+			"t": 93668,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 54 }
+		},
+		{
+			"t": 93719,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 54,
+				"text": "our"
+			}
+		},
+		{
+			"t": 93720,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 57 }
+		},
+		{
+			"t": 93761,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 57,
+				"text": "ce "
+			}
+		},
+		{
+			"t": 93761,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 60 }
+		},
+		{
+			"t": 93797,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 60,
+				"text": "sup"
+			}
+		},
+		{
+			"t": 93798,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 63 }
+		},
+		{
+			"t": 93848,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 63,
+				"text": "ert"
+			}
+		},
+		{
+			"t": 93848,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 66 }
+		},
+		{
+			"t": 93886,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 66,
+				"text": "ool"
+			}
+		},
+		{
+			"t": 93887,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 69 }
+		},
+		{
+			"t": 93922,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 69,
+				"text": " th"
+			}
+		},
+		{
+			"t": 93922,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 72 }
+		},
+		{
+			"t": 93974,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 72,
+				"text": "at "
+			}
+		},
+		{
+			"t": 93974,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 75 }
+		},
+		{
+			"t": 94028,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 75,
+				"text": "bri"
+			}
+		},
+		{
+			"t": 94028,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 78 }
+		},
+		{
+			"t": 94078,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 78,
+				"text": "ngs"
+			}
+		},
+		{
+			"t": 94078,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 81 }
+		},
+		{
+			"t": 94127,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 81,
+				"text": " to"
+			}
+		},
+		{
+			"t": 94127,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 84 }
+		},
+		{
+			"t": 94189,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 84,
+				"text": "get"
+			}
+		},
+		{
+			"t": 94189,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 87 }
+		},
+		{
+			"t": 94242,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 87,
+				"text": "her"
+			}
+		},
+		{
+			"t": 94242,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 90 }
+		},
+		{
+			"t": 94275,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 90,
+				"text": " th"
+			}
+		},
+		{
+			"t": 94276,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 93 }
+		},
+		{
+			"t": 94332,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 93,
+				"text": "e b"
+			}
+		},
+		{
+			"t": 94332,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 96 }
+		},
+		{
+			"t": 94393,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 96,
+				"text": "est"
+			}
+		},
+		{
+			"t": 94393,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 99 }
+		},
+		{
+			"t": 94455,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 99,
+				"text": " of"
+			}
+		},
+		{
+			"t": 94455,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 102 }
+		},
+		{
+			"t": 94494,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 102,
+				"text": " pr"
+			}
+		},
+		{
+			"t": 94494,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 105 }
+		},
+		{
+			"t": 94536,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 105,
+				"text": "odu"
+			}
+		},
+		{
+			"t": 94537,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 108 }
+		},
+		{
+			"t": 94595,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 108,
+				"text": "cti"
+			}
+		},
+		{
+			"t": 94596,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 111 }
+		},
+		{
+			"t": 94654,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 111,
+				"text": "vit"
+			}
+		},
+		{
+			"t": 94655,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 114 }
+		},
+		{
+			"t": 94718,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 114,
+				"text": "y t"
+			}
+		},
+		{
+			"t": 94718,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 117 }
+		},
+		{
+			"t": 94750,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 117,
+				"text": "ool"
+			}
+		},
+		{
+			"t": 94750,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 120 }
+		},
+		{
+			"t": 94807,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 120,
+				"text": "s l"
+			}
+		},
+		{
+			"t": 94807,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 123 }
+		},
+		{
+			"t": 94853,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 123,
+				"text": "ike"
+			}
+		},
+		{
+			"t": 94853,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 126 }
+		},
+		{
+			"t": 94904,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 126,
+				"text": " Ob"
+			}
+		},
+		{
+			"t": 94904,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 129 }
+		},
+		{
+			"t": 94959,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 129,
+				"text": "sid"
+			}
+		},
+		{
+			"t": 94960,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 132 }
+		},
+		{
+			"t": 94989,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 132,
+				"text": "ian"
+			}
+		},
+		{
+			"t": 94989,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 135 }
+		},
+		{
+			"t": 95028,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 135,
+				"text": ", L"
+			}
+		},
+		{
+			"t": 95028,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 138 }
+		},
+		{
+			"t": 95082,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 138,
+				"text": "ine"
+			}
+		},
+		{
+			"t": 95082,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 141 }
+		},
+		{
+			"t": 95137,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 141,
+				"text": "ar,"
+			}
+		},
+		{
+			"t": 95137,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 144 }
+		},
+		{
+			"t": 95173,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 144,
+				"text": " an"
+			}
+		},
+		{
+			"t": 95173,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 147 }
+		},
+		{
+			"t": 95241,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 147,
+				"text": "d S"
+			}
+		},
+		{
+			"t": 95241,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 150 }
+		},
+		{
+			"t": 95308,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 150,
+				"text": "lac"
+			}
+		},
+		{
+			"t": 95308,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 153 }
+		},
+		{
+			"t": 95368,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 153,
+				"text": "k, "
+			}
+		},
+		{
+			"t": 95368,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 156 }
+		},
+		{
+			"t": 95412,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 156,
+				"text": "int"
+			}
+		},
+		{
+			"t": 95412,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 159 }
+		},
+		{
+			"t": 95477,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 159,
+				"text": "o a"
+			}
+		},
+		{
+			"t": 95477,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 162 }
+		},
+		{
+			"t": 95527,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 162,
+				"text": " sw"
+			}
+		},
+		{
+			"t": 95527,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 165 }
+		},
+		{
+			"t": 95567,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 165,
+				"text": "eet"
+			}
+		},
+		{
+			"t": 95567,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 168 }
+		},
+		{
+			"t": 95610,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 168,
+				"text": ", u"
+			}
+		},
+		{
+			"t": 95610,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 171 }
+		},
+		{
+			"t": 95670,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 171,
+				"text": "nif"
+			}
+		},
+		{
+			"t": 95670,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 174 }
+		},
+		{
+			"t": 95737,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 174,
+				"text": "ied"
+			}
+		},
+		{
+			"t": 95737,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 177 }
+		},
+		{
+			"t": 95795,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 177,
+				"text": " pl"
+			}
+		},
+		{
+			"t": 95796,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 180 }
+		},
+		{
+			"t": 95839,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 180,
+				"text": "atf"
+			}
+		},
+		{
+			"t": 95839,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 183 }
+		},
+		{
+			"t": 95875,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 183,
+				"text": "orm"
+			}
+		},
+		{
+			"t": 95876,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 186 }
+		},
+		{
+			"t": 95934,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 186,
+				"text": " th"
+			}
+		},
+		{
+			"t": 95934,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 189 }
+		},
+		{
+			"t": 95972,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 189,
+				"text": "at’"
+			}
+		},
+		{
+			"t": 95973,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 192 }
+		},
+		{
+			"t": 96008,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 192,
+				"text": "s d"
+			}
+		},
+		{
+			"t": 96008,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 195 }
+		},
+		{
+			"t": 96053,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 195,
+				"text": "eli"
+			}
+		},
+		{
+			"t": 96053,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 198 }
+		},
+		{
+			"t": 96101,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 198,
+				"text": "ght"
+			}
+		},
+		{
+			"t": 96102,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 201 }
+		},
+		{
+			"t": 96137,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 201,
+				"text": "ful"
+			}
+		},
+		{
+			"t": 96138,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 204 }
+		},
+		{
+			"t": 96173,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 204,
+				"text": " to"
+			}
+		},
+		{
+			"t": 96173,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 207 }
+		},
+		{
+			"t": 96220,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 207,
+				"text": " us"
+			}
+		},
+		{
+			"t": 96220,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 210 }
+		},
+		{
+			"t": 96285,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "insertText",
+				"node": "yWdaYpCj",
+				"at": 210,
+				"text": "e."
+			}
+		},
+		{
+			"t": 96285,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "yWdaYpCj", "at": 212 }
+		},
+		{
+			"t": 96329,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "setText",
+				"node": "yWdaYpCj",
+				"text": "I recently started at Macro.com, working on our open source supertool that brings together the best of productivity tools like Obsidian, Linear, and Slack, into a sweet, unified platform that’s delightful to use."
+			}
+		},
+		{
+			"t": 96329,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": { "type": "cursor", "node": "bSegXHJ8dfd", "at": 31 }
+		},
+		{
+			"t": 96402,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "bSegXHJ8dfd",
+				"span": { "start": 28, "end": 31 }
+			}
+		},
+		{
+			"t": 96527,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "bSegXHJ8dfd",
+				"span": { "start": 25, "end": 31 }
+			}
+		},
+		{
+			"t": 96679,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "awareness",
+			"x": {
+				"type": "highlight",
+				"node": "bSegXHJ8dfd",
+				"span": { "start": 22, "end": 31 }
+			}
+		},
+		{
+			"t": 96786,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "edit",
+			"op": {
+				"kind": "linkText",
+				"node": "yWdaYpCj",
+				"match": "Macro.com",
+				"url": "https://macro.com",
+				"scope": { "kind": "all" }
+			}
+		},
+		{
+			"t": 98432,
+			"peer": { "name": "Finn (AI)", "color": "accent-150" },
+			"kind": "clear"
+		}
+	]
+}
