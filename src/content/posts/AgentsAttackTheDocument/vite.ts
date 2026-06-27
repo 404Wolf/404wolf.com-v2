@@ -1,4 +1,4 @@
-// Vite config the replay editor (LiveTypingDemo) needs. It mixes `lexical` with
+// Vite config the replay editor (AgentsAttackTheDocument) needs. It mixes `lexical` with
 // several `@lexical/*` node packages (HeadingNode, CodeNode, LinkNode, …); they
 // must all share ONE copy of `lexical` or node-class identity breaks at runtime
 // ("does not subclass LexicalNode" / silent reconciliation failures). Deduping

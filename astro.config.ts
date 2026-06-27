@@ -8,7 +8,7 @@ import { defineConfig } from "astro/config";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { SITE_URL } from "./src/consts.ts";
-import { lexicalVite } from "./src/content/posts/LiveTypingDemo/vite.ts";
+import { lexicalVite } from "./src/content/posts/AgentsAttackTheDocument/vite.ts";
 import { fetchLatestResume } from "./src/resume.ts";
 
 export default defineConfig({
