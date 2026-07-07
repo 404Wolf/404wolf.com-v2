@@ -34,12 +34,14 @@ etc. AI's really great at pumping out Markdown, but for the case of Macro
 documents, we're a bit beyond vanilla MD.
 
 For our first pass, we took a simple approach: let the LLM only swap entire top
-level blocks with a generated hunks of Markdown that we parse into Lexical. We
-thought it'd be easier for it to produce quality MD than to reason "**bold**ing
-this word means splitting a text node into three nodes, with a bold child." `a
-markdown **bold** word` is a natural. This was true-ish, but the "swap the
-entire block" approach was much too coarse, and it'd often either edit way too
-much, or not get the job done. We eventually un-shipped the implementation.
+level blocks with generated hunks of Markdown that we parse right replacement
+subtrees (we use [Lexical](https://lexical.dev/) for our editor and doc
+representation). We thought it'd be easier for LLMs to produce quality MD than
+to reason "**bold**ing this word means splitting a text node into three nodes,
+with a bold child." `a markdown **bold** word` is a natural sentence for AI.
+This was true-ish, but the "swap the entire block" approach was much too
+coarse, and it'd often either edit way too much, or not get the job done. We
+eventually un-shipped the implementation.
 
 ![](https://static-file-service.macro.com/file/27762acc-d485-456e-a96c-5e62f97b076f)
 
@@ -51,23 +53,24 @@ your behalf. You say POST "update my tables and checklists" and `Bob (AI)` `Sam
 the job gets done, and the way we do it the agents have full control down to the
 deepest leaf in your document's node tree. Let's get building.
 
-Doing some research, there's other people who have tried similar techniques. The
-Electricsql folks have a blog about using a [ tool-call based
+Other people who have done similar things before. The Electricsql folks have a
+blog about using a [ tool-call based
 system](https://electric.ax/blog/2026/04/08/ai-agents-as-crdt-peers-with-yjs)
 where the LLM operates like a human editor -- it walks to a spot and "starts
 streaming" text. One idea that I had was to just give an agent full access to a
 real Neovim instance. But the issues with these kinds of approaches are that
 fundamentally our documents are not flat. We need a system that properly
-understands the structure of our documents.
+understands the tree structure of our documents.
 
 ## Views
 
 My first step was playing around with a bunch of different formats for
 presenting documents to AI. I imagined we needed a way where we would have the
-power to know exactly what node changed so as to emit proper CRDT events.
-Keeping with our static ID system would let us keep using our existing abstracti
+power to know exactly what node changed so as to emit proper CRDT events. We
+assign a stable ID to every node, and being able to see the ID in the input and
+output of the view we give the LLM makes it easier for us to produce a diff.
 
-The easiest path was just give it the raw JSON  state
+For example, the easiest path was just give it the raw JSON state
 
 ```json
 {
@@ -84,7 +87,7 @@ The easiest path was just give it the raw JSON  state
 
 And have it produce [JSON-patches](https://jsonpatch.com/) to get us to a new
 state. Or we have it produce tool calls like "insert node after" on this JSON.
-It turns out LLMs are absolutely terrible at producing good patches or JSON
+But it turns out LLMs are absolutely terrible at producing good patches or JSON
 diffs, and the JSON itself overloads its context with complicated structure that
 it struggles to reason about.
 
@@ -114,7 +117,7 @@ What I ended up settling on is an XML tree view
 ```
 
 It's easy, the LLM can understand the structure, and it's natural for AI to
-think about things in XML. The main drawback here is that XML's balloon pretty
+think about things in XML. The main drawback here is that XML balloons pretty
 quickly, and context is expensive $$
 
 ## The Macro Document "Toolkit"
@@ -140,11 +143,11 @@ agent do everything at once because the semantics of document structure are
 delegated.*
 
 For the library I expose to these coders, I wanted it **thin**: it doesn't
-literally act on Lexical, but instead accumulates intended edits, so that I
-could do post-processing on the edit events to simulate animation, and more
-easily write tests.
+literally act on our (Lexical) tree, but instead accumulates intended edits, so
+that I could do post-processing on the edit events to simulate animation, and
+more easily write tests.
 
-Rather than literal imperative Lexical mutations
+Rather than literal imperative mutations
 
 ```ts
 import { $getNodeByKey, $createTextNode } from 'lexical';
@@ -158,7 +161,9 @@ editor.update(() => {
 
 It writes simple mutations.
 
-```ts editor.setText('UKTNFKdd', 'Hello, world!'); ```
+```ts
+editor.setText('UKTNFKdd', 'Hello, world!');
+```
 
 So that the "editors" can be cheap models that don't need much cognitive
 overhead to make real changes. These changes nest into a nice list of
@@ -168,7 +173,8 @@ overhead to make real changes. These changes nest into a nice list of
 [ { "kind": "setText", "node": "UKTNFKdd", "text": "Hello, world!" } ]
 ```
 
-And we can "chop" it up with an animation post-processing framework to make it look human.
+And we can "chop" it up with an animation post-processing framework to make it
+look human.
 
 ```json
 [
@@ -179,17 +185,15 @@ And we can "chop" it up with an animation post-processing framework to make it l
 ]
 ```
 
-The animation "framework": a giant match on every op. Another unintended upside
-of going this route: we can run the generated code in a cheap
-[quickjs](https://bellard.org/quickjs/) sandbox with no libraries, and print out
-a JSON serialization super easily.
+Our animation "framework":
 
-And for the supervising agent, it doesn't have to think at all about *how* the
-document is edited. It just reasons out a list of tasks for writers "insert
-paragraph next to node ID X that says Y," "set the cell (2,3) in table ID Z to
-be blank," etc.
+A giant match on every op. Another unintended upside of going this route: we
+can run the generated code in a cheap [quickjs](https://bellard.org/quickjs/)
+sandbox with no libraries, and print out a JSON serialization super easily.
 
-The magic trio ends up looking like:
+I ended up breaking up the task of editing and planning the edits.
+
+Our magic trio of agents looks like:
 
 - An "**interpreter**" sonnet thinking agent to digest the request. What do you
   want? Why do you want it?
@@ -202,9 +206,17 @@ The magic trio ends up looking like:
   code, and I've found success with cheap and fast
   [Cerebras](https://www.cerebras.ai/) OpenAI OSS agents
 
+
+The supervising agent doesn't have to think at all about *how* the
+document is edited. It just reasons out a list of tasks for writers "insert
+paragraph next to node ID X that says Y," "set the cell (2,3) in table ID Z to
+be blank," etc.
+
 I applied some cool tricks for the agent-to-agent communication, like that the
 supervisor agent includes "snippets" to the coder, so the coder doesn't have to
-manually "type out" (generatec) long strings of text.
+manually "type out" (generatec) long strings of text. Eventually, these
+snippets could be generated by yet more agents, and streamed into existence, to
+reduce the time it takes to start seeing edits!
 
 Okay enough of the details. Now we're both experts, let's go through a real
 example here.....
