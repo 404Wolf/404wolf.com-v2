@@ -28,8 +28,6 @@ const styles = {
         "left-6",
         "top-4",
         "z-40",
-        "hidden",
-        "xl:block",
         "w-64",
         "max-h-[calc(100vh-2rem)]",
         "rounded-2xl",
@@ -38,6 +36,14 @@ const styles = {
         "shadow-none",
         "sm:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)]",
         "xl:shadow-2xl",
+        "transition-all",
+        "duration-300",
+        "pointer-events-none",
+        "xl:pointer-events-auto",
+        "-translate-x-4",
+        "opacity-0",
+        "xl:translate-x-0",
+        "xl:opacity-100",
     ]),
 };
 
@@ -56,7 +62,7 @@ const frontmatter = remarkPluginFrontmatter as BlogFrontmatterType;
     <aside class={styles.sidebar()}>
         <div class="bg-slate-300 pb-1 rounded-2xl">
             <div class="bg-slate-300 p-4 rounded-2xl h-[33vh] overflow-auto">
-                <h1 class="mb-2 text-lg font-medium">Contents</h1>
+                <h1 class="mb-2 text-base font-medium">Contents</h1>
 
                 <PostOutline headings={headings} expand={2} client:load />
             </div>
