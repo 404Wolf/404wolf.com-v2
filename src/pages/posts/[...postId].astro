@@ -32,7 +32,7 @@ const styles = {
         "max-h-[calc(100vh-2rem)]",
         "rounded-2xl",
         "bg-slate-400",
-        "p-4",
+        "p-3",
         "shadow-none",
         "sm:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)]",
         "xl:shadow-2xl",
@@ -60,8 +60,8 @@ const frontmatter = remarkPluginFrontmatter as BlogFrontmatterType;
 
     {/* Desktop sidebar */}
     <aside class={styles.sidebar()}>
-        <div class="bg-slate-300 pb-1 rounded-2xl">
-            <div class="bg-slate-300 p-4 rounded-2xl h-[33vh] overflow-auto">
+        <div class="bg-slate-300 pb-1 rounded-2xl mx-1">
+            <div class="bg-slate-300 p-3 rounded-2xl h-[33vh] overflow-auto">
                 <h1 class="mb-2 text-base font-medium">Contents</h1>
 
                 <PostOutline headings={headings} expand={2} client:load />
