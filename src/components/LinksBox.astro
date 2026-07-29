@@ -1,5 +1,6 @@
 ---
 import Github from "simple-icons-astro/Github";
+import { Link } from "@lucide/astro";
 import { cva } from "class-variance-authority";
 
 export interface Props {
@@ -31,7 +32,7 @@ function getLinkIcon(url: string) {
         return Github;
     }
     // Add more special cases here as needed
-    return null;
+    return Link;
 }
 ---
 
@@ -41,7 +42,7 @@ function getLinkIcon(url: string) {
             const Icon = getLinkIcon(link.src);
             return (
                 <a href={link.src} class={styles.circle()} title={link.alt} target="_blank" rel="noopener noreferrer">
-                    {Icon && <Icon size={24} class="text-white" />}
+                    <Icon size={24} class="text-white" />
                 </a>
             );
         })
