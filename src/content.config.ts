@@ -20,6 +20,7 @@ export const postsFrontmatterSchema = z.object({
 	covers: z.array(z.string().url()),
 	tags: z.array(z.enum(VALID_TAG_TYPES)),
 	description: z.string().optional(),
+	toc: z.boolean().default(true),
 	links: z
 		.array(
 			z.tuple([

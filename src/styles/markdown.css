@@ -60,7 +60,8 @@
   @apply italic;
 }
 
-.markdown img {
+.markdown img,
+.markdown video {
   @apply rounded-xl ring-3 ring-inset ring-slate-700 mx-auto;
   background: linear-gradient(
     135deg,
@@ -73,6 +74,10 @@
     #e5e7eb
   );
   background-size: 20px 20px;
+}
+
+.markdown video {
+  @apply block max-w-full;
 }
 
 .markdown figure {

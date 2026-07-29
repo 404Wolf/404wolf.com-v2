@@ -1,0 +1,69 @@
+---
+import BleedingBorder from "./BleedingBorder.astro";
+
+interface Props {
+    src: string;
+    className?: string;
+    /**
+     * Play the video once it is mostly scrolled into view, and pause it again
+     * when it leaves. Videos are muted so browsers allow this without a
+     * user gesture.
+     */
+    autoplayWhenView?: boolean;
+    /** How much of the video must be visible before it plays. */
+    autoplayThreshold?: number;
+    controls?: boolean;
+    loop?: boolean;
+}
+
+const {
+    src,
+    className = "",
+    autoplayWhenView = true,
+    autoplayThreshold = 0.6,
+    controls = true,
+    loop = true,
+} = Astro.props;
+---
+
+<BleedingBorder>
+    <video
+        src={src}
+        class={className}
+        controls={controls}
+        loop={loop}
+        muted
+        playsinline
+        preload="metadata"
+        data-autoplay-in-view={autoplayWhenView ? "" : undefined}
+        data-autoplay-threshold={autoplayThreshold}></video>
+</BleedingBorder>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const videos = document.querySelectorAll<HTMLVideoElement>(
+            "video[data-autoplay-in-view]",
+        );
+
+        for (const video of videos) {
+            const threshold = Number(video.dataset.autoplayThreshold ?? 0.6);
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting) {
+                            // play() rejects if the browser still blocks autoplay;
+                            // there's nothing to recover, so swallow it.
+                            void video.play().catch(() => {});
+                        } else {
+                            video.pause();
+                        }
+                    }
+                },
+                { threshold },
+            );
+
+            observer.observe(video);
+        }
+    });
+</script>

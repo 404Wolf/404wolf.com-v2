@@ -48,26 +48,34 @@ const styles = {
 };
 
 const frontmatter = remarkPluginFrontmatter as BlogFrontmatterType;
+
+// Opting out via frontmatter hides the outline entirely; a post with no
+// headings has nothing to show either way.
+const showOutline = post.data.toc && headings.length > 0;
 ---
 
 <Post {...post.data}>
-    {/* Mobile contents overview */}
-    <div class="xl:hidden">
-        <Tile title="Contents" client:load>
-            <PostOutline headings={headings} expand={1} />
-        </Tile>
-    </div>
-
-    {/* Desktop sidebar */}
-    <aside class={styles.sidebar()}>
-        <div class="bg-slate-300 pb-1 rounded-2xl mx-1">
-            <div class="bg-slate-300 p-3 rounded-2xl h-[33vh] overflow-auto">
-                <h1 class="mb-2 text-base font-medium">Contents</h1>
-
-                <PostOutline headings={headings} expand={2} client:load />
+    {showOutline && (
+        <Fragment>
+            {/* Mobile contents overview */}
+            <div class="xl:hidden">
+                <Tile title="Contents" client:load>
+                    <PostOutline headings={headings} expand={1} />
+                </Tile>
             </div>
-        </div>
-    </aside>
+
+            {/* Desktop sidebar */}
+            <aside class={styles.sidebar()}>
+                <div class="bg-slate-300 pb-1 rounded-2xl mx-1">
+                    <div class="bg-slate-300 p-3 rounded-2xl h-[33vh] overflow-auto">
+                        <h1 class="mb-2 text-base font-medium">Contents</h1>
+
+                        <PostOutline headings={headings} expand={2} client:load />
+                    </div>
+                </div>
+            </aside>
+        </Fragment>
+    )}
 
     {/* Main content */}
     <Tile client:load title={post.data.title} side="right">
